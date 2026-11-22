@@ -1,5 +1,6 @@
 import { PageIntro } from "@/components/art";
 import { CategoryStamp } from "@/components/icons";
+import { SchemeTileMap } from "@/components/infographics/scheme-tile-map";
 import type { Metadata } from "next";
 import Link from "@/components/locale-link";
 import { type Dict, f, getDict, lab } from "@/i18n";
@@ -56,10 +57,11 @@ export default async function SchemesPage({ params }: { params: Params }) {
         </p>
         {fellBack && t.common.someSchemesInEnglish && <p className="mt-2 text-[0.92rem] text-slate">{t.common.someSchemesInEnglish}</p>}
       </PageIntro>
-      <h2 className="display mt-10 mb-3 text-4xl">{t.schemes.central}</h2>
+      <SchemeTileMap schemes={schemes} t={t} />
+      <h2 id="central" className="display mt-12 mb-3 scroll-mt-6 text-4xl">{t.schemes.central}</h2>
       <List items={national} t={t} lang={lang} />
       {states.map((code) => (
-        <section key={code}>
+        <section key={code} id={`state-${code}`} className="scroll-mt-6">
           <h2 className="display mt-10 mb-3 text-4xl">{lab(t.labels.state, code)}</h2>
           <List items={state.filter((s) => s.state === code)} t={t} lang={lang} />
         </section>

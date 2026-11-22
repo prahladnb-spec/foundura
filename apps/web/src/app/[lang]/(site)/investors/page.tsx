@@ -1,3 +1,5 @@
+import { MIN_READINESS_FOR_INTRO } from "@foundura/shared";
+import { Steps } from "@/components/infographics/steps";
 import { Art, PageIntro } from "@/components/art";
 import type { Metadata } from "next";
 import Link from "@/components/locale-link";
@@ -38,7 +40,11 @@ export default async function InvestorsPage({ params, searchParams }: { params: 
         <h1 className="display text-6xl md:text-7xl">{iv.title}</h1>
         <p className="mt-3 max-w-[62ch] text-lg text-neel-700">{iv.lead}</p>
       </PageIntro>
-      <form className="mt-6 flex flex-wrap items-end gap-3" method="get">
+      <section aria-labelledby="how-h" className="mt-10 rounded-xl border-2 border-neel-900 bg-white p-6 md:p-8">
+        <h2 id="how-h" className="display mb-6 text-3xl">{iv.how.title}</h2>
+        <Steps cols={4} label={iv.how.title} steps={iv.how.steps.map((s) => ({ t: f(s.t, { n: MIN_READINESS_FOR_INTRO }), d: s.d }))} />
+      </section>
+      <form className="mt-10 flex flex-wrap items-end gap-3" method="get">
         <label>
           <span className="block text-[0.9rem] font-semibold mb-1">{iv.sector}</span>
           <select name="sector" defaultValue={sector ?? ""} className={select}>

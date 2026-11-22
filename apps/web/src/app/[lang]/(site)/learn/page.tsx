@@ -1,3 +1,4 @@
+import { StartupJourney } from "@/components/infographics/startup-journey";
 import { PageIntro } from "@/components/art";
 import type { Metadata } from "next";
 import Link from "@/components/locale-link";
@@ -24,13 +25,15 @@ export default async function LearnPage({ params }: { params: Params }) {
   const cond = lang === "en" ? undefined : "en";
   const articles = await apiOr<ArticleSummary[]>("/articles", []);
   return (
-    <div className="mx-auto max-w-4xl px-5 pt-10">
+    <div className="mx-auto max-w-6xl px-5 pt-10">
       <PageIntro art="learn">
         <h1 className="display text-6xl md:text-7xl">{t.learn.title}</h1>
         <p className="mt-3 max-w-[60ch] text-lg text-neel-700">{t.learn.lead}</p>
         {t.common.contentInEnglish && <p className="mt-2 text-[0.92rem] text-slate">{t.common.contentInEnglish}</p>}
       </PageIntro>
-      <ul className="mt-8 border-t-2 border-neel-900">
+      <StartupJourney t={t} lang={lang} />
+      <h2 className="display mt-12 text-4xl">{t.learn.latest}</h2>
+      <ul className="mt-4 max-w-4xl border-t-2 border-neel-900">
         {articles.map((a) => (
           <li key={a.slug} className="border-b border-rule py-6">
             <p className="text-[0.9rem] text-slate"><span lang={cond}>{a.theme}</span>, {fmtDate(a.publishedAt, true, lang)}, {f(t.common.minRead, { n: a.readMinutes })}</p>

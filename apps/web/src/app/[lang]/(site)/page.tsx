@@ -1,3 +1,4 @@
+import { Steps } from "@/components/infographics/steps";
 import { JsonLd } from "@/components/json-ld";
 import Link from "@/components/locale-link";
 import { ENTITY_TYPES, INDIAN_STATES, STAGES } from "@foundura/shared";
@@ -102,6 +103,11 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
           </ul>
         </figure>
         </HeroFile>
+      </section>
+
+      <section aria-labelledby="how-h" className="mx-auto max-w-6xl px-5 pb-16">
+        <h2 id="how-h" className="display mb-8 text-4xl">{h.how.title}</h2>
+        <Steps cols={3} label={h.how.title} steps={h.how.steps} />
       </section>
 
       <section className="bg-neel-900 text-paper">

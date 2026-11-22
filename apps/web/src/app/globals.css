@@ -302,6 +302,143 @@ a[hreflang="hi-IN"] {
 }
 }
 
+@layer components {
+/* Scheme tile map (components/infographics/scheme-tile-map.tsx): India as equal tiles. */
+.tile-map {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 2.75rem));
+  grid-auto-rows: 2.75rem;
+  gap: 4px;
+}
+.tile {
+  position: relative;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+.tile-0 {
+  background: var(--color-paper);
+  border: 1.5px dashed var(--color-rule);
+  color: var(--color-slate);
+  font-weight: 600;
+}
+.tile-1 { background: var(--color-marigold-50); border: 2px solid var(--color-neel-900); color: var(--color-neel-900); }
+.tile-2 { background: #fde7a8; border: 2px solid var(--color-neel-900); color: var(--color-neel-900); }
+.tile-3 { background: var(--color-marigold); border: 2px solid var(--color-neel-900); color: var(--color-neel-950); }
+a.tile {
+  box-shadow: 3px 3px 0 var(--color-neel-900);
+  transition: translate 120ms, box-shadow 120ms;
+}
+a.tile:hover {
+  translate: -1px -1px;
+  box-shadow: 4px 4px 0 var(--color-neel-900);
+}
+.tile-n {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  display: grid;
+  place-items: center;
+  min-width: 1.15rem;
+  height: 1.15rem;
+  padding: 0 3px;
+  border-radius: 9999px;
+  background: var(--color-neel-900);
+  color: #fff;
+  font-size: 0.7rem;
+}
+.tile-key {
+  display: inline-block;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 4px;
+}
+@media (max-width: 420px) {
+  .tile-map {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-auto-rows: auto;
+  }
+  .tile-map > .tile {
+    aspect-ratio: 1;
+    font-size: 0.68rem;
+  }
+}
+
+/* A ledger-ruled bar for small counts. */
+.ledger-bar {
+  display: block;
+  height: 0.9rem;
+  border-radius: 3px;
+  background: repeating-linear-gradient(90deg, var(--color-neel-100) 0 1px, transparent 1px 12px), var(--color-neel-50);
+}
+.ledger-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: var(--color-neel-500);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ledger-bar > span {
+    animation: bar-grow 700ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
+    transform-origin: left;
+  }
+  @keyframes bar-grow {
+    from { transform: scaleX(0); }
+  }
+}
+}
+
+@layer components {
+/* Numbered steps (components/infographics/steps.tsx): stamp rings joined by red tape. */
+.step-ring {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 9999px;
+  border: 2.5px solid var(--color-neel-900);
+  box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 4.5px var(--color-neel-900);
+  background: #fff;
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" 80;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--color-neel-900);
+  rotate: -6deg;
+}
+.step:nth-child(even) .step-ring { rotate: 5deg; }
+/* The tape: from each ring to the next. Down the left on narrow screens… */
+.step:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 1.75rem;
+  top: 3.5rem;
+  bottom: -2rem;
+  border-left: 3px dashed var(--color-tape);
+}
+/* …and across on wider ones (only between rings on the same row). */
+@media (min-width: 768px) {
+  .step:not(:last-child)::before {
+    left: 3.5rem;
+    right: -1.5rem;
+    top: 1.75rem;
+    bottom: auto;
+    border-left: 0;
+    border-top: 3px dashed var(--color-tape);
+  }
+  .steps-6 .step:nth-child(3)::before { display: none; }
+}
+@media (min-width: 1024px) {
+  .steps-6 .step:nth-child(3)::before { display: block; }
+}
+}
+
 /* Long-form article text */
 .prose-f {
   max-width: 68ch;
