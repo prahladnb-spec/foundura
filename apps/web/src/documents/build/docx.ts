@@ -1,5 +1,5 @@
 import { AlignmentType, BorderStyle, Document, Footer, HeadingLevel, Packer, PageNumber, Paragraph, Table, TableCell, TableRow, TextRun, WidthType } from "docx";
-import { CHECKED_ON, type FounderDoc } from "..";
+import { CHECKED_ON, checkWith, type FounderDoc, reviewsFor } from "..";
 import type { Block, Template } from "../types";
 
 const INK = "141B47";
@@ -44,6 +44,15 @@ function render(b: Block): (Paragraph | Table)[] {
   ]);
 }
 
+/** The disclaimer at the top of a file: who should check it, and any professional review that has been done. */
+export function verifyNotice(d: FounderDoc): string {
+  const c = checkWith(d);
+  if (!c.lawyer && !c.ca) return "A starting point. Adapt it to your business.";
+  const who = c.lawyer && c.ca ? "chartered accountant and legal counsel" : c.lawyer ? "legal counsel" : "chartered accountant";
+  const reviewed = reviewsFor(d).map((r) => `Reviewed by ${r.by} (${r.qualification}) on ${r.on}.`).join(" ");
+  return `${reviewed ? `${reviewed} Even so, verify` : "Verify"} this independently with your own ${who} before you sign, file or rely on it. Laws, forms, rates and due dates change. Foundura is not a law firm or a firm of chartered accountants, and this is not legal, tax or financial advice.`;
+}
+
 /** Builds the Word file for a document template. */
 export async function buildDocx(d: FounderDoc, template: Template = d.template, key?: "hi" | "example"): Promise<Buffer> {
   if (template.kind !== "doc") throw new Error(`${d.slug} is not a Word template`);
@@ -52,7 +61,7 @@ export async function buildDocx(d: FounderDoc, template: Template = d.template, 
     ? "यह एक शुरुआत है। इसे अपने कारोबार के हिसाब से बदलें। [कोष्ठक] में लिखी हर चीज़ बदलें और इस बॉक्स और टिप्पणियों को हटा दें।"
     : key === "example"
       ? "A filled-in example for a made-up startup, to show the level of detail. Every name and number in it is invented."
-      : `${d.lawyer ? "A starting point, not legal advice. Have a lawyer review this before anyone signs it." : "A starting point. Adapt it to your business."} Replace everything in [square brackets] and delete this box and the notes before you use it.`;
+      : `${verifyNotice(d)} Replace everything in [square brackets] and delete this box and the notes before you use it.`;
   const heading = hi ? d.titleHi : key === "example" ? `${d.title}: example` : d.title;
   const doc = new Document({
     creator: "Foundura",
@@ -67,7 +76,7 @@ export async function buildDocx(d: FounderDoc, template: Template = d.template, 
             children: [
               new Paragraph({
                 alignment: AlignmentType.CENTER,
-                children: [run(`Template from Foundura (foundura.org), checked ${CHECKED_ON}. Page `, { color: GREY, size: 16 }), new TextRun({ children: [PageNumber.CURRENT], color: GREY, size: 16, font: FONT })],
+                children: [run(`Template from Foundura (foundura.org), last updated ${CHECKED_ON}. Page `, { color: GREY, size: 16 }), new TextRun({ children: [PageNumber.CURRENT], color: GREY, size: 16, font: FONT })],
               }),
             ],
           }),

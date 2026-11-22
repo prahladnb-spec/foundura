@@ -32,12 +32,25 @@ test.describe("founder documents", () => {
   test("a legal template has a guide, a lawyer note, a preview and a Word download", async ({ page }) => {
     await page.goto("/documents/founders-agreement");
     await expect(page.locator("h1")).toHaveText("Founders' agreement");
-    await expect(page.getByRole("note")).toContainText("Have a lawyer review this before anyone signs");
+    const note = page.getByRole("note");
+    await expect(note).toContainText("Verify with your own legal counsel");
+    await expect(note).toContainText("have it checked independently by your own professional adviser");
+    // No professional review is recorded yet, so nothing may claim one.
+    await expect(page.locator("main")).not.toContainText("Reviewed by");
     await expect(page.locator("#india-h + ul")).toContainText("section 27 of the Indian Contract Act");
     await expect(page.locator("#preview-h + div")).toContainText("4. Vesting");
 
     const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("link", { name: "Download the Word template" }).click()]);
     expect(download.suggestedFilename()).toBe("foundura-founders-agreement.docx");
+  });
+
+  test("finance templates ask for a CA check; templates needing both say so", async ({ page }) => {
+    await page.goto("/documents/financial-model");
+    await expect(page.getByRole("note")).toContainText("Verify with your own chartered accountant");
+    await page.goto("/documents/term-sheet");
+    await expect(page.getByRole("note")).toContainText("Verify with your own CA and legal counsel");
+    await page.goto("/hi/documents/term-sheet");
+    await expect(page.getByRole("note")).toContainText("अपने सीए और क़ानूनी सलाहकार से पुष्टि करें");
   });
 
   test("a non-legal template has no lawyer note", async ({ page }) => {

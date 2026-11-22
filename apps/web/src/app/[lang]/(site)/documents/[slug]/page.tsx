@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { DeckDownloads } from "@/components/deck-downloads";
 import Link from "@/components/locale-link";
 import { FORMAT, TemplatePreview } from "@/components/template-preview";
-import { CHECKED_ON, DOCS, docBySlug, fileName, SOURCES } from "@/documents";
+import { CHECKED_ON, checkWith, DOCS, docBySlug, fileName, reviewsFor, SOURCES } from "@/documents";
 import { f, getDict } from "@/i18n";
 import { isLang, type Lang } from "@/i18n/config";
 import { fmtDate } from "@/lib/format";
@@ -28,6 +28,8 @@ export default async function DocumentPage({ params }: { params: Params }) {
   const d = t.documents;
   const cond = lang === "en" ? undefined : "en";
   const [before, after] = d.download.split("{format}");
+  const verify = checkWith(doc);
+  const reviews = reviewsFor(doc);
   const others = DOCS.filter((x) => x.category === doc.category && x.slug !== doc.slug);
 
   const section = (id: string, heading: string, items: string[]) => (
@@ -68,10 +70,15 @@ export default async function DocumentPage({ params }: { params: Params }) {
       <p className="mt-2 text-[0.93rem] text-slate">{d.free}</p>
       {d.englishOnly && <p className="mt-4 rounded-md bg-neel-50 px-4 py-3 text-neel-700">{d.englishOnly}</p>}
 
-      {doc.lawyer && (
-        <div role="note" className="mt-6 rounded-xl border-2 border-marigold bg-marigold-50 px-5 py-4">
-          <p className="font-semibold text-marigold-ink">{d.lawyerTitle}</p>
-          <p className="mt-1 text-marigold-ink">{d.lawyerBody}</p>
+      {(verify.lawyer || verify.ca) && (
+        <div role="note" className="mt-6 rounded-xl border-2 border-marigold bg-marigold-50 px-5 py-4 text-marigold-ink">
+          <p className="font-semibold">{d.verifyTitle[verify.lawyer && verify.ca ? "both" : verify.lawyer ? "lawyer" : "ca"]}</p>
+          {reviews.map((r) => (
+            <p key={r.by} className="mt-1">
+              {f(d.reviewedBy, { by: r.by, qualification: r.qualification, date: fmtDate(r.on, true, lang) })} {d.reviewedStill}
+            </p>
+          ))}
+          <p className="mt-1">{d.verifyBody}</p>
         </div>
       )}
 

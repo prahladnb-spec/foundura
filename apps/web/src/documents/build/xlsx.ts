@@ -1,5 +1,6 @@
 import ExcelJS from "exceljs";
 import { CHECKED_ON, type FounderDoc } from "..";
+import { verifyNotice } from "./docx";
 import type { Template } from "../types";
 
 const INK = "FF141B47";
@@ -31,25 +32,25 @@ function title(ws: ExcelJS.Worksheet, text: string) {
   ws.getCell("A1").value = text;
   ws.getCell("A1").font = { bold: true, size: 16, color: { argb: INK } };
 }
-function howTo(wb: ExcelJS.Workbook, name: string, lines: string[]) {
+function howTo(wb: ExcelJS.Workbook, name: string, lines: string[], notice = "A starting point: adapt it to your business.") {
   const ws = wb.addWorksheet("How to use");
   ws.getColumn(1).width = 110;
   title(ws, name);
-  [...lines, "", `Template from Foundura (foundura.org), checked ${CHECKED_ON}. A starting point: adapt it to your business.`].forEach((t, i) => {
+  [...lines, "", notice, `Template from Foundura (foundura.org), last updated ${CHECKED_ON}.`].forEach((t, i) => {
     const c = ws.getCell(i + 3, 1);
     c.value = t;
     c.alignment = { wrapText: true };
   });
 }
 
-function capTable(wb: ExcelJS.Workbook) {
+function capTable(wb: ExcelJS.Workbook, notice: string) {
   howTo(wb, "Cap table", [
     "1. On the 'Cap table' tab, replace the sample holders with yours. Fill in the yellow cells only; totals and percentages are formulas.",
     "2. Use one row per holder. Keep options granted and the pool not yet granted on separate rows.",
     "3. Put convertible notes or other instruments that have not converted in the Notes column until their conversion price is known.",
     "4. On the 'New round' tab, enter a pre-money valuation, the amount you plan to raise and any new options to add before the round. It shows the share price and everyone's percentage afterwards.",
     "5. The share numbers must match your register of members and the allotment returns (PAS-3) filed with the MCA.",
-  ]);
+  ], notice);
 
   const FIRST = 4;
   const LAST = 13;
@@ -141,7 +142,7 @@ function capTable(wb: ExcelJS.Workbook) {
   }
 }
 
-function financialModel(wb: ExcelJS.Workbook) {
+function financialModel(wb: ExcelJS.Workbook, notice: string) {
   howTo(wb, "Financial model: 36 months", [
     "1. Change the yellow cells on the 'Assumptions' tab. Everything else is a formula.",
     "2. 'Monthly' shows customers, revenue, costs, funding and closing cash for 36 months from the month you start.",
@@ -149,7 +150,7 @@ function financialModel(wb: ExcelJS.Workbook) {
     "4. The model suits a business with recurring revenue per customer. For one-off sales, treat 'revenue per customer per month' as average monthly sales per active customer, or replace the revenue rows with your own.",
     "5. Save a copy for a cautious case (slower growth, higher churn) as well as your base case. Investors and banks ask for both.",
     "6. Years here are 12-month blocks from month 1. If you need financial years (April to March), start month 1 in April.",
-  ]);
+  ], notice);
 
   const a = wb.addWorksheet("Assumptions");
   title(a, "Assumptions: change the yellow cells");
@@ -266,7 +267,7 @@ function grids(wb: ExcelJS.Workbook, d: FounderDoc, t: Extract<Template, { kind:
     "Fill in or replace the yellow cells. Cells without colour are formulas.",
     ...t.sheets.map((s) => `'${s.name}' tab: ${s.what}`),
     "Add rows by copying the last filled row down, so the formulas come with it.",
-  ]);
+  ], verifyNotice(d));
   const FMT = { inr: RUPEE, pct: PCT, int: "#,##0" } as const;
   for (const sh of t.sheets) {
     if (!sh.grid) continue;
@@ -295,8 +296,8 @@ export async function buildXlsx(d: FounderDoc): Promise<Buffer> {
   const wb = new ExcelJS.Workbook();
   wb.creator = "Foundura";
   wb.calcProperties.fullCalcOnLoad = true;
-  if (d.template.builder === "capTable") capTable(wb);
-  else if (d.template.builder === "financialModel") financialModel(wb);
+  if (d.template.builder === "capTable") capTable(wb, verifyNotice(d));
+  else if (d.template.builder === "financialModel") financialModel(wb, verifyNotice(d));
   else grids(wb, d, d.template);
   return Buffer.from(await wb.xlsx.writeBuffer());
 }
