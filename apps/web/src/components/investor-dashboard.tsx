@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { INDIAN_STATES, INVESTOR_TYPES, SECTORS, STAGES } from "@foundura/shared";
+import { INDIAN_STATES, INVESTOR_TYPES, SECTORS, STAGES } from "@foundura/shared/constants";
 import { inrLakh, sectorLabel, stageLabel, stateLabel } from "@/lib/labels";
 import type { InvestorOwn, MatchResult, ReceivedIntro, StartupPublic } from "@/lib/types";
 

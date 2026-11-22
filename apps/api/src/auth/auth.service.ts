@@ -1,6 +1,7 @@
 import { createHmac, randomInt, timingSafeEqual } from "node:crypto";
-import { BadRequestException, Inject, Injectable, Logger, Optional, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, HttpException, HttpStatus, Inject, Injectable, Logger, Optional, UnauthorizedException } from "@nestjs/common";
 import { MetricsService } from "../metrics/metrics.service";
+import { SendLimiter } from "./send-limiter";
 import { JwtService } from "@nestjs/jwt";
 import { type ConsentPurpose } from "@foundura/shared";
 import { and, desc, eq, gt, lt } from "drizzle-orm";
@@ -25,6 +26,8 @@ export interface SessionUser {
 export class AuthService {
   private readonly log = new Logger(AuthService.name);
 
+  private readonly sendLimit = new SendLimiter();
+
   constructor(
     @Inject(DB) private readonly db: Db,
     @Inject(CONFIG) private readonly config: AppConfig,
@@ -41,6 +44,16 @@ export class AuthService {
   /** Creates a 6-digit code. In dev mode it is returned so the web app can show it; otherwise it is emailed. */
   async requestOtp(rawEmail: string, locale?: Locale): Promise<{ sent: true; devCode?: string }> {
     const email = rawEmail.trim().toLowerCase();
+    // Real emails only: in dev mode the code is shown on screen and nothing reaches an inbox.
+    if (this.config.OTP_DELIVERY !== "dev") {
+      const wait = this.sendLimit.take(email);
+      if (wait > 0) {
+        throw new HttpException(
+          wait <= 60 ? `A code was just sent. Wait ${wait} seconds before asking for another.` : "Too many codes asked for this email. Try again in an hour.",
+          HttpStatus.TOO_MANY_REQUESTS,
+        );
+      }
+    }
     const code = String(randomInt(0, 1_000_000)).padStart(6, "0");
 
     await this.db.delete(otpCodes).where(lt(otpCodes.expiresAt, new Date()));

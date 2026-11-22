@@ -27,7 +27,7 @@ const scalar = z.union([z.string(), z.number(), z.boolean()]);
 const factCondition = z
   .object({
     fact: z.enum(FACT_KEYS, {
-      errorMap: (_, ctx) => ({ message: `"${String(ctx.data)}" isn't an answer the Scheme Scan collects` }),
+      error: (iss) => `"${String(iss.input)}" isn't an answer the Scheme Scan collects`,
     }),
     op: z.enum(OPERATORS),
     value: z.union([scalar, z.array(z.union([z.string(), z.number()])).min(1)]).optional(),

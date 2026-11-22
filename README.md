@@ -79,6 +79,10 @@ Before opening to the public, work through [docs/launch-checklist.md](docs/launc
 
 The site publishes `/sitemap.xml`, `/robots.txt`, share images for every page, scheme and guide, and structured data for schemes, guides and confirmed events. `/api/health` checks the web app, API and database together for uptime monitors.
 
+## Security
+
+Headers, rate limits, sign-in protections and dependency checks are described in [docs/security.md](docs/security.md).
+
 ## Tests
 
 ```bash

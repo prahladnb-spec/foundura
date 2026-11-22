@@ -32,6 +32,8 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Check dependencies for known security problems
+        run: pnpm audit --prod --audit-level high
       - run: pnpm --filter @foundura/shared build
       - name: Typecheck
         run: pnpm typecheck

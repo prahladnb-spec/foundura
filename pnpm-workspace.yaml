@@ -7,3 +7,10 @@ onlyBuiltDependencies:
   - "@nestjs/core"
   - esbuild
   - sharp
+
+# Security fixes in libraries we don't depend on directly (see docs/security.md).
+overrides:
+  postcss: ^8.5.23
+  image-size: ^2.0.3
+  uuid: ^11.1.1
+  "@esbuild-kit/core-utils>esbuild": ^0.25.0

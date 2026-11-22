@@ -2,7 +2,7 @@
 
 import Link from "@/components/locale-link";
 import { useCallback, useEffect, useState } from "react";
-import { MIN_MATCH_FOR_INTRO, MIN_READINESS_FOR_INTRO } from "@foundura/shared";
+import { MIN_MATCH_FOR_INTRO, MIN_READINESS_FOR_INTRO } from "@foundura/shared/constants";
 import { f, lab, matchText } from "@/i18n";
 import { useT } from "@/i18n/client";
 import { chequeRange, investorTypeLabel } from "@/lib/labels";

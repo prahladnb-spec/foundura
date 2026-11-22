@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { ENTITY_TYPES, INDIAN_STATES, SECTORS, STAGES, type ScanInput } from "@foundura/shared";
+import { ENTITY_TYPES, INDIAN_STATES, SECTORS, STAGES } from "@foundura/shared/constants";
+import type { ScanInput } from "@foundura/shared";
 import { useT } from "@/i18n/client";
 import { lab } from "@/i18n";
 import type { ScanResult } from "@/lib/types";

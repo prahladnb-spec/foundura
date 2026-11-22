@@ -43,6 +43,20 @@ const httpsUrl = z
   .max(300)
   .refine((u) => /^https?:\/\//i.test(u), "Use a link starting with https://");
 
+/**
+ * For PATCH bodies: every field optional and no defaults filled in. (In Zod 4 `.partial()` still
+ * applies `.default()` values, which would silently reset fields the request didn't mention.)
+ */
+export function patchSchema<T extends z.ZodRawShape>(schema: z.ZodObject<T>) {
+  const shape = Object.fromEntries(
+    Object.entries(schema.shape).map(([k, v]) => {
+      const field = v instanceof z.ZodDefault ? (v.unwrap() as z.ZodType) : (v as z.ZodType);
+      return [k, field.optional()];
+    }),
+  ) as unknown as { [K in keyof T]: z.ZodOptional<T[K] extends z.ZodDefault<infer I> ? I : T[K]> };
+  return z.object(shape);
+}
+
 export const startupProfileSchema = scanInputSchema.extend({
   name: z.string().min(2).max(120),
   website: httpsUrl.optional().or(z.literal("")),

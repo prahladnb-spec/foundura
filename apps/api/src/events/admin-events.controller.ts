@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, HttpCode, Inject, NotFoundException, Param, Patch, Post, UseGuards } from "@nestjs/common";
-import { eventReviewSchema, eventSourceSchema } from "@foundura/shared";
+import { eventReviewSchema, eventSourceSchema, patchSchema } from "@foundura/shared";
 import { and, asc, desc, eq, or } from "drizzle-orm";
 import { Admin, type AdminActor, AdminGuard } from "../admin/admin.guard";
 import { AuditService } from "../admin/audit.service";
@@ -35,7 +35,7 @@ export class AdminEventsController {
 
   @Patch("event-sources/:id")
   async editSource(@Admin() actor: AdminActor, @Param("id") id: string, @Body() body: unknown) {
-    const input = parseBody(eventSourceSchema.partial(), body);
+    const input = parseBody(patchSchema(eventSourceSchema), body);
     if (Object.keys(input).length === 0) {
       const [current] = await this.db.select().from(eventSources).where(eq(eventSources.id, id)).limit(1);
       if (!current) throw new NotFoundException();

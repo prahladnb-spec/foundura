@@ -6,6 +6,7 @@ import {
   introResponseSchema,
   investorProfileSchema,
   setConsentSchema,
+  patchSchema,
   startupProfileSchema,
  setLocaleSchema } from "@foundura/shared";
 import { IntrosService } from "../investors/intros.service";
@@ -128,7 +129,7 @@ export class MeController {
 
   @Patch("startups/:id")
   updateStartup(@CurrentUser() user: SessionUser, @Param("id") id: string, @Body() body: unknown) {
-    return this.startups.update(user.id, id, parseBody(startupProfileSchema.partial(), body));
+    return this.startups.update(user.id, id, parseBody(patchSchema(startupProfileSchema), body));
   }
 
   @Delete("startups/:id")

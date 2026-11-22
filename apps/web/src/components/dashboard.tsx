@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ENTITY_TYPES, INDIAN_STATES, INVESTOR_DOCS, LOOKING_FOR, SECTORS, STAGES } from "@foundura/shared";
+import { ENTITY_TYPES, INDIAN_STATES, INVESTOR_DOCS, LOOKING_FOR, SECTORS, STAGES } from "@foundura/shared/constants";
 import { f as fmt, lab } from "@/i18n";
 import { useT } from "@/i18n/client";
 import { lp } from "@/i18n/config";

@@ -3,7 +3,7 @@
 import Link from "@/components/locale-link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { CONSENT_PURPOSES } from "@foundura/shared";
+import { CONSENT_PURPOSES } from "@foundura/shared/constants";
 import { useT } from "@/i18n/client";
 
 const field = "block w-full rounded-md border border-rule bg-white px-3 py-2.5 text-[1rem]";
