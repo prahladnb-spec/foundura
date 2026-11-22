@@ -9,6 +9,7 @@ export const METRICS = {
   template_download: { label: "Template downloads", from: "browser" },
   calendar_add: { label: "Events added to a calendar", from: "browser" },
   calendar_subscribe: { label: "Calendar subscriptions started", from: "browser" },
+  search: { label: "Searches (found something, or nothing)", from: "browser" },
   scan_run: { label: "Scheme Scans run", from: "api" },
   signup: { label: "New accounts", from: "api" },
   intro_request: { label: "Intro requests sent", from: "api" },

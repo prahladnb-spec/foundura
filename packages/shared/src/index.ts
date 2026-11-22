@@ -7,3 +7,4 @@ export * from "./admin";
 export * from "./events";
 export * from "./metrics";
 export * from "./seo";
+export * from "./search";

@@ -6,6 +6,14 @@ export interface Term {
   hiDef: string;
 }
 
+/** The anchor for a term on the glossary page: "Cap table" → "cap-table". */
+export const termId = (term: string) =>
+  term
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
 export const GLOSSARY: Term[] = [
   { term: "Accelerator", hi: "एक्सेलरेटर", en: "A fixed-length programme, usually three to six months, that gives a group of startups mentoring, and sometimes money, in return for a small share.", hiDef: "तय अवधि का कार्यक्रम, आम तौर पर तीन से छह महीने का, जो स्टार्टअप के एक समूह को मार्गदर्शन और कभी-कभी पैसा देता है, बदले में छोटा हिस्सा लेता है।" },
   { term: "Angel investor", hi: "एंजेल निवेशक", en: "A person who invests their own money in very young companies.", hiDef: "वह व्यक्ति जो बहुत नई कंपनियों में अपना ख़ुद का पैसा लगाता है।" },

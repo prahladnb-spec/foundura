@@ -95,7 +95,7 @@ export function EventsCalendar({ month, events, today, site }: { month: string; 
         </div>
         <ul>
           {shown.map((e) => (
-            <li key={e.slug} className="border-b border-rule py-5">
+            <li key={e.slug} id={`event-${e.slug}`} className="scroll-mt-28 border-b border-rule py-5">
               <EventCard e={e} t={t} lang={lang} site={site} />
             </li>
           ))}

@@ -27,6 +27,7 @@ export const en = {
   chrome: {
     nav: { scan: "Scheme Scan", schemes: "Schemes", startups: "Startups", investors: "Investors", events: "Events", policy: "Policy news", learn: "Learn", documents: "Templates" },
     homeLabel: "Foundura home",
+    search: "Search",
     signIn: "Sign in",
     myStartup: "My startup",
     switchTo: "हिन्दी",
@@ -553,6 +554,25 @@ export const en = {
     sendFailed: "Could not send the request.",
     sent: "Your intro requests",
     withdraw: "Withdraw",
+  },
+  search: {
+    title: "Search",
+    lead: "Schemes, templates, guides, glossary terms, events, startups and investors. Type in English or Hindi.",
+    label: "What are you looking for?",
+    placeholder: "For example: seed fund, ESOP, pitch deck",
+    button: "Search",
+    count: "{n} results for “{q}”",
+    countOne: "1 result for “{q}”",
+    none: "Nothing matches “{q}”.",
+    noneHelp: "Try fewer or shorter words, or the English name. Or start here:",
+    noneLinks: { scan: "Check which schemes fit your startup", schemes: "Browse all schemes", glossary: "Read the glossary" },
+    show: "Show",
+    all: "All",
+    capped: "Showing the first {n}. Add a word to narrow it down.",
+    popular: "Popular searches",
+    popularItems: ["DPIIT recognition", "Seed fund", "Pitch deck", "ESOP", "Grant", "Trademark", "Women-led", "Term sheet"],
+    kinds: { scheme: "Schemes", template: "Templates", guide: "Guides", term: "Glossary", event: "Events", startup: "Startups", investor: "Investors" },
+    kind: { scheme: "Scheme", template: "Template", guide: "Guide", term: "Glossary term", event: "Event", startup: "Startup", investor: "Investor" },
   },
   labels: {
     entity: {

@@ -152,7 +152,7 @@ export default async function EventsPage({ params, searchParams }: { params: Par
       ) : (
         <ul className="mt-6 border-t-2 border-neel-900">
           {events.map((e) => (
-            <li key={e.slug} className="border-b border-rule py-5">
+            <li key={e.slug} id={`event-${e.slug}`} className="scroll-mt-28 border-b border-rule py-5">
               <EventCard e={e} t={t} lang={lang} site={SITE} />
             </li>
           ))}

@@ -15,6 +15,8 @@ const PAGES = [
   "/documents",
   "/documents/pitch-deck",
   "/glossary",
+  "/search",
+  "/search?q=seed+fund",
   "/learn",
   "/policy",
   "/signin",

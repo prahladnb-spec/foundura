@@ -7,7 +7,7 @@ import { expect, test } from "./fixtures";
 // Set a little above what the pages weigh today (Nov 2026), so growth gets noticed. Hindi pages
 // carry about 390 KB more because Devanagari fonts are bigger.
 const BUDGET_KB = { en: { script: 180, total: 400 }, hi: { script: 180, total: 760 } };
-const PAGES = ["/", "/scan", "/schemes", "/events", "/documents", "/documents/pitch-deck", "/hi", "/hi/scan", "/hi/documents"];
+const PAGES = ["/", "/scan", "/schemes", "/events", "/documents", "/documents/pitch-deck", "/search?q=grant", "/hi", "/hi/scan", "/hi/documents"];
 
 for (const path of PAGES) {
   test(`${path} stays within the page weight budget`, async ({ page }) => {

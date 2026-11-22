@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
-type Beacon = { metric: "page_view" | "template_download" | "calendar_add" | "calendar_subscribe"; key?: string };
+type Beacon = { metric: "page_view" | "template_download" | "calendar_add" | "calendar_subscribe" | "search"; key?: string };
 
 function send(b: Beacon) {
   try {
@@ -41,6 +41,9 @@ export function UsageCounter() {
   useEffect(() => {
     if (!path || SKIP.test(path)) return;
     send({ metric: "page_view", key: path.toLowerCase().slice(0, 120) });
+    // Whether a search found anything; never what was searched for.
+    const outcome = document.querySelector("[data-search-outcome]")?.getAttribute("data-search-outcome");
+    if (outcome === "found" || outcome === "none") send({ metric: "search", key: outcome });
   }, [path]);
 
   useEffect(() => {

@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { Suspense } from "react";
 import { type Dict, getDict } from "@/i18n";
 import type { Lang } from "@/i18n/config";
-import { BookOpen, CalendarDays, ClipboardCheck, FolderOpen, Handshake, Landmark, Newspaper, Store } from "lucide-react";
+import { BookOpen, CalendarDays, ClipboardCheck, FolderOpen, Handshake, Landmark, Newspaper, Store, Search } from "lucide-react";
 import { Icon } from "./icons";
 import { LangSwitch } from "./lang-switch";
 
@@ -49,6 +49,10 @@ export async function SiteHeader({ lang }: { lang: Lang }) {
           ))}
         </nav>
         <div className="ml-auto flex items-center gap-4">
+          <Link href="/search" className="inline-flex items-center gap-1.5 text-[0.95rem] font-semibold text-neel-700 hover:text-neel-950 no-underline">
+            <Icon icon={Search} className="h-[1.1rem] w-[1.1rem]" />
+            <span className="sr-only sm:not-sr-only">{t.chrome.search}</span>
+          </Link>
           <Suspense>
             <LangSwitch className="text-[0.95rem] font-semibold text-neel-700 hover:text-neel-950 no-underline" />
           </Suspense>

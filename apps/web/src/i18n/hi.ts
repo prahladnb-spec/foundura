@@ -25,6 +25,7 @@ export const hi: Dict = {
   money: { lakh: "₹{n} लाख", crore: "₹{n} करोड़", range: "{min} से {max}" },
   chrome: {
     nav: { scan: "योजना जाँच", schemes: "योजनाएँ", startups: "स्टार्टअप", investors: "निवेशक", events: "कार्यक्रम", policy: "नीति समाचार", learn: "सीखें", documents: "टेम्पलेट" },
+    search: "खोजें",
     homeLabel: "Foundura मुखपृष्ठ",
     signIn: "साइन इन",
     myStartup: "मेरा स्टार्टअप",
@@ -552,6 +553,25 @@ export const hi: Dict = {
     sendFailed: "अनुरोध नहीं भेजा जा सका।",
     sent: "आपके परिचय अनुरोध",
     withdraw: "वापस लें",
+  },
+  search: {
+    title: "खोजें",
+    lead: "योजनाएँ, टेम्पलेट, गाइड, शब्दावली, कार्यक्रम, स्टार्टअप और निवेशक। हिन्दी या अंग्रेज़ी में लिखें।",
+    label: "आप क्या ढूँढ रहे हैं?",
+    placeholder: "जैसे: सीड फ़ंड, ESOP, पिच डेक",
+    button: "खोजें",
+    count: "“{q}” के लिए {n} नतीजे",
+    countOne: "“{q}” के लिए 1 नतीजा",
+    none: "“{q}” से कुछ नहीं मिला।",
+    noneHelp: "कम या छोटे शब्द आज़माएँ, या अंग्रेज़ी नाम लिखें। या यहाँ से शुरू करें:",
+    noneLinks: { scan: "देखें कि कौन-सी योजनाएँ आपके स्टार्टअप पर लागू होती हैं", schemes: "सभी योजनाएँ देखें", glossary: "शब्दावली पढ़ें" },
+    show: "दिखाएँ",
+    all: "सभी",
+    capped: "पहले {n} दिख रहे हैं। छाँटने के लिए एक और शब्द जोड़ें।",
+    popular: "लोग अक्सर खोजते हैं",
+    popularItems: ["DPIIT मान्यता", "सीड फ़ंड", "पिच डेक", "ESOP", "अनुदान", "ट्रेडमार्क", "महिला", "टर्म शीट"],
+    kinds: { scheme: "योजनाएँ", template: "टेम्पलेट", guide: "गाइड", term: "शब्दावली", event: "कार्यक्रम", startup: "स्टार्टअप", investor: "निवेशक" },
+    kind: { scheme: "योजना", template: "टेम्पलेट", guide: "गाइड", term: "शब्दावली", event: "कार्यक्रम", startup: "स्टार्टअप", investor: "निवेशक" },
   },
   labels: {
     entity: {
