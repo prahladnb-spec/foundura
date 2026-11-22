@@ -12,6 +12,7 @@ const LINKS = [
   { href: "/admin/events", label: "Events" },
   { href: "/admin/alerts", label: "Scheme alerts" },
   { href: "/admin/imports", label: "Imports" },
+  { href: "/admin/usage", label: "Usage" },
   { href: "/admin/audit", label: "Audit log" },
 ];
 

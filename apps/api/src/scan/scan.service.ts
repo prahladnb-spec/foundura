@@ -1,4 +1,5 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, Optional } from "@nestjs/common";
+import { MetricsService } from "../metrics/metrics.service";
 import {
   checkEligibility,
   type Condition,
@@ -40,13 +41,18 @@ export interface ScanResult {
 
 @Injectable()
 export class ScanService {
-  constructor(@Inject(DB) private readonly db: Db) {}
+  constructor(
+    @Inject(DB) private readonly db: Db,
+    @Optional() @Inject(MetricsService) private readonly metrics?: MetricsService,
+  ) {}
 
   /**
    * Evaluate every scheme against the answers. Nothing about an anonymous scan is stored:
    * the answers live only for the length of this request (data minimisation).
    */
   async scan(input: ScanInput, today = todayInIndia(), lang: Locale = "en"): Promise<ScanResult> {
+    // A daily total only; the answers themselves are never stored.
+    void this.metrics?.bump("scan_run");
     const all = await this.db.select().from(schemes);
     const relevant = all.filter((s) => s.level === "national" || !input.state || s.state === input.state);
 

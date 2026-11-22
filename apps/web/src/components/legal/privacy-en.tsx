@@ -46,6 +46,11 @@ export function PrivacyEn({ legal, version }: { legal: LegalDetails; version: st
           <strong>Basic server logs</strong> (IP address, time, page requested): to keep the service secure and to meet Indian
           cyber-security record-keeping rules.
         </li>
+        <li>
+          <strong>Anonymous usage counts:</strong> daily totals such as how many times a page was viewed, a template was downloaded or a
+          Scheme Scan was run. They are not linked to you: no cookies, no IP address and no account go with them. We use them to see what
+          founders find useful.
+        </li>
       </ul>
       <p>We don&apos;t ask for caste, religion, Aadhaar or bank details, and we don&apos;t use advertising trackers.</p>
 

@@ -5,3 +5,4 @@ export * from "./readiness";
 export * from "./matching";
 export * from "./admin";
 export * from "./events";
+export * from "./metrics";

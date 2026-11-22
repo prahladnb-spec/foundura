@@ -10,6 +10,7 @@ import {
   integer,
   jsonb,
   pgTable,
+  primaryKey,
   text,
   timestamp,
   uniqueIndex,
@@ -217,6 +218,21 @@ export const schemes = pgTable("schemes", {
  * Places the daily sync reads events from: an iCalendar (.ics) feed, or a web page that publishes
  * schema.org Event data. Added by editors. Events from sources that aren't trusted wait for review.
  */
+/**
+ * Anonymous usage counts: one row per day, metric and key (a page path or a template), holding a total.
+ * No visitor, user, IP address or cookie is ever linked to a count.
+ */
+export const dailyCounts = pgTable(
+  "daily_counts",
+  {
+    day: date("day").notNull(),
+    metric: text("metric").notNull(),
+    key: text("key").notNull().default(""),
+    count: integer("count").notNull().default(0),
+  },
+  (t) => [primaryKey({ columns: [t.day, t.metric, t.key] })],
+);
+
 /** When each scheduled job last ran, succeeded and failed, so a stalled job can be noticed. */
 export const jobRuns = pgTable("job_runs", {
   name: text("name").primaryKey(),

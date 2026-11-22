@@ -1,3 +1,4 @@
+import { UsageCounter } from "@/components/usage-counter";
 import "@fontsource-variable/anek-latin/wdth.css";
 import "@fontsource-variable/anek-devanagari/wdth.css";
 import "@fontsource/mukta/400.css";
@@ -30,7 +31,10 @@ export default async function RootLayout({ children, params }: { children: React
   if (!isLang(lang)) notFound();
   return (
     <html lang={lang === "hi" ? "hi-IN" : "en-IN"}>
-      <body className="min-h-screen">{children}</body>
+      <body className="min-h-screen">
+        {children}
+        <UsageCounter />
+      </body>
     </html>
   );
 }

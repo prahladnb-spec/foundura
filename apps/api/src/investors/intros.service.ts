@@ -1,4 +1,5 @@
-import { BadRequestException, ConflictException, ForbiddenException, Inject, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, ConflictException, ForbiddenException, Inject, Injectable, NotFoundException, Optional } from "@nestjs/common";
+import { MetricsService } from "../metrics/metrics.service";
 import {
   matchScore,
   MAX_PENDING_INTROS,
@@ -31,6 +32,7 @@ export class IntrosService {
     @Inject(InvestorsService) private readonly investorsSvc: InvestorsService,
     @Inject(ConsentService) private readonly consents: ConsentService,
     @Inject(MailerService) private readonly mailer: MailerService,
+    @Optional() @Inject(MetricsService) private readonly metrics?: MetricsService,
   ) {}
 
   /** Where and in which language to email a user. */
@@ -93,6 +95,7 @@ export class IntrosService {
       .insert(introRequests)
       .values({ startupId: s.id, investorId: inv.id, message, matchScore: m.score })
       .returning();
+    void this.metrics?.bump("intro_request");
 
     // Notify the investor. Only the startup's name goes in the email; details stay on Foundura.
     const to = await this.contactOf(inv.ownerId);

@@ -7,6 +7,7 @@ import { CONFIG, type AppConfig } from "../config";
 import type { Db } from "../db/client";
 import { DB } from "../db/db.module";
 import { events } from "../db/schema";
+import { MetricsService } from "../metrics/metrics.service";
 import { toIcs } from "./ics";
 
 type Q = Record<string, string | undefined>;
@@ -18,6 +19,7 @@ export class EventsController {
   constructor(
     @Inject(DB) private readonly db: Db,
     @Inject(CONFIG) private readonly config: AppConfig,
+    @Inject(MetricsService) private readonly metrics: MetricsService,
   ) {}
 
   /**
@@ -37,6 +39,7 @@ export class EventsController {
   @Header("Cache-Control", "public, max-age=1800")
   async feed(@Query() q: Q) {
     const rows = await this.query({ ...q, from: undefined, to: undefined, all: undefined });
+    void this.metrics.bump("calendar_feed_read");
     const label = [q.region, q.scope === "India" ? "India" : null, q.format].filter(Boolean).join(", ");
     return toIcs(rows, this.config.SITE_URL, label ? `Foundura: startup events (${label})` : undefined);
   }

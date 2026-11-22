@@ -1,5 +1,6 @@
 import { createHmac, randomInt, timingSafeEqual } from "node:crypto";
-import { BadRequestException, Inject, Injectable, Logger, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, Logger, Optional, UnauthorizedException } from "@nestjs/common";
+import { MetricsService } from "../metrics/metrics.service";
 import { JwtService } from "@nestjs/jwt";
 import { type ConsentPurpose } from "@foundura/shared";
 import { and, desc, eq, gt, lt } from "drizzle-orm";
@@ -30,6 +31,7 @@ export class AuthService {
     @Inject(JwtService) private readonly jwt: JwtService,
     @Inject(ConsentService) private readonly consents: ConsentService,
     @Inject(MailerService) private readonly mailer: MailerService,
+    @Optional() @Inject(MetricsService) private readonly metrics?: MetricsService,
   ) {}
 
   private hash(email: string, code: string): string {
@@ -95,6 +97,7 @@ export class AuthService {
         throw new BadRequestException("Please agree to the account terms to create your account.");
       }
       [user] = await this.db.insert(users).values({ email, locale: locale ?? "en" }).returning();
+      void this.metrics?.bump("signup");
     }
     // Emails follow the language they last signed in with (and can be changed on the dashboard).
     await this.db
