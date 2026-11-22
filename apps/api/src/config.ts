@@ -73,6 +73,16 @@ export function productionProblems(c: AppConfig): string[] {
   if (!c.SITE_URL.startsWith("https://")) p.push("SITE_URL must be your public https:// address");
   if (/localhost|127\.0\.0\.1/.test(c.CORS_ORIGINS)) p.push("CORS_ORIGINS must not include localhost");
   if (c.EVENT_SYNC_ALLOW_PRIVATE) p.push("EVENT_SYNC_ALLOW_PRIVATE lets event sources reach the server's own network; turn it off");
+  // A database outside this server (a managed cluster) must be reached over verified TLS.
+  try {
+    const u = new URL(c.DATABASE_URL);
+    const onThisServer = ["db", "localhost", "127.0.0.1"].includes(u.hostname);
+    if (!onThisServer && (u.searchParams.get("sslmode") !== "verify-full" || !u.searchParams.get("sslrootcert"))) {
+      p.push("DATABASE_URL for a managed database must end with ?sslmode=verify-full&sslrootcert=/certs/db-ca.crt (see DEPLOY.md)");
+    }
+  } catch {
+    p.push("DATABASE_URL isn't a valid postgresql:// address");
+  }
   if (c.TRUST_PROXY < 1) p.push("TRUST_PROXY must be at least 1 (the web server forwards each visitor's IP)");
   return p;
 }

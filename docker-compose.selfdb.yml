@@ -1,0 +1,31 @@
+# Override: run Postgres on the same server instead of a managed database. CI uses this too.
+#   docker compose -f docker-compose.prod.yml -f docker-compose.selfdb.yml --env-file .env.production up -d --build
+# Needs POSTGRES_PASSWORD in .env.production; DATABASE_URL is set here.
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: foundura
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      POSTGRES_DB: foundura
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./backups:/backups
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U foundura"]
+      interval: 5s
+      retries: 20
+
+  migrate:
+    environment:
+      DATABASE_URL: postgresql://foundura:${POSTGRES_PASSWORD}@db:5432/foundura
+    depends_on:
+      db: { condition: service_healthy }
+
+  api:
+    environment:
+      DATABASE_URL: postgresql://foundura:${POSTGRES_PASSWORD}@db:5432/foundura
+
+volumes:
+  pgdata:

@@ -33,6 +33,13 @@ describe("production settings", () => {
     expect(() => loadConfig({ ...SAFE, OTP_FROM_EMAIL: "Foundura <login@example.com>" })).toThrow(/OTP_FROM_EMAIL/);
     expect(() => loadConfig({ ...SAFE, CORS_ORIGINS: "https://foundura.org,http://localhost:3000" })).toThrow(/CORS_ORIGINS/);
   });
+
+  it("needs verified TLS for a managed database", () => {
+    const managed = "postgresql://foundura:pw@private-foundura-do-user-1.k.db.ondigitalocean.com:25060/foundura";
+    expect(() => loadConfig({ ...SAFE, DATABASE_URL: managed })).toThrow(/sslmode=verify-full/);
+    expect(() => loadConfig({ ...SAFE, DATABASE_URL: `${managed}?sslmode=require` })).toThrow(/sslmode=verify-full/);
+    expect(() => loadConfig({ ...SAFE, DATABASE_URL: `${managed}?sslmode=verify-full&sslrootcert=/certs/db-ca.crt` })).not.toThrow();
+  });
 });
 
 describe("behind the web server", () => {

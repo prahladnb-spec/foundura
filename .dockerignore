@@ -10,3 +10,7 @@
 **/.env.*
 !**/.env.example
 !.env.production.example
+
+# Never send database dumps or certificates into an image build
+backups
+deploy/certs

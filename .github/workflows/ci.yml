@@ -95,17 +95,21 @@ jobs:
         run: docker build -f apps/api/Dockerfile -t foundura-api .
       - name: Web image
         run: docker build -f apps/web/Dockerfile --build-arg NEXT_PUBLIC_SITE_URL=https://foundura.org -t foundura-web .
-      - name: Check the stack definition
+      - name: Check the stack definitions
         run: |
           cp .env.production.example .env.production
           sed -i 's/^POSTGRES_PASSWORD=$/POSTGRES_PASSWORD=ci/' .env.production
           docker compose -f docker-compose.prod.yml --env-file .env.production config --quiet
-      - name: Back up and restore the production database container
+          docker compose -f docker-compose.prod.yml -f docker-compose.selfdb.yml --env-file .env.production config --quiet
+      - name: Back up and restore with Postgres on the same server
         run: |
-          compose="docker compose -f docker-compose.prod.yml --env-file .env.production"
+          compose="docker compose -f docker-compose.prod.yml -f docker-compose.selfdb.yml --env-file .env.production"
           $compose up -d --wait db
           $compose run --rm migrate
           ./deploy/backup.sh
           ./deploy/restore-drill.sh
           test "$($compose exec -T db psql -U foundura -d foundura -Atc "select count(*) from job_runs where name in ('backup', 'restore_drill') and last_success_at is not null")" = 2
           $compose down -v
+          sudo rm -rf backups .env.production
+      - name: Managed database over verified SSL, backup and restore drill (as on DigitalOcean)
+        run: ./.github/scripts/managed-db-check.sh

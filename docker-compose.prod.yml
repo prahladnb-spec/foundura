@@ -1,33 +1,21 @@
-# Production stack on one server: Postgres, API, web and Caddy (HTTPS).
-# Only Caddy is reachable from the internet; the API and database stay on the private network.
+# Production stack on one server: API, web and Caddy (HTTPS), using a managed Postgres database
+# (DATABASE_URL). Only Caddy is reachable from the internet.
 #   cp .env.production.example .env.production   # then fill it in
 #   docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
+#
+# To run Postgres on the same server instead, add the override (also what CI uses):
+#   docker compose -f docker-compose.prod.yml -f docker-compose.selfdb.yml --env-file .env.production up -d --build
 services:
-  db:
-    image: postgres:16-alpine
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: foundura
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
-      POSTGRES_DB: foundura
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-      - ./backups:/backups
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U foundura"]
-      interval: 5s
-      retries: 20
-
   # Runs once per deploy: applies migrations, then adds any new seed items (never overwrites edits).
   migrate:
     build: { context: ., dockerfile: apps/api/Dockerfile }
     image: foundura-api
     env_file: .env.production
     environment:
-      DATABASE_URL: postgresql://foundura:${POSTGRES_PASSWORD}@db:5432/foundura
+      DATABASE_URL: ${DATABASE_URL:-}
+    # The managed database's CA certificate, referenced by sslrootcert in DATABASE_URL.
+    volumes: ["./deploy/certs:/certs:ro"]
     command: ["sh", "-c", "node dist/db/migrate.js && node dist/db/seed.js"]
-    depends_on:
-      db: { condition: service_healthy }
     restart: "no"
 
   api:
@@ -36,8 +24,9 @@ services:
     env_file: .env.production
     environment:
       NODE_ENV: production
-      DATABASE_URL: postgresql://foundura:${POSTGRES_PASSWORD}@db:5432/foundura
+      DATABASE_URL: ${DATABASE_URL:-}
       TRUST_PROXY: "1"
+    volumes: ["./deploy/certs:/certs:ro"]
     depends_on:
       migrate: { condition: service_completed_successfully }
 
@@ -69,6 +58,5 @@ services:
     depends_on: [web]
 
 volumes:
-  pgdata:
   caddy_data:
   caddy_config:

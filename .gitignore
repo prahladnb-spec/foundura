@@ -16,3 +16,7 @@ next-env.d.ts
 # Real settings files (examples are committed)
 .env.production
 .env*.local
+
+# Server-only: database dumps (personal data) and the managed database CA certificate
+backups/
+deploy/certs/
