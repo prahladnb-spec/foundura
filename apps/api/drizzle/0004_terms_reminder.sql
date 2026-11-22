@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "terms_reminded_at" timestamp with time zone;

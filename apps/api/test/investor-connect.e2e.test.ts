@@ -1,7 +1,7 @@
 import type { INestApplication } from "@nestjs/common";
 import type request from "supertest";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { signIn, startTestApp } from "./helpers";
+import { ADMIN_KEY, signIn, startTestApp } from "./helpers";
 
 let app: INestApplication;
 let http: ReturnType<typeof request>;
@@ -103,7 +103,11 @@ describe("Investor Connect", () => {
     expect(m.body[0].introStatus).toBeNull();
   });
 
-  it("shows consenting public startups to the investor, without private figures", async () => {
+  it("shows consenting public startups only to verified investors, without private figures", async () => {
+    const before = await http.get("/v1/me/investor/matches").set(investorAuth).expect(200);
+    expect(before.body).toHaveLength(0); // not verified yet
+    await http.post(`/v1/admin/investors/${investorId}/verify`).set({ "x-admin-key": ADMIN_KEY }).send({ verified: true }).expect(200);
+
     const m = await http.get("/v1/me/investor/matches").set(investorAuth).expect(200);
     expect(m.body).toHaveLength(1);
     expect(m.body[0].startup.name).toBe("Shruti Hearing");

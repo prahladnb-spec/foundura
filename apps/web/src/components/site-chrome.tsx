@@ -82,6 +82,7 @@ export function SiteFooter() {
           <li><Link href="/investors" className="hover:text-paper">Investors</Link></li>
           <li><Link href="/partners" className="hover:text-paper">Add the scan to your site</Link></li>
           <li><Link href="/privacy" className="hover:text-paper">Privacy and your data</Link></li>
+          <li><Link href="/terms" className="hover:text-paper">Terms of use</Link></li>
         </ul>
       </div>
       <p className="mx-auto max-w-6xl px-5 pb-8 text-[0.85rem] text-neel-100/60">

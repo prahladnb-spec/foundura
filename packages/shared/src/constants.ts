@@ -100,7 +100,7 @@ export const CONSENT_PURPOSES = [
   {
     value: "account",
     label: "Run my account",
-    description: "Store my email and profile so I can sign in and use Foundura. Required.",
+    description: "Store my email and profile so I can sign in and use Foundura. I'm 18 or older and agree to the terms of use.",
     required: true,
   },
   {

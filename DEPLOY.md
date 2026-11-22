@@ -82,7 +82,9 @@ docker compose -f docker-compose.prod.yml exec -T db pg_restore -U foundura -d f
 ## 7. Monitoring
 
 - Point an uptime monitor at `https://foundura.org/api/health`. It checks the web app, API and database in one call and returns 503 if any is down.
-- Container logs: `docker compose -f docker-compose.prod.yml logs --since 1h api web`. To keep logs for 180 days (see the launch checklist), ship them to a log service in India or configure Docker's log rotation to keep enough history.
+- Container logs: `docker compose -f docker-compose.prod.yml logs --since 1h api web`.
+- Access logs (visitor IP, time, request) are written by Caddy to `/data/logs/access.log` in the `caddy_data` volume and kept for 180 days, as the CERT-In directions require and the privacy page states. Read them with `docker compose -f docker-compose.prod.yml exec caddy tail -f /data/logs/access.log`.
+- Offsite backup copies should also be deleted after 14 days; the privacy page tells users backups roll over within 14 days of erasure.
 
 ## Settings reference
 
@@ -96,7 +98,8 @@ docker compose -f docker-compose.prod.yml exec -T db pg_restore -U foundura -d f
 | `ADMIN_API_KEY` | API | For scripts calling `/v1/admin/*` |
 | `ADMIN_EMAILS` | API | Editors who can open `/admin` |
 | `OTP_DELIVERY`, `RESEND_API_KEY`, `OTP_FROM_EMAIL` | API | Email delivery |
-| `DIGEST_AUTO_SEND` | API | Weekly scheme alerts on Mondays from 8:00 India time |
+| `SCHEDULED_EMAILS` | API | Weekly scheme alerts (Mondays 8:00 India time) and yearly terms reminders |
+| `LEGAL_ENTITY_NAME`, `LEGAL_ADDRESS`, `LEGAL_JURISDICTION_CITY`, `GRIEVANCE_OFFICER_NAME`, `GRIEVANCE_EMAIL`, `SUPPORT_EMAIL` | web | Shown on `/privacy` and `/terms`; read at request time, so a restart is enough to change them |
 | `TRUST_PROXY` | API | Set to 1 by compose: the web server is the one proxy in front of the API |
 | `NEXT_PUBLIC_SITE_URL` | web (build) | Baked into links, the sitemap and share images. Rebuild the web image if the domain changes |
 

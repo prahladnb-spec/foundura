@@ -1,52 +1,128 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Fill, GrievanceContact } from "@/components/legal-bits";
+import { LEGAL_VERSION, legalDetails } from "@/lib/legal";
 
 export const metadata: Metadata = {
   title: "Privacy and your data",
-  description: "What Foundura collects, why, and how to see, export or delete your data.",
+  description: "What Foundura collects, why, who sees it, and how to see, export, correct or delete your data.",
 };
 
+// Contact details come from the server's settings at request time.
+export const dynamic = "force-dynamic";
+
 export default function PrivacyPage() {
+  const legal = legalDetails();
   return (
     <article className="mx-auto max-w-3xl px-5 pt-10 prose-f">
       <h1 className="display text-6xl not-prose">Privacy and your data</h1>
       <p className="mt-4 text-lg">
-        Foundura is built to India&apos;s Digital Personal Data Protection Act, 2023 and the EU GDPR. This page explains
-        what we keep and the controls you have. Notice version 2026-11-22.
+        This notice explains what personal data Foundura collects, why, and the controls you have. It follows India&apos;s Digital
+        Personal Data Protection Act, 2023 and its Rules, and the EU GDPR. Version {LEGAL_VERSION}.
       </p>
 
-      <h2>What we collect</h2>
+      <h2>Who is responsible</h2>
+      <p>
+        Foundura is run by <Fill value={legal.entity} what="Company name" />, <Fill value={legal.address} what="Address" />. We decide
+        how your data is used, which makes us the &ldquo;data fiduciary&rdquo; under Indian law.
+      </p>
+
+      <h2>What we collect and why</h2>
       <ul>
-        <li><strong>Scheme Scan answers:</strong> used for that one check and not stored.</li>
-        <li><strong>Your email:</strong> to sign you in with a one-time code. We never ask for a password.</li>
-        <li><strong>Your startup profile:</strong> only what you choose to fill in, to run scans and, if you allow it, to show a public profile.</li>
-        <li><strong>Investor profile and intro requests:</strong> if you list yourself as an investor or send or receive an intro, the profile and the messages. Email addresses are shared only when an intro is accepted.</li>
-        <li><strong>Scheme alerts:</strong> if you turn them on, a weekly email. We keep a note of which schemes each email mentioned, so the next one only shows what&apos;s new. Every email has a one-click unsubscribe.</li>
-        <li><strong>Your consent choices:</strong> a dated record of what you agreed to, kept so you can see your history.</li>
+        <li>
+          <strong>Scheme Scan answers without an account:</strong> used for that one check and then discarded. Not stored.
+        </li>
+        <li>
+          <strong>Your email address:</strong> to sign you in with a one-time code and to send the emails you asked for. We never
+          ask for a password.
+        </li>
+        <li>
+          <strong>Your startup profile</strong> (only what you fill in): to run scans for you, to score readiness, and, if you choose,
+          to show a public profile and to appear in investor matches.
+        </li>
+        <li>
+          <strong>Investor profile and intro requests:</strong> if you list yourself as an investor or send or receive an intro, the
+          profile and the messages, so the other side can decide. Email addresses are shared only when an intro is accepted.
+        </li>
+        <li>
+          <strong>Scheme alerts history:</strong> if you turn alerts on, which schemes each weekly email mentioned, so the next one
+          shows only what&apos;s new.
+        </li>
+        <li>
+          <strong>Your consent choices:</strong> a dated record of each choice and the notice version you saw, so you can see your
+          history and we can show what you agreed to.
+        </li>
+        <li>
+          <strong>Basic server logs</strong> (IP address, time, page requested): to keep the service secure and to meet Indian
+          cyber-security record-keeping rules.
+        </li>
+      </ul>
+      <p>We don&apos;t ask for caste, religion, Aadhaar or bank details, and we don&apos;t use advertising trackers.</p>
+
+      <h2>Who sees it</h2>
+      <ul>
+        <li>
+          <strong>The public:</strong> only the parts of your startup or investor profile you choose to publish. Turnover, funding
+          and shareholding are never shown publicly.
+        </li>
+        <li>
+          <strong>Investors:</strong> your startup profile only if you made it public <em>and</em> turned on &ldquo;Show my
+          profile to investors&rdquo;.
+        </li>
+        <li>
+          <strong>Service providers</strong> who work for us under contract: our hosting provider, whose servers are in India,
+          and our email delivery provider, which sends sign-in codes, intro updates and alerts and may process your email address
+          outside India.
+        </li>
+        <li>Authorities, only when Indian law requires it.</li>
+      </ul>
+      <p>We never sell your data. Foundura never handles money.</p>
+
+      <h2>Your rights and how to use them</h2>
+      <ul>
+        <li>
+          <strong>See and download your data:</strong> in <Link href="/dashboard">My startup</Link>, choose &ldquo;Download my
+          data&rdquo; for a file with everything we hold about you.
+        </li>
+        <li>
+          <strong>Correct it:</strong> edit your profiles any time from your dashboard, or ask the grievance officer.
+        </li>
+        <li>
+          <strong>Withdraw consent:</strong> switch alerts or investor visibility off on your dashboard, as easily as you switched
+          them on, or use the unsubscribe link in any alert email.
+        </li>
+        <li>
+          <strong>Erase it:</strong> delete your account from your dashboard. This removes your account, startup and investor
+          profiles, intro requests, alert history and consent records straight away. Backups roll over within 14 days.
+        </li>
+        <li>
+          <strong>Nominate someone</strong> to use these rights for you if you die or can no longer act yourself: email the
+          grievance officer with their name and contact details.
+        </li>
       </ul>
 
-      <h2>What we never do</h2>
-      <ul>
-        <li>Sell your data, or share it with investors unless you switch that on.</li>
-        <li>Show your turnover, funding or shareholding on a public profile.</li>
-        <li>Handle your money. Investors, providers and organisers deal with you directly.</li>
-      </ul>
-
-      <h2>Your controls</h2>
+      <h2>Complaints</h2>
+      <p>Write to our grievance officer first:</p>
+      <GrievanceContact legal={legal} />
       <p>
-        Signed in, open <Link href="/dashboard">My startup</Link> to change your consent choices, download everything we
-        hold about you as a file, or delete your account. Deleting removes your account, startup and investor profiles, intro requests, alert history and consent
-        records.
+        If you&apos;re not satisfied with our answer, you can complain to the Data Protection Board of India under the Digital
+        Personal Data Protection Act, 2023.
       </p>
 
-      <h2>Where data is kept</h2>
+      <h2>How long we keep it</h2>
       <p>
-        Your account, profiles and consent records are stored on servers in India. Emails we send you (sign-in codes, intro
-        updates and scheme alerts) pass through our email delivery provider. Sign-in codes are stored only as a one-way hash and
-        expire after 10 minutes.
+        Until you delete your account, apart from sign-in codes, which are stored only as a one-way hash and expire after 10 minutes,
+        and server logs, which are kept for 180 days.
       </p>
 
-      <p><em>Questions or a complaint: write to our grievance officer (contact details to be added before launch).</em></p>
+      <h2>Age</h2>
+      <p>Foundura is for people aged 18 or over. We don&apos;t knowingly create accounts for anyone younger.</p>
+
+      <h2>Changes</h2>
+      <p>
+        If we change this notice in a way that affects you, we&apos;ll email account holders and ask again before using your data for
+        anything new. See also our <Link href="/terms">terms of use</Link>.
+      </p>
     </article>
   );
 }

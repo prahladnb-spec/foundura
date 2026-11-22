@@ -5,6 +5,15 @@
 
 {$SITE_DOMAIN} {
 	encode zstd gzip
+	# Access logs (IP, time, request) kept for 180 days, as CERT-In directions require. Inside the caddy_data volume.
+	log {
+		output file /data/logs/access.log {
+			roll_size 50MiB
+			roll_keep 1000
+			roll_keep_for 4320h
+		}
+		format json
+	}
 	header Strict-Transport-Security "max-age=31536000; includeSubDomains"
 	# Caddy replaces any X-Forwarded-For sent by the visitor with their real IP;
 	# the web server forwards that to the API for per-visitor rate limits.

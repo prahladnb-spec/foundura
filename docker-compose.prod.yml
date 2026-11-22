@@ -48,6 +48,7 @@ services:
       args:
         NEXT_PUBLIC_SITE_URL: https://${SITE_DOMAIN:?set SITE_DOMAIN}
     restart: unless-stopped
+    env_file: .env.production # legal and grievance contact details shown on /privacy and /terms
     environment:
       API_URL: http://api:4000
       NEXT_PUBLIC_SITE_URL: https://${SITE_DOMAIN}

@@ -61,7 +61,7 @@ export function AdminAlerts() {
         <div className="rounded-md border border-rule bg-white p-4">
           <p className="font-semibold">Sending</p>
           <p className="mt-1 text-[0.95rem] text-slate">
-            Goes out automatically on Mondays from 8 am when the server has <code>DIGEST_AUTO_SEND=true</code>. Each founder gets at most
+            Goes out automatically on Mondays from 8 am when the server has <code>SCHEDULED_EMAILS=true</code>. Each founder gets at most
             one a week, and nobody gets one if nothing is new for them.
           </p>
           <button type="button" onClick={send} disabled={busy} className={`${btn} mt-4 w-full`}>

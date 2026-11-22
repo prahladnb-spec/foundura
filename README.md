@@ -10,6 +10,7 @@ India's founder launchpad. Phase 1 MVP:
 - **Email notifications**: investors hear about new intro requests and founders hear when one is accepted or declined. Emails carry only names and a link; details stay on Foundura.
 - **Weekly scheme alerts**: founders who turn on alerts get one email a week, and only when something is new for them: schemes they now qualify for, changes to their schemes, deadlines in the next two weeks, the week's policy news and new guides. One-click unsubscribe (including mail apps' built-in button) is recorded in the consent ledger.
 - **Events**, **Policy news** and **Founder guides**, fed from the tracker sheets and the daily content engine.
+- **Terms of use and grievance officer**: `/terms` and `/privacy` read the company and grievance officer details from settings, so they can change without a release. New accounts confirm they're 18+ and accept the terms. Every account holder gets a yearly reminder of both documents, as the IT Rules 2021 require.
 - **Privacy by design** (DPDP Act 2023 / GDPR): consent ledger, self-service data export and account deletion, hashed sign-in codes, minimal data.
 
 Foundura never handles money.
@@ -84,7 +85,7 @@ Rules are validated by `conditionSchema` in `@foundura/shared`, which only accep
 
 ## Weekly scheme alerts
 
-Set `DIGEST_AUTO_SEND=true` on the API server and it sends on Mondays from 8:00 India time. Editors can preview the email and send it by hand at `/admin/alerts`, and scripts can call `POST /v1/admin/digest/send` with the admin key. Running it twice is safe: each founder gets at most one email per week (`digest_sends` has one row per person per week, claimed before sending). That table keeps only which schemes the email mentioned, so the next one can say what's new; it's included in `/me/export` and deleted with the account.
+Set `SCHEDULED_EMAILS=true` on the API server and it sends on Mondays from 8:00 India time (the same setting sends the yearly terms reminder, checked daily from 10:00). Editors can preview the email and send it by hand at `/admin/alerts`, and scripts can call `POST /v1/admin/digest/send` with the admin key. Running it twice is safe: each founder gets at most one email per week (`digest_sends` has one row per person per week, claimed before sending). That table keeps only which schemes the email mentioned, so the next one can say what's new; it's included in `/me/export` and deleted with the account.
 
 ## Importing from the tracker sheets
 

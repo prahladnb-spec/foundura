@@ -202,7 +202,14 @@ export function InvestorDashboard({ email, investor: initial }: { email: string;
         <section aria-labelledby="matches-h" className="mt-14">
           <h2 id="matches-h" className="display text-4xl">Startups that fit your focus</h2>
           <p className="mt-1 text-neel-700">Only founders who chose to be visible to investors appear here. Financial figures stay private until they send you a request.</p>
-          {matches.length === 0 && <p className="mt-3 text-slate">No matching startups yet.</p>}
+          {!investor?.verifiedAt ? (
+            <p className="mt-3 rounded-md bg-marigold-50 px-4 py-3 text-marigold-ink">
+              Founders choose to be seen by verified investors only, so matching startups appear here once we&apos;ve verified your
+              profile. We usually check your firm&apos;s website or LinkedIn, and may email you.
+            </p>
+          ) : (
+            matches.length === 0 && <p className="mt-3 text-slate">No matching startups yet.</p>
+          )}
           <ul className="mt-3 divide-y divide-rule">
             {matches.map(({ startup: s, match: m }) => (
               <li key={s.slug} className="py-4">

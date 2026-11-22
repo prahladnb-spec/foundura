@@ -14,7 +14,7 @@ Everything between "the code works" and "open to the public". Tick items off in 
 - [ ] Server in an Indian region. The privacy page says account data is stored in India.
 - [ ] `.env.production` filled in with fresh random secrets, and the API starts without "Unsafe production settings" errors.
 - [ ] `ADMIN_EMAILS` set to the editors' emails.
-- [ ] `DIGEST_AUTO_SEND=true`.
+- [ ] `SCHEDULED_EMAILS=true` (weekly scheme alerts and the yearly terms reminder).
 - [ ] Nightly backups running, copied off the server, and **one restore tested**.
 - [ ] Uptime monitor on `https://foundura.org/api/health`.
 
@@ -22,14 +22,15 @@ Everything between "the code works" and "open to the public". Tick items off in 
 
 The DPDP Act's main duties (notice, consent, security safeguards, breach notification, grievance redressal) apply from **13 May 2027**, 18 months after the DPDP Rules were notified on 13 November 2025. Foundura is built to meet them already; these items are the non-code part.
 
-- [ ] **Grievance contact.** Name a person and publish their email on `/privacy`, replacing the "to be added before launch" line. The Rules cap the time to resolve a grievance at 90 days; aim to reply within a week.
-- [ ] **Name the processors** in the privacy notice: the hosting provider and region, and the email provider (Resend, which delivers from outside India).
-- [ ] **Terms of use page**, covering:
-  - scheme information is a summary, not legal or financial advice
-  - Foundura never handles money
-  - investor intros are introductions only, not recommendations
-  - users must be 18 or older (the Act needs verifiable parental consent for anyone younger, and Foundura doesn't collect that)
-- [ ] Have a lawyer read the privacy notice and terms once.
+- [ ] **Grievance officer and company details.** Fill in `LEGAL_ENTITY_NAME`, `LEGAL_ADDRESS`, `LEGAL_JURISDICTION_CITY`, `GRIEVANCE_OFFICER_NAME` and `GRIEVANCE_EMAIL` in `.env.production`. Until they're set, `/privacy` and `/terms` show "to be added before launch" and the web server logs a warning at start-up. The officer must acknowledge complaints within 24 hours and resolve them within 15 days (IT Rules 2021). That is stricter than the DPDP Rules' 90-day limit, so plan to meet the 24 hours and 15 days.
+- [ ] Make sure someone reads the grievance and support mailboxes every day.
+- [ ] **Name the processors** in the privacy notice. It currently says "our hosting provider" and "our email delivery provider"; add their names (for example the cloud provider and region, and Resend) once chosen.
+- [x] Privacy notice covers what the DPDP notice must: data and purposes, withdrawing consent, rights (including nomination) and complaining to the Data Protection Board.
+- [x] Terms of use at `/terms`, including the content users must not post (IT Rules 2021), the 18+ rule, "not advice", "not a government site", "never handles money", and that Investor Connect isn't a SEBI-registered service.
+- [x] New accounts confirm they're 18 or older and accept the terms; the consent ledger records the version.
+- [x] Yearly reminder of the terms and privacy notice to every account holder (IT Rules 2021), sent by the scheduler.
+- [x] Access logs (IP, time, request) kept 180 days by Caddy, matching the privacy page and CERT-In directions.
+- [ ] Have a lawyer read the privacy notice and terms once, especially the investor section and limitation of liability.
 - [ ] **Breach plan.** CERT-In directions require reporting specified cyber incidents within **6 hours** of noticing them, and keeping system logs for a rolling **180 days** in India. Write down:
   - who reports incidents
   - how to reach CERT-In

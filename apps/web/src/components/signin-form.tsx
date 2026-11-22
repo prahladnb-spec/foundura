@@ -101,7 +101,8 @@ export function SignInForm({ next = "/dashboard" }: { next?: string }) {
           </label>
         ))}
         <p className="text-[0.9rem] text-slate">
-          You can change these any time. See <Link href="/privacy" className="underline">privacy and your data</Link>.
+          You can change these any time. Read the <Link href="/terms" className="underline">terms of use</Link> and{" "}
+          <Link href="/privacy" className="underline">privacy and your data</Link>.
         </p>
       </fieldset>
       <button disabled={busy || code.length !== 6} className="justify-self-start rounded-md bg-marigold px-5 py-2.5 font-semibold text-neel-950 disabled:opacity-60">

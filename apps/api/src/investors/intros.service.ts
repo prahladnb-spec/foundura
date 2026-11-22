@@ -200,11 +200,13 @@ export class IntrosService {
   }
 
   /**
-   * Startups an investor matches with. Only startups whose founders made the profile public
-   * AND switched on "Show my profile to investors" are included (consent-gated).
+   * Startups an investor matches with. Only for verified investors, and only startups whose founders
+   * made the profile public AND switched on "Show my profile to investors" (consent-gated).
    */
   async startupMatches(userId: string) {
     const inv = await this.investorsSvc.requireMine(userId);
+    // Founders agreed to be shown to *verified* investors, so nobody else sees them.
+    if (!inv.verifiedAt) return [];
     const visible = await this.db.execute<{ user_id: string }>(sql`
       select user_id from (
         select distinct on (user_id) user_id, granted

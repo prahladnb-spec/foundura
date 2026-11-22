@@ -30,6 +30,8 @@ export const users = pgTable("users", {
   email: text("email").notNull().unique(),
   createdAt: createdAt(),
   lastSeenAt: timestamp("last_seen_at", { withTimezone: true }),
+  /** Last yearly reminder of the terms and privacy notice (IT Rules 2021 ask for one each year). */
+  termsRemindedAt: timestamp("terms_reminded_at", { withTimezone: true }),
 });
 
 /** One-time sign-in codes. Only a hash is stored; rows expire after 10 minutes. */

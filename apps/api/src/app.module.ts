@@ -11,6 +11,7 @@ import { HealthController } from "./health/health.controller";
 import { AdminDigestController, DigestController } from "./digest/digest.controller";
 import { DigestScheduler } from "./digest/digest.scheduler";
 import { DigestService } from "./digest/digest.service";
+import { TermsReminderService } from "./legal/terms-reminder.service";
 import { AuthController } from "./auth/auth.controller";
 import { AuthGuard } from "./auth/auth.guard";
 import { AuthService } from "./auth/auth.service";
@@ -42,6 +43,7 @@ export function buildAppModule(config: AppConfig) {
       MailerService,
       DigestService,
       DigestScheduler,
+      TermsReminderService,
       InvestorsService,
       IntrosService,
       AuthGuard,
