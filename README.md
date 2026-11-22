@@ -4,6 +4,7 @@ India's founder launchpad. Phase 1 MVP:
 
 - **Scheme Scan**: answer a few questions and see which central and state government schemes a startup qualifies for, with the exact conditions met, not met, or still to confirm. Anonymous scans are never stored.
 - **Startup profile** (Passport v1): sign in with an emailed one-time code, save a profile, re-run the scan any time, and optionally publish a public profile (financial figures always stay private).
+- **Events calendar** (`/events`, English and Hindi): a month grid and a list of startup events in India and worldwide, filterable by region (India, Asia-Pacific, Middle East and Africa, Europe, Americas) and format (in person, online, hybrid). Each event can be added to Google Calendar or downloaded as an .ics file, and anyone can subscribe to a feed (`/calendar/foundura-events.ics`, with the same filters) that their calendar app refreshes about twice a day. Editors register event sources at `/admin/events`: an organiser's iCalendar feed or a page that publishes schema.org Event data. With `EVENT_SYNC=true` the API reads every source daily from 6:00 India time and adds new or changed events; events from untrusted sources wait in a review queue, and date changes send them back for checking. Fetching refuses non-https addresses and anything on the server's own network.
 - **Founder documents** (`/documents`, interface in English and Hindi): 47 documents a startup needs, in six groups: ideas and go-to-market, fundraising and strategy, legal and incorporation, financial, team, customers and compliance, and a MedTech pack. Each has a short guide (when you need it, what to include, points specific to India, common mistakes) and a template built as a real Word, Excel or PowerPoint file. The pitch deck comes in six colour combinations chosen on the page. The pitch deck and one-pager also have a filled-in example, and the pitch deck, one-pager and business plan have Hindi versions. A finder asks what you're doing and your stage and lists what to prepare first. Downloads need no sign-up and aren't logged per person. Legal templates say on the page and in the file to have a lawyer review them. Content lives in `apps/web/src/documents/`; files are generated at build time by `/downloads/[file]`.
 - **Glossary** (`/glossary`): about 50 funding and legal terms in plain English and Hindi (`apps/web/src/glossary.ts`).
 - **Investor documents checklist**: on the dashboard, founders tick which of eight documents investors ask for they have ready. It is private, is in their data export, and counts for 10 of the 100 readiness points.
@@ -101,7 +102,7 @@ pnpm e2e
 
 Set `E2E_DATABASE_URL` to use another database (its name must contain `e2e` or `test`, because the run empties it), or `CHROME_PATH` to use an installed Chrome. When a test fails, `pnpm --filter @foundura/e2e report` opens the report with a trace of every step.
 
-They cover the founder journey (scan, sign-in, profile, consents, export, deletion, sign-out), Investor Connect across three browsers (investor, editor, founder), the editor console (access, rule checks, Hindi going out of date, publishing, CSV import, audit log, weekly alerts and unsubscribe), Hindi (language switch, scan, dashboard, email language, and a check for untranslated English on every Hindi page), the startup showcase (public page, filters, Hindi, sitemap, editor hide, switching off), founder documents (finder, guides, every file downloads as a valid Office file, Hindi), the embed widget on a partner site and framing protection, the MedTech guide, and the sitemap, robots, share images and health check. GitHub runs them on every push and keeps the report when they fail.
+They cover the founder journey (scan, sign-in, profile, consents, export, deletion, sign-out), Investor Connect across three browsers (investor, editor, founder), the editor console (access, rule checks, Hindi going out of date, publishing, CSV import, audit log, weekly alerts and unsubscribe), Hindi (language switch, scan, dashboard, email language, and a check for untranslated English on every Hindi page), the events calendar (month grid, filters, feeds, Hindi, an editor importing from a source), the startup showcase (public page, filters, Hindi, sitemap, editor hide, switching off), founder documents (finder, guides, every file downloads as a valid Office file, Hindi), the embed widget on a partner site and framing protection, the MedTech guide, and the sitemap, robots, share images and health check. GitHub runs them on every push and keeps the report when they fail.
 
 ## How schemes work
 
@@ -139,6 +140,7 @@ Rows are upserted, so re-importing is safe.
 | `POST /scan` | Anonymous Scheme Scan |
 | `GET /schemes`, `/schemes/:slug` | Scheme catalogue |
 | `GET /events`, `/policy`, `/articles`, `/articles/:slug` | Content |
+| `GET /events` (`from`, `to`, `region`, `format`, `scope`, `type`, `all`); `GET /events/calendar.ics`; `GET /events/:slug/ics` | Events list and calendar, subscribable feed, one event |
 | `GET /startups`, `/startups/:slug` | Startup showcase (public profiles not hidden by an editor); filters: `sector`, `stage`, `state`, `lookingFor` |
 | `GET /investors`, `/investors/:slug` | Investor directory (listed investors only) |
 | `POST /auth/request-otp`, `/auth/verify-otp` | Sign in |
@@ -154,6 +156,7 @@ Rows are upserted, so re-importing is safe.
 | `PUT /admin/schemes/:slug/translations/hi` | Save a scheme's Hindi (must translate every visible condition) |
 | `GET /admin/investors`; `POST /admin/investors/:id/verify`, `/admin/investors/:id/listing` | Investor review |
 | `GET /admin/startups`; `POST /admin/startups/:id/showcase` | Showcase moderation (hide or show a listing) |
+| `GET/POST /admin/event-sources`, `PATCH/DELETE /admin/event-sources/:id`, `POST /admin/event-sources/:id/sync`; `GET /admin/events/review`, `POST /admin/events/:id/review` | Event sources and the review queue |
 | `GET/POST /admin/articles`, `GET/PUT /admin/articles/:slug` | Articles and publishing |
 | `POST /admin/import/events`, `/admin/import/policy` | CSV import |
 | `GET /admin/digest/preview`; `POST /admin/digest/send` | Scheme alerts preview (editor's own profile or a sample) and send |

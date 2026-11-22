@@ -13,6 +13,7 @@ export interface EventSeed {
   notes?: string;
   sourceUrl?: string;
   sourceName?: string;
+  format?: "In person" | "Online" | "Hybrid";
 }
 
 const LOOP = { sourceUrl: "https://entrepreneurloop.com/?p=6345", sourceName: "Entrepreneur Loop" };
@@ -24,6 +25,12 @@ export const EVENTS: EventSeed[] = [
   { name: "FAST42 ranking (Inc42) — applications close", country: "India", scope: "India", type: "Award / ranking", status: "Confirmed", deadline: "2026-12-10", bestFor: "D2C brands with verified revenue growth", notes: "Reveal in Feb 2027; no paid spots", ...LOOP },
   { name: "CES 2027", startDate: "2027-01-06", endDate: "2027-01-09", city: "Las Vegas", country: "USA", scope: "Global", type: "Expo", status: "Confirmed", bestFor: "Hardware and consumer-tech startups", ...DEALROOM },
   { name: "Vibrant Gujarat Global Summit (11th edition)", startDate: "2027-01-10", endDate: "2027-01-12", city: "Gandhinagar — Mahatma Mandir", country: "India", scope: "India", type: "Summit", status: "Confirmed", bestFor: "Founders selling to industry or government", ...LOOP },
+  { name: "World Health Expo (WHX) Dubai", startDate: "2027-01-25", endDate: "2027-01-28", city: "Dubai Exhibition Centre and Dubai World Trade Centre", country: "UAE", scope: "Global", type: "Expo", status: "Confirmed", bestFor: "MedTech and health startups seeking distributors in the Gulf", notes: "Formerly Arab Health", sourceUrl: "https://www.worldhealthexpo.com/events/healthcare/dubai/", sourceName: "World Health Expo" },
+  { name: "SXSW 2027", startDate: "2027-03-15", endDate: "2027-03-21", city: "Austin", country: "USA", scope: "Global", type: "Conference", status: "Confirmed", bestFor: "Consumer, media and deep-tech founders; SXSW Pitch", notes: "Innovation conference 15 to 20 March", sourceUrl: "https://sxsw.com/", sourceName: "SXSW" },
+  { name: "LEAP 2027", startDate: "2027-04-12", endDate: "2027-04-15", city: "Riyadh — RECC Malham", country: "Saudi Arabia", scope: "Global", type: "Expo", status: "Confirmed", bestFor: "AI and deep-tech founders seeking Gulf investors", sourceUrl: "https://mcit.gov.sa/en/node/256607", sourceName: "Ministry of Communications and IT, Saudi Arabia" },
+  { name: "London Tech Week 2027", startDate: "2027-06-07", endDate: "2027-06-11", city: "London — Olympia", country: "UK", scope: "Global", type: "Conference", status: "Confirmed", bestFor: "Founders expanding to the UK and Europe", notes: "Expo and stages 7 to 9 June; fringe events across London to 11 June", sourceUrl: "https://londontechweek.com/", sourceName: "London Tech Week" },
+  { name: "Web Summit 2027", startDate: "2027-11-08", endDate: "2027-11-11", city: "Lisbon", country: "Portugal", scope: "Global", type: "Conference", status: "To verify", bestFor: "Founders raising from European and US investors", sourceUrl: "https://websummit.com/", sourceName: "Web Summit" },
+  { name: "MEDICA 2027", startDate: "2027-11-15", endDate: "2027-11-18", city: "Düsseldorf", country: "Germany", scope: "Global", type: "Expo", status: "To verify", bestFor: "MedTech startups seeking European distributors", sourceUrl: "https://www.medica-tradefair.com/", sourceName: "MEDICA" },
   { name: "National Startup Day", startDate: "2027-01-16", endDate: "2027-01-16", city: "Nationwide", country: "India", scope: "India", type: "Ecosystem day", status: "Confirmed", bestFor: "Local incubator and grant sessions", notes: "Usually free", ...LOOP },
   { name: "Grace Hopper Celebration India", startDate: "2027-01-20", endDate: "2027-01-20", city: "Bengaluru", country: "India", scope: "India", type: "Conference", status: "Listing only", bestFor: "Women founders and engineers", ...LOOP },
   { name: "Web Summit Qatar", startDate: "2027-01-31", endDate: "2027-02-03", city: "Doha", country: "Qatar", scope: "Global", type: "Conference", status: "To verify", bestFor: "Founders targeting the Gulf", ...DEALROOM },

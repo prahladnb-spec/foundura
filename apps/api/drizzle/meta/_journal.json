@@ -64,6 +64,13 @@
       "when": 1795341041001,
       "tag": "0008_investor_docs",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1795356281325,
+      "tag": "0009_event_sources",
+      "breakpoints": true
     }
   ]
 }

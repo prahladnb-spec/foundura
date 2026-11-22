@@ -60,7 +60,7 @@ test.describe("Hindi", () => {
   // email or web addresses are skipped separately.
   const ALLOW = new Set([
     // Names Hindi writers keep in English, and scheme names given in brackets.
-    ..."Foundura SaaS GeM MeitY iSAFE English India Startup MedTech Mission".split(" "),
+    ..."Foundura SaaS GeM MeitY iSAFE English India Startup MedTech Mission Google Apple Outlook".split(" "),
     // The Data Protection Board's English name next to the Hindi one.
     ..."Data Protection Board of".split(" "),
     // Values partners type into the embed code, shown on the partners page.
@@ -73,6 +73,7 @@ test.describe("Hindi", () => {
     "/hi/schemes",
     "/hi/schemes/dpiit-startup-recognition",
     "/hi/events",
+    "/hi/events?view=list",
     "/hi/policy",
     "/hi/learn",
     "/hi/startups",

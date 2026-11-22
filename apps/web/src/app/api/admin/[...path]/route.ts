@@ -28,4 +28,4 @@ async function forward(req: Request, ctx: { params: Promise<{ path: string[] }> 
   });
 }
 
-export { forward as GET, forward as POST, forward as PUT };
+export { forward as GET, forward as POST, forward as PUT, forward as PATCH, forward as DELETE };

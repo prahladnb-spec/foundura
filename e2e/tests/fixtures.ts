@@ -66,6 +66,17 @@ export async function dbValue<T = string>(sql: string, params: unknown[]): Promi
   }
 }
 
+/** Runs one statement against the e2e database (test set-up only). */
+export async function dbExec(sql: string, params: unknown[]): Promise<void> {
+  const c = new pg.Client({ connectionString: DATABASE_URL });
+  await c.connect();
+  try {
+    await c.query(sql, params);
+  } finally {
+    await c.end();
+  }
+}
+
 /** The link the weekly email carries, built the same way the API signs it. */
 export async function unsubscribeLink(email: string): Promise<string> {
   const uid = await dbValue("select id from users where email = $1", [email]);

@@ -11,6 +11,10 @@ import { HealthController } from "./health/health.controller";
 import { AdminDigestController, DigestController } from "./digest/digest.controller";
 import { DigestScheduler } from "./digest/digest.scheduler";
 import { DigestService } from "./digest/digest.service";
+import { AdminEventsController } from "./events/admin-events.controller";
+import { EventsController } from "./events/events.controller";
+import { EventSyncScheduler } from "./events/event-sync.scheduler";
+import { EventSyncService } from "./events/event-sync.service";
 import { TermsReminderService } from "./legal/terms-reminder.service";
 import { AuthController } from "./auth/auth.controller";
 import { AuthGuard } from "./auth/auth.guard";
@@ -35,7 +39,7 @@ export function buildAppModule(config: AppConfig) {
       JwtModule.register({ global: true, secret: config.JWT_SECRET, signOptions: { expiresIn: "30d" } }),
       ThrottlerModule.forRoot([{ ttl: 60_000, limit: 120 }]),
     ],
-    controllers: [AuthController, MeController, ScanController, ContentController, InvestorsController, AdminController, AdminConsoleController, DigestController, AdminDigestController, HealthController],
+    controllers: [AuthController, MeController, ScanController, ContentController, InvestorsController, AdminController, AdminConsoleController, DigestController, AdminDigestController, HealthController, EventsController, AdminEventsController],
     providers: [
       AuthService,
       AdminGuard,
@@ -43,6 +47,8 @@ export function buildAppModule(config: AppConfig) {
       MailerService,
       DigestService,
       DigestScheduler,
+      EventSyncService,
+      EventSyncScheduler,
       TermsReminderService,
       InvestorsService,
       IntrosService,

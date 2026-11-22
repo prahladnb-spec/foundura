@@ -68,6 +68,7 @@ async function main() {
       notes: e.notes ?? null,
       sourceUrl: e.sourceUrl ?? null,
       sourceName: e.sourceName ?? null,
+      format: e.format ?? "In person",
       lastChecked: "2026-11-22",
     };
     const { slug: _slug, ...update } = row;

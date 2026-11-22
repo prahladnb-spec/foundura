@@ -213,6 +213,27 @@ export const schemes = pgTable("schemes", {
 
 // ---------- Events and policy news ----------
 
+/**
+ * Places the daily sync reads events from: an iCalendar (.ics) feed, or a web page that publishes
+ * schema.org Event data. Added by editors. Events from sources that aren't trusted wait for review.
+ */
+export const eventSources = pgTable("event_sources", {
+  id: id(),
+  name: text("name").notNull(),
+  url: text("url").notNull().unique(),
+  kind: text("kind").notNull(), // ics | page
+  scope: text("scope").notNull(), // India | Global
+  defaultType: text("default_type").notNull().default("Conference"),
+  /** Trusted sources publish straight away as "Confirmed"; others wait for an editor. */
+  trusted: boolean("trusted").notNull().default(false),
+  active: boolean("active").notNull().default(true),
+  lastFetchedAt: timestamp("last_fetched_at", { withTimezone: true }),
+  lastResult: text("last_result"),
+  lastError: text("last_error"),
+  createdAt: createdAt(),
+  updatedAt: updatedAt(),
+});
+
 export const events = pgTable(
   "events",
   {
@@ -232,10 +253,17 @@ export const events = pgTable(
     sourceUrl: text("source_url"),
     sourceName: text("source_name"),
     lastChecked: date("last_checked"),
+    /** In person | Online | Hybrid */
+    format: text("format").notNull().default("In person"),
+    /** Shown on the site. Events from untrusted sources start unpublished until an editor approves them. */
+    published: boolean("published").notNull().default(true),
+    sourceId: text("source_id").references(() => eventSources.id, { onDelete: "set null" }),
+    /** The event's id in its source (iCalendar UID or page URL), to update instead of duplicating. */
+    externalId: text("external_id"),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
-  (t) => [index("events_start_idx").on(t.startDate)],
+  (t) => [index("events_start_idx").on(t.startDate), uniqueIndex("events_source_external_idx").on(t.sourceId, t.externalId)],
 );
 
 export const policyItems = pgTable(

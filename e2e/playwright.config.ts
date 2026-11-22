@@ -24,6 +24,8 @@ const apiEnv = {
   ADMIN_EMAILS: ADMIN_EMAIL,
   OTP_DELIVERY: "dev",
   TRUST_PROXY: "1",
+  // The editor test reads a stand-in organiser feed on this machine. Refused in production.
+  EVENT_SYNC_ALLOW_PRIVATE: "true",
   CORS_ORIGINS: WEB,
   SITE_URL: WEB,
   NODE_ENV: "test",

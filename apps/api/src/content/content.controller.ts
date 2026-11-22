@@ -46,29 +46,6 @@ export class ContentController {
     return localizeScheme(s, lang === "hi" ? "hi" : "en");
   }
 
-  /** Upcoming events by default; `?all=1` includes past ones. */
-  @Get("events")
-  listEvents(@Query("scope") scope?: string, @Query("type") type?: string, @Query("all") all?: string) {
-    const today = todayInIndia();
-    const where: SQL[] = [];
-    if (scope) where.push(eq(events.scope, scope));
-    if (type) where.push(eq(events.type, type));
-    if (!all) {
-      where.push(
-        or(
-          gte(events.endDate, today),
-          and(isNull(events.endDate), gte(events.startDate, today)),
-          and(isNull(events.startDate), isNotNull(events.deadline), gte(events.deadline, today)),
-        )!,
-      );
-    }
-    return this.db
-      .select()
-      .from(events)
-      .where(and(...where))
-      .orderBy(asc(events.startDate), asc(events.deadline));
-  }
-
   @Get("policy")
   listPolicy(@Query("country") country?: string, @Query("impact") impact?: string) {
     const where: SQL[] = [];

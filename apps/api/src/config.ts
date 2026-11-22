@@ -13,6 +13,16 @@ const envSchema = z.object({
     .enum(["true", "false"])
     .default("false")
     .transform((v) => v === "true"),
+  /** Read editors' event sources once a day (from 6:00 India time) and import new or changed events. */
+  EVENT_SYNC: z
+    .enum(["true", "false"])
+    .default("false")
+    .transform((v) => v === "true"),
+  /** Tests only: let the event sync read http:// and local-network addresses. Refused in production. */
+  EVENT_SYNC_ALLOW_PRIVATE: z
+    .enum(["true", "false"])
+    .default("false")
+    .transform((v) => v === "true"),
   /** Public site URL, used in notification emails. */
   SITE_URL: z.string().url().default("http://localhost:3000"),
   OTP_DELIVERY: z.enum(["dev", "email"]).default("dev"),
@@ -53,6 +63,7 @@ export function productionProblems(c: AppConfig): string[] {
   if (c.ADMIN_API_KEY.length < 24 || placeholder.test(c.ADMIN_API_KEY)) p.push("ADMIN_API_KEY must be a random string of at least 24 characters");
   if (!c.SITE_URL.startsWith("https://")) p.push("SITE_URL must be your public https:// address");
   if (/localhost|127\.0\.0\.1/.test(c.CORS_ORIGINS)) p.push("CORS_ORIGINS must not include localhost");
+  if (c.EVENT_SYNC_ALLOW_PRIVATE) p.push("EVENT_SYNC_ALLOW_PRIVATE lets event sources reach the server's own network; turn it off");
   if (c.TRUST_PROXY < 1) p.push("TRUST_PROXY must be at least 1 (the web server forwards each visitor's IP)");
   return p;
 }

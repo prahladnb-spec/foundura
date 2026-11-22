@@ -65,6 +65,9 @@ export interface EventItem {
   notes: string | null;
   sourceUrl: string | null;
   sourceName: string | null;
+  format: "In person" | "Online" | "Hybrid";
+  /** Worked out from the country; null for online events and unknown countries. */
+  region: string | null;
 }
 
 export interface PolicyItem {

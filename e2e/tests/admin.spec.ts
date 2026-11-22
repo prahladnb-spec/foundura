@@ -112,7 +112,7 @@ test.describe("editor console", () => {
     await expect(page.locator('main [role="status"]')).toContainText(/1/);
 
     const reader = await newVisitor(browser);
-    await reader.goto("/events");
+    await reader.goto("/events?view=list");
     await expect(reader.locator("main")).toContainText(name);
 
     // The audit log records the import against the editor, without storing their email.
