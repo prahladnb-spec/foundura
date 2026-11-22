@@ -8,7 +8,8 @@ Email addresses, startup and investor profiles (including private figures such a
 
 ## Who can reach what
 
-- Only Caddy is public. It serves HTTPS, sets HSTS and forwards to the web server. The API and Postgres are on the internal Docker network.
+- Only Caddy is public. It serves HTTPS, sets HSTS and forwards to the web server. The API is on the internal Docker network.
+- The database is DigitalOcean managed Postgres in Bangalore. It accepts connections only from the Droplet (trusted sources), over the private network, and the app and backup tools verify its certificate (`sslmode=verify-full` with the cluster's CA); the API refuses to start in production without that. A DigitalOcean cloud firewall allows only SSH from the operator's address, and 80 and 443.
 - The API trusts the last `X-Forwarded-For` entry, which only our web server can set, so rate limits apply per visitor.
 - Editors are signed-in accounts whose email is listed in `ADMIN_EMAILS`. The import key (`ADMIN_API_KEY`) is for scripts and is checked with a timing-safe comparison. Every editor action is in the audit log.
 - Error reports from the web server need `OPS_REPORT_TOKEN`.

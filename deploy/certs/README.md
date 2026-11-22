@@ -1,0 +1,1 @@
+Put the managed database's CA certificate here as `db-ca.crt` (DigitalOcean: the database's Overview page → Download CA certificate). It's mounted into the API and the backup tools at `/certs` and referenced by `sslrootcert` in `DATABASE_URL`. Certificates in this folder are not committed.

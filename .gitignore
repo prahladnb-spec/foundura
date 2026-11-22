@@ -19,4 +19,5 @@ next-env.d.ts
 
 # Server-only: database dumps (personal data) and the managed database CA certificate
 backups/
-deploy/certs/
+deploy/certs/*
+!deploy/certs/README.md
