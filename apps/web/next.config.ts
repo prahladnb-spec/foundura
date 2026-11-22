@@ -17,14 +17,18 @@ const nextConfig: NextConfig = {
   transpilePackages: ["@foundura/shared"],
   async headers() {
     return [
-      // Everything except the embed widget refuses to be framed (clickjacking protection).
+      // Everything except the embed widget (English or Hindi) refuses to be framed (clickjacking protection).
       {
-        source: "/((?!embed/).*)",
+        source: "/((?!embed/|hi/embed/).*)",
         headers: [...common, { key: "X-Frame-Options", value: "DENY" }, { key: "Content-Security-Policy", value: "frame-ancestors 'none'" }],
       },
       // The widget may be framed by partner sites. It sets no cookies and stores nothing.
       {
         source: "/embed/:path*",
+        headers: [...common, { key: "Content-Security-Policy", value: "frame-ancestors *" }],
+      },
+      {
+        source: "/hi/embed/:path*",
         headers: [...common, { key: "Content-Security-Policy", value: "frame-ancestors *" }],
       },
       { source: "/embed.js", headers: [{ key: "Cache-Control", value: "public, max-age=3600" }] },

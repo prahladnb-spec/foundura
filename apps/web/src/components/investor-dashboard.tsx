@@ -157,7 +157,7 @@ export function InvestorDashboard({ email, investor: initial }: { email: string;
                   <span className="font-semibold text-leaf">{x.matchScore}% match</span>
                 </div>
                 <p className="text-[0.92rem] text-slate">
-                  {[x.startup.oneLiner, x.startup.sectors.map(sectorLabel).join(", "), stageLabel(x.startup.stage), stateLabel(x.startup.state)].filter(Boolean).join("; ")}
+                  {[x.startup.oneLiner, x.startup.sectors.map((x) => sectorLabel(x)).join(", "), stageLabel(x.startup.stage), stateLabel(x.startup.state)].filter(Boolean).join("; ")}
                 </p>
                 <blockquote className="mt-3 border-l-4 border-marigold pl-4 max-w-[68ch]">{x.message}</blockquote>
                 <p className="mt-3 text-[0.95rem]">
@@ -218,7 +218,7 @@ export function InvestorDashboard({ email, investor: initial }: { email: string;
                   <span className="font-semibold text-leaf">{m.score}% match</span>
                 </div>
                 <p className="text-[0.92rem] text-slate">
-                  {[s.sectors.map(sectorLabel).join(", "), stageLabel(s.stage), stateLabel(s.state), s.dpiitRecognised ? "DPIIT recognised" : null].filter(Boolean).join("; ")}
+                  {[s.sectors.map((x) => sectorLabel(x)).join(", "), stageLabel(s.stage), stateLabel(s.state), s.dpiitRecognised ? "DPIIT recognised" : null].filter(Boolean).join("; ")}
                 </p>
                 {s.oneLiner && <p className="mt-1">{s.oneLiner}</p>}
               </li>

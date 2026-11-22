@@ -2,7 +2,8 @@
  * Foundura Scheme Scan embed.
  * Usage:
  *   <script src="https://YOUR-FOUNDURA-HOST/embed.js" data-state="KA" async></script>
- * Optional attributes: data-state (state code), data-stage, data-entity-type, data-max-width (px).
+ * Optional attributes: data-state (state code), data-stage, data-entity-type, data-lang ("hi" for Hindi),
+ * data-max-width (px).
  * The widget sets no cookies and stores no answers.
  */
 (function () {
@@ -15,8 +16,9 @@
   if (script.dataset.entityType) params.set("entityType", script.dataset.entityType);
 
   var frame = document.createElement("iframe");
-  frame.src = origin + "/embed/scan" + (params.toString() ? "?" + params : "");
-  frame.title = "Foundura Scheme Scan";
+  var hindi = script.dataset.lang === "hi";
+  frame.src = origin + (hindi ? "/hi" : "") + "/embed/scan" + (params.toString() ? "?" + params : "");
+  frame.title = hindi ? "Foundura योजना जाँच" : "Foundura Scheme Scan";
   frame.loading = "lazy";
   frame.style.cssText =
     "width:100%;max-width:" + (script.dataset.maxWidth || "960") + "px;height:900px;border:0;display:block;";

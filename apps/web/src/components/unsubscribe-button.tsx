@@ -1,9 +1,23 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/locale-link";
 import { useState } from "react";
+import { useT } from "@/i18n/client";
 
-export function UnsubscribeButton({ u, t }: { u: string; t: string }) {
+function WithLink({ text, label }: { text: string; label: string }) {
+  const [before, after] = text.split("{link}");
+  return (
+    <>
+      {before}
+      <Link href="/dashboard">{label}</Link>
+      {after}
+    </>
+  );
+}
+
+export function UnsubscribeButton({ u, t: token }: { u: string; t: string }) {
+  const { t } = useT();
+  const us = t.unsub;
   const [state, setState] = useState<"idle" | "busy" | "done" | "error">("idle");
 
   async function stop() {
@@ -11,7 +25,7 @@ export function UnsubscribeButton({ u, t }: { u: string; t: string }) {
     const res = await fetch("/api/unsubscribe", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ u, t }),
+      body: JSON.stringify({ u, t: token }),
     });
     setState(res.ok ? "done" : "error");
   }
@@ -19,9 +33,9 @@ export function UnsubscribeButton({ u, t }: { u: string; t: string }) {
   if (state === "done")
     return (
       <div role="status" className="mt-6 rounded-md bg-leaf-50 px-4 py-4 text-leaf">
-        <p className="font-semibold">Scheme alerts are off.</p>
+        <p className="font-semibold">{us.doneTitle}</p>
         <p className="mt-1">
-          You won&apos;t get the weekly email any more. You can turn it back on from <Link href="/dashboard">My startup</Link>.
+          <WithLink text={us.doneBody} label={us.myStartup} />
         </p>
       </div>
     );
@@ -34,11 +48,11 @@ export function UnsubscribeButton({ u, t }: { u: string; t: string }) {
         disabled={state === "busy"}
         className="mt-6 rounded-md bg-neel-900 px-5 py-3 font-semibold text-paper hover:bg-neel-950 disabled:opacity-50"
       >
-        {state === "busy" ? "Turning off…" : "Stop scheme alerts"}
+        {state === "busy" ? us.busy : us.button}
       </button>
       {state === "error" && (
         <p role="alert" className="mt-3 text-marigold-ink">
-          This link didn&apos;t work. Sign in and turn alerts off from <Link href="/dashboard">My startup</Link> instead.
+          <WithLink text={us.error} label={us.myStartup} />
         </p>
       )}
     </>

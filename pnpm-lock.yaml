@@ -96,6 +96,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@fontsource-variable/anek-devanagari':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@fontsource-variable/anek-latin':
         specifier: 5.3.0
         version: 5.3.0
@@ -619,6 +622,9 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@fontsource-variable/anek-devanagari@5.3.0':
+    resolution: {integrity: sha512-mng3nw6XK5/5agZqIgCHcspyYbXe5HcF3F6b8J3v7He3Ilk4Mp7/irelZnCNde1rPg2JSiC7LeuI9Y9DcZk4yw==}
 
   '@fontsource-variable/anek-latin@5.3.0':
     resolution: {integrity: sha512-NqJVtTUYWkPMPXsEy4Ve/xRnXrKLw/gfUYzLidSsdJAMEgNsRNYpJZkorD/xDyBS2mxhfu/y6KsWTetowCQjrQ==}
@@ -2974,6 +2980,8 @@ snapshots:
 
   '@esbuild/win32-x64@0.28.2':
     optional: true
+
+  '@fontsource-variable/anek-devanagari@5.3.0': {}
 
   '@fontsource-variable/anek-latin@5.3.0': {}
 

@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { ENTITY_TYPES, INDIAN_STATES, SECTORS, STAGES, type ScanInput } from "@foundura/shared";
+import { useT } from "@/i18n/client";
+import { lab } from "@/i18n";
 import type { ScanResult } from "@/lib/types";
 import { ScanResults } from "./scan-results";
 
@@ -14,6 +16,7 @@ const label = "block text-[0.95rem] font-semibold text-neel-900 mb-1";
 const hint = "block text-[0.85rem] text-slate mt-1";
 
 function YesNo({ name, value, onChange, legend }: { name: string; value: Tri; onChange: (v: Tri) => void; legend: string }) {
+  const { t } = useT();
   return (
     <fieldset>
       <legend className={label}>{legend}</legend>
@@ -26,7 +29,7 @@ function YesNo({ name, value, onChange, legend }: { name: string; value: Tri; on
             }`}
           >
             <input type="radio" name={name} className="sr-only" checked={value === v} onChange={() => onChange(v)} />
-            {v === "yes" ? "Yes" : v === "no" ? "No" : "Not sure"}
+            {v === "yes" ? t.common.yes : v === "no" ? t.common.no : t.common.notSure}
           </label>
         ))}
       </div>
@@ -35,6 +38,8 @@ function YesNo({ name, value, onChange, legend }: { name: string; value: Tri; on
 }
 
 export function ScanForm({ initial, embedded = false }: { initial: Partial<Record<string, string | undefined>>; embedded?: boolean }) {
+  const { t } = useT();
+  const sc = t.scan;
   const [entityType, setEntityType] = useState(initial.entityType ?? "");
   const [incorporationDate, setIncorporationDate] = useState("");
   const [state, setState] = useState(initial.state ?? "");
@@ -77,11 +82,11 @@ export function ScanForm({ initial, embedded = false }: { initial: Partial<Recor
         body: JSON.stringify(body),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data?.issues?.[0]?.message ?? data?.message ?? "The scan could not run.");
+      if (!res.ok) throw new Error(data?.issues?.[0]?.message ?? data?.message ?? sc.failed);
       setResult(data);
       requestAnimationFrame(() => document.getElementById("results-h")?.scrollIntoView({ behavior: "smooth" }));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "The scan could not run. Try again.");
+      setError(err instanceof Error ? err.message : sc.failed);
     } finally {
       setBusy(false);
     }
@@ -91,50 +96,50 @@ export function ScanForm({ initial, embedded = false }: { initial: Partial<Recor
     <>
       <form onSubmit={submit} className="grid gap-8" noValidate>
         <fieldset className="grid gap-5 md:grid-cols-3">
-          <legend className="display text-3xl mb-4">Your company</legend>
+          <legend className="display text-3xl mb-4">{sc.company}</legend>
           <div>
-            <label htmlFor="entityType" className={label}>How is it registered?</label>
+            <label htmlFor="entityType" className={label}>{sc.howRegistered}</label>
             <select id="entityType" className={field} value={entityType} onChange={(e) => setEntityType(e.target.value)}>
-              <option value="">Choose…</option>
-              {ENTITY_TYPES.map((t) => (
-                <option key={t.value} value={t.value}>{t.label}</option>
+              <option value="">{t.common.choose}</option>
+              {ENTITY_TYPES.map((x) => (
+                <option key={x.value} value={x.value}>{lab(t.labels.entity, x.value)}</option>
               ))}
             </select>
           </div>
           <div>
-            <label htmlFor="inc" className={label}>Date of incorporation</label>
+            <label htmlFor="inc" className={label}>{sc.incDate}</label>
             <input id="inc" type="date" className={field} value={incorporationDate} max={new Date().toISOString().slice(0, 10)} onChange={(e) => setIncorporationDate(e.target.value)} />
-            <span className={hint}>As on your certificate</span>
+            <span className={hint}>{sc.incHint}</span>
           </div>
           <div>
-            <label htmlFor="state" className={label}>State or UT</label>
+            <label htmlFor="state" className={label}>{sc.state}</label>
             <select id="state" className={field} value={state} onChange={(e) => setState(e.target.value)}>
-              <option value="">Choose…</option>
+              <option value="">{t.common.choose}</option>
               {INDIAN_STATES.map((s) => (
-                <option key={s.value} value={s.value}>{s.label}</option>
+                <option key={s.value} value={s.value}>{lab(t.labels.state, s.value)}</option>
               ))}
             </select>
           </div>
         </fieldset>
 
         <fieldset className="grid gap-5">
-          <legend className="display text-3xl mb-4">Your business</legend>
+          <legend className="display text-3xl mb-4">{sc.business}</legend>
           <div className="grid gap-5 md:grid-cols-3">
             <div>
-              <label htmlFor="stage" className={label}>Stage</label>
+              <label htmlFor="stage" className={label}>{sc.stage}</label>
               <select id="stage" className={field} value={stage} onChange={(e) => setStage(e.target.value)}>
-                <option value="">Choose…</option>
+                <option value="">{t.common.choose}</option>
                 {STAGES.map((s) => (
-                  <option key={s.value} value={s.value}>{s.label}</option>
+                  <option key={s.value} value={s.value}>{lab(t.labels.stage, s.value)}</option>
                 ))}
               </select>
             </div>
             <div className="md:col-span-2">
-              <YesNo name="deep" legend="Is it deep tech (built on new science or engineering, with R&D and IP)?" value={deepTech} onChange={setDeepTech} />
+              <YesNo name="deep" legend={sc.deepTech} value={deepTech} onChange={setDeepTech} />
             </div>
           </div>
           <fieldset>
-            <legend className={label}>Sectors (up to 5)</legend>
+            <legend className={label}>{sc.sectors}</legend>
             <div className="flex flex-wrap gap-2">
               {SECTORS.map((s) => {
                 const on = sectors.includes(s.value);
@@ -146,7 +151,7 @@ export function ScanForm({ initial, embedded = false }: { initial: Partial<Recor
                     onClick={() => toggleSector(s.value)}
                     className={`rounded-full border px-3.5 py-1.5 text-[0.93rem] ${on ? "border-neel-900 bg-neel-900 text-paper" : "border-rule bg-white text-neel-900"}`}
                   >
-                    {s.label}
+                    {lab(t.labels.sector, s.value)}
                   </button>
                 );
               })}
@@ -155,23 +160,23 @@ export function ScanForm({ initial, embedded = false }: { initial: Partial<Recor
         </fieldset>
 
         <fieldset className="grid gap-5 md:grid-cols-3">
-          <legend className="display text-3xl mb-4">Recognition and money</legend>
-          <YesNo name="dpiit" legend="Recognised by DPIIT?" value={dpiit} onChange={setDpiit} />
+          <legend className="display text-3xl mb-4">{sc.money}</legend>
+          <YesNo name="dpiit" legend={sc.dpiit} value={dpiit} onChange={setDpiit} />
           <div>
-            <label htmlFor="turnover" className={label}>Highest yearly turnover so far (₹ crore)</label>
-            <input id="turnover" inputMode="decimal" type="number" min={0} step="0.01" className={field} value={turnover} onChange={(e) => setTurnover(e.target.value)} placeholder="e.g. 0.5" />
-            <span className={hint}>0.5 = ₹50 lakh</span>
+            <label htmlFor="turnover" className={label}>{sc.turnover}</label>
+            <input id="turnover" inputMode="decimal" type="number" min={0} step="0.01" className={field} value={turnover} onChange={(e) => setTurnover(e.target.value)} placeholder={sc.turnoverPh} />
+            <span className={hint}>{sc.turnoverHint}</span>
           </div>
           <div>
-            <label htmlFor="support" className={label}>Government money received so far (₹ lakh)</label>
-            <input id="support" inputMode="decimal" type="number" min={0} className={field} value={support} onChange={(e) => setSupport(e.target.value)} placeholder="0 if none" />
+            <label htmlFor="support" className={label}>{sc.support}</label>
+            <input id="support" inputMode="decimal" type="number" min={0} className={field} value={support} onChange={(e) => setSupport(e.target.value)} placeholder={sc.supportPh} />
           </div>
           <div>
-            <label htmlFor="promoter" className={label}>Shares held by Indian promoters (%)</label>
-            <input id="promoter" inputMode="decimal" type="number" min={0} max={100} className={field} value={promoter} onChange={(e) => setPromoter(e.target.value)} placeholder="e.g. 100" />
+            <label htmlFor="promoter" className={label}>{sc.promoter}</label>
+            <input id="promoter" inputMode="decimal" type="number" min={0} max={100} className={field} value={promoter} onChange={(e) => setPromoter(e.target.value)} placeholder={sc.promoterPh} />
           </div>
           <div className="md:col-span-2">
-            <YesNo name="women" legend="Led by a woman founder (majority stake or director)?" value={womenLed} onChange={setWomenLed} />
+            <YesNo name="women" legend={sc.womenLed} value={womenLed} onChange={setWomenLed} />
           </div>
         </fieldset>
 
@@ -181,9 +186,9 @@ export function ScanForm({ initial, embedded = false }: { initial: Partial<Recor
             disabled={busy}
             className="rounded-md bg-marigold px-6 py-3 text-lg font-semibold text-neel-950 hover:brightness-95 disabled:opacity-60"
           >
-            {busy ? "Checking schemes…" : "Check my schemes"}
+            {busy ? sc.checking : sc.submit}
           </button>
-          <p className="text-[0.9rem] text-slate">Skip anything you don&apos;t know. Nothing you enter here is saved.</p>
+          <p className="text-[0.9rem] text-slate">{sc.skipNote}</p>
         </div>
         {error && (
           <p role="alert" className="rounded-md border border-marigold bg-marigold-50 px-4 py-3 text-marigold-ink">

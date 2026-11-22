@@ -20,7 +20,7 @@
   --color-slate-50: #eef0f4;
   --color-rule: #d6dbea;
 
-  --font-display: "Anek Latin Variable", "Anek Latin", system-ui, sans-serif;
+  --font-display: "Anek Latin Variable", "Anek Devanagari Variable", "Anek Latin", system-ui, sans-serif;
   --font-body: "Mukta", system-ui, sans-serif;
 }
 
@@ -150,4 +150,20 @@ a {
 }
 .prose-f em {
   color: var(--color-slate);
+}
+
+/* Devanagari has marks above and below the letters: give headings room, and no negative tracking
+   (letter-spacing breaks how conjuncts join). */
+:lang(hi) h1,
+:lang(hi) h2,
+:lang(hi) h3 {
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+:lang(hi) .display {
+  letter-spacing: 0;
+  line-height: 1.25;
+}
+:lang(hi) body {
+  line-height: 1.7;
 }

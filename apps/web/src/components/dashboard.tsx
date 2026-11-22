@@ -3,6 +3,9 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ENTITY_TYPES, INDIAN_STATES, SECTORS, STAGES } from "@foundura/shared";
+import { f as fmt, lab } from "@/i18n";
+import { useT } from "@/i18n/client";
+import { lp } from "@/i18n/config";
 import type { ConsentState, ScanResult, Startup } from "@/lib/types";
 import { FounderInvestors } from "./founder-investors";
 import { ScanResults } from "./scan-results";
@@ -91,17 +94,20 @@ async function call(path: string, method: string, body?: unknown) {
 }
 
 function TriSelect({ id, value, onChange }: { id: string; value: string; onChange: (v: string) => void }) {
+  const { t } = useT();
   return (
     <select id={id} className={field} value={value} onChange={(e) => onChange(e.target.value)}>
-      <option value="">Not sure</option>
-      <option value="true">Yes</option>
-      <option value="false">No</option>
+      <option value="">{t.common.notSure}</option>
+      <option value="true">{t.common.yes}</option>
+      <option value="false">{t.common.no}</option>
     </select>
   );
 }
 
 export function Dashboard({ email, isAdmin = false, startup, consents: initialConsents }: { email: string; isAdmin?: boolean; startup: Startup | null; consents: ConsentState[] }) {
   const router = useRouter();
+  const { lang, t } = useT();
+  const d = t.dashboard;
   const [current, setCurrent] = useState<Startup | null>(startup);
   const [f, setF] = useState<Form>(fromStartup(startup));
   const [consents, setConsents] = useState(initialConsents);
@@ -111,6 +117,8 @@ export function Dashboard({ email, isAdmin = false, startup, consents: initialCo
   // Bumped after saves and consent changes so the readiness card and matches refresh.
   const [version, setVersion] = useState(0);
   const set = <K extends keyof Form>(k: K, v: Form[K]) => setF((x) => ({ ...x, [k]: v }));
+  const consentText = (c: ConsentState) =>
+    (t.labels.consent as Record<string, { label: string; description: string }>)[c.purpose] ?? c;
 
   async function save(e: React.FormEvent) {
     e.preventDefault();
@@ -122,7 +130,7 @@ export function Dashboard({ email, isAdmin = false, startup, consents: initialCo
         : await call("startups", "POST", toBody(f));
       setCurrent(saved);
       setVersion((v) => v + 1);
-      setMsg({ kind: "ok", text: current ? "Profile saved." : "Profile created." });
+      setMsg({ kind: "ok", text: current ? d.saved : d.created });
     } catch (err) {
       setMsg({ kind: "err", text: (err as Error).message });
     } finally {
@@ -162,10 +170,10 @@ export function Dashboard({ email, isAdmin = false, startup, consents: initialCo
   }
 
   async function deleteAccount() {
-    if (!window.confirm("Delete your account, startup profile and consent records? This cannot be undone.")) return;
+    if (!window.confirm(d.confirmDelete)) return;
     await call("_", "DELETE");
     await fetch("/api/auth/signout", { method: "POST" });
-    router.push("/");
+    router.push(lp(lang, "/"));
     router.refresh();
   }
 
@@ -173,81 +181,81 @@ export function Dashboard({ email, isAdmin = false, startup, consents: initialCo
     <>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="display text-6xl">{current?.name ?? "Your startup"}</h1>
+          <h1 className="display text-6xl">{current?.name ?? d.yourStartup}</h1>
           <p className="mt-1 text-slate">
-            Signed in as {email}
+            {fmt(d.signedInAs, { email })}
             {isAdmin && (
               <>
                 {". "}
-                <a href="/admin">Open the editor console</a>
+                <a href="/admin">{d.editorConsole}</a>
               </>
             )}
           </p>
           <nav aria-label="Dashboard" className="mt-4 flex gap-2">
-            <span aria-current="page" className="rounded-full border border-neel-900 bg-neel-900 px-4 py-1.5 text-paper">Startup</span>
-            <a href="/dashboard/investor" className="rounded-full border border-rule bg-white px-4 py-1.5 text-neel-900 no-underline">Investor</a>
+            <span aria-current="page" className="rounded-full border border-neel-900 bg-neel-900 px-4 py-1.5 text-paper">{d.tabStartup}</span>
+            <a href={lp(lang, "/dashboard/investor")} className="rounded-full border border-rule bg-white px-4 py-1.5 text-neel-900 no-underline">{d.tabInvestor}</a>
           </nav>
         </div>
         <form action="/api/auth/signout" method="post">
-          <button className="underline text-neel-500">Sign out</button>
+          <button className="underline text-neel-500">{d.signOut}</button>
         </form>
       </div>
 
       <section aria-labelledby="profile-h" className="mt-10">
-        <h2 id="profile-h" className="display text-4xl">Startup profile</h2>
-        <p className="mt-1 text-neel-700">Fill in once; Foundura re-checks schemes for you whenever rules change.</p>
+        <h2 id="profile-h" className="display text-4xl">{d.profile}</h2>
+        <p className="mt-1 text-neel-700">{d.profileLead}</p>
         <form onSubmit={save} className="mt-6 grid gap-5 md:grid-cols-3">
           <div className="md:col-span-2">
-            <label htmlFor="name" className={label}>Startup name</label>
+            <label htmlFor="name" className={label}>{d.name}</label>
             <input id="name" required minLength={2} className={field} value={f.name} onChange={(e) => set("name", e.target.value)} />
           </div>
           <div>
-            <label htmlFor="website" className={label}>Website</label>
+            <label htmlFor="website" className={label}>{d.website}</label>
             <input id="website" type="url" placeholder="https://" className={field} value={f.website} onChange={(e) => set("website", e.target.value)} />
           </div>
           <div className="md:col-span-3">
-            <label htmlFor="oneLiner" className={label}>What you do, in one line</label>
+            <label htmlFor="oneLiner" className={label}>{d.oneLiner}</label>
             <input id="oneLiner" maxLength={200} className={field} value={f.oneLiner} onChange={(e) => set("oneLiner", e.target.value)} />
           </div>
           <div className="md:col-span-3">
-            <label htmlFor="description" className={label}>Description</label>
-            <textarea id="description" rows={4} maxLength={4000} className={field} value={f.description} onChange={(e) => set("description", e.target.value)} placeholder="The problem, who has it, how you solve it, and what you have achieved so far." />
+            <label htmlFor="description" className={label}>{d.description}</label>
+            <textarea id="description" rows={4} maxLength={4000} className={field} value={f.description} onChange={(e) => set("description", e.target.value)} placeholder={d.descriptionPh} />
           </div>
           <div>
-            <label htmlFor="entity" className={label}>Registered as</label>
+            <label htmlFor="entity" className={label}>{d.registeredAs}</label>
             <select id="entity" className={field} value={f.entityType} onChange={(e) => set("entityType", e.target.value)}>
-              <option value="">Choose…</option>
-              {ENTITY_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
+              <option value="">{t.common.choose}</option>
+              {ENTITY_TYPES.map((x) => <option key={x.value} value={x.value}>{lab(t.labels.entity, x.value)}</option>)}
             </select>
           </div>
           <div>
-            <label htmlFor="inc" className={label}>Date of incorporation</label>
+            <label htmlFor="inc" className={label}>{d.incDate}</label>
             <input id="inc" type="date" className={field} value={f.incorporationDate} onChange={(e) => set("incorporationDate", e.target.value)} />
           </div>
           <div>
-            <label htmlFor="st" className={label}>State or UT</label>
+            <label htmlFor="st" className={label}>{d.state}</label>
             <select id="st" className={field} value={f.state} onChange={(e) => set("state", e.target.value)}>
-              <option value="">Choose…</option>
-              {INDIAN_STATES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
+              <option value="">{t.common.choose}</option>
+              {INDIAN_STATES.map((x) => <option key={x.value} value={x.value}>{lab(t.labels.state, x.value)}</option>)}
             </select>
           </div>
           <div>
-            <label htmlFor="stage" className={label}>Stage</label>
+            <label htmlFor="stage" className={label}>{d.stage}</label>
             <select id="stage" className={field} value={f.stage} onChange={(e) => set("stage", e.target.value)}>
-              <option value="">Choose…</option>
-              {STAGES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
+              <option value="">{t.common.choose}</option>
+              {STAGES.map((x) => <option key={x.value} value={x.value}>{lab(t.labels.stage, x.value)}</option>)}
             </select>
           </div>
           <div>
-            <label htmlFor="dpiit" className={label}>DPIIT recognised?</label>
+            <label htmlFor="dpiit" className={label}>{d.dpiit}</label>
             <TriSelect id="dpiit" value={f.dpiitRecognised} onChange={(v) => set("dpiitRecognised", v)} />
           </div>
           <div>
-            <label htmlFor="deep" className={label}>Deep tech?</label>
+            <label htmlFor="deep" className={label}>{d.deepTech}</label>
             <TriSelect id="deep" value={f.isDeepTech} onChange={(v) => set("isDeepTech", v)} />
           </div>
           <fieldset className="md:col-span-3">
-            <legend className={label}>Sectors (up to 5)</legend>
+            <legend className={label}>{d.sectors}</legend>
             <div className="flex flex-wrap gap-2">
               {SECTORS.map((s) => {
                 const on = f.sectors.includes(s.value);
@@ -259,52 +267,52 @@ export function Dashboard({ email, isAdmin = false, startup, consents: initialCo
                     onClick={() => set("sectors", on ? f.sectors.filter((x) => x !== s.value) : f.sectors.length < 5 ? [...f.sectors, s.value] : f.sectors)}
                     className={`rounded-full border px-3.5 py-1.5 text-[0.93rem] ${on ? "border-neel-900 bg-neel-900 text-paper" : "border-rule bg-white"}`}
                   >
-                    {s.label}
+                    {lab(t.labels.sector, s.value)}
                   </button>
                 );
               })}
             </div>
           </fieldset>
           <div>
-            <label htmlFor="to" className={label}>Highest yearly turnover (₹ crore)</label>
+            <label htmlFor="to" className={label}>{d.turnover}</label>
             <input id="to" type="number" min={0} step="0.01" className={field} value={f.turnoverInrCr} onChange={(e) => set("turnoverInrCr", e.target.value)} />
           </div>
           <div>
-            <label htmlFor="gs" className={label}>Government money received (₹ lakh)</label>
+            <label htmlFor="gs" className={label}>{d.support}</label>
             <input id="gs" type="number" min={0} className={field} value={f.govtSupportReceivedInrLakh} onChange={(e) => set("govtSupportReceivedInrLakh", e.target.value)} />
           </div>
           <div>
-            <label htmlFor="ip" className={label}>Indian promoters&apos; share (%)</label>
+            <label htmlFor="ip" className={label}>{d.promoter}</label>
             <input id="ip" type="number" min={0} max={100} className={field} value={f.indianPromoterSharePct} onChange={(e) => set("indianPromoterSharePct", e.target.value)} />
           </div>
           <div>
-            <label htmlFor="deck" className={label}>Pitch deck link</label>
+            <label htmlFor="deck" className={label}>{d.deck}</label>
             <input id="deck" type="url" placeholder="https://" className={field} value={f.deckUrl} onChange={(e) => set("deckUrl", e.target.value)} />
-            <span className="block text-[0.85rem] text-slate mt-1">Shared only with investors you request an intro from</span>
+            <span className="block text-[0.85rem] text-slate mt-1">{d.deckHint}</span>
           </div>
           <div>
-            <label htmlFor="raise" className={label}>Raising now (₹ lakh)</label>
+            <label htmlFor="raise" className={label}>{d.raise}</label>
             <input id="raise" type="number" min={0} className={field} value={f.raisingInrLakh} onChange={(e) => set("raisingInrLakh", e.target.value)} />
-            <span className="block text-[0.85rem] text-slate mt-1">Private; used to match cheque sizes</span>
+            <span className="block text-[0.85rem] text-slate mt-1">{d.raiseHint}</span>
           </div>
           <div>
-            <label htmlFor="wl" className={label}>Woman-led?</label>
+            <label htmlFor="wl" className={label}>{d.womenLed}</label>
             <TriSelect id="wl" value={f.womenLed} onChange={(v) => set("womenLed", v)} />
           </div>
           <label className="md:col-span-2 flex items-start gap-3 self-end">
             <input type="checkbox" className="mt-1.5 h-4 w-4 accent-neel-900" checked={f.isPublic} onChange={(e) => set("isPublic", e.target.checked)} />
             <span>
-              <span className="font-semibold">Show a public profile</span>
-              <span className="block text-[0.92rem] text-slate">Name, one-liner, sectors and stage only. Turnover, funding and shareholding always stay private.</span>
+              <span className="font-semibold">{d.public}</span>
+              <span className="block text-[0.92rem] text-slate">{d.publicHint}</span>
             </span>
           </label>
           <div className="md:col-span-3 flex flex-wrap items-center gap-4">
             <button disabled={busy} className="rounded-md bg-neel-900 px-5 py-2.5 font-semibold text-paper disabled:opacity-60">
-              {current ? "Save profile" : "Create profile"}
+              {current ? d.save : d.create}
             </button>
             {current && (
               <button type="button" onClick={runScan} disabled={busy} className="rounded-md bg-marigold px-5 py-2.5 font-semibold text-neel-950 disabled:opacity-60">
-                Check my schemes
+                {d.checkSchemes}
               </button>
             )}
             {msg && (
@@ -320,27 +328,27 @@ export function Dashboard({ email, isAdmin = false, startup, consents: initialCo
       {current && <FounderInvestors startupId={current.id} version={version} />}
 
       <section aria-labelledby="privacy-h" className="mt-16 border-t-2 border-neel-900 pt-8">
-        <h2 id="privacy-h" className="display text-4xl">Your data and choices</h2>
+        <h2 id="privacy-h" className="display text-4xl">{d.data}</h2>
         <ul className="mt-4 divide-y divide-rule">
           {consents.map((c) => (
             <li key={c.purpose} className="flex flex-wrap items-center justify-between gap-3 py-4">
               <span>
-                <span className="font-semibold">{c.label}</span>
-                <span className="block text-[0.92rem] text-slate">{c.description}</span>
+                <span className="font-semibold">{consentText(c).label}</span>
+                <span className="block text-[0.92rem] text-slate">{consentText(c).description}</span>
               </span>
               {c.required ? (
-                <span className="text-[0.92rem] text-slate">Needed for your account; delete the account to withdraw</span>
+                <span className="text-[0.92rem] text-slate">{d.requiredConsent}</span>
               ) : (
                 <button onClick={() => toggleConsent(c)} className={`rounded-md border-2 px-4 py-1.5 font-semibold ${c.granted ? "border-leaf text-leaf" : "border-rule text-neel-700"}`} aria-pressed={c.granted}>
-                  {c.granted ? "On" : "Off"}
+                  {c.granted ? d.on : d.off}
                 </button>
               )}
             </li>
           ))}
         </ul>
         <div className="mt-6 flex flex-wrap gap-4">
-          <button onClick={exportData} className="rounded-md border-2 border-neel-900 px-4 py-2 font-semibold">Download my data</button>
-          <button onClick={deleteAccount} className="rounded-md border-2 border-slate px-4 py-2 font-semibold text-slate">Delete my account</button>
+          <button onClick={exportData} className="rounded-md border-2 border-neel-900 px-4 py-2 font-semibold">{d.download}</button>
+          <button onClick={deleteAccount} className="rounded-md border-2 border-slate px-4 py-2 font-semibold text-slate">{d.delete}</button>
         </div>
       </section>
     </>

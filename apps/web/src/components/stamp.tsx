@@ -1,10 +1,6 @@
+import { getDict } from "@/i18n";
+import type { Lang } from "@/i18n/config";
 import type { MatchStatus } from "@/lib/types";
-
-const TEXT: Record<MatchStatus, string> = {
-  eligible: "Eligible",
-  maybe: "Check",
-  not_eligible: "Not now",
-};
 
 const CLS: Record<MatchStatus, string> = {
   eligible: "stamp-eligible",
@@ -12,13 +8,13 @@ const CLS: Record<MatchStatus, string> = {
   not_eligible: "stamp-not",
 };
 
-export function Stamp({ status, animate = false, delayMs = 0 }: { status: MatchStatus; animate?: boolean; delayMs?: number }) {
+export function Stamp({ status, lang = "en", animate = false, delayMs = 0 }: { status: MatchStatus; lang?: Lang; animate?: boolean; delayMs?: number }) {
   return (
     <span
       className={`stamp ${CLS[status]} ${animate && status !== "not_eligible" ? "stamp-in" : ""}`}
       style={animate ? { animationDelay: `${delayMs}ms` } : undefined}
     >
-      {TEXT[status]}
+      {getDict(lang).stamp[status]}
     </span>
   );
 }

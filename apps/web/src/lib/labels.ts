@@ -1,20 +1,21 @@
-import { INDIAN_STATES, INVESTOR_TYPES, SECTORS, STAGES } from "@foundura/shared";
+import type { Lang } from "@/i18n/config";
+import { f, getDict, lab } from "@/i18n";
 
-const find = (list: readonly { value: string; label: string }[], v: string | null | undefined) =>
-  list.find((x) => x.value === v)?.label ?? v ?? "";
+export const sectorLabel = (v: string, lang: Lang = "en") => String(lab(getDict(lang).labels.sector, v));
+export const stageLabel = (v: string | null | undefined, lang: Lang = "en") => String(lab(getDict(lang).labels.stage, v));
+export const stateLabel = (v: string | null | undefined, lang: Lang = "en") => String(lab(getDict(lang).labels.state, v));
+export const investorTypeLabel = (v: string, lang: Lang = "en") => String(lab(getDict(lang).labels.investorType, v));
+export const entityLabel = (v: string, lang: Lang = "en") => String(lab(getDict(lang).labels.entity, v));
 
-export const sectorLabel = (v: string) => find(SECTORS, v);
-export const stageLabel = (v: string | null | undefined) => find(STAGES, v);
-export const stateLabel = (v: string | null | undefined) => find(INDIAN_STATES, v);
-export const investorTypeLabel = (v: string) => find(INVESTOR_TYPES, v);
-
-/** ₹ lakh → "₹25 lakh" / "₹1.5 crore". */
-export function inrLakh(v: number): string {
+/** ₹ lakh → "₹25 lakh" / "₹1.5 crore" (or लाख / करोड़). */
+export function inrLakh(v: number, lang: Lang = "en"): string {
+  const m = getDict(lang).money;
   if (v >= 100) {
     const cr = v / 100;
-    return `₹${Number.isInteger(cr) ? cr : cr.toFixed(1)} crore`;
+    return f(m.crore, { n: Number.isInteger(cr) ? cr : cr.toFixed(1) });
   }
-  return `₹${Number.isInteger(v) ? v : v.toFixed(1)} lakh`;
+  return f(m.lakh, { n: Number.isInteger(v) ? v : v.toFixed(1) });
 }
 
-export const chequeRange = (min: number, max: number) => (min === max ? inrLakh(min) : `${inrLakh(min)} to ${inrLakh(max)}`);
+export const chequeRange = (min: number, max: number, lang: Lang = "en") =>
+  min === max ? inrLakh(min, lang) : f(getDict(lang).money.range, { min: inrLakh(min, lang), max: inrLakh(max, lang) });

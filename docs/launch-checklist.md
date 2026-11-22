@@ -31,6 +31,8 @@ The DPDP Act's main duties (notice, consent, security safeguards, breach notific
 - [x] Yearly reminder of the terms and privacy notice to every account holder (IT Rules 2021), sent by the scheduler.
 - [x] Access logs (IP, time, request) kept 180 days by Caddy, matching the privacy page and CERT-In directions.
 - [ ] Have a lawyer read the privacy notice and terms once, especially the investor section and limitation of liability.
+- [ ] Have a fluent Hindi reader (ideally the same lawyer) check `/hi/privacy` and `/hi/terms` against the English, and skim the Hindi interface. Both legal pages say the English version applies if they differ.
+- [x] Privacy notice and terms available in Hindi as well as English (the DPDP Act asks for notices in English or an Eighth Schedule language).
 - [ ] **Breach plan.** CERT-In directions require reporting specified cyber incidents within **6 hours** of noticing them, and keeping system logs for a rolling **180 days** in India. Write down:
   - who reports incidents
   - how to reach CERT-In
