@@ -3,6 +3,9 @@ import type request from "supertest";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { MailerService } from "../src/mail/mailer.service";
 import { OpsService } from "../src/ops/ops.service";
+import { sql } from "drizzle-orm";
+import { DB } from "../src/db/db.module";
+import type { Db } from "../src/db/client";
 import { ADMIN_KEY, startTestApp } from "./helpers";
 
 const TOKEN = "web-report-token-0123456789abcdef";
@@ -12,7 +15,7 @@ let ops: OpsService;
 let outbox: { to: string; subject: string; text: string }[];
 
 beforeAll(async () => {
-  ({ app, http } = await startTestApp({ OPS_ALERT_EMAIL: "ops@foundura.test", OPS_REPORT_TOKEN: TOKEN, SCHEDULED_EMAILS: "true", EVENT_SYNC: "true" }));
+  ({ app, http } = await startTestApp({ OPS_ALERT_EMAIL: "ops@foundura.test", OPS_REPORT_TOKEN: TOKEN, SCHEDULED_EMAILS: "true", EVENT_SYNC: "true", BACKUP_CHECK: "true" }));
   ops = app.get(OpsService);
   outbox = app.get(MailerService).outbox;
 });
@@ -51,9 +54,21 @@ describe("alerts", () => {
     // event_sync failed above and has never succeeded, but the server has only just started.
     expect(soon.map((j) => j.name)).toEqual([]);
     const later = await ops.staleJobs(new Date(Date.now() + 3 * 24 * 3_600_000));
-    expect(later.map((j) => j.name).sort()).toEqual(["event_sync", "terms_reminder"]);
+    // No backup has run yet either; the monthly drill still has time.
+    expect(later.map((j) => j.name).sort()).toEqual(["backup", "event_sync", "terms_reminder"]);
     await ops.checkStale(new Date(Date.now() + 3 * 24 * 3_600_000));
     expect(alerts().some((m) => m.subject === "[Foundura alert] Scheduled job has stopped: terms_reminder")).toBe(true);
+  });
+
+  it("watches the backups the server's scripts record", async () => {
+    // The same statements deploy/lib.sh runs.
+    const db = app.get<Db>(DB);
+    await db.execute(sql.raw("insert into job_runs (name, last_started_at) values ('backup', now()) on conflict (name) do update set last_started_at = now()"));
+    await db.execute(sql.raw("update job_runs set last_success_at = now() where name = 'backup'"));
+    const day = 24 * 3_600_000;
+    expect((await ops.staleJobs(new Date(Date.now() + day))).map((j) => j.name)).not.toContain("backup");
+    expect((await ops.staleJobs(new Date(Date.now() + 2 * day))).map((j) => j.name)).toContain("backup");
+    expect((await ops.staleJobs(new Date(Date.now() + 36 * day))).map((j) => j.name)).toContain("restore_drill");
   });
 
   it("a job whose result says it failed is reported", async () => {

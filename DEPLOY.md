@@ -67,17 +67,36 @@ Migrations run on every deploy before the new API starts. Expect a few seconds o
 
 ## 6. Backups
 
-Add the backup script to the server's crontab:
+Three scripts in `deploy/`, all run from `/srv/foundura` on the server:
+
+- `backup.sh` dumps the database to `backups/foundura-YYYY-MM-DD.dump`, checks the dump can be read back, copies it off the server if `BACKUP_REMOTE` is set, and deletes copies (local and off-site) older than 14 days.
+- `restore-drill.sh` restores the newest dump into a scratch database, checks the tables and migrations match the live database, prints row counts side by side, and drops the scratch copy.
+- `restore.sh` restores a chosen dump, into `foundura_restore` by default, or over the live database with `--replace-live`.
+
+Both scheduled scripts record their runs, and with `BACKUP_CHECK=true` the API emails `OPS_ALERT_EMAIL` if the daily backup hasn't succeeded for 36 hours or the drill for 35 days. CI runs a backup and a drill against the production database container on every push.
+
+**Crontab:**
 
 ```cron
 15 2 * * * cd /srv/foundura && ./deploy/backup.sh >> backups/backup.log 2>&1
+40 3 1 * * cd /srv/foundura && ./deploy/restore-drill.sh >> backups/backup.log 2>&1
 ```
 
-It keeps 14 daily dumps in `./backups`. Also copy that folder to object storage in an Indian region, and **test a restore** before launch:
+**Off-site copies.** A backup on the same server is lost with the server. Use object storage in an Indian region (for example AWS S3 in Mumbai, `ap-south-1`) through [rclone](https://rclone.org):
+
+1. `sudo apt install rclone`, then `rclone config` to add an S3 remote with a key that can only read and write that one bucket.
+2. Add a `crypt` remote on top of it, so the copies are encrypted before they leave the server. Keep its password somewhere other than this server (a password manager); without it the copies can't be restored.
+3. Set `BACKUP_REMOTE=<crypt-remote>:` in `.env.production` and run `./deploy/backup.sh` once by hand to check.
+4. Don't turn on bucket versioning or object lock: deleted copies would be kept, and the privacy notice promises backups roll over within 14 days of someone deleting their account.
+
+**Before launch, run the drill by hand** (`./deploy/restore-drill.sh`) and once restore from an off-site copy:
 
 ```bash
-docker compose -f docker-compose.prod.yml exec -T db pg_restore -U foundura -d foundura --clean /backups/foundura-YYYY-MM-DD.dump
+rclone copy "$BACKUP_REMOTE/foundura-YYYY-MM-DD.dump" backups/
+./deploy/restore.sh backups/foundura-YYYY-MM-DD.dump        # into foundura_restore; look around with psql
 ```
+
+**If you need to roll back the live database:** stop the app (`docker compose -f docker-compose.prod.yml stop api web`), run `./deploy/restore.sh backups/foundura-YYYY-MM-DD.dump foundura --replace-live`, then start it again. Everything since that backup is lost, including consent changes and account deletions; redo any deletions recorded in the audit log or support inbox since then.
 
 ## 7. Monitoring
 
@@ -85,11 +104,10 @@ docker compose -f docker-compose.prod.yml exec -T db pg_restore -U foundura -d f
 - **Error and job alerts:** set `OPS_ALERT_EMAIL` and `OPS_REPORT_TOKEN`. Then:
   - an unexpected error in the API, or while the web server renders a page, is emailed (the same error at most once every 30 minutes; only the method, path and stack trace, never request bodies or query strings);
   - a scheduled job that fails is emailed (weekly scheme alerts, terms reminders, or every event source failing at once);
-  - a job that hasn't succeeded for too long is emailed: weekly alerts after 8 days, terms reminders and the event sync after 2 days. The API checks this hourly.
+  - a job that hasn't succeeded for too long is emailed: weekly alerts after 8 days, terms reminders and the event sync after 2 days, backups after 36 hours and the restore drill after 35 days (with `BACKUP_CHECK=true`). The API checks this hourly.
   - Test it after deploying: `docker compose -f docker-compose.prod.yml exec api node -e "fetch('http://localhost:4000/v1/ops/report',{method:'POST',headers:{'content-type':'application/json','x-ops-token':process.env.OPS_REPORT_TOKEN},body:JSON.stringify({source:'web',message:'Test alert',path:'/test'})}).then(r=>console.log(r.status))"` should print 202 and send an email.
 - Container logs: `docker compose -f docker-compose.prod.yml logs --since 1h api web`.
 - Access logs (visitor IP, time, request) are written by Caddy to `/data/logs/access.log` in the `caddy_data` volume and kept for 180 days, as the CERT-In directions require and the privacy page states. Read them with `docker compose -f docker-compose.prod.yml exec caddy tail -f /data/logs/access.log`.
-- Offsite backup copies should also be deleted after 14 days; the privacy page tells users backups roll over within 14 days of erasure.
 
 ## Settings reference
 
@@ -97,6 +115,8 @@ docker compose -f docker-compose.prod.yml exec -T db pg_restore -U foundura -d f
 | --- | --- | --- |
 | `SITE_DOMAIN` | compose | Domain Caddy serves and gets a certificate for |
 | `OPS_ALERT_EMAIL` | api | Inbox for error and stalled-job alerts |
+| `BACKUP_CHECK` | api | `true` to alert when backups or the monthly restore drill stop succeeding |
+| `BACKUP_REMOTE` | backup.sh | rclone remote and path for encrypted off-site copies; empty keeps backups on the server only |
 | `OPS_REPORT_TOKEN` | api, web | Shared secret for the web server to report its errors |
 | `ACME_EMAIL` | compose | Contact for certificate expiry notices |
 | `POSTGRES_PASSWORD` | compose | Database password |

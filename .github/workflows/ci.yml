@@ -100,3 +100,12 @@ jobs:
           cp .env.production.example .env.production
           sed -i 's/^POSTGRES_PASSWORD=$/POSTGRES_PASSWORD=ci/' .env.production
           docker compose -f docker-compose.prod.yml --env-file .env.production config --quiet
+      - name: Back up and restore the production database container
+        run: |
+          compose="docker compose -f docker-compose.prod.yml --env-file .env.production"
+          $compose up -d --wait db
+          $compose run --rm --no-build migrate
+          ./deploy/backup.sh
+          ./deploy/restore-drill.sh
+          test "$($compose exec -T db psql -U foundura -d foundura -Atc "select count(*) from job_runs where name in ('backup', 'restore_drill') and last_success_at is not null")" = 2
+          $compose down -v

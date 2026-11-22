@@ -13,6 +13,11 @@ const envSchema = z.object({
     .enum(["true", "false"])
     .default("false")
     .transform((v) => v === "true"),
+  /** The server runs deploy/backup.sh daily and deploy/restore-drill.sh monthly; alert if either stops. */
+  BACKUP_CHECK: z
+    .enum(["true", "false"])
+    .default("false")
+    .transform((v) => v === "true"),
   /** Read editors' event sources once a day (from 6:00 India time) and import new or changed events. */
   EVENT_SYNC: z
     .enum(["true", "false"])

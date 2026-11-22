@@ -14,6 +14,9 @@ export const JOBS = {
   weekly_digest: { maxAgeHours: 8 * 24, needs: "SCHEDULED_EMAILS" },
   terms_reminder: { maxAgeHours: 2 * 24, needs: "SCHEDULED_EMAILS" },
   event_sync: { maxAgeHours: 2 * 24, needs: "EVENT_SYNC" },
+  /** Recorded by deploy/backup.sh (daily) and deploy/restore-drill.sh (monthly), which run on the server. */
+  backup: { maxAgeHours: 36, needs: "BACKUP_CHECK" },
+  restore_drill: { maxAgeHours: 35 * 24, needs: "BACKUP_CHECK" },
 } as const;
 export type JobName = keyof typeof JOBS;
 
