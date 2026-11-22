@@ -246,6 +246,24 @@ export const articles = pgTable("articles", {
   updatedAt: updatedAt(),
 });
 
+// ---------- Admin audit log ----------
+
+/** Every admin change, for accountability. Actor is nulled (not deleted) if the admin account is erased. */
+export const auditLog = pgTable(
+  "audit_log",
+  {
+    id: id(),
+    actorId: text("actor_id").references(() => users.id, { onDelete: "set null" }),
+    actorLabel: text("actor_label").notNull(), // "admin" or "api-key"; no email stored
+    action: text("action").notNull(), // e.g. scheme.verify, investor.verify, article.publish
+    targetType: text("target_type").notNull(),
+    targetId: text("target_id").notNull(),
+    detail: jsonb("detail"),
+    createdAt: createdAt(),
+  },
+  (t) => [index("audit_created_idx").on(t.createdAt)],
+);
+
 export type Scheme = typeof schemes.$inferSelect;
 export type Startup = typeof startups.$inferSelect;
 export type EventRow = typeof events.$inferSelect;

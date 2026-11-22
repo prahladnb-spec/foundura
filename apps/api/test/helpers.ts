@@ -12,6 +12,7 @@ import { createApp } from "../src/main";
 export const DATABASE_URL =
   process.env.TEST_DATABASE_URL ?? "postgresql://foundura:foundura@localhost:5432/foundura_test";
 export const ADMIN_KEY = "test-admin-key-123";
+export const ADMIN_EMAIL = "editor@foundura.test";
 
 /** Fresh schema, migrations, seeded schemes, and a running app. */
 export async function startTestApp(): Promise<{ app: INestApplication; http: ReturnType<typeof request> }> {
@@ -29,6 +30,7 @@ export async function startTestApp(): Promise<{ app: INestApplication; http: Ret
       DATABASE_URL,
       JWT_SECRET: "test-secret-test-secret-123",
       ADMIN_API_KEY: ADMIN_KEY,
+      ADMIN_EMAILS: `${ADMIN_EMAIL}, other-admin@foundura.test`,
       OTP_DELIVERY: "dev",
       NODE_ENV: "test",
     }),

@@ -6,6 +6,7 @@ import { and, desc, eq, gt, lt } from "drizzle-orm";
 import { CONFIG, type AppConfig } from "../config";
 import { ConsentService } from "../consent/consent.service";
 import type { Db } from "../db/client";
+import { MailerService } from "../mail/mailer.service";
 import { DB } from "../db/db.module";
 import { otpCodes, users } from "../db/schema";
 
@@ -26,6 +27,7 @@ export class AuthService {
     @Inject(CONFIG) private readonly config: AppConfig,
     @Inject(JwtService) private readonly jwt: JwtService,
     @Inject(ConsentService) private readonly consents: ConsentService,
+    @Inject(MailerService) private readonly mailer: MailerService,
   ) {}
 
   private hash(email: string, code: string): string {
@@ -45,28 +47,19 @@ export class AuthService {
       expiresAt: new Date(Date.now() + OTP_TTL_MS),
     });
 
-    if (this.config.OTP_DELIVERY === "dev") {
-      this.log.warn(`DEV sign-in code for ${email}: ${code}`);
-      return { sent: true, devCode: code };
-    }
-    await this.sendEmail(email, code);
-    return { sent: true };
+    await this.sendEmail(email, code); // dev mode: logged to the mailer outbox, not sent
+    return this.config.OTP_DELIVERY === "dev" ? { sent: true, devCode: code } : { sent: true };
   }
 
   private async sendEmail(email: string, code: string) {
-    if (!this.config.RESEND_API_KEY) throw new Error("RESEND_API_KEY is required when OTP_DELIVERY=email");
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${this.config.RESEND_API_KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        from: this.config.OTP_FROM_EMAIL,
+    try {
+      await this.mailer.send({
         to: email,
         subject: `${code} is your Foundura sign-in code`,
         text: `Your Foundura sign-in code is ${code}. It expires in 10 minutes. If you did not ask for it, ignore this email.`,
-      }),
-    });
-    if (!res.ok) {
-      this.log.error(`Email send failed: ${res.status}`);
+      });
+    } catch (e) {
+      this.log.error((e as Error).message);
       throw new BadRequestException("Could not send the code. Try again in a minute.");
     }
   }

@@ -6,6 +6,10 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(16, "JWT_SECRET must be at least 16 characters"),
   CORS_ORIGINS: z.string().default("http://localhost:3000"),
   ADMIN_API_KEY: z.string().min(12, "ADMIN_API_KEY must be at least 12 characters"),
+  /** Comma-separated emails that may use the admin console after signing in. */
+  ADMIN_EMAILS: z.string().default(""),
+  /** Public site URL, used in notification emails. */
+  SITE_URL: z.string().url().default("http://localhost:3000"),
   OTP_DELIVERY: z.enum(["dev", "email"]).default("dev"),
   RESEND_API_KEY: z.string().optional(),
   OTP_FROM_EMAIL: z.string().default("Foundura <login@example.com>"),

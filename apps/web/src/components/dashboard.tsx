@@ -100,7 +100,7 @@ function TriSelect({ id, value, onChange }: { id: string; value: string; onChang
   );
 }
 
-export function Dashboard({ email, startup, consents: initialConsents }: { email: string; startup: Startup | null; consents: ConsentState[] }) {
+export function Dashboard({ email, isAdmin = false, startup, consents: initialConsents }: { email: string; isAdmin?: boolean; startup: Startup | null; consents: ConsentState[] }) {
   const router = useRouter();
   const [current, setCurrent] = useState<Startup | null>(startup);
   const [f, setF] = useState<Form>(fromStartup(startup));
@@ -174,7 +174,15 @@ export function Dashboard({ email, startup, consents: initialConsents }: { email
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="display text-6xl">{current?.name ?? "Your startup"}</h1>
-          <p className="mt-1 text-slate">Signed in as {email}</p>
+          <p className="mt-1 text-slate">
+            Signed in as {email}
+            {isAdmin && (
+              <>
+                {". "}
+                <a href="/admin">Open the editor console</a>
+              </>
+            )}
+          </p>
           <nav aria-label="Dashboard" className="mt-4 flex gap-2">
             <span aria-current="page" className="rounded-full border border-neel-900 bg-neel-900 px-4 py-1.5 text-paper">Startup</span>
             <a href="/dashboard/investor" className="rounded-full border border-rule bg-white px-4 py-1.5 text-neel-900 no-underline">Investor</a>

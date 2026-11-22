@@ -2,7 +2,11 @@ import { Module } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";
 import { JwtModule } from "@nestjs/jwt";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
+import { AdminConsoleController } from "./admin/admin-console.controller";
 import { AdminController } from "./admin/admin.controller";
+import { AdminGuard } from "./admin/admin.guard";
+import { AuditService } from "./admin/audit.service";
+import { MailerService } from "./mail/mailer.service";
 import { AuthController } from "./auth/auth.controller";
 import { AuthGuard } from "./auth/auth.guard";
 import { AuthService } from "./auth/auth.service";
@@ -26,9 +30,12 @@ export function buildAppModule(config: AppConfig) {
       JwtModule.register({ global: true, secret: config.JWT_SECRET, signOptions: { expiresIn: "30d" } }),
       ThrottlerModule.forRoot([{ ttl: 60_000, limit: 120 }]),
     ],
-    controllers: [AuthController, MeController, ScanController, ContentController, InvestorsController, AdminController],
+    controllers: [AuthController, MeController, ScanController, ContentController, InvestorsController, AdminController, AdminConsoleController],
     providers: [
       AuthService,
+      AdminGuard,
+      AuditService,
+      MailerService,
       InvestorsService,
       IntrosService,
       AuthGuard,

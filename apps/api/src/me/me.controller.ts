@@ -1,3 +1,4 @@
+import { AdminGuard } from "../admin/admin.guard";
 import { Body, Controller, Delete, Get, HttpCode, Inject, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import {
   introRequestSchema,
@@ -30,12 +31,14 @@ export class MeController {
     @Inject(ScanService) private readonly scans: ScanService,
     @Inject(InvestorsService) private readonly investors: InvestorsService,
     @Inject(IntrosService) private readonly intros: IntrosService,
+    @Inject(AdminGuard) private readonly adminGuard: AdminGuard,
   ) {}
 
   @Get()
   async me(@CurrentUser() user: SessionUser) {
     return {
       user,
+      isAdmin: this.adminGuard.isAdminEmail(user.email),
       startups: await this.startups.listMine(user.id),
       investor: await this.investors.getMine(user.id),
       consents: await this.consents.current(user.id),

@@ -1,21 +1,8 @@
-import { checkEligibility, type Condition, type FactKey } from "@foundura/shared";
+import { checkEligibility, type Condition, conditionSchema, FACT_KEYS, type FactKey, schemeEditSchema } from "@foundura/shared";
 import { describe, expect, it } from "vitest";
 import { SCHEMES } from "../db/seed-data/schemes";
 
-const KNOWN_FACTS: FactKey[] = [
-  "entityType",
-  "incorporationDate",
-  "turnoverInrCr",
-  "dpiitRecognised",
-  "state",
-  "sectors",
-  "stage",
-  "isDeepTech",
-  "womenLed",
-  "govtSupportReceivedInrLakh",
-  "indianPromoterSharePct",
-  "ageYears",
-];
+const KNOWN_FACTS: readonly FactKey[] = FACT_KEYS;
 
 function facts(c: Condition): string[] {
   if ("fact" in c) return [c.fact];
@@ -34,6 +21,15 @@ describe("scheme seed catalogue", () => {
   it("only uses facts the scan collects", () => {
     for (const s of SCHEMES) {
       for (const f of facts(s.rule)) expect(KNOWN_FACTS, `${s.slug} uses ${f}`).toContain(f);
+    }
+  });
+
+  it("passes the admin editor's validation, so every seeded scheme can be re-saved", () => {
+    for (const s of SCHEMES) {
+      const rule = conditionSchema.safeParse(s.rule);
+      expect(rule.success, `${s.slug}: ${JSON.stringify(rule.error?.issues)}`).toBe(true);
+      const all = schemeEditSchema.safeParse({ ...s, statusNote: s.statusNote ?? null });
+      expect(all.success, `${s.slug}: ${JSON.stringify(all.error?.issues)}`).toBe(true);
     }
   });
 

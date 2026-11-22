@@ -7,7 +7,7 @@ import { CONSENT_PURPOSES } from "@foundura/shared";
 
 const field = "block w-full rounded-md border border-rule bg-white px-3 py-2.5 text-[1rem]";
 
-export function SignInForm() {
+export function SignInForm({ next = "/dashboard" }: { next?: string }) {
   const router = useRouter();
   const [step, setStep] = useState<"email" | "code">("email");
   const [email, setEmail] = useState("");
@@ -45,7 +45,7 @@ export function SignInForm() {
     setError(null);
     try {
       await post("/api/auth/verify", { email, code, consents });
-      router.push("/dashboard");
+      router.push(next);
       router.refresh();
     } catch (err) {
       setError((err as Error).message);

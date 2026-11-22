@@ -1,35 +1,11 @@
-import { timingSafeEqual } from "node:crypto";
-import {
-  BadRequestException,
-  Body,
-  type CanActivate,
-  Controller,
-  type ExecutionContext,
-  HttpCode,
-  Inject,
-  Injectable,
-  Post,
-  UnauthorizedException,
-  UseGuards,
-} from "@nestjs/common";
+import { BadRequestException, Body, Controller, HttpCode, Inject, Post, UseGuards } from "@nestjs/common";
 import { parse } from "csv-parse/sync";
-import type { Request } from "express";
 import { slugify } from "../common/slug";
-import { CONFIG, type AppConfig } from "../config";
+import { Admin, type AdminActor, AdminGuard } from "./admin.guard";
+import { AuditService } from "./audit.service";
 import type { Db } from "../db/client";
 import { DB } from "../db/db.module";
 import { events, policyItems } from "../db/schema";
-
-@Injectable()
-class AdminKeyGuard implements CanActivate {
-  constructor(@Inject(CONFIG) private readonly config: AppConfig) {}
-  canActivate(ctx: ExecutionContext): boolean {
-    const given = Buffer.from(String(ctx.switchToHttp().getRequest<Request>().headers["x-admin-key"] ?? ""));
-    const expected = Buffer.from(this.config.ADMIN_API_KEY);
-    if (given.length !== expected.length || !timingSafeEqual(given, expected)) throw new UnauthorizedException();
-    return true;
-  }
-}
 
 /** Accepts dd/mm/yyyy (en-IN sheet export) or yyyy-mm-dd. */
 export function toIsoDate(v: string | undefined): string | null {
@@ -60,13 +36,16 @@ function rows(csv: unknown): Record<string, string>[] {
  * Download each sheet as CSV and POST it here with the x-admin-key header. Rows are upserted by slug.
  */
 @Controller("admin/import")
-@UseGuards(AdminKeyGuard)
+@UseGuards(AdminGuard)
 export class AdminController {
-  constructor(@Inject(DB) private readonly db: Db) {}
+  constructor(
+    @Inject(DB) private readonly db: Db,
+    @Inject(AuditService) private readonly audit: AuditService,
+  ) {}
 
   @Post("events")
   @HttpCode(200)
-  async importEvents(@Body() csv: unknown) {
+  async importEvents(@Admin() actor: AdminActor, @Body() csv: unknown) {
     let n = 0;
     for (const r of rows(csv)) {
       if (!r["Event"]) continue;
@@ -94,12 +73,13 @@ export class AdminController {
       await this.db.insert(events).values(row).onConflictDoUpdate({ target: events.slug, set });
       n++;
     }
+    await this.audit.record(actor, "import.events", "events", "csv", { imported: n });
     return { imported: n };
   }
 
   @Post("policy")
   @HttpCode(200)
-  async importPolicy(@Body() csv: unknown) {
+  async importPolicy(@Admin() actor: AdminActor, @Body() csv: unknown) {
     let n = 0;
     for (const r of rows(csv)) {
       if (!r["Headline"]) continue;
@@ -125,6 +105,7 @@ export class AdminController {
       await this.db.insert(policyItems).values(row).onConflictDoUpdate({ target: policyItems.slug, set });
       n++;
     }
+    await this.audit.record(actor, "import.policy", "policy_items", "csv", { imported: n });
     return { imported: n };
   }
 }

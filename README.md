@@ -6,6 +6,8 @@ India's founder launchpad. Phase 1 MVP:
 - **Startup profile** (Passport v1): sign in with an emailed one-time code, save a profile, re-run the scan any time, and optionally publish a public profile (financial figures always stay private).
 - **Investor Connect**: investors list their focus and cheque size; founders get a **Readiness Score** (0–100 with a fix list) and ranked matches with reasons; intro requests open only at readiness ≥ 50 and match ≥ 40, with at most 10 pending; contact emails are revealed only when the investor accepts. Startups are visible to investors only if the founder made the profile public **and** switched on investor visibility.
 - **Embeddable Scheme Scan**: partners paste one `<script>` tag (see `/partners`). Only `/embed/*` may be framed; the rest of the site sends `X-Frame-Options: DENY`.
+- **Editor console** (`/admin`): check schemes against their official source, edit rules with validation and a plain-language preview, verify or hide investors, write and publish articles with a live preview, import the tracker sheets, and see an audit log of every change.
+- **Email notifications**: investors hear about new intro requests and founders hear when one is accepted or declined. Emails carry only names and a link; details stay on Foundura.
 - **Events**, **Policy news** and **Founder guides**, fed from the tracker sheets and the daily content engine.
 - **Privacy by design** (DPDP Act 2023 / GDPR): consent ledger, self-service data export and account deletion, hashed sign-in codes, minimal data.
 
@@ -55,17 +57,23 @@ pnpm test
 
 - `packages/shared`: rules engine (three-valued logic, deep-tech extensions, sector matching).
 - `packages/shared`: also readiness scoring and match scoring.
-- `apps/api`: scheme catalogue sanity checks, plus end-to-end tests over HTTP against a real database: scan, sign-in with consent, profile, scan from profile, public profile privacy, consent withdrawal, data export, erasure, admin CSV import, and the full Investor Connect flow (readiness gate, matching, consent-gated visibility, duplicate and focus checks, accept reveals contacts, export and cascade on erasure).
+- `apps/api`: scheme catalogue sanity checks, plus end-to-end tests over HTTP against a real database: scan, sign-in with consent, profile, scan from profile, public profile privacy, consent withdrawal, data export, erasure, the editor console (access rules, rule validation, scheme check dates, article publishing, investor review, audit log, notification emails), and the full Investor Connect flow (readiness gate, matching, consent-gated visibility, duplicate and focus checks, accept reveals contacts, export and cascade on erasure).
 
 ## How schemes work
 
 Each scheme has a JSON rule tree (`all` / `any` / fact conditions with plain-language labels). The engine returns **eligible** only when every condition is met, **maybe** when an answer is missing, and **not eligible** when any condition fails. It never guesses. Conditions the scan can't test go in `alsoCheck`.
 
-**Before launch, an editor must check every scheme against its official source and set `last_verified_at`.** Until then the site tells users to confirm on the official page.
+**Before launch, an editor must check every scheme against its official source** in the editor console (`/admin/schemes`). Until a scheme is checked the site tells users to confirm on the official page. Any later edit clears the check date unless the editor ticks “I checked these details against the official source today” in the same save.
+
+## Editor console
+
+Add editor emails to `ADMIN_EMAILS` (comma-separated), then sign in at `/signin` as usual and open `/admin`. Everyone else gets a 403. Scripts, such as the scheduled sheet imports, can use the `x-admin-key` header instead. Every change goes into `audit_log` with the editor's user id (set to null if that account is deleted), never their email.
+
+Rules are validated by `conditionSchema` in `@foundura/shared`, which only accepts facts in `FACT_KEYS` (the answers the Scheme Scan collects). The seed test checks that every seeded scheme passes the same validation.
 
 ## Importing from the tracker sheets
 
-Download the Events Tracker ("Events" tab) or Policy Newsroom ("Newsroom" tab) as CSV, then:
+Download the Events Tracker ("Events" tab) or Policy Newsroom ("Newsroom" tab) as CSV and upload it at `/admin/imports`, or from a script:
 
 ```bash
 curl -X POST http://localhost:4000/v1/admin/import/events \
@@ -92,8 +100,14 @@ Rows are upserted, so re-importing is safe.
 | `GET /me/startups/:id/readiness`, `/me/startups/:id/investor-matches` | Readiness Score; ranked investors |
 | `POST /me/startups/:id/intros`; `GET /me/intros`; `POST /me/intros/:id/respond`, `/withdraw` | Intro requests |
 | `GET/POST/PATCH /me/investor`; `GET /me/investor/matches` | Investor profile; consenting startups that fit |
-| `POST /admin/import/events`, `/admin/import/policy` | CSV import (admin key) |
+| `GET /admin/overview`, `/admin/audit` | Editor dashboard counts; audit log |
+| `GET /admin/schemes`, `/admin/schemes/:slug`; `PUT /admin/schemes/:slug`; `POST /admin/schemes`, `/admin/schemes/:slug/verify`, `/admin/rules/validate` | Scheme review and editing |
+| `GET /admin/investors`; `POST /admin/investors/:id/verify`, `/admin/investors/:id/listing` | Investor review |
+| `GET/POST /admin/articles`, `GET/PUT /admin/articles/:slug` | Articles and publishing |
+| `POST /admin/import/events`, `/admin/import/policy` | CSV import |
+
+All `/admin` routes need a signed-in editor (`ADMIN_EMAILS`) or the `x-admin-key` header.
 
 ## Next up (from the roadmap)
 
-Investor verification workflow (admin), email notifications for intro requests, verified badges (MCA, GST, DigiLocker, Account Aggregator), Hindi and regional languages, events crawler, WhatsApp alerts, MedTech sector hub.
+Verified badges (MCA, GST, DigiLocker, Account Aggregator), Hindi and regional languages, events crawler, WhatsApp alerts, MedTech sector hub.
