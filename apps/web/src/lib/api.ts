@@ -34,9 +34,9 @@ export async function api<T>(path: string, init: RequestInit & { token?: string;
 }
 
 /** Same as api() but returns `fallback` when the API is unreachable, so public pages still render. */
-export async function apiOr<T>(path: string, fallback: T): Promise<T> {
+export async function apiOr<T>(path: string, fallback: T, revalidate = 300): Promise<T> {
   try {
-    return await api<T>(path);
+    return await api<T>(path, { revalidate });
   } catch {
     return fallback;
   }

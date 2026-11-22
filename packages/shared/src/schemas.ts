@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CONSENT_PURPOSES, ENTITY_TYPES, INDIAN_STATES, SECTORS, STAGES } from "./constants";
+import { CONSENT_PURPOSES, ENTITY_TYPES, INDIAN_STATES, INVESTOR_TYPES, SECTORS, STAGES } from "./constants";
 
 const values = <T extends readonly { value: string }[]>(list: T) =>
   list.map((x) => x.value) as unknown as [T[number]["value"], ...T[number]["value"][]];
@@ -37,13 +37,54 @@ export const scanInputSchema = z.object({
 });
 export type ScanInput = z.infer<typeof scanInputSchema>;
 
+const httpsUrl = z
+  .string()
+  .url()
+  .max(300)
+  .refine((u) => /^https?:\/\//i.test(u), "Use a link starting with https://");
+
 export const startupProfileSchema = scanInputSchema.extend({
   name: z.string().min(2).max(120),
-  website: z.string().url().max(300).optional().or(z.literal("")),
+  website: httpsUrl.optional().or(z.literal("")),
   oneLiner: z.string().max(200).optional(),
   description: z.string().max(4000).optional(),
   isPublic: z.boolean().default(false),
+  /** Link to a pitch deck the founder hosts (Foundura does not store decks). Shown only to matched investors. */
+  deckUrl: httpsUrl.optional().or(z.literal("")),
+  /** Amount the startup is raising now, in ₹ lakh. Private; used for matching and shown only in intro requests. */
+  raisingInrLakh: z.number().min(0).max(1_000_000).optional(),
 });
+
+export const investorTypeSchema = z.enum(values(INVESTOR_TYPES));
+
+export const investorProfileSchema = z
+  .object({
+    name: z.string().min(2).max(120),
+    firm: z.string().max(120).optional(),
+    type: investorTypeSchema,
+    bio: z.string().max(1500).optional(),
+    website: httpsUrl.optional().or(z.literal("")),
+    sectors: z.array(sectorSchema).min(1).max(8),
+    stages: z.array(stageSchema).min(1).max(4),
+    /** Empty = invests across India. */
+    states: z.array(stateSchema).max(36).default([]),
+    chequeMinInrLakh: z.number().min(0).max(1_000_000),
+    chequeMaxInrLakh: z.number().min(0).max(1_000_000),
+    /** Listed in the public investor directory. */
+    isListed: z.boolean().default(true),
+  })
+  .refine((v) => v.chequeMaxInrLakh >= v.chequeMinInrLakh, {
+    message: "Maximum cheque must be at least the minimum",
+    path: ["chequeMaxInrLakh"],
+  });
+export type InvestorProfileInput = z.infer<typeof investorProfileSchema>;
+
+export const introRequestSchema = z.object({
+  investorId: z.string().min(1).max(64),
+  message: z.string().min(40, "Write at least a couple of sentences").max(800),
+});
+
+export const introResponseSchema = z.object({ accept: z.boolean() });
 export type StartupProfileInput = z.infer<typeof startupProfileSchema>;
 
 export const requestOtpSchema = z.object({ email: z.string().email().max(254) });

@@ -10,6 +10,9 @@ import { type AppConfig, CONFIG } from "./config";
 import { ConsentService } from "./consent/consent.service";
 import { ContentController } from "./content/content.controller";
 import { DbModule } from "./db/db.module";
+import { IntrosService } from "./investors/intros.service";
+import { InvestorsController } from "./investors/investors.controller";
+import { InvestorsService } from "./investors/investors.service";
 import { MeController } from "./me/me.controller";
 import { ScanController } from "./scan/scan.controller";
 import { ScanService } from "./scan/scan.service";
@@ -23,9 +26,11 @@ export function buildAppModule(config: AppConfig) {
       JwtModule.register({ global: true, secret: config.JWT_SECRET, signOptions: { expiresIn: "30d" } }),
       ThrottlerModule.forRoot([{ ttl: 60_000, limit: 120 }]),
     ],
-    controllers: [AuthController, MeController, ScanController, ContentController, AdminController],
+    controllers: [AuthController, MeController, ScanController, ContentController, InvestorsController, AdminController],
     providers: [
       AuthService,
+      InvestorsService,
+      IntrosService,
       AuthGuard,
       ConsentService,
       ScanService,

@@ -1,5 +1,13 @@
 import { Body, Controller, Delete, Get, HttpCode, Inject, Param, Patch, Post, UseGuards } from "@nestjs/common";
-import { setConsentSchema, startupProfileSchema } from "@foundura/shared";
+import {
+  introRequestSchema,
+  introResponseSchema,
+  investorProfileSchema,
+  setConsentSchema,
+  startupProfileSchema,
+} from "@foundura/shared";
+import { IntrosService } from "../investors/intros.service";
+import { InvestorsService } from "../investors/investors.service";
 import { eq } from "drizzle-orm";
 import { AuthGuard, CurrentUser } from "../auth/auth.guard";
 import type { SessionUser } from "../auth/auth.service";
@@ -20,11 +28,75 @@ export class MeController {
     @Inject(StartupsService) private readonly startups: StartupsService,
     @Inject(ConsentService) private readonly consents: ConsentService,
     @Inject(ScanService) private readonly scans: ScanService,
+    @Inject(InvestorsService) private readonly investors: InvestorsService,
+    @Inject(IntrosService) private readonly intros: IntrosService,
   ) {}
 
   @Get()
   async me(@CurrentUser() user: SessionUser) {
-    return { user, startups: await this.startups.listMine(user.id), consents: await this.consents.current(user.id) };
+    return {
+      user,
+      startups: await this.startups.listMine(user.id),
+      investor: await this.investors.getMine(user.id),
+      consents: await this.consents.current(user.id),
+    };
+  }
+
+  // ----- readiness, matches and intros (founder side) -----
+
+  @Get("startups/:id/readiness")
+  readiness(@CurrentUser() user: SessionUser, @Param("id") id: string) {
+    return this.intros.readinessFor(user.id, id);
+  }
+
+  @Get("startups/:id/investor-matches")
+  investorMatches(@CurrentUser() user: SessionUser, @Param("id") id: string) {
+    return this.intros.investorMatches(user.id, id);
+  }
+
+  @Post("startups/:id/intros")
+  requestIntro(@CurrentUser() user: SessionUser, @Param("id") id: string, @Body() body: unknown) {
+    const { investorId, message } = parseBody(introRequestSchema, body);
+    return this.intros.request(user.id, id, investorId, message);
+  }
+
+  @Get("intros")
+  listIntros(@CurrentUser() user: SessionUser) {
+    return this.intros.listForUser(user.id);
+  }
+
+  @Post("intros/:id/respond")
+  @HttpCode(200)
+  respondIntro(@CurrentUser() user: SessionUser, @Param("id") id: string, @Body() body: unknown) {
+    return this.intros.respond(user.id, id, parseBody(introResponseSchema, body).accept);
+  }
+
+  @Post("intros/:id/withdraw")
+  @HttpCode(200)
+  withdrawIntro(@CurrentUser() user: SessionUser, @Param("id") id: string) {
+    return this.intros.withdraw(user.id, id);
+  }
+
+  // ----- investor profile -----
+
+  @Get("investor")
+  getInvestor(@CurrentUser() user: SessionUser) {
+    return this.investors.getMine(user.id);
+  }
+
+  @Post("investor")
+  createInvestor(@CurrentUser() user: SessionUser, @Body() body: unknown) {
+    return this.investors.create(user.id, parseBody(investorProfileSchema, body));
+  }
+
+  @Patch("investor")
+  updateInvestor(@CurrentUser() user: SessionUser, @Body() body: unknown) {
+    return this.investors.update(user.id, parseBody(investorProfileSchema, body));
+  }
+
+  @Get("investor/matches")
+  startupMatches(@CurrentUser() user: SessionUser) {
+    return this.intros.startupMatches(user.id);
   }
 
   // ----- startups -----
@@ -76,15 +148,18 @@ export class MeController {
   @Get("export")
   async export(@CurrentUser() user: SessionUser) {
     const [row] = await this.db.select().from(users).where(eq(users.id, user.id));
+    const investor = await this.investors.getMine(user.id);
     return {
       exportedAt: new Date().toISOString(),
       account: row,
       startups: await this.startups.listMine(user.id),
+      investorProfile: investor,
+      introRequests: await this.intros.exportFor(user.id, investor),
       consentHistory: await this.consents.history(user.id),
     };
   }
 
-  /** Right to erasure: deletes the account; startups and consent rows cascade. */
+  /** Right to erasure: deletes the account; startups, investor profile, intros and consent rows cascade. */
   @Delete()
   @HttpCode(204)
   async deleteAccount(@CurrentUser() user: SessionUser) {

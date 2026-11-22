@@ -87,10 +87,71 @@ export const startups = pgTable(
     womenLed: boolean("women_led"),
     govtSupportReceivedInrLakh: doublePrecision("govt_support_received_inr_lakh"),
     indianPromoterSharePct: doublePrecision("indian_promoter_share_pct"),
+    /** Founder-hosted deck link; shown only to matched investors. */
+    deckUrl: text("deck_url"),
+    /** Amount being raised now (₹ lakh). Private: matching and intro requests only. */
+    raisingInrLakh: doublePrecision("raising_inr_lakh"),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
   (t) => [index("startups_owner_idx").on(t.ownerId)],
+);
+
+// ---------- Investors and intros ----------
+
+export const investors = pgTable(
+  "investors",
+  {
+    id: id(),
+    ownerId: text("owner_id")
+      .notNull()
+      .unique()
+      .references(() => users.id, { onDelete: "cascade" }),
+    slug: text("slug").notNull().unique(),
+    name: text("name").notNull(),
+    firm: text("firm"),
+    type: text("type").notNull(),
+    bio: text("bio"),
+    website: text("website"),
+    sectors: text("sectors").array().notNull().default([]),
+    stages: text("stages").array().notNull().default([]),
+    /** Empty = all India. */
+    states: text("states").array().notNull().default([]),
+    chequeMinInrLakh: doublePrecision("cheque_min_inr_lakh").notNull(),
+    chequeMaxInrLakh: doublePrecision("cheque_max_inr_lakh").notNull(),
+    isListed: boolean("is_listed").notNull().default(true),
+    /** Set by Foundura staff after checking identity and track record. */
+    verifiedAt: timestamp("verified_at", { withTimezone: true }),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [index("investors_listed_idx").on(t.isListed)],
+);
+
+/**
+ * A founder's request for an introduction to an investor. Contact details are
+ * revealed to both sides only after the investor accepts. No money changes hands here.
+ */
+export const introRequests = pgTable(
+  "intro_requests",
+  {
+    id: id(),
+    startupId: text("startup_id")
+      .notNull()
+      .references(() => startups.id, { onDelete: "cascade" }),
+    investorId: text("investor_id")
+      .notNull()
+      .references(() => investors.id, { onDelete: "cascade" }),
+    message: text("message").notNull(),
+    matchScore: integer("match_score").notNull(),
+    status: text("status").notNull().default("pending"), // pending | accepted | declined | withdrawn
+    createdAt: createdAt(),
+    respondedAt: timestamp("responded_at", { withTimezone: true }),
+  },
+  (t) => [
+    index("intros_startup_idx").on(t.startupId, t.status),
+    index("intros_investor_idx").on(t.investorId, t.status),
+  ],
 );
 
 // ---------- Schemes ----------
@@ -190,3 +251,5 @@ export type Startup = typeof startups.$inferSelect;
 export type EventRow = typeof events.$inferSelect;
 export type PolicyItem = typeof policyItems.$inferSelect;
 export type Article = typeof articles.$inferSelect;
+export type Investor = typeof investors.$inferSelect;
+export type IntroRequest = typeof introRequests.$inferSelect;

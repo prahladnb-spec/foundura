@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 const NAV = [
   { href: "/scan", label: "Scheme Scan" },
   { href: "/schemes", label: "Schemes" },
+  { href: "/investors", label: "Investors" },
   { href: "/events", label: "Events" },
   { href: "/policy", label: "Policy news" },
   { href: "/learn", label: "Learn" },
@@ -78,6 +79,8 @@ export function SiteFooter() {
         </ul>
         <ul className="space-y-1.5">
           <li><Link href="/learn" className="hover:text-paper">Founder guides</Link></li>
+          <li><Link href="/investors" className="hover:text-paper">Investors</Link></li>
+          <li><Link href="/partners" className="hover:text-paper">Add the scan to your site</Link></li>
           <li><Link href="/privacy" className="hover:text-paper">Privacy and your data</Link></li>
         </ul>
       </div>

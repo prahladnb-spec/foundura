@@ -34,7 +34,7 @@ function YesNo({ name, value, onChange, legend }: { name: string; value: Tri; on
   );
 }
 
-export function ScanForm({ initial }: { initial: Partial<Record<string, string>> }) {
+export function ScanForm({ initial, embedded = false }: { initial: Partial<Record<string, string | undefined>>; embedded?: boolean }) {
   const [entityType, setEntityType] = useState(initial.entityType ?? "");
   const [incorporationDate, setIncorporationDate] = useState("");
   const [state, setState] = useState(initial.state ?? "");
@@ -191,7 +191,7 @@ export function ScanForm({ initial }: { initial: Partial<Record<string, string>>
           </p>
         )}
       </form>
-      {result && <ScanResults result={result} />}
+      {result && <ScanResults result={result} newTab={embedded} />}
     </>
   );
 }

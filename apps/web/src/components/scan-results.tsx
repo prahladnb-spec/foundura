@@ -62,7 +62,7 @@ function Reasons({ m }: { m: ScanMatch }) {
   );
 }
 
-function Row({ m, i }: { m: ScanMatch; i: number }) {
+function Row({ m, i, newTab }: { m: ScanMatch; i: number; newTab: boolean }) {
   const s = m.scheme;
   return (
     <li className="grid gap-3 py-6 border-b border-rule md:grid-cols-[9rem_1fr]">
@@ -71,9 +71,15 @@ function Row({ m, i }: { m: ScanMatch; i: number }) {
       </div>
       <div>
         <h3 className="text-xl font-semibold">
-          <Link href={`/schemes/${s.slug}`} className="hover:underline">
-            {s.name}
-          </Link>
+          {newTab ? (
+            <a href={`/schemes/${s.slug}?utm_source=embed`} target="_blank" rel="noopener" className="hover:underline">
+              {s.name}
+            </a>
+          ) : (
+            <Link href={`/schemes/${s.slug}`} className="hover:underline">
+              {s.name}
+            </Link>
+          )}
         </h3>
         <p className="text-[0.93rem] text-slate">
           {s.issuer}
@@ -102,7 +108,7 @@ function Row({ m, i }: { m: ScanMatch; i: number }) {
   );
 }
 
-export function ScanResults({ result }: { result: ScanResult }) {
+export function ScanResults({ result, newTab = false }: { result: ScanResult; newTab?: boolean }) {
   const { counts } = result;
   const shown = result.matches.filter((m) => m.status !== "not_eligible");
   const hidden = result.matches.filter((m) => m.status === "not_eligible");
@@ -121,7 +127,7 @@ export function ScanResults({ result }: { result: ScanResult }) {
       </p>
       <ol className="mt-6 border-t-2 border-neel-900">
         {shown.map((m, i) => (
-          <Row key={m.scheme.slug} m={m} i={i} />
+          <Row key={m.scheme.slug} m={m} i={i} newTab={newTab} />
         ))}
       </ol>
       {hidden.length > 0 && (
@@ -131,7 +137,7 @@ export function ScanResults({ result }: { result: ScanResult }) {
           </summary>
           <ol className="mt-2">
             {hidden.map((m, i) => (
-              <Row key={m.scheme.slug} m={m} i={i} />
+              <Row key={m.scheme.slug} m={m} i={i} newTab={newTab} />
             ))}
           </ol>
         </details>

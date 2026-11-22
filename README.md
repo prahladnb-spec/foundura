@@ -4,6 +4,8 @@ India's founder launchpad. Phase 1 MVP:
 
 - **Scheme Scan**: answer a few questions and see which central and state government schemes a startup qualifies for, with the exact conditions met, not met, or still to confirm. Anonymous scans are never stored.
 - **Startup profile** (Passport v1): sign in with an emailed one-time code, save a profile, re-run the scan any time, and optionally publish a public profile (financial figures always stay private).
+- **Investor Connect**: investors list their focus and cheque size; founders get a **Readiness Score** (0–100 with a fix list) and ranked matches with reasons; intro requests open only at readiness ≥ 50 and match ≥ 40, with at most 10 pending; contact emails are revealed only when the investor accepts. Startups are visible to investors only if the founder made the profile public **and** switched on investor visibility.
+- **Embeddable Scheme Scan**: partners paste one `<script>` tag (see `/partners`). Only `/embed/*` may be framed; the rest of the site sends `X-Frame-Options: DENY`.
 - **Events**, **Policy news** and **Founder guides**, fed from the tracker sheets and the daily content engine.
 - **Privacy by design** (DPDP Act 2023 / GDPR): consent ledger, self-service data export and account deletion, hashed sign-in codes, minimal data.
 
@@ -52,7 +54,8 @@ pnpm test
 ```
 
 - `packages/shared`: rules engine (three-valued logic, deep-tech extensions, sector matching).
-- `apps/api`: scheme catalogue sanity checks, plus end-to-end tests over HTTP against a real database: scan, sign-in with consent, profile, scan from profile, public profile privacy, consent withdrawal, data export, erasure, admin CSV import.
+- `packages/shared`: also readiness scoring and match scoring.
+- `apps/api`: scheme catalogue sanity checks, plus end-to-end tests over HTTP against a real database: scan, sign-in with consent, profile, scan from profile, public profile privacy, consent withdrawal, data export, erasure, admin CSV import, and the full Investor Connect flow (readiness gate, matching, consent-gated visibility, duplicate and focus checks, accept reveals contacts, export and cascade on erasure).
 
 ## How schemes work
 
@@ -81,12 +84,16 @@ Rows are upserted, so re-importing is safe.
 | `GET /schemes`, `/schemes/:slug` | Scheme catalogue |
 | `GET /events`, `/policy`, `/articles`, `/articles/:slug` | Content |
 | `GET /startups/:slug` | Public startup profile |
+| `GET /investors`, `/investors/:slug` | Investor directory (listed investors only) |
 | `POST /auth/request-otp`, `/auth/verify-otp` | Sign in |
 | `GET /me`, `/me/export`; `DELETE /me` | Account, data export, erasure |
 | `POST /me/startups`, `PATCH/DELETE /me/startups/:id`, `GET /me/startups/:id/scan` | Startup profile |
 | `GET/POST /me/consents` | Consent ledger |
+| `GET /me/startups/:id/readiness`, `/me/startups/:id/investor-matches` | Readiness Score; ranked investors |
+| `POST /me/startups/:id/intros`; `GET /me/intros`; `POST /me/intros/:id/respond`, `/withdraw` | Intro requests |
+| `GET/POST/PATCH /me/investor`; `GET /me/investor/matches` | Investor profile; consenting startups that fit |
 | `POST /admin/import/events`, `/admin/import/policy` | CSV import (admin key) |
 
 ## Next up (from the roadmap)
 
-Verified badges (MCA, GST, DigiLocker, Account Aggregator), investor profiles and matching, Hindi and regional languages, events crawler, WhatsApp alerts, embeddable Scheme Scan widget, MedTech sector hub.
+Investor verification workflow (admin), email notifications for intro requests, verified badges (MCA, GST, DigiLocker, Account Aggregator), Hindi and regional languages, events crawler, WhatsApp alerts, MedTech sector hub.

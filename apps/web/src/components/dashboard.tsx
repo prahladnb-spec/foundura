@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ENTITY_TYPES, INDIAN_STATES, SECTORS, STAGES } from "@foundura/shared";
 import type { ConsentState, ScanResult, Startup } from "@/lib/types";
+import { FounderInvestors } from "./founder-investors";
 import { ScanResults } from "./scan-results";
 
 const field = "block w-full rounded-md border border-rule bg-white px-3 py-2.5 text-[1rem]";
@@ -12,6 +13,7 @@ const label = "block text-[0.95rem] font-semibold mb-1";
 type Form = {
   name: string;
   oneLiner: string;
+  description: string;
   website: string;
   entityType: string;
   incorporationDate: string;
@@ -25,11 +27,14 @@ type Form = {
   isDeepTech: string;
   womenLed: string;
   isPublic: boolean;
+  deckUrl: string;
+  raisingInrLakh: string;
 };
 
 const fromStartup = (s: Startup | null): Form => ({
   name: s?.name ?? "",
   oneLiner: s?.oneLiner ?? "",
+  description: s?.description ?? "",
   website: s?.website ?? "",
   entityType: s?.entityType ?? "",
   incorporationDate: s?.incorporationDate ?? "",
@@ -43,6 +48,8 @@ const fromStartup = (s: Startup | null): Form => ({
   isDeepTech: s?.isDeepTech == null ? "" : String(s.isDeepTech),
   womenLed: s?.womenLed == null ? "" : String(s.womenLed),
   isPublic: s?.isPublic ?? false,
+  deckUrl: s?.deckUrl ?? "",
+  raisingInrLakh: s?.raisingInrLakh?.toString() ?? "",
 });
 
 function toBody(f: Form) {
@@ -52,6 +59,7 @@ function toBody(f: Form) {
   return {
     name: f.name,
     oneLiner: s(f.oneLiner),
+    description: s(f.description),
     website: f.website,
     entityType: s(f.entityType),
     incorporationDate: s(f.incorporationDate),
@@ -65,6 +73,8 @@ function toBody(f: Form) {
     isDeepTech: b(f.isDeepTech),
     womenLed: b(f.womenLed),
     isPublic: f.isPublic,
+    deckUrl: f.deckUrl,
+    raisingInrLakh: n(f.raisingInrLakh),
   };
 }
 
@@ -98,6 +108,8 @@ export function Dashboard({ email, startup, consents: initialConsents }: { email
   const [scan, setScan] = useState<ScanResult | null>(null);
   const [msg, setMsg] = useState<{ kind: "ok" | "err"; text: string } | null>(null);
   const [busy, setBusy] = useState(false);
+  // Bumped after saves and consent changes so the readiness card and matches refresh.
+  const [version, setVersion] = useState(0);
   const set = <K extends keyof Form>(k: K, v: Form[K]) => setF((x) => ({ ...x, [k]: v }));
 
   async function save(e: React.FormEvent) {
@@ -109,6 +121,7 @@ export function Dashboard({ email, startup, consents: initialConsents }: { email
         ? await call(`startups/${current.id}`, "PATCH", toBody(f))
         : await call("startups", "POST", toBody(f));
       setCurrent(saved);
+      setVersion((v) => v + 1);
       setMsg({ kind: "ok", text: current ? "Profile saved." : "Profile created." });
     } catch (err) {
       setMsg({ kind: "err", text: (err as Error).message });
@@ -132,6 +145,7 @@ export function Dashboard({ email, startup, consents: initialConsents }: { email
   async function toggleConsent(c: ConsentState) {
     try {
       setConsents(await call("consents", "POST", { purpose: c.purpose, granted: !c.granted }));
+      setVersion((v) => v + 1);
     } catch (err) {
       setMsg({ kind: "err", text: (err as Error).message });
     }
@@ -161,6 +175,10 @@ export function Dashboard({ email, startup, consents: initialConsents }: { email
         <div>
           <h1 className="display text-6xl">{current?.name ?? "Your startup"}</h1>
           <p className="mt-1 text-slate">Signed in as {email}</p>
+          <nav aria-label="Dashboard" className="mt-4 flex gap-2">
+            <span aria-current="page" className="rounded-full border border-neel-900 bg-neel-900 px-4 py-1.5 text-paper">Startup</span>
+            <a href="/dashboard/investor" className="rounded-full border border-rule bg-white px-4 py-1.5 text-neel-900 no-underline">Investor</a>
+          </nav>
         </div>
         <form action="/api/auth/signout" method="post">
           <button className="underline text-neel-500">Sign out</button>
@@ -182,6 +200,10 @@ export function Dashboard({ email, startup, consents: initialConsents }: { email
           <div className="md:col-span-3">
             <label htmlFor="oneLiner" className={label}>What you do, in one line</label>
             <input id="oneLiner" maxLength={200} className={field} value={f.oneLiner} onChange={(e) => set("oneLiner", e.target.value)} />
+          </div>
+          <div className="md:col-span-3">
+            <label htmlFor="description" className={label}>Description</label>
+            <textarea id="description" rows={4} maxLength={4000} className={field} value={f.description} onChange={(e) => set("description", e.target.value)} placeholder="The problem, who has it, how you solve it, and what you have achieved so far." />
           </div>
           <div>
             <label htmlFor="entity" className={label}>Registered as</label>
@@ -248,6 +270,16 @@ export function Dashboard({ email, startup, consents: initialConsents }: { email
             <input id="ip" type="number" min={0} max={100} className={field} value={f.indianPromoterSharePct} onChange={(e) => set("indianPromoterSharePct", e.target.value)} />
           </div>
           <div>
+            <label htmlFor="deck" className={label}>Pitch deck link</label>
+            <input id="deck" type="url" placeholder="https://" className={field} value={f.deckUrl} onChange={(e) => set("deckUrl", e.target.value)} />
+            <span className="block text-[0.85rem] text-slate mt-1">Shared only with investors you request an intro from</span>
+          </div>
+          <div>
+            <label htmlFor="raise" className={label}>Raising now (₹ lakh)</label>
+            <input id="raise" type="number" min={0} className={field} value={f.raisingInrLakh} onChange={(e) => set("raisingInrLakh", e.target.value)} />
+            <span className="block text-[0.85rem] text-slate mt-1">Private; used to match cheque sizes</span>
+          </div>
+          <div>
             <label htmlFor="wl" className={label}>Woman-led?</label>
             <TriSelect id="wl" value={f.womenLed} onChange={(v) => set("womenLed", v)} />
           </div>
@@ -276,6 +308,8 @@ export function Dashboard({ email, startup, consents: initialConsents }: { email
         </form>
         {scan && <ScanResults result={scan} />}
       </section>
+
+      {current && <FounderInvestors startupId={current.id} version={version} />}
 
       <section aria-labelledby="privacy-h" className="mt-16 border-t-2 border-neel-900 pt-8">
         <h2 id="privacy-h" className="display text-4xl">Your data and choices</h2>

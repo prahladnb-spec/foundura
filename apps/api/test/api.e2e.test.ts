@@ -1,41 +1,13 @@
-import path from "node:path";
 import type { INestApplication } from "@nestjs/common";
-import { sql } from "drizzle-orm";
-import { migrate } from "drizzle-orm/node-postgres/migrator";
-import request from "supertest";
+import type request from "supertest";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { SCHEMES } from "../db/seed-data/schemes";
-import { loadConfig } from "../src/config";
-import { createDb } from "../src/db/client";
-import { schemes } from "../src/db/schema";
-import { createApp } from "../src/main";
-
-const DATABASE_URL =
-  process.env.TEST_DATABASE_URL ?? "postgresql://foundura:foundura@localhost:5432/foundura_test";
+import { ADMIN_KEY, signIn as signInAs, startTestApp } from "./helpers";
 
 let app: INestApplication;
 let http: ReturnType<typeof request>;
 
 beforeAll(async () => {
-  const { db, pool } = createDb(DATABASE_URL);
-  await db.execute(sql`DROP SCHEMA IF EXISTS public CASCADE; CREATE SCHEMA public;`);
-  await db.execute(sql`DROP SCHEMA IF EXISTS drizzle CASCADE;`);
-  await migrate(db, { migrationsFolder: path.join(__dirname, "..", "drizzle") });
-  for (const s of SCHEMES) {
-    await db.insert(schemes).values({ ...s, state: s.state ?? null, statusNote: s.statusNote ?? null });
-  }
-  await pool.end();
-
-  const config = loadConfig({
-    DATABASE_URL,
-    JWT_SECRET: "test-secret-test-secret-123",
-    ADMIN_API_KEY: "test-admin-key-123",
-    OTP_DELIVERY: "dev",
-    NODE_ENV: "test",
-  });
-  app = await createApp(config);
-  await app.init();
-  http = request(app.getHttpServer());
+  ({ app, http } = await startTestApp());
 });
 
 afterAll(async () => {
@@ -43,9 +15,8 @@ afterAll(async () => {
 });
 
 async function signIn(email: string, consents = ["account"]) {
-  const r1 = await http.post("/v1/auth/request-otp").send({ email }).expect(200);
-  const r2 = await http.post("/v1/auth/verify-otp").send({ email, code: r1.body.devCode, consents }).expect(200);
-  return r2.body.token as string;
+  const auth = await signInAs(http, email, consents);
+  return auth.Authorization.slice("Bearer ".length);
 }
 
 describe("Foundura API", () => {
@@ -152,7 +123,7 @@ describe("Foundura API", () => {
     await http.post("/v1/admin/import/events").set("Content-Type", "text/csv").send(csv).expect(401);
     const r = await http
       .post("/v1/admin/import/events")
-      .set({ "Content-Type": "text/csv", "x-admin-key": "test-admin-key-123" })
+      .set({ "Content-Type": "text/csv", "x-admin-key": ADMIN_KEY })
       .send(csv)
       .expect(200);
     expect(r.body.imported).toBe(1);

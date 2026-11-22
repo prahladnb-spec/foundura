@@ -111,6 +111,86 @@ export interface Startup {
   womenLed: boolean | null;
   govtSupportReceivedInrLakh: number | null;
   indianPromoterSharePct: number | null;
+  deckUrl: string | null;
+  raisingInrLakh: number | null;
+}
+
+export interface InvestorPublic {
+  id: string;
+  slug: string;
+  name: string;
+  firm: string | null;
+  type: string;
+  bio: string | null;
+  website: string | null;
+  sectors: string[];
+  stages: string[];
+  states: string[];
+  chequeMinInrLakh: number;
+  chequeMaxInrLakh: number;
+  verified: boolean;
+  responseRatePct?: number | null;
+}
+
+export interface InvestorOwn extends Omit<InvestorPublic, "verified" | "responseRatePct"> {
+  isListed: boolean;
+  verifiedAt: string | null;
+}
+
+export interface MatchResult {
+  score: number;
+  reasons: string[];
+  gaps: string[];
+}
+
+export interface ReadinessItem {
+  key: string;
+  label: string;
+  points: number;
+  earned: number;
+  fix: string | null;
+}
+
+export interface Readiness {
+  score: number;
+  band: "getting_started" | "almost_ready" | "investor_ready";
+  items: ReadinessItem[];
+}
+
+export interface StartupPublic {
+  name: string;
+  slug: string;
+  oneLiner: string | null;
+  description: string | null;
+  website: string | null;
+  state: string | null;
+  sectors: string[];
+  stage: string | null;
+  dpiitRecognised: boolean | null;
+  isDeepTech: boolean | null;
+}
+
+export type IntroStatus = "pending" | "accepted" | "declined" | "withdrawn";
+
+export interface SentIntro {
+  id: string;
+  status: IntroStatus;
+  message: string;
+  matchScore: number;
+  createdAt: string;
+  startupName: string;
+  investor: InvestorPublic;
+  contactEmail: string | null;
+}
+
+export interface ReceivedIntro {
+  id: string;
+  status: IntroStatus;
+  message: string;
+  matchScore: number;
+  createdAt: string;
+  startup: StartupPublic & { deckUrl: string | null; raisingInrLakh: number | null };
+  contactEmail: string | null;
 }
 
 export interface ConsentState {

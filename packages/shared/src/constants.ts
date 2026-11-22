@@ -78,6 +78,24 @@ export const INDIAN_STATES = [
 ] as const;
 export type StateCode = (typeof INDIAN_STATES)[number]["value"];
 
+export const INVESTOR_TYPES = [
+  { value: "angel", label: "Angel investor" },
+  { value: "angel_network", label: "Angel network or syndicate" },
+  { value: "vc", label: "Venture capital fund" },
+  { value: "micro_vc", label: "Micro VC / early-stage fund" },
+  { value: "cvc", label: "Corporate venture arm" },
+  { value: "family_office", label: "Family office" },
+  { value: "accelerator", label: "Accelerator or incubator fund" },
+] as const;
+export type InvestorType = (typeof INVESTOR_TYPES)[number]["value"];
+
+/** Founder must reach this readiness score before requesting intros (no-spam rule). */
+export const MIN_READINESS_FOR_INTRO = 50;
+/** Founder–investor match must reach this score before an intro can be requested. */
+export const MIN_MATCH_FOR_INTRO = 40;
+/** Open (pending) intro requests allowed per startup at one time. */
+export const MAX_PENDING_INTROS = 10;
+
 export const CONSENT_PURPOSES = [
   {
     value: "account",
