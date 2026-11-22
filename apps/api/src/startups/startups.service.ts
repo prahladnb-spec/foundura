@@ -52,13 +52,14 @@ export function toScanInput(s: Startup): ScanInput {
 }
 
 function toColumns(input: Partial<StartupProfileInput>) {
-  const { website, productUrl, sectors, lookingFor, ...rest } = input;
+  const { website, productUrl, sectors, lookingFor, investorDocs, ...rest } = input;
   return {
     ...rest,
     ...(website !== undefined ? { website: website || null } : {}),
     ...(productUrl !== undefined ? { productUrl: productUrl || null } : {}),
     ...(sectors !== undefined ? { sectors } : {}),
     ...(lookingFor !== undefined ? { lookingFor } : {}),
+    ...(investorDocs !== undefined ? { investorDocs: [...new Set(investorDocs)] } : {}),
   };
 }
 

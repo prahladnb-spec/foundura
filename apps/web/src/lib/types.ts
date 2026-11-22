@@ -105,6 +105,7 @@ export interface Startup {
   isPublic: boolean;
   productUrl: string | null;
   lookingFor: string[];
+  investorDocs: string[];
   showcaseHiddenAt: string | null;
   entityType: string | null;
   incorporationDate: string | null;

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CONSENT_PURPOSES, ENTITY_TYPES, INDIAN_STATES, INVESTOR_TYPES, LOOKING_FOR, SECTORS, STAGES } from "./constants";
+import { CONSENT_PURPOSES, ENTITY_TYPES, INDIAN_STATES, INVESTOR_DOCS, INVESTOR_TYPES, LOOKING_FOR, SECTORS, STAGES } from "./constants";
 
 const values = <T extends readonly { value: string }[]>(list: T) =>
   list.map((x) => x.value) as unknown as [T[number]["value"], ...T[number]["value"][]];
@@ -53,6 +53,8 @@ export const startupProfileSchema = scanInputSchema.extend({
   productUrl: httpsUrl.optional().or(z.literal("")),
   /** What the startup wants from visitors to its showcase page. */
   lookingFor: z.array(z.enum(values(LOOKING_FOR))).max(LOOKING_FOR.length).optional(),
+  /** Which of the documents investors ask for the founder has ready. Private; feeds the readiness score. */
+  investorDocs: z.array(z.enum(INVESTOR_DOCS)).max(INVESTOR_DOCS.length).optional(),
   /** Link to a pitch deck the founder hosts (Foundura does not store decks). Shown only to matched investors. */
   deckUrl: httpsUrl.optional().or(z.literal("")),
   /** Amount the startup is raising now, in ₹ lakh. Private; used for matching and shown only in intro requests. */

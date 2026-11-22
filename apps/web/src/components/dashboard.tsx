@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ENTITY_TYPES, INDIAN_STATES, LOOKING_FOR, SECTORS, STAGES } from "@foundura/shared";
+import { ENTITY_TYPES, INDIAN_STATES, INVESTOR_DOCS, LOOKING_FOR, SECTORS, STAGES } from "@foundura/shared";
 import { f as fmt, lab } from "@/i18n";
 import { useT } from "@/i18n/client";
 import { lp } from "@/i18n/config";
@@ -21,6 +21,7 @@ type Form = {
   website: string;
   productUrl: string;
   lookingFor: string[];
+  investorDocs: string[];
   entityType: string;
   incorporationDate: string;
   state: string;
@@ -44,6 +45,7 @@ const fromStartup = (s: Startup | null): Form => ({
   website: s?.website ?? "",
   productUrl: s?.productUrl ?? "",
   lookingFor: s?.lookingFor ?? [],
+  investorDocs: s?.investorDocs ?? [],
   entityType: s?.entityType ?? "",
   incorporationDate: s?.incorporationDate ?? "",
   state: s?.state ?? "",
@@ -71,6 +73,7 @@ function toBody(f: Form) {
     website: f.website,
     productUrl: f.productUrl,
     lookingFor: f.lookingFor,
+    investorDocs: f.investorDocs,
     entityType: s(f.entityType),
     incorporationDate: s(f.incorporationDate),
     state: s(f.state),
@@ -117,12 +120,15 @@ export function Dashboard({
   isAdmin = false,
   startup,
   consents: initialConsents,
+  docTitles = {},
 }: {
   email: string;
   locale?: "en" | "hi";
   isAdmin?: boolean;
   startup: Startup | null;
   consents: ConsentState[];
+  /** Titles of the INVESTOR_DOCS templates in the page language, from the server. */
+  docTitles?: Record<string, string>;
 }) {
   const router = useRouter();
   const { lang, t } = useT();
@@ -356,6 +362,30 @@ export function Dashboard({
             <label htmlFor="wl" className={label}>{d.womenLed}</label>
             <TriSelect id="wl" value={f.womenLed} onChange={(v) => set("womenLed", v)} />
           </div>
+          <fieldset className="md:col-span-2">
+            <legend className={label}>{d.investorDocs}</legend>
+            <ul className="grid gap-x-6 gap-y-1.5 sm:grid-cols-2">
+              {INVESTOR_DOCS.map((slug) => {
+                const on = f.investorDocs.includes(slug);
+                return (
+                  <li key={slug} className="flex items-start gap-2">
+                    <input
+                      id={`doc-${slug}`}
+                      type="checkbox"
+                      className="mt-1.5"
+                      checked={on}
+                      onChange={() => set("investorDocs", on ? f.investorDocs.filter((v) => v !== slug) : [...f.investorDocs, slug])}
+                    />
+                    <span>
+                      <label htmlFor={`doc-${slug}`}>{docTitles[slug] ?? slug}</label>{" "}
+                      <Link href={`/documents/${slug}`} className="text-[0.88rem] text-neel-500 underline">{t.chrome.nav.documents}</Link>
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+            <span className="mt-1 block text-[0.85rem] text-slate">{d.investorDocsHint}</span>
+          </fieldset>
           <label className="md:col-span-2 flex items-start gap-3 self-end">
             <input type="checkbox" className="mt-1.5 h-4 w-4 accent-neel-900" checked={f.isPublic} onChange={(e) => set("isPublic", e.target.checked)} />
             <span>

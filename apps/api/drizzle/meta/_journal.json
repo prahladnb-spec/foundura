@@ -57,6 +57,13 @@
       "when": 1795324572394,
       "tag": "0007_startup_showcase",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1795341041001,
+      "tag": "0008_investor_docs",
+      "breakpoints": true
     }
   ]
 }

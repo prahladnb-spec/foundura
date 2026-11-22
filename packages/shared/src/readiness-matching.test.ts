@@ -1,3 +1,4 @@
+import { INVESTOR_DOCS } from "./constants";
 import { describe, expect, it } from "vitest";
 import { matchScore } from "./matching";
 import { readiness } from "./readiness";
@@ -9,6 +10,13 @@ describe("readiness", () => {
     expect(r.score).toBe(0);
     expect(r.band).toBe("getting_started");
     expect(r.items.every((i) => i.fix)).toBe(true);
+  });
+
+  it("gives part credit for some investor documents, and ignores duplicates", () => {
+    const item = (docs: string[]) => readiness({ investorDocs: docs }).items.find((i) => i.key === "documents")!;
+    expect(item([]).earned).toBe(0);
+    expect(item(["pitch-deck", "cap-table", "pitch-deck"]).earned).toBe(3);
+    expect(item([...INVESTOR_DOCS]).fix).toBeNull();
   });
 
   it("totals exactly 100 when everything is done", () => {
@@ -26,6 +34,7 @@ describe("readiness", () => {
       raisingInrLakh: 200,
       isPublic: true,
       investorVisibility: true,
+      investorDocs: [...INVESTOR_DOCS],
     });
     expect(r.score).toBe(100);
     expect(r.band).toBe("investor_ready");

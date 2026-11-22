@@ -116,6 +116,18 @@ describe("startup showcase", () => {
     await http.get(`/v1/startups/${s.slug}`).expect(200);
   });
 
+  it("the investor documents checklist is private, raises readiness, and is exported", async () => {
+    const s = await makeStartup(`Paper Ready ${tag}`, { isPublic: true });
+    const score = async () => (await http.get(`/v1/me/startups/${s.id}/readiness`).set(s.auth).expect(200)).body.score as number;
+    const before = await score();
+    await http.patch(`/v1/me/startups/${s.id}`).set(s.auth).send({ investorDocs: ["pitch-deck", "cap-table", "financial-model", "ip-assignment"] }).expect(200);
+    expect(await score()).toBe(before + 5);
+    await http.patch(`/v1/me/startups/${s.id}`).set(s.auth).send({ investorDocs: ["tax-returns"] }).expect(400);
+    expect(JSON.stringify((await http.get(`/v1/startups/${s.slug}`).expect(200)).body)).not.toContain("investorDocs");
+    const data = (await http.get("/v1/me/export").set(s.auth).expect(200)).body;
+    expect(data.startups[0].investorDocs).toEqual(["pitch-deck", "cap-table", "financial-model", "ip-assignment"]);
+  });
+
   it("the new fields are in the founder's data export", async () => {
     const s = await makeStartup(`Export Me ${tag}`, { isPublic: true });
     const data = (await http.get("/v1/me/export").set(s.auth).expect(200)).body;

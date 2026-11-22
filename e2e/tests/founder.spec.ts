@@ -44,6 +44,17 @@ test.describe("founder journey", () => {
     await page.getByRole("button", { name: "Create profile" }).click();
     await expect(page.getByText("Profile created.")).toBeVisible();
 
+    // Ticking off investor documents is saved and raises the readiness score.
+    const meter = page.locator('[role="meter"]');
+    const scoreBefore = Number(await meter.getAttribute("aria-valuenow"));
+    await page.getByLabel("Pitch deck", { exact: true }).check();
+    await page.getByLabel("Cap table", { exact: true }).check();
+    await page.getByRole("button", { name: "Save profile" }).click();
+    await expect(page.getByText("Profile saved.")).toBeVisible();
+    await expect.poll(async () => Number(await meter.getAttribute("aria-valuenow"))).toBe(scoreBefore + 3);
+    await page.reload();
+    await expect(page.getByLabel("Pitch deck", { exact: true })).toBeChecked();
+
     await page.getByRole("button", { name: "Check my schemes" }).click();
     await expect(page.locator("#results-h")).toBeVisible();
 

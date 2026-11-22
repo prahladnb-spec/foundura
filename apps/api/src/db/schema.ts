@@ -97,6 +97,8 @@ export const startups = pgTable(
     productUrl: text("product_url"),
     /** What the startup is looking for (LOOKING_FOR values), shown on the showcase page. */
     lookingFor: text("looking_for").array().notNull().default([]),
+    /** Documents from INVESTOR_DOCS the founder says are ready. Private. */
+    investorDocs: text("investor_docs").array().notNull().default([]),
     /** Set when an editor hides the startup from the public showcase; the founder's setting is kept. */
     showcaseHiddenAt: timestamp("showcase_hidden_at", { withTimezone: true }),
     entityType: text("entity_type"),

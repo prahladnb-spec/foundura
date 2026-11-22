@@ -6,10 +6,11 @@ import { planning } from "./planning";
 import { team } from "./team";
 import { tools } from "./tools";
 import type { FounderDoc } from "./types";
+import { withVariants } from "./variants";
 
 export * from "./types";
 
-export const DOCS: FounderDoc[] = [...planning, ...fundraising, ...legal, ...financial, ...team, ...corporate, ...tools];
+export const DOCS: FounderDoc[] = withVariants([...planning, ...fundraising, ...legal, ...financial, ...team, ...corporate, ...tools]);
 export const docBySlug = (slug: string) => DOCS.find((d) => d.slug === slug);
 
 /** The date the guides and templates were last checked against the law. Shown on every page and in every file. */

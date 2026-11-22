@@ -1,0 +1,1 @@
+ALTER TABLE "startups" ADD COLUMN "investor_docs" text[] DEFAULT '{}' NOT NULL;

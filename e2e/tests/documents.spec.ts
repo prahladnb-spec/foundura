@@ -76,6 +76,27 @@ test.describe("founder documents", () => {
     await expect(page.locator("#preview-h + div")).toHaveAttribute("lang", "en");
   });
 
+  test("example and Hindi versions download", async ({ page, request }) => {
+    await page.goto("/documents/pitch-deck");
+    await expect(page.getByRole("link", { name: "Download a filled-in example" })).toHaveAttribute("href", "/downloads/foundura-pitch-deck-example.pptx");
+    await expect(page.getByRole("link", { name: "Download the template in Hindi" })).toHaveAttribute("href", "/downloads/foundura-pitch-deck-hi.pptx");
+    for (const file of ["foundura-pitch-deck-example.pptx", "foundura-pitch-deck-hi.pptx", "foundura-one-pager-example.docx", "foundura-one-pager-hi.docx", "foundura-business-plan-dpr-hi.docx"]) {
+      const res = await request.get(`/downloads/${file}`);
+      expect(res.status(), file).toBe(200);
+      expect((await res.body()).subarray(0, 2).toString(), file).toBe("PK");
+    }
+  });
+
+  test("glossary in English and Hindi", async ({ page }) => {
+    await page.goto("/glossary");
+    await expect(page.locator("h1")).toHaveText("Glossary");
+    const entry = page.locator("dl > div", { hasText: "Liquidation preference" });
+    await expect(entry).toContainText("before other shareholders");
+    await page.goto("/hi/glossary");
+    await expect(page.locator("dl > div", { hasText: "Cap table" })).toContainText("कैप टेबल");
+    await expect(page.locator("dl > div", { hasText: "Cap table" }).locator("dt span").first()).toHaveAttribute("lang", "en");
+  });
+
   test("documents are in the sitemap", async ({ request }) => {
     const sitemap = await (await request.get("/sitemap.xml")).text();
     expect(sitemap).toContain("/documents</loc>");

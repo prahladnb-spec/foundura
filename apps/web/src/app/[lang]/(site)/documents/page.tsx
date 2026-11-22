@@ -50,7 +50,12 @@ export default async function DocumentsHub({ params }: { params: Params }) {
         </section>
       ))}
 
-      <p className="mt-10 max-w-[70ch] text-[0.93rem] text-slate">
+      <p className="mt-10 text-neel-700">
+        {d.glossaryNote.split("{link}")[0]}
+        <Link href="/glossary" className="text-neel-500 underline">{d.glossaryLink}</Link>
+        {d.glossaryNote.split("{link}")[1]}
+      </p>
+      <p className="mt-3 max-w-[70ch] text-[0.93rem] text-slate">
         {d.notAdvice} {f(d.checked, { date: fmtDate(CHECKED_ON, true, lang) })}
       </p>
     </div>

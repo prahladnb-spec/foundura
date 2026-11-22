@@ -19,6 +19,8 @@ export interface ReadinessInput {
   stage?: string | null;
   raisingInrLakh?: number | null;
   isPublic?: boolean | null;
+  /** Documents from INVESTOR_DOCS the founder says are ready. */
+  investorDocs?: string[] | null;
   /** Whether the founder has switched on "Show my profile to investors". */
   investorVisibility?: boolean;
 }
@@ -38,6 +40,7 @@ export interface ReadinessResult {
   items: ReadinessItem[];
 }
 
+const DOCS_WANTED = 8;
 const REGISTERED = ["private_limited", "llp", "partnership", "cooperative"];
 const filled = (s?: string | null, min = 1) => typeof s === "string" && s.trim().length >= min;
 
@@ -112,17 +115,24 @@ export function readiness(p: ReadinessInput): ReadinessResult {
       fix: "Say how much you are raising, so we can match you with investors whose cheque size fits. It stays private.",
     },
     {
+      key: "documents",
+      label: "Documents investors ask for",
+      points: 10,
+      earned: Math.min(10, Math.round((10 * new Set(p.investorDocs ?? []).size) / DOCS_WANTED)),
+      fix: "Tick off the documents you have ready under \"Documents investors ask for\". Free templates for each are under Templates.",
+    },
+    {
       key: "public",
       label: "Public profile",
-      points: 10,
-      earned: p.isPublic ? 10 : 0,
+      points: 5,
+      earned: p.isPublic ? 5 : 0,
       fix: "Turn on your public profile (financial figures always stay private).",
     },
     {
       key: "visibility",
       label: "Visible to investors",
-      points: 10,
-      earned: p.investorVisibility ? 10 : 0,
+      points: 5,
+      earned: p.investorVisibility ? 5 : 0,
       fix: "Switch on \"Show my profile to investors\" in Your data and choices.",
     },
   ].map((i) => ({ ...i, fix: i.earned >= i.points ? null : i.fix }));

@@ -95,7 +95,7 @@ describe("Investor Connect", () => {
     await http.post("/v1/me/consents").set(founderAuth).send({ purpose: "investor_visibility", granted: true }).expect(200);
 
     const ready = await http.get(`/v1/me/startups/${startupId}/readiness`).set(founderAuth).expect(200);
-    expect(ready.body.score).toBe(93); // prototype stage: 8 of 15 traction points
+    expect(ready.body.score).toBe(83); // prototype stage: 8 of 15 traction points; no investor documents ticked yet (0 of 10)
 
     const m = await http.get(`/v1/me/startups/${startupId}/investor-matches`).set(founderAuth).expect(200);
     expect(m.body[0].investor.id).toBe(investorId);

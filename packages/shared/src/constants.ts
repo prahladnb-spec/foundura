@@ -18,6 +18,22 @@ export const STAGES = [
 ] as const;
 export type Stage = (typeof STAGES)[number]["value"];
 
+/**
+ * Documents investors usually ask for. Founders tick the ones they have ready on their dashboard;
+ * each value is also the slug of the template at /documents.
+ */
+export const INVESTOR_DOCS = [
+  "pitch-deck",
+  "financial-model",
+  "cap-table",
+  "founders-agreement",
+  "ip-assignment",
+  "incorporation-checklist",
+  "financial-records-checklist",
+  "data-room-checklist",
+] as const;
+export type InvestorDoc = (typeof INVESTOR_DOCS)[number];
+
 /** What a startup is looking for, shown on its public showcase page. Never money amounts. */
 export const LOOKING_FOR = [
   { value: "pilots", label: "Pilot customers" },
