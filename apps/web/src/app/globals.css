@@ -98,6 +98,14 @@ h3 {
 :lang(gu) .display {
   line-height: 1.2;
 }
+:root:lang(bn) {
+  --font-display: "Anek Latin Variable", "Anek Bangla Variable", system-ui, sans-serif;
+  --font-body: "Mukta", "Anek Bangla Variable", system-ui, sans-serif;
+}
+/* Tall vowel signs above and below the line need more room than the poster-tight Latin line. */
+:lang(bn) .display {
+  line-height: 1.2;
+}
 :lang(ar) .display,
 :lang(ar) h1,
 :lang(ar) h2,

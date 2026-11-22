@@ -142,7 +142,8 @@ test.describe("languages", () => {
             const el = n.parentElement;
             if (!el || el.closest(`[lang]:not([lang="${tag}"]),script,style,code,pre,noscript,mark,[aria-hidden="true"]`)) continue;
             const text = (n.textContent ?? "").replace(/\S+@\S+|https?:\/\/\S+|\b[\w-]+(\.[\w-]+)*\.(in|org|com|gov|net)\b\S*/g, " ");
-            for (const w of text.match(/[A-Za-z][A-Za-z&_\-]+/g) ?? []) out.push(w);
+            // A trailing hyphen joins a Latin name to a native case ending, as in Bengali "Foundura-র".
+            for (const w of text.match(/[A-Za-z][A-Za-z&_\-]+/g) ?? []) out.push(w.replace(/-+$/, ""));
           }
           return out;
         }, tag);

@@ -3,7 +3,7 @@
  * /<code>/... (/hi, /es, /de, /ar, /he). Add a language here, give it a dictionary the same shape
  * as en.ts, and the routing, alternates, sitemap and language menu pick it up.
  */
-export const LANGS = ["en", "hi", "es", "de", "ar", "he", "mr", "kn", "ta", "te", "gu"] as const;
+export const LANGS = ["en", "hi", "es", "de", "ar", "he", "mr", "kn", "ta", "te", "gu", "bn"] as const;
 export type Lang = (typeof LANGS)[number];
 export const DEFAULT_LANG: Lang = "en";
 
@@ -40,10 +40,11 @@ export const LANG_INFO: Record<Lang, LangInfo> = {
   ta: { name: "தமிழ்", tag: "ta-IN", dir: "ltr", og: "ta_IN", stop: ".", script: /[\u0b80-\u0bff]/, wideNav: true },
   te: { name: "తెలుగు", tag: "te-IN", dir: "ltr", og: "te_IN", stop: ".", script: /[\u0c00-\u0c7f]/, wideNav: true },
   gu: { name: "ગુજરાતી", tag: "gu-IN", dir: "ltr", og: "gu_IN", stop: ".", script: /[\u0a80-\u0aff]/ },
+  bn: { name: "বাংলা", tag: "bn-IN", dir: "ltr", og: "bn_IN", stop: "।", script: /[\u0980-\u09ff]/ },
 };
 
 /** Locale for Intl dates and numbers. Latin digits everywhere, as on the Hindi site. */
-export const INTL_LOCALE: Record<Lang, string> = { en: "en-IN", hi: "hi-IN", es: "es-ES", de: "de-DE", ar: "ar-u-nu-latn", he: "he-IL", mr: "mr-IN-u-nu-latn", kn: "kn-IN-u-nu-latn", ta: "ta-IN-u-nu-latn", te: "te-IN-u-nu-latn", gu: "gu-IN-u-nu-latn" };
+export const INTL_LOCALE: Record<Lang, string> = { en: "en-IN", hi: "hi-IN", es: "es-ES", de: "de-DE", ar: "ar-u-nu-latn", he: "he-IL", mr: "mr-IN-u-nu-latn", kn: "kn-IN-u-nu-latn", ta: "ta-IN-u-nu-latn", te: "te-IN-u-nu-latn", gu: "gu-IN-u-nu-latn", bn: "bn-IN-u-nu-latn" };
 
 /** Short month names for dates written as "2 Dec 2026", without loading a whole dictionary. */
 export const MONTHS: Record<Lang, readonly string[]> = {
@@ -58,6 +59,7 @@ export const MONTHS: Record<Lang, readonly string[]> = {
   ta: ["ஜனவரி", "பிப்ரவரி", "மார்ச்", "ஏப்ரல்", "மே", "ஜூன்", "ஜூலை", "ஆகஸ்ட்", "செப்டம்பர்", "அக்டோபர்", "நவம்பர்", "டிசம்பர்"],
   te: ["జనవరి", "ఫిబ్రవరి", "మార్చి", "ఏప్రిల్", "మే", "జూన్", "జూలై", "ఆగస్టు", "సెప్టెంబర్", "అక్టోబర్", "నవంబర్", "డిసెంబర్"],
   gu: ["જાન્યુઆરી", "ફેબ્રુઆરી", "માર્ચ", "એપ્રિલ", "મે", "જૂન", "જુલાઈ", "ઑગસ્ટ", "સપ્ટેમ્બર", "ઑક્ટોબર", "નવેમ્બર", "ડિસેમ્બર"],
+  bn: ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"],
 };
 
 const PREFIX = new RegExp(`^/(${LANGS.filter((l) => l !== DEFAULT_LANG).join("|")})(?=/|$)`);

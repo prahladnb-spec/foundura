@@ -28,6 +28,7 @@
     ta: "Foundura திட்டச் சரிபார்ப்பு",
     te: "Foundura పథకాల తనిఖీ",
     gu: "Foundura યોજના તપાસ",
+    bn: "Foundura প্রকল্প যাচাই",
   };
   var lang = Object.prototype.hasOwnProperty.call(titles, script.dataset.lang) ? script.dataset.lang : "en";
   frame.src = origin + (lang === "en" ? "" : "/" + lang) + "/embed/scan" + (params.toString() ? "?" + params : "");
