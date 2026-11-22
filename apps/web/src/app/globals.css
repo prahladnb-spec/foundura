@@ -248,6 +248,60 @@ a[hreflang="hi-IN"] {
   }
 }
 
+@layer components {
+/* Scheme categories as postage stamps (components/icons.tsx). The outer band is cut into
+   perforations by the mask; the inner frame line is the stamp's printed border. */
+.postage {
+  display: inline-block;
+  padding: 6px;
+  /* White perforated margin around a tinted centre, like a real stamp. */
+  background: linear-gradient(var(--tint) 0 0) content-box, #fff;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    radial-gradient(3.2px at 4px 4px, #0000 96%, #000) -4px -4px / 8px 8px round;
+  rotate: -1.5deg;
+}
+.postage > span,
+.postage {
+  line-height: 1.2;
+}
+/* The edge outline lives on a wrapper: a filter on the stamp itself would be clipped by its mask. */
+.postage-wrap {
+  display: inline-block;
+  filter: drop-shadow(0 0 0.6px rgb(20 27 71 / 0.55)) drop-shadow(0 1.5px 1px rgb(20 27 71 / 0.12));
+}
+.postage-in {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.5rem;
+  border: 1.5px solid currentColor;
+  border-radius: 2px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.postage-money { --tint: #fde7a8; color: #7a4f00; }
+.postage-official { --tint: #dde2f6; color: var(--color-neel-700); }
+.postage-market { --tint: #cde9d9; color: #17633f; }
+.postage-state { --tint: #f7d3c8; color: #8f2e1f; }
+
+/* Monogram stamp for startups without a logo. */
+.monogram {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  border: 2.5px solid currentColor;
+  box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 4.5px currentColor;
+  background: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  rotate: -8deg;
+}
+}
+
 /* Long-form article text */
 .prose-f {
   max-width: 68ch;

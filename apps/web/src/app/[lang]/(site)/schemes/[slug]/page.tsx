@@ -1,3 +1,4 @@
+import { CategoryStamp } from "@/components/icons";
 import type { Metadata } from "next";
 import Link from "@/components/locale-link";
 import { JsonLd } from "@/components/json-ld";
@@ -55,8 +56,9 @@ export default async function SchemePage({ params }: { params: Params }) {
         {stateName ? `, ${stateName}` : `, ${sc.central}`}
       </p>
       <h1 lang={cond} className="display mt-2 text-5xl md:text-6xl">{s.name}</h1>
-      <p className="mt-2 text-slate">
-        <span lang={nameCond}>{s.issuer}</span>; {lab(t.labels.category, s.category)};{" "}
+      <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-slate">
+        <CategoryStamp category={s.category} label={String(lab(t.labels.category, s.category))} />
+        <span lang={nameCond}>{s.issuer}</span>{" "}
         <span className={s.status === "closed" ? "font-semibold text-marigold-ink" : ""}>{lab(t.labels.schemeStatus, s.status)}</span>
       </p>
       {cond && t.common.schemeInEnglish && <p className="mt-4 text-[0.92rem] text-slate">{t.common.schemeInEnglish}</p>}

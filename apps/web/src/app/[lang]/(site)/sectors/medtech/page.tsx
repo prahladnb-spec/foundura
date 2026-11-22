@@ -1,3 +1,4 @@
+import { CategoryStamp } from "@/components/icons";
 import type { Metadata } from "next";
 import Link from "@/components/locale-link";
 import { MedtechFinder } from "@/components/medtech-finder";
@@ -64,9 +65,8 @@ export default async function MedtechHub({ params }: { params: Params }) {
                 </Link>
                 <p lang={s.contentLang !== lang ? "en" : undefined} className="max-w-[70ch] text-neel-700">{s.summary}</p>
               </div>
-              <p className="text-[0.92rem] text-slate md:text-right">
-                {lab(d.labels.category, s.category)}
-                <br />
+              <p className="flex items-center gap-3 text-[0.92rem] text-slate md:flex-col md:items-end md:gap-1">
+                <CategoryStamp category={s.category} label={String(lab(d.labels.category, s.category))} />
                 <span className={s.status === "closed" ? "font-semibold text-marigold-ink" : s.status === "open" || s.status === "rolling" ? "font-semibold text-leaf" : ""}>
                   {lab(d.labels.schemeStatus, s.status)}
                 </span>

@@ -1,3 +1,5 @@
+import { CalendarPlus, Download } from "lucide-react";
+import { FormatIcon, Icon } from "@/components/icons";
 import type { Dict } from "@/i18n/en";
 import { f, lab } from "@/i18n";
 import { googleAddLink } from "@/lib/calendar";
@@ -19,6 +21,7 @@ export function EventCard({ e, t, lang, site, compactDate = false }: { e: EventI
       <div>
         <p lang={cond} className="text-lg font-semibold leading-snug">{e.name}</p>
         <p className="text-[0.93rem] text-slate">
+          <FormatIcon format={e.format} className="mr-1 inline h-4 w-4 -translate-y-px" />
           <span lang={cond}>{place}</span>
           {place && ", "}
           <span lang={cond}>{e.type}</span>
@@ -37,8 +40,16 @@ export function EventCard({ e, t, lang, site, compactDate = false }: { e: EventI
         </p>
         {e.status !== "Cancelled" && (
           <p className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1 text-[0.9rem]">
-            {google && <a href={google} target="_blank" rel="noopener noreferrer" className="text-neel-500 underline">{ev.addGoogle}</a>}
-            <a href={`/calendar/${e.slug}.ics`} className="text-neel-500 underline">{ev.addIcs}</a>
+            {google && (
+              <a href={google} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-neel-500 underline">
+                <Icon icon={CalendarPlus} className="h-4 w-4" />
+                {ev.addGoogle}
+              </a>
+            )}
+            <a href={`/calendar/${e.slug}.ics`} className="inline-flex items-center gap-1 text-neel-500 underline">
+              <Icon icon={Download} className="h-4 w-4" />
+              {ev.addIcs}
+            </a>
           </p>
         )}
       </div>

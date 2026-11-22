@@ -1,4 +1,5 @@
 import { PageIntro } from "@/components/art";
+import { CategoryStamp } from "@/components/icons";
 import type { Metadata } from "next";
 import Link from "@/components/locale-link";
 import { type Dict, f, getDict, lab } from "@/i18n";
@@ -26,9 +27,8 @@ function List({ items, t, lang }: { items: Scheme[]; t: Dict; lang: string }) {
             <Link href={`/schemes/${s.slug}`} lang={s.contentLang !== lang ? "en" : undefined} className="text-lg font-semibold hover:underline">{s.name}</Link>
             <p lang={s.contentLang !== lang ? "en" : undefined} className="text-neel-700 max-w-[70ch]">{s.summary}</p>
           </div>
-          <p className="text-[0.92rem] text-slate md:text-right">
-            {lab(t.labels.category, s.category)}
-            <br />
+          <p className="flex items-center gap-3 text-[0.92rem] text-slate md:flex-col md:items-end md:gap-1">
+            <CategoryStamp category={s.category} label={String(lab(t.labels.category, s.category))} />
             <span className={s.status === "closed" ? "font-semibold text-marigold-ink" : ""}>{lab(t.labels.schemeStatus, s.status)}</span>
           </p>
         </li>

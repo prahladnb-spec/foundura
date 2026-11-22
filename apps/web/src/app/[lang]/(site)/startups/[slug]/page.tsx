@@ -1,3 +1,4 @@
+import { Monogram } from "@/components/icons";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/json-ld";
@@ -67,7 +68,10 @@ export default async function StartupPage({ params }: { params: Params }) {
       <p className="text-slate">
         <Link href="/startups" className="underline">{d.all}</Link>
       </p>
-      <h1 lang={userTextLang(s.name, lang)} className="display mt-2 text-5xl md:text-6xl">{s.name}</h1>
+      <div className="mt-4 flex items-center gap-5">
+        <Monogram name={s.name} className="h-16 w-16 text-[1.3rem] md:h-20 md:w-20 md:text-[1.6rem]" />
+        <h1 lang={userTextLang(s.name, lang)} className="display text-5xl md:text-6xl">{s.name}</h1>
+      </div>
       {s.oneLiner && <p lang={userTextLang(s.oneLiner, lang)} className="mt-3 max-w-[60ch] text-xl text-neel-700">{s.oneLiner}</p>}
       {badges.length > 0 && (
         <p className="mt-3 flex flex-wrap gap-2">

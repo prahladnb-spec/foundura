@@ -1,3 +1,4 @@
+import { Monogram } from "@/components/icons";
 import { Art, PageIntro } from "@/components/art";
 import type { Metadata } from "next";
 import Link from "@/components/locale-link";
@@ -67,7 +68,9 @@ export default async function StartupsPage({ params, searchParams }: { params: P
 
       <ul className="mt-3 grid gap-x-8 border-t-2 border-neel-900 md:grid-cols-2">
         {startups.map((s) => (
-          <li key={s.slug} className="border-b border-rule py-5">
+          <li key={s.slug} className="flex gap-4 border-b border-rule py-5">
+            <Monogram name={s.name} className="mt-0.5 h-12 w-12" />
+            <div className="min-w-0">
             <h2 className="text-xl font-semibold">
               <Link href={`/startups/${s.slug}`} lang={userTextLang(s.name, lang)} className="hover:underline">{s.name}</Link>
             </h2>
@@ -85,6 +88,7 @@ export default async function StartupsPage({ params, searchParams }: { params: P
                 ))}
               </p>
             )}
+            </div>
           </li>
         ))}
         {startups.length === 0 && (

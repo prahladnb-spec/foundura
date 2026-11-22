@@ -7,6 +7,7 @@ import { documentsFor, GOALS, type Goal, type Stage } from "@/documents/finder";
 const FORMAT = { doc: "Word", deck: "PowerPoint", sheet: "Excel" } as const;
 /** Just what the list shows for each document, passed from the server so the content stays there. */
 export type FinderDoc = { title: string; titleHi: string; kind: keyof typeof FORMAT };
+import { KindIcon } from "@/components/icons";
 import { useT } from "@/i18n/client";
 
 const STAGES: Stage[] = ["idea", "prototype", "early_revenue", "growth"];
@@ -58,7 +59,7 @@ export function DocumentsFinder({ docs }: { docs: Record<string, FinderDoc> }) {
               <span aria-hidden="true" className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-marigold text-[0.85rem] font-semibold text-neel-950">{i + 1}</span>
               <span>
                 <Link href={`/documents/${slug}`} className="font-semibold text-neel-900 underline">{lang === "hi" ? doc.titleHi : doc.title}</Link>{" "}
-                <span lang="en" className="text-[0.88rem] text-slate">{FORMAT[doc.kind]}</span>
+                <span lang="en" className="inline-flex items-center gap-1 text-[0.88rem] text-slate"><KindIcon kind={doc.kind} className="h-3.5 w-3.5" />{FORMAT[doc.kind]}</span>
               </span>
             </li>
           );
