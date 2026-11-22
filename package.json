@@ -1,0 +1,21 @@
+{
+  "name": "foundura",
+  "private": true,
+  "description": "Foundura — India's founder launchpad: Scheme Scan, Startup Passport, events, policy news and guidance.",
+  "packageManager": "pnpm@10.28.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "db:migrate": "pnpm --filter @foundura/api db:migrate",
+    "db:seed": "pnpm --filter @foundura/api db:seed"
+  },
+  "devDependencies": {
+    "turbo": "^2.11.13",
+    "typescript": "5.9.3"
+  }
+}

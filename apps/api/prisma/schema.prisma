@@ -1,0 +1,165 @@
+// Foundura data model — Phase 1
+// Personal data is kept to what each feature needs (DPDP Act 2023 / GDPR data minimisation).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------- People, sign-in, consent ----------
+
+model User {
+  id         String    @id @default(cuid())
+  email      String    @unique
+  createdAt  DateTime  @default(now())
+  lastSeenAt DateTime?
+  startups   Startup[]
+  consents   Consent[]
+}
+
+/// One-time sign-in codes. Only a hash of the code is stored; rows expire after 10 minutes.
+model OtpCode {
+  id        String   @id @default(cuid())
+  email     String
+  codeHash  String
+  attempts  Int      @default(0)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
+/// Consent ledger: one row per decision, never edited, so the history can be shown on request.
+model Consent {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  purpose       String // see CONSENT_PURPOSES in @foundura/shared
+  granted       Boolean
+  noticeVersion String
+  createdAt     DateTime @default(now())
+
+  @@index([userId, purpose, createdAt])
+}
+
+// ---------- Startup profile ("Startup Passport" v1) ----------
+
+model Startup {
+  id                         String    @id @default(cuid())
+  ownerId                    String
+  owner                      User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  name                       String
+  slug                       String    @unique
+  oneLiner                   String?
+  description                String?
+  website                    String?
+  isPublic                   Boolean   @default(false)
+  entityType                 String?
+  incorporationDate          DateTime? @db.Date
+  turnoverInrCr              Float?
+  dpiitRecognised            Boolean?
+  state                      String?
+  sectors                    String[]
+  stage                      String?
+  isDeepTech                 Boolean?
+  womenLed                   Boolean?
+  govtSupportReceivedInrLakh Float?
+  indianPromoterSharePct     Float?
+  createdAt                  DateTime  @default(now())
+  updatedAt                  DateTime  @updatedAt
+
+  @@index([ownerId])
+}
+
+// ---------- Schemes ----------
+
+model Scheme {
+  id            String    @id @default(cuid())
+  slug          String    @unique
+  name          String
+  issuer        String // e.g. "DPIIT, Government of India"
+  level         String // national | state
+  state         String? // state code when level = state
+  category      String // recognition | tax | grant | loan | fund | ipr | procurement | regulatory | state_policy
+  summary       String
+  benefits      String[]
+  howToApply    String[]
+  /// Eligibility rule tree (see Condition in @foundura/shared). Decides eligibility deterministically.
+  rule          Json
+  /// Conditions the engine cannot check from scan answers; shown to the founder as "also check".
+  alsoCheck     String[]
+  status        String    @default("open") // open | rolling | closed | indirect
+  statusNote    String?
+  sourceUrl     String
+  sourceName    String
+  /// Editor sign-off date. Null means the entry still needs an editor's check against the official source.
+  lastVerifiedAt DateTime? @db.Date
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+// ---------- Events and policy news ----------
+
+model Event {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  name        String
+  startDate   DateTime? @db.Date
+  endDate     DateTime? @db.Date
+  city        String?
+  country     String
+  scope       String // India | Global
+  type        String
+  status      String // Confirmed | Listing only | To verify | Past | Cancelled
+  deadline    DateTime? @db.Date
+  bestFor     String?
+  notes       String?
+  sourceUrl   String?
+  sourceName  String?
+  lastChecked DateTime? @db.Date
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([startDate])
+}
+
+model PolicyItem {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  date         DateTime @db.Date
+  headline     String
+  country      String
+  level        String
+  instrument   String
+  stage        String
+  impact       String // High | Medium | Low
+  amount       String?
+  takeaway     String
+  body         String?
+  sourceUrl    String
+  sourceName   String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([date])
+}
+
+// ---------- Articles ----------
+
+model Article {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  title       String
+  theme       String
+  excerpt     String
+  /// Markdown body
+  body        String
+  readMinutes Int
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
