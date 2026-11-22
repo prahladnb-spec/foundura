@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   ConflictException,
   Controller,
@@ -11,7 +12,17 @@ import {
   Put,
   UseGuards,
 } from "@nestjs/common";
-import { articleSchema, conditionSchema, readMinutes, schemeEditSchema, stateSchema } from "@foundura/shared";
+import {
+  articleSchema,
+  type Condition,
+  conditionSchema,
+  readMinutes,
+  schemeEditSchema,
+  schemeTranslationSchema,
+  stateSchema,
+  visibleConditionLabels,
+} from "@foundura/shared";
+import { englishFingerprint, translationStatus } from "../schemes/localize";
 import { asc, desc, eq, isNull, sql } from "drizzle-orm";
 import { z } from "zod";
 import { parseBody, todayInIndia } from "../common/zod";
@@ -131,27 +142,51 @@ export class AdminConsoleController {
   // ----- schemes -----
 
   @Get("schemes")
-  listSchemes() {
-    return this.db
-      .select({
-        slug: schemes.slug,
-        name: schemes.name,
-        level: schemes.level,
-        state: schemes.state,
-        category: schemes.category,
-        status: schemes.status,
-        lastVerifiedAt: schemes.lastVerifiedAt,
-        updatedAt: schemes.updatedAt,
-      })
-      .from(schemes)
-      .orderBy(asc(schemes.lastVerifiedAt), asc(schemes.name));
+  async listSchemes() {
+    const rows = await this.db.select().from(schemes).orderBy(asc(schemes.lastVerifiedAt), asc(schemes.name));
+    return rows.map((s) => ({
+      slug: s.slug,
+      name: s.name,
+      level: s.level,
+      state: s.state,
+      category: s.category,
+      status: s.status,
+      lastVerifiedAt: s.lastVerifiedAt,
+      updatedAt: s.updatedAt,
+      hiStatus: translationStatus(s, "hi"),
+    }));
   }
 
+  /** The scheme, plus the Hindi translation's status and the condition labels it must cover. */
   @Get("schemes/:slug")
   async getScheme(@Param("slug") slug: string) {
     const [s] = await this.db.select().from(schemes).where(eq(schemes.slug, slug)).limit(1);
     if (!s) throw new NotFoundException();
-    return s;
+    return { ...s, hi: { status: translationStatus(s, "hi"), labels: visibleConditionLabels(s.rule as Condition) } };
+  }
+
+  /**
+   * Save the Hindi text. It must translate every visible condition label; it is stamped with a
+   * fingerprint of the current English so later English edits mark it out of date.
+   */
+  @Put("schemes/:slug/translations/hi")
+  async saveHindi(@Admin() actor: AdminActor, @Param("slug") slug: string, @Body() body: unknown) {
+    const input = parseBody(schemeTranslationSchema, body);
+    const [s] = await this.db.select().from(schemes).where(eq(schemes.slug, slug)).limit(1);
+    if (!s) throw new NotFoundException();
+    const needed = visibleConditionLabels(s.rule as Condition);
+    const missing = needed.filter((l) => !input.labels[l]?.trim());
+    if (missing.length) {
+      throw new BadRequestException({ message: `Translate every condition: ${missing.length} missing.`, missing });
+    }
+    const labels = Object.fromEntries(needed.map((l) => [l, input.labels[l].trim()]));
+    const hi = { ...input, labels, sourceHash: englishFingerprint(s), updatedAt: new Date().toISOString() };
+    await this.db
+      .update(schemes)
+      .set({ translations: { ...s.translations, hi } })
+      .where(eq(schemes.slug, slug));
+    await this.audit.record(actor, "scheme.translate_hi", "scheme", slug);
+    return { status: "current" as const };
   }
 
   /**

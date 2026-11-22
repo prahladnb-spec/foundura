@@ -10,6 +10,8 @@ import type { Db } from "../db/client";
 import { DB } from "../db/db.module";
 import { schemes, type Scheme } from "../db/schema";
 import { todayInIndia } from "../common/zod";
+import { localizeLabels, localizeScheme } from "../schemes/localize";
+import type { Locale } from "@foundura/shared";
 
 export interface ScanMatch extends EligibilityResult {
   scheme: Pick<
@@ -27,7 +29,7 @@ export interface ScanMatch extends EligibilityResult {
     | "sourceName"
     | "alsoCheck"
     | "lastVerifiedAt"
-  >;
+  > & { contentLang: Locale };
 }
 
 export interface ScanResult {
@@ -44,29 +46,37 @@ export class ScanService {
    * Evaluate every scheme against the answers. Nothing about an anonymous scan is stored:
    * the answers live only for the length of this request (data minimisation).
    */
-  async scan(input: ScanInput, today = todayInIndia()): Promise<ScanResult> {
+  async scan(input: ScanInput, today = todayInIndia(), lang: Locale = "en"): Promise<ScanResult> {
     const all = await this.db.select().from(schemes);
     const relevant = all.filter((s) => s.level === "national" || !input.state || s.state === input.state);
 
     const matches: ScanMatch[] = relevant
-      .map((s) => ({
-        ...checkEligibility(s.rule as Condition, input, today),
-        scheme: {
-          slug: s.slug,
-          name: s.name,
-          issuer: s.issuer,
-          level: s.level,
-          state: s.state,
-          category: s.category,
-          summary: s.summary,
-          status: s.status,
-          statusNote: s.statusNote,
-          sourceUrl: s.sourceUrl,
-          sourceName: s.sourceName,
-          alsoCheck: s.alsoCheck,
-          lastVerifiedAt: s.lastVerifiedAt,
-        },
-      }))
+      .map((raw) => {
+        const r = checkEligibility(raw.rule as Condition, input, today);
+        const s = localizeScheme(raw, lang);
+        return {
+          status: r.status,
+          met: localizeLabels(raw, lang, r.met),
+          unmet: localizeLabels(raw, lang, r.unmet),
+          unknown: localizeLabels(raw, lang, r.unknown),
+          scheme: {
+            slug: s.slug,
+            name: s.name,
+            issuer: s.issuer,
+            level: s.level,
+            state: s.state,
+            category: s.category,
+            summary: s.summary,
+            status: s.status,
+            statusNote: s.statusNote,
+            sourceUrl: s.sourceUrl,
+            sourceName: s.sourceName,
+            alsoCheck: s.alsoCheck,
+            lastVerifiedAt: s.lastVerifiedAt,
+            contentLang: s.contentLang,
+          },
+        };
+      })
       .sort(
         (a, b) =>
           STATUS_RANK[a.status] - STATUS_RANK[b.status] ||

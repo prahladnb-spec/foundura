@@ -23,6 +23,18 @@ const updatedAt = () =>
     .defaultNow()
     .$onUpdate(() => new Date());
 
+export interface SchemeTranslation {
+  name: string;
+  summary: string;
+  benefits: string[];
+  howToApply: string[];
+  alsoCheck: string[];
+  statusNote: string | null;
+  labels: Record<string, string>;
+  sourceHash: string;
+  updatedAt: string;
+}
+
 // ---------- People, sign-in, consent ----------
 
 export const users = pgTable("users", {
@@ -182,6 +194,11 @@ export const schemes = pgTable("schemes", {
   sourceName: text("source_name").notNull(),
   /** Editor sign-off date. Null = still needs a check against the official source. */
   lastVerifiedAt: date("last_verified_at"),
+  /**
+   * Other-language versions, e.g. { hi: {...} }. Each records a fingerprint of the English it was
+   * written from; if the English changes, the translation is out of date and English is shown.
+   */
+  translations: jsonb("translations").$type<Partial<Record<"hi", SchemeTranslation>>>().notNull().default({}),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });

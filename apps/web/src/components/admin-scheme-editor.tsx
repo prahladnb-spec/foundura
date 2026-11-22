@@ -18,6 +18,142 @@ export interface AdminScheme {
   sourceName: string;
   rule: Condition;
   lastVerifiedAt: string | null;
+  translations: { hi?: HindiText & { updatedAt: string } };
+  hi: { status: "missing" | "current" | "outdated"; labels: string[] };
+}
+
+interface HindiText {
+  name: string;
+  summary: string;
+  benefits: string[];
+  howToApply: string[];
+  alsoCheck: string[];
+  statusNote: string | null;
+  labels: Record<string, string>;
+}
+
+const HI_STATUS = {
+  missing: { text: "No Hindi yet", cls: "bg-slate-50 text-slate", note: "Hindi pages and emails show this scheme in English until you add a translation." },
+  current: { text: "Hindi up to date", cls: "bg-leaf-50 text-leaf", note: "Hindi pages, scan results and alert emails use this text." },
+  outdated: {
+    text: "Hindi out of date",
+    cls: "bg-marigold-50 text-marigold-ink",
+    note: "The English changed after this Hindi was written, so Hindi readers see the English for now. Update the Hindi to say the same as the English, then save.",
+  },
+} as const;
+
+/** Hindi version of a scheme: its own save, so a translator never touches the English or the rule. */
+function HindiEditor({ scheme, onSaved }: { scheme: AdminScheme; onSaved: () => void }) {
+  const base = scheme.translations?.hi;
+  const [h, setH] = useState({
+    name: base?.name ?? "",
+    summary: base?.summary ?? "",
+    statusNote: base?.statusNote ?? "",
+    benefits: toLines(base?.benefits ?? []),
+    howToApply: toLines(base?.howToApply ?? []),
+    alsoCheck: toLines(base?.alsoCheck ?? []),
+  });
+  const [labels, setLabels] = useState<Record<string, string>>(() =>
+    Object.fromEntries(scheme.hi.labels.map((l) => [l, base?.labels?.[l] ?? ""])),
+  );
+  const [msg, setMsg] = useState<{ kind: "ok" | "err"; text: string } | null>(null);
+  const [busy, setBusy] = useState(false);
+  const st = HI_STATUS[scheme.hi.status];
+  const set = (k: keyof typeof h, v: string) => setH((p) => ({ ...p, [k]: v }));
+
+  async function save() {
+    setBusy(true);
+    setMsg(null);
+    try {
+      await adminCall(`schemes/${scheme.slug}/translations/hi`, "PUT", {
+        name: h.name,
+        summary: h.summary,
+        statusNote: h.statusNote.trim() || null,
+        benefits: fromLines(h.benefits),
+        howToApply: fromLines(h.howToApply),
+        alsoCheck: fromLines(h.alsoCheck),
+        labels,
+      });
+      setMsg({ kind: "ok", text: "Hindi saved. Hindi pages now use it." });
+      onSaved();
+    } catch (e) {
+      setMsg({ kind: "err", text: (e as Error).message });
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  const pair = (en: string | string[] | null, children: React.ReactNode) => (
+    <div className="grid gap-3 md:grid-cols-2">
+      <div className="rounded-md bg-slate-50 px-3 py-2 text-[0.93rem] text-slate">
+        {Array.isArray(en) ? en.map((x) => <p key={x}>{x}</p>) : en || <em>Empty</em>}
+      </div>
+      <div lang="hi">{children}</div>
+    </div>
+  );
+
+  return (
+    <section aria-labelledby="hi-h" className="mt-14 border-t-2 border-neel-900 pt-8">
+      <div className="flex flex-wrap items-center gap-3">
+        <h2 id="hi-h" className="text-[1.6rem] font-bold">Hindi</h2>
+        <span className={`rounded px-2 py-1 font-semibold ${st.cls}`}>{st.text}</span>
+      </div>
+      <p className="mt-2 max-w-[70ch] text-slate">{st.note} English is on the left; write the Hindi on the right.</p>
+
+      <div className="mt-6 space-y-5">
+        <div>
+          <p className={fieldLabel}>Name</p>
+          {pair(scheme.name, <input aria-label="Hindi name" className={field} value={h.name} onChange={(e) => set("name", e.target.value)} />)}
+        </div>
+        <div>
+          <p className={fieldLabel}>Summary</p>
+          {pair(scheme.summary, <textarea aria-label="Hindi summary" rows={4} className={field} value={h.summary} onChange={(e) => set("summary", e.target.value)} />)}
+        </div>
+        {scheme.statusNote && (
+          <div>
+            <p className={fieldLabel}>Status note</p>
+            {pair(scheme.statusNote, <input aria-label="Hindi status note" className={field} value={h.statusNote} onChange={(e) => set("statusNote", e.target.value)} />)}
+          </div>
+        )}
+        {(
+          [
+            ["benefits", "What you get"],
+            ["howToApply", "How to apply"],
+            ["alsoCheck", "Also check"],
+          ] as const
+        ).map(([k, l]) => (
+          <div key={k}>
+            <p className={fieldLabel}>{l} (one point per line)</p>
+            {pair(scheme[k], <textarea aria-label={`Hindi ${l}`} rows={4} className={field} value={h[k]} onChange={(e) => set(k, e.target.value)} />)}
+          </div>
+        ))}
+        <div>
+          <p className={fieldLabel}>Conditions shown in scan results</p>
+          <div className="space-y-3">
+            {scheme.hi.labels.map((l) => (
+              <div key={l}>
+                {pair(
+                  l,
+                  <input
+                    aria-label={`Hindi for: ${l}`}
+                    className={field}
+                    value={labels[l] ?? ""}
+                    onChange={(e) => setLabels((p) => ({ ...p, [l]: e.target.value }))}
+                  />,
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="mt-6 flex flex-wrap items-center gap-3">
+        <button type="button" onClick={save} disabled={busy} className={btn}>
+          {busy ? "Saving…" : "Save Hindi"}
+        </button>
+        {msg && <p role="status" className={msg.kind === "ok" ? "text-leaf" : "text-marigold-ink"}>{msg.text}</p>}
+      </div>
+    </section>
+  );
 }
 
 const toLines = (a: string[]) => a.join("\n");
@@ -42,6 +178,11 @@ function RuleTree({ c }: { c: Condition }) {
 
 export function AdminSchemeEditor({ scheme: initial }: { scheme: AdminScheme }) {
   const [s, setS] = useState(initial);
+  const [hiKey, setHiKey] = useState(0);
+  const refresh = async () => {
+    setS(await adminCall<AdminScheme>(`schemes/${initial.slug}`));
+    setHiKey((k) => k + 1);
+  };
   const [lines, setLines] = useState({
     benefits: toLines(initial.benefits),
     howToApply: toLines(initial.howToApply),
@@ -88,7 +229,8 @@ export function AdminSchemeEditor({ scheme: initial }: { scheme: AdminScheme }) 
         rule: parsedRule.rule,
         markVerified: checked,
       });
-      setS(saved);
+      setS({ ...s, ...saved });
+      await refresh();
       setChecked(false);
       setMsg({ kind: "ok", text: saved.lastVerifiedAt ? "Saved and marked checked." : "Saved. It shows as not checked until someone confirms it against the source." });
     } catch (err) {
@@ -112,6 +254,7 @@ export function AdminSchemeEditor({ scheme: initial }: { scheme: AdminScheme }) 
   }
 
   return (
+    <>
     <form onSubmit={save} className="grid gap-10 lg:grid-cols-[1fr_22rem]">
       <div className="space-y-5">
         <div>
@@ -207,5 +350,7 @@ export function AdminSchemeEditor({ scheme: initial }: { scheme: AdminScheme }) 
         </div>
       </aside>
     </form>
+    <HindiEditor key={hiKey} scheme={s} onSaved={refresh} />
+    </>
   );
 }

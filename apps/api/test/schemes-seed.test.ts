@@ -1,6 +1,7 @@
-import { checkEligibility, type Condition, conditionSchema, FACT_KEYS, type FactKey, schemeEditSchema } from "@foundura/shared";
+import { checkEligibility, type Condition, conditionSchema, FACT_KEYS, type FactKey, schemeEditSchema, schemeTranslationSchema, visibleConditionLabels } from "@foundura/shared";
 import { describe, expect, it } from "vitest";
 import { SCHEMES } from "../db/seed-data/schemes";
+import { SCHEMES_HI } from "../db/seed-data/schemes-hi";
 
 const KNOWN_FACTS: readonly FactKey[] = FACT_KEYS;
 
@@ -30,6 +31,20 @@ describe("scheme seed catalogue", () => {
       expect(rule.success, `${s.slug}: ${JSON.stringify(rule.error?.issues)}`).toBe(true);
       const all = schemeEditSchema.safeParse({ ...s, statusNote: s.statusNote ?? null });
       expect(all.success, `${s.slug}: ${JSON.stringify(all.error?.issues)}`).toBe(true);
+    }
+  });
+
+  it("has a Hindi draft for every scheme that translates every visible condition", () => {
+    expect(Object.keys(SCHEMES_HI).sort()).toEqual(SCHEMES.map((s) => s.slug).sort());
+    for (const s of SCHEMES) {
+      const hi = SCHEMES_HI[s.slug];
+      expect(schemeTranslationSchema.safeParse(hi).success, s.slug).toBe(true);
+      expect(Object.keys(hi.labels).sort(), `${s.slug} labels`).toEqual(visibleConditionLabels(s.rule).sort());
+      expect(hi.benefits.length, `${s.slug} benefits`).toBe(s.benefits.length);
+      expect(hi.howToApply.length, `${s.slug} howToApply`).toBe(s.howToApply.length);
+      expect(hi.alsoCheck.length, `${s.slug} alsoCheck`).toBe(s.alsoCheck.length);
+      expect(hi.statusNote === null, `${s.slug} statusNote`).toBe(!s.statusNote);
+      expect(/[\u0900-\u097F]/.test(hi.summary), `${s.slug} summary in Devanagari`).toBe(true);
     }
   });
 

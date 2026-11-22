@@ -19,6 +19,8 @@ export const en = {
     source: "Source: {name}",
     skipToContent: "Skip to content",
     contentInEnglish: "",
+    someSchemesInEnglish: "",
+    schemeInEnglish: "",
   },
   months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
   money: { lakh: "₹{n} lakh", crore: "₹{n} crore", range: "{min} to {max}" },

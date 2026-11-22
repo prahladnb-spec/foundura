@@ -4,6 +4,9 @@ import { clientIpHeader } from "./client-ip";
 
 export const API_URL = process.env.API_URL ?? "http://localhost:4000";
 
+/** Cache tag on every public content fetch. */
+export const CONTENT_TAG = "content";
+
 export class ApiError extends Error {
   constructor(
     public status: number,
@@ -24,7 +27,8 @@ export async function api<T>(path: string, init: RequestInit & { token?: string;
       ...(token ? { Authorization: `Bearer ${token}`, ...(await clientIpHeader()) } : {}),
       ...headers,
     },
-    ...(token || rest.method ? { cache: "no-store" as const } : { next: { revalidate } }),
+    // Public content is cached and tagged, so editor changes can clear it at once (see the admin proxy).
+    ...(token || rest.method ? { cache: "no-store" as const } : { next: { revalidate, tags: [CONTENT_TAG] } }),
   });
   if (!res.ok) {
     let message = res.statusText;

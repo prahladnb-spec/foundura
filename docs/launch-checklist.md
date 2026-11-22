@@ -42,6 +42,7 @@ The DPDP Act's main duties (notice, consent, security safeguards, breach notific
 
 ## Content
 
+- [ ] Have a fluent Hindi reader review the Hindi drafts of all 14 schemes in each scheme's Hindi section (especially the conditions, which decide eligibility). After checking a scheme's English against the official source, update its Hindi too if the English changed.
 - [ ] **Check all 14 schemes** against their official sources in `/admin/schemes`. Until then every scheme page, and the alert emails, tell founders to confirm on the official page.
 - [ ] Confirm or remove the events marked "To verify".
 - [ ] Publish 5 to 10 founder guides from the content calendar, so `/learn` doesn't look empty.

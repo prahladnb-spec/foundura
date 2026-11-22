@@ -6,6 +6,7 @@ import type { Db } from "../db/client";
 import { DB } from "../db/db.module";
 import { articles, events, policyItems, schemes } from "../db/schema";
 import { StartupsService } from "../startups/startups.service";
+import { localizeScheme } from "../schemes/localize";
 
 /** Public, read-only content used by the website (SEO pages). */
 /** Public, cacheable reads. The web server caches these, so they are not rate limited per visitor. */
@@ -18,23 +19,30 @@ export class ContentController {
   ) {}
 
   @Get("schemes")
-  listSchemes(@Query("level") level?: string, @Query("state") state?: string, @Query("category") category?: string) {
+  async listSchemes(
+    @Query("level") level?: string,
+    @Query("state") state?: string,
+    @Query("category") category?: string,
+    @Query("lang") lang?: string,
+  ) {
     const where: SQL[] = [];
     if (level) where.push(eq(schemes.level, level));
     if (state) where.push(eq(schemes.state, state));
     if (category) where.push(eq(schemes.category, category));
-    return this.db
+    const rows = await this.db
       .select()
       .from(schemes)
       .where(where.length ? and(...where) : undefined)
       .orderBy(asc(schemes.level), asc(schemes.name));
+    return rows.map((s) => localizeScheme(s, lang === "hi" ? "hi" : "en"));
   }
 
+  /** `?lang=hi` returns the Hindi text when a current translation exists; `contentLang` says which language came back. */
   @Get("schemes/:slug")
-  async getScheme(@Param("slug") slug: string) {
+  async getScheme(@Param("slug") slug: string, @Query("lang") lang?: string) {
     const [s] = await this.db.select().from(schemes).where(eq(schemes.slug, slug)).limit(1);
     if (!s) throw new NotFoundException("Scheme not found.");
-    return s;
+    return localizeScheme(s, lang === "hi" ? "hi" : "en");
   }
 
   /** Upcoming events by default; `?all=1` includes past ones. */

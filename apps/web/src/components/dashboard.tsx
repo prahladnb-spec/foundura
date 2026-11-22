@@ -156,7 +156,7 @@ export function Dashboard({
     if (!current) return;
     setBusy(true);
     try {
-      setScan(await call(`startups/${current.id}/scan`, "GET"));
+      setScan(await call(`startups/${current.id}/scan?lang=${lang}`, "GET"));
     } catch (err) {
       setMsg({ kind: "err", text: (err as Error).message });
     } finally {

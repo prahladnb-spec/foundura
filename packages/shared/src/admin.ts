@@ -114,3 +114,33 @@ export const ARTICLE_THEMES = [
 export function readMinutes(markdown: string): number {
   return Math.max(1, Math.round(markdown.split(/\s+/).filter(Boolean).length / 200));
 }
+
+/**
+ * The condition labels a person can see in scan results, in order: fact labels and labelled groups
+ * (a labelled group reports as one line, so its children are not shown). These are what a
+ * translation must cover.
+ */
+export function visibleConditionLabels(c: Condition): string[] {
+  const out: string[] = [];
+  const walk = (n: Condition) => {
+    if ("fact" in n) out.push(n.label);
+    else if (n.label) out.push(n.label);
+    else ("all" in n ? n.all : n.any).forEach(walk);
+  };
+  walk(c);
+  return [...new Set(out)];
+}
+
+const tLines = z.array(z.string().min(2).max(500)).max(20);
+
+/** A scheme's text in another language. `labels` maps each visible English condition label to its translation. */
+export const schemeTranslationSchema = z.object({
+  name: z.string().min(3).max(200),
+  summary: z.string().min(10).max(1200),
+  benefits: tLines,
+  howToApply: tLines,
+  alsoCheck: tLines,
+  statusNote: z.string().max(500).nullable(),
+  labels: z.record(z.string().min(1).max(240), z.string().min(1).max(240)),
+});
+export type SchemeTranslationInput = z.infer<typeof schemeTranslationSchema>;

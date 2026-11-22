@@ -1,6 +1,6 @@
 import { AdminGuard } from "../admin/admin.guard";
 import { DigestService } from "../digest/digest.service";
-import { Body, Controller, Delete, Get, HttpCode, Inject, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, Inject, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
 import {
   introRequestSchema,
   introResponseSchema,
@@ -139,9 +139,9 @@ export class MeController {
 
   /** Scheme Scan run from the saved profile. */
   @Get("startups/:id/scan")
-  async scanStartup(@CurrentUser() user: SessionUser, @Param("id") id: string) {
+  async scanStartup(@CurrentUser() user: SessionUser, @Param("id") id: string, @Query("lang") lang?: string) {
     const s = await this.startups.getMine(user.id, id);
-    return this.scans.scan(toScanInput(s));
+    return this.scans.scan(toScanInput(s), undefined, lang === "hi" ? "hi" : "en");
   }
 
   // ----- consent and data rights -----

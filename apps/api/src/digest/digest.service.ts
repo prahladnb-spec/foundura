@@ -137,13 +137,14 @@ export class DigestService {
     previous: { schemes: Snapshot; sentAt: Date } | null,
     shared: Awaited<ReturnType<DigestService["sharedContent"]>>,
     today = todayInIndia(),
+    locale: Locale = "en",
   ): Promise<DigestContent> {
     let newSchemes: ScanMatch[] = [];
     let updatedSchemes: ScanMatch[] = [];
     let snapshot: Snapshot = [];
 
     if (startup) {
-      const result = await this.scan.scan(toScanInput(startup), today);
+      const result = await this.scan.scan(toScanInput(startup), today, locale);
       const relevant = result.matches.filter(
         (m): m is ScanMatch & { status: "eligible" | "maybe" } =>
           (m.status === "eligible" || m.status === "maybe") && m.scheme.status !== "closed",
@@ -271,7 +272,7 @@ export class DigestService {
         .orderBy(desc(digestSends.sentAt))
         .limit(1);
 
-      const content = await this.compose(startup ?? null, previous ?? null, shared, today);
+      const content = await this.compose(startup ?? null, previous ?? null, shared, today, user.locale);
       if (!this.hasNews(content)) {
         result.nothingNew++;
         continue;

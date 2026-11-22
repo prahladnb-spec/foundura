@@ -3,7 +3,8 @@ import { NextResponse } from "next/server";
 import { API_URL } from "@/lib/api";
 
 export async function POST(req: Request) {
-  const res = await fetch(`${API_URL}/v1/scan`, {
+  const lang = new URL(req.url).searchParams.get("lang") === "hi" ? "?lang=hi" : "";
+  const res = await fetch(`${API_URL}/v1/scan${lang}`, {
     method: "POST",
     headers: { ...(await clientIpHeader()), "Content-Type": "application/json" },
     body: await req.text(),

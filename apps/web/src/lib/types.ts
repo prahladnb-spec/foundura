@@ -14,6 +14,8 @@ export interface Scheme {
   sourceUrl: string;
   sourceName: string;
   lastVerifiedAt: string | null;
+  /** Language the text came back in ("en" when no current translation exists). */
+  contentLang: "en" | "hi";
 }
 
 export type MatchStatus = "eligible" | "maybe" | "not_eligible";
@@ -38,6 +40,7 @@ export interface ScanMatch {
     | "sourceName"
     | "alsoCheck"
     | "lastVerifiedAt"
+    | "contentLang"
   >;
 }
 

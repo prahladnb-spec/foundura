@@ -1,6 +1,7 @@
 import { clientIpHeader } from "@/lib/client-ip";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
-import { API_URL } from "@/lib/api";
+import { API_URL, CONTENT_TAG } from "@/lib/api";
 import { getToken } from "@/lib/session";
 
 /**
@@ -19,6 +20,8 @@ async function forward(req: Request, ctx: { params: Promise<{ path: string[] }> 
     cache: "no-store",
   });
   const text = await res.text();
+  // An editor changed content: drop cached public pages so the change shows straight away.
+  if (res.ok && req.method !== "GET") revalidateTag(CONTENT_TAG);
   return new NextResponse(text || null, {
     status: res.status,
     headers: { "Content-Type": res.headers.get("content-type") ?? "application/json" },

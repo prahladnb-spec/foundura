@@ -50,7 +50,7 @@ export class AdminDigestController {
       ? await this.db.select().from(startups).where(eq(startups.ownerId, actor.actorId)).limit(1)
       : [];
     const startup = own ?? sampleStartup(today);
-    const content = await this.digest.compose(startup, null, await this.digest.sharedContent(today), today);
+    const content = await this.digest.compose(startup, null, await this.digest.sharedContent(today), today, lang);
     return {
       basedOn: own ? "your startup profile" : "a sample Karnataka medtech startup",
       hasNews: this.digest.hasNews(content),

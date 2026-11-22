@@ -8,9 +8,9 @@ import { api, ApiError } from "@/lib/api";
 import { fmtDate } from "@/lib/format";
 import type { Scheme } from "@/lib/types";
 
-async function load(slug: string): Promise<Scheme> {
+async function load(slug: string, lang = "en"): Promise<Scheme> {
   try {
-    return await api<Scheme>(`/schemes/${encodeURIComponent(slug)}`);
+    return await api<Scheme>(`/schemes/${encodeURIComponent(slug)}${lang === "hi" ? "?lang=hi" : ""}`);
   } catch (e) {
     if (e instanceof ApiError && e.status === 404) notFound();
     throw e;
@@ -20,7 +20,8 @@ async function load(slug: string): Promise<Scheme> {
 type Params = Promise<{ slug: string; lang: string }>;
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
-  const s = await load((await params).slug);
+  const p = await params;
+  const s = await load(p.slug, p.lang);
   return { title: s.name, description: s.summary };
 }
 
@@ -29,8 +30,10 @@ export default async function SchemePage({ params }: { params: Params }) {
   const lang = isLang(p.lang) ? p.lang : "en";
   const t = getDict(lang);
   const sc = t.scheme;
-  const cond = lang === "en" ? undefined : "en";
-  const s = await load(p.slug);
+  const s = await load(p.slug, lang);
+  // Text is in English when no current Hindi translation exists; issuer and source names stay English.
+  const cond = s.contentLang !== lang ? "en" : undefined;
+  const nameCond = lang === "en" ? undefined : "en";
   const stateName = s.state ? String(lab(t.labels.state, s.state)) : undefined;
   const stateNameEn = s.state ? String(lab(getDict("en").labels.state, s.state)) : undefined;
   return (
@@ -53,10 +56,10 @@ export default async function SchemePage({ params }: { params: Params }) {
       </p>
       <h1 lang={cond} className="display mt-2 text-5xl md:text-6xl">{s.name}</h1>
       <p className="mt-2 text-slate">
-        <span lang={cond}>{s.issuer}</span>; {lab(t.labels.category, s.category)};{" "}
+        <span lang={nameCond}>{s.issuer}</span>; {lab(t.labels.category, s.category)};{" "}
         <span className={s.status === "closed" ? "font-semibold text-marigold-ink" : ""}>{lab(t.labels.schemeStatus, s.status)}</span>
       </p>
-      {t.common.contentInEnglish && <p className="mt-4 text-[0.92rem] text-slate">{t.common.contentInEnglish}</p>}
+      {cond && t.common.schemeInEnglish && <p className="mt-4 text-[0.92rem] text-slate">{t.common.schemeInEnglish}</p>}
       <p lang={cond} className="mt-6 text-lg">{s.summary}</p>
       {s.statusNote && (
         <p lang={cond} className="mt-4 rounded-md border border-marigold bg-marigold-50 px-4 py-3 text-marigold-ink">{s.statusNote}</p>
@@ -90,7 +93,7 @@ export default async function SchemePage({ params }: { params: Params }) {
       </div>
 
       <p className="mt-8 text-[0.92rem] text-slate">
-        {sc.official} <a href={s.sourceUrl} target="_blank" rel="noopener noreferrer" lang={cond} className="underline">{s.sourceName}</a>.{" "}
+        {sc.official} <a href={s.sourceUrl} target="_blank" rel="noopener noreferrer" lang={nameCond} className="underline">{s.sourceName}</a>.{" "}
         {s.lastVerifiedAt ? f(sc.checked, { date: fmtDate(s.lastVerifiedAt, true, lang) }) : sc.unchecked}
       </p>
     </article>

@@ -11,8 +11,8 @@ import { Stamp } from "./stamp";
 function Reasons({ m }: { m: ScanMatch }) {
   const { lang, t } = useT();
   const r = t.results;
-  // Condition labels come from the scheme rules, which are in English for now.
-  const cond = lang === "en" ? undefined : "en";
+  // Condition lines are English when this scheme has no current translation.
+  const cond = m.scheme.contentLang !== lang ? "en" : undefined;
   return (
     <div className="mt-3 grid gap-3 text-[0.93rem] md:grid-cols-2">
       {m.met.length > 0 && (
@@ -71,7 +71,8 @@ function Reasons({ m }: { m: ScanMatch }) {
 function Row({ m, i, newTab }: { m: ScanMatch; i: number; newTab: boolean }) {
   const { lang, t } = useT();
   const s = m.scheme;
-  const cond = lang === "en" ? undefined : "en";
+  const cond = s.contentLang !== lang ? "en" : undefined;
+  const nameCond = lang === "en" ? undefined : "en";
   return (
     <li className="grid gap-3 py-6 border-b border-rule md:grid-cols-[9rem_1fr]">
       <div className="pt-1">
@@ -90,7 +91,7 @@ function Row({ m, i, newTab }: { m: ScanMatch; i: number; newTab: boolean }) {
           )}
         </h3>
         <p className="text-[0.93rem] text-slate">
-          <span lang={cond}>{s.issuer}</span>
+          <span lang={nameCond}>{s.issuer}</span>
           {s.level === "state" ? `, ${lab(t.labels.state, s.state)}` : ""}
           {"; "}
           {lab(t.labels.category, s.category)}
@@ -108,7 +109,7 @@ function Row({ m, i, newTab }: { m: ScanMatch; i: number; newTab: boolean }) {
           </details>
         )}
         <p className="mt-3 text-[0.88rem] text-slate">
-          {t.results.sourceLabel} <a href={s.sourceUrl} target="_blank" rel="noopener noreferrer" lang={cond} className="underline">{s.sourceName}</a>
+          {t.results.sourceLabel} <a href={s.sourceUrl} target="_blank" rel="noopener noreferrer" lang={nameCond} className="underline">{s.sourceName}</a>
           {s.lastVerifiedAt ? f(t.results.sourceChecked, { date: fmtDate(s.lastVerifiedAt, true, lang) }) : t.results.sourceUnchecked}
         </p>
       </div>
@@ -131,7 +132,9 @@ export function ScanResults({ result, newTab = false }: { result: ScanResult; ne
         {counts.maybe > 0 ? f(r.moreCould, { n: counts.maybe }) : ""}
         {f(r.explain, { date: fmtDate(result.date, true, lang) })}
       </p>
-      {t.common.contentInEnglish && <p className="mt-3 text-[0.92rem] text-slate">{t.common.contentInEnglish}</p>}
+      {result.matches.some((m) => m.scheme.contentLang !== lang) && t.common.someSchemesInEnglish && (
+        <p className="mt-3 text-[0.92rem] text-slate">{t.common.someSchemesInEnglish}</p>
+      )}
       <ol className="mt-6 border-t-2 border-neel-900">
         {shown.map((m, i) => (
           <Row key={m.scheme.slug} m={m} i={i} newTab={newTab} />

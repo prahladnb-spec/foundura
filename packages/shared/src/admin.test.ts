@@ -37,3 +37,18 @@ describe("readMinutes", () => {
     expect(readMinutes("short")).toBe(1);
   });
 });
+
+describe("visibleConditionLabels", () => {
+  it("lists fact labels and labelled groups, not the children of labelled groups", async () => {
+    const { visibleConditionLabels } = await import("./admin");
+    expect(
+      visibleConditionLabels({
+        all: [
+          { fact: "dpiitRecognised", op: "isTrue", label: "A" },
+          { any: [{ fact: "ageYears", op: "lte", value: 10, label: "hidden" }], label: "B" },
+          { all: [{ fact: "womenLed", op: "isTrue", label: "C" }, { fact: "dpiitRecognised", op: "isTrue", label: "A" }] },
+        ],
+      }),
+    ).toEqual(["A", "B", "C"]);
+  });
+});

@@ -38,7 +38,7 @@ function YesNo({ name, value, onChange, legend }: { name: string; value: Tri; on
 }
 
 export function ScanForm({ initial, embedded = false }: { initial: Partial<Record<string, string | undefined>>; embedded?: boolean }) {
-  const { t } = useT();
+  const { lang, t } = useT();
   const sc = t.scan;
   const [entityType, setEntityType] = useState(initial.entityType ?? "");
   const [incorporationDate, setIncorporationDate] = useState("");
@@ -76,7 +76,7 @@ export function ScanForm({ initial, embedded = false }: { initial: Partial<Recor
       womenLed: tri(womenLed),
     };
     try {
-      const res = await fetch("/api/scan", {
+      const res = await fetch(`/api/scan?lang=${lang}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),

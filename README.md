@@ -11,7 +11,7 @@ India's founder launchpad. Phase 1 MVP:
 - **Weekly scheme alerts**: founders who turn on alerts get one email a week, and only when something is new for them: schemes they now qualify for, changes to their schemes, deadlines in the next two weeks, the week's policy news and new guides. One-click unsubscribe (including mail apps' built-in button) is recorded in the consent ledger.
 - **Events**, **Policy news** and **Founder guides**, fed from the tracker sheets and the daily content engine.
 - **Terms of use and grievance officer**: `/terms` and `/privacy` read the company and grievance officer details from settings, so they can change without a release. New accounts confirm they're 18+ and accept the terms. Every account holder gets a yearly reminder of both documents, as the IT Rules 2021 require.
-- **English and Hindi**: English at the plain URLs, Hindi under `/hi/...`, with a switch in the header. Emails come in each person's chosen language. The privacy notice and terms are fully translated, as the DPDP Act expects notices to be offered in Indian languages. Scheme summaries, events, policy items and guides are database content and stay in English for now (Hindi pages say so). The investor dashboard and editor console are English-only.
+- **English and Hindi**: English at the plain URLs, Hindi under `/hi/...`, with a switch in the header. Emails come in each person's chosen language. The privacy notice and terms are fully translated, as the DPDP Act expects notices to be offered in Indian languages. Schemes have Hindi text (name, summary, benefits, how to apply, checks and every condition shown in scan results), edited in the scheme editor's Hindi section. Events, policy items and guides stay in English for now (Hindi pages say so). The investor dashboard and editor console are English-only.
 - **Privacy by design** (DPDP Act 2023 / GDPR): consent ledger, self-service data export and account deletion, hashed sign-in codes, minimal data.
 
 Foundura never handles money.
@@ -56,6 +56,10 @@ With `OTP_DELIVERY=dev`, the sign-in code is shown on screen instead of emailed.
 ## Languages
 
 Interface text lives in `apps/web/src/i18n/en.ts` and `hi.ts`. `hi.ts` is typed against `en.ts`, so a missing Hindi string fails the build. Use `<Link>` from `@/components/locale-link` (it adds `/hi` on Hindi pages), `useT()` in client components and `getDict(lang)` in server components. `src/middleware.ts` serves English from the plain URLs, redirects `/en/...` to them, and keeps the editor console English-only. Partners can show the embedded scan in Hindi with `data-lang="hi"`.
+
+Scheme translations live in `schemes.translations.hi`, stamped with a fingerprint of the English they were written from. If an editor later changes the English (text or condition labels), the Hindi is marked out of date in the console and Hindi readers see the current English until the Hindi is updated, so nobody reads stale eligibility rules. `GET /v1/schemes?lang=hi`, `GET /v1/schemes/:slug?lang=hi` and `POST /v1/scan?lang=hi` return Hindi where it's current, with `contentLang` saying which language came back. The seed ships Hindi drafts for all 14 schemes and only adds them where a scheme has none.
+
+Editor saves clear the web app's cached public pages (`revalidateTag("content")` in the admin proxy), so changes show at once instead of within 5 minutes.
 
 Emails follow each person's language (`users.locale`). It's set from the page they sign in on, can be changed under "Email language" on the dashboard, and is used for sign-in codes, intro notifications, weekly scheme alerts and the yearly terms reminder; links in those emails go to pages in the same language. Email wording lives in `apps/api/src/mail/templates.ts`. Editors can preview the weekly alert in either language at `/admin/alerts`.
 
@@ -128,6 +132,7 @@ Rows are upserted, so re-importing is safe.
 | `GET/POST/PATCH /me/investor`; `GET /me/investor/matches` | Investor profile; consenting startups that fit |
 | `GET /admin/overview`, `/admin/audit` | Editor dashboard counts; audit log |
 | `GET /admin/schemes`, `/admin/schemes/:slug`; `PUT /admin/schemes/:slug`; `POST /admin/schemes`, `/admin/schemes/:slug/verify`, `/admin/rules/validate` | Scheme review and editing |
+| `PUT /admin/schemes/:slug/translations/hi` | Save a scheme's Hindi (must translate every visible condition) |
 | `GET /admin/investors`; `POST /admin/investors/:id/verify`, `/admin/investors/:id/listing` | Investor review |
 | `GET/POST /admin/articles`, `GET/PUT /admin/articles/:slug` | Articles and publishing |
 | `POST /admin/import/events`, `/admin/import/policy` | CSV import |

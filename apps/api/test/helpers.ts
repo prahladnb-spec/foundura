@@ -4,6 +4,8 @@ import { sql } from "drizzle-orm";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
 import request from "supertest";
 import { SCHEMES } from "../db/seed-data/schemes";
+import { SCHEMES_HI } from "../db/seed-data/schemes-hi";
+import { englishFingerprint } from "../src/schemes/localize";
 import { loadConfig } from "../src/config";
 import { createDb } from "../src/db/client";
 import { schemes } from "../src/db/schema";
@@ -21,7 +23,10 @@ export async function startTestApp(overrides: Record<string, string> = {}): Prom
   await db.execute(sql`DROP SCHEMA IF EXISTS drizzle CASCADE;`);
   await migrate(db, { migrationsFolder: path.join(__dirname, "..", "drizzle") });
   for (const s of SCHEMES) {
-    await db.insert(schemes).values({ ...s, state: s.state ?? null, statusNote: s.statusNote ?? null });
+    const row = { ...s, state: s.state ?? null, statusNote: s.statusNote ?? null };
+    const draft = SCHEMES_HI[s.slug];
+    const translations = draft ? { hi: { ...draft, sourceHash: englishFingerprint(row), updatedAt: new Date().toISOString() } } : {};
+    await db.insert(schemes).values({ ...row, translations });
   }
   await pool.end();
 
