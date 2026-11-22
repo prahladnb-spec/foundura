@@ -47,4 +47,32 @@ test.describe("illustrations and infographics", () => {
     await page.goto("/hi/learn");
     await expect(page.getByRole("list", { name: "आइडिया से बाज़ार तक" }).getByRole("link", { name: "लीन कैनवस" })).toHaveAttribute("href", "/hi/documents/lean-canvas");
   });
+
+  test("template covers: a shelf of the essentials, the cover on each covered template, and on its share image", async ({ page, request }) => {
+    await page.goto("/documents");
+    const shelf = page.locator("section[aria-labelledby=essentials-h]");
+    await expect(shelf.getByRole("listitem")).toHaveCount(12);
+    for (const img of await shelf.locator("img").all()) {
+      await img.scrollIntoViewIfNeeded();
+      await expect(img).toHaveAttribute("alt", "");
+      expect(await img.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0)).toBe(true);
+    }
+    await shelf.getByRole("link", { name: /Financial model/ }).click();
+    await expect(page).toHaveURL(/\/documents\/financial-model$/);
+    await expect(page.locator('img[src="/art/covers/financial-model.svg"]')).toHaveAttribute("alt", "");
+
+    await page.goto("/hi/documents");
+    await expect(page.locator("#essentials-h")).toHaveText("सबसे ज़रूरी");
+    await expect(page.locator("section[aria-labelledby=essentials-h]").getByRole("link", { name: /पिच डेक/ })).toHaveAttribute("href", "/hi/documents/pitch-deck");
+
+    // A template without a cover keeps the plain header.
+    await page.goto("/documents/relieving-letter");
+    await expect(page.locator('img[src^="/art/covers/"]')).toHaveCount(0);
+
+    await page.goto("/documents/term-sheet");
+    const og = new URL((await page.locator('meta[property="og:image"]').getAttribute("content"))!);
+    const img = await request.get(og.pathname + og.search);
+    expect(img.status()).toBe(200);
+    expect(img.headers()["content-type"]).toBe("image/png");
+  });
 });

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <rect width="320" height="240" fill="#f1f3fb"/>
+  <!-- envelope -->
+  <path d="M60 110 h200 v104 a6 6 0 0 1 -6 6 H66 a6 6 0 0 1 -6 -6z" fill="#e4e7f6" transform="translate(6 6)"/>
+  <path d="M60 110 L160 40 L260 110" fill="#e8cf8f" stroke="#141b47" stroke-width="3"/>
+  <!-- letter rising out -->
+  <g>
+    <rect x="86" y="44" width="148" height="140" rx="4" fill="#fff" stroke="#141b47" stroke-width="3"/>
+    <circle cx="112" cy="70" r="12" fill="#fff6dc" stroke="#141b47" stroke-width="2.5"/>
+    <path d="M106 70 l4 4 l8 -8" stroke="#1e7a4e" stroke-width="3"/>
+    <path d="M134 66 h76 M134 76 h50" stroke="#141b47" stroke-width="3" opacity=".6"/>
+    <path d="M104 98 h112 M104 110 h100 M104 122 h108" stroke="#141b47" stroke-width="2.5" opacity=".4"/>
+  </g>
+  <path d="M60 110 v104 a6 6 0 0 0 6 6 h188 a6 6 0 0 0 6 -6 V110 L160 172z" fill="#e8cf8f" stroke="#141b47" stroke-width="3"/>
+  <path d="M60 220 L136 156 M260 220 L184 156" stroke="#141b47" stroke-width="2.5" opacity=".5"/>
+  <!-- confetti -->
+  <g stroke-width="4">
+    <path d="M40 60 l8 6" stroke="#f2a900"/><path d="M272 52 l-6 8" stroke="#c94a36"/>
+    <path d="M286 92 l8 -2" stroke="#1e7a4e"/><path d="M28 98 l6 6" stroke="#3b4aa3"/>
+    <path d="M252 26 l2 8" stroke="#3b4aa3"/><path d="M62 32 l6 -6" stroke="#1e7a4e"/>
+  </g>
+</svg>

@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 import { DeckDownloads } from "@/components/deck-downloads";
 import Link from "@/components/locale-link";
 import { FORMAT, TemplatePreview } from "@/components/template-preview";
-import { CHECKED_ON, checkWith, DOCS, docBySlug, fileName, reviewsFor, SOURCES } from "@/documents";
+import { CHECKED_ON, checkWith, DOCS, docBySlug, fileName, hasCover, reviewsFor, SOURCES } from "@/documents";
+import { Cover } from "@/components/template-cover";
 import { f, getDict } from "@/i18n";
 import { isLang, type Lang } from "@/i18n/config";
 import { fmtDate } from "@/lib/format";
@@ -61,8 +62,13 @@ export default async function DocumentPage({ params }: { params: Params }) {
       <p className="text-slate">
         <Link href="/documents" className="underline">{d.title}</Link>, {d.categories[doc.category]}
       </p>
-      <h1 className="display mt-2 text-5xl md:text-6xl">{lang === "hi" ? doc.titleHi : doc.title}</h1>
-      <p className="mt-3 max-w-[62ch] text-xl text-neel-700">{lang === "hi" ? doc.summaryHi : doc.summary}</p>
+      <div className={hasCover(doc.slug) ? "grid items-center gap-x-8 md:grid-cols-[minmax(0,1fr)_15rem]" : ""}>
+        <div className="min-w-0">
+          <h1 className="display mt-2 text-5xl md:text-6xl">{lang === "hi" ? doc.titleHi : doc.title}</h1>
+          <p className="mt-3 max-w-[62ch] text-xl text-neel-700">{lang === "hi" ? doc.summaryHi : doc.summary}</p>
+        </div>
+        {hasCover(doc.slug) && <Cover slug={doc.slug} eager className="art-settle mt-6 hidden w-60 shadow-[5px_5px_0_var(--color-neel-900)] md:block" />}
+      </div>
 
       {doc.template.kind === "deck" ? (
         <DeckDownloads slug={doc.slug} variants={(doc.variants ?? []).map((v) => v.key)} />

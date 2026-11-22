@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <rect width="320" height="240" fill="#e3f3ea"/>
+  <!-- spreadsheet window -->
+  <rect x="38" y="34" width="232" height="168" rx="8" fill="#cde9d9" transform="translate(6 6)"/>
+  <rect x="38" y="34" width="232" height="168" rx="8" fill="#fff" stroke="#141b47" stroke-width="3"/>
+  <path d="M38 42 a8 8 0 0 1 8 -8 h216 a8 8 0 0 1 8 8 v14 H38z" fill="#1e7a4e" stroke="#141b47" stroke-width="3"/>
+  <circle cx="52" cy="45" r="3" fill="#fff"/><circle cx="62" cy="45" r="3" fill="#fff"/><circle cx="72" cy="45" r="3" fill="#fff"/>
+  <g stroke="#141b47" stroke-width="1.6" opacity=".3">
+    <path d="M38 80 h232 M38 104 h232 M38 128 h232 M38 152 h232 M38 176 h232"/>
+    <path d="M84 56 v146 M138 56 v146 M192 56 v146"/>
+  </g>
+  <rect x="38" y="56" width="46" height="146" fill="#141b47" opacity=".05"/>
+  <g stroke="#141b47" stroke-width="2.5" opacity=".55">
+    <path d="M46 68 h28 M46 92 h22 M46 116 h30 M46 140 h24 M46 164 h28 M46 188 h20"/>
+    <path d="M100 92 h24 M154 92 h26 M208 92 h28 M100 116 h20 M154 116 h24 M208 116 h30"/>
+  </g>
+  <!-- rising line across the projection -->
+  <path d="M96 182 C 130 176, 150 160, 176 140 S 226 96, 254 70" stroke="#1e7a4e" stroke-width="5"/>
+  <path d="M242 68 l13 1 l-3 12" stroke="#1e7a4e" stroke-width="5"/>
+  <!-- rupee coin -->
+  <g transform="translate(250 168)">
+    <circle r="26" fill="#f2a900" stroke="#141b47" stroke-width="3"/>
+    <circle r="19" stroke="#8a5a00" stroke-width="2" opacity=".6"/>
+    <path d="M-8 -10 h16 M-8 -4 h16 M-4 -10 c 12 0 12 12 0 12 l11 10" stroke="#8a5a00" stroke-width="3"/>
+  </g>
+</svg>

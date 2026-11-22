@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <rect width="320" height="240" fill="#f1f3fb"/>
+  <!-- the canvas: five columns, two split, two rows along the bottom -->
+  <rect x="34" y="40" width="252" height="164" rx="4" fill="#e4e7f6" transform="translate(6 6)"/>
+  <rect x="34" y="40" width="252" height="164" rx="4" fill="#fff" stroke="#141b47" stroke-width="3"/>
+  <g stroke="#141b47" stroke-width="2.5">
+    <path d="M84 40 v118 M134 40 v118 M186 40 v118 M236 40 v118 M34 158 h252 M160 158 v46"/>
+    <path d="M84 99 h50 M186 99 h50"/>
+  </g>
+  <!-- sticky notes -->
+  <g stroke="#141b47" stroke-width="2">
+    <rect x="42" y="54" width="34" height="30" fill="#fff6dc" transform="rotate(-6 59 69)"/>
+    <rect x="44" y="94" width="32" height="28" fill="#f2a900" transform="rotate(5 60 108)"/>
+    <rect x="92" y="54" width="34" height="30" fill="#cde9d9" transform="rotate(4 109 69)"/>
+    <rect x="142" y="60" width="36" height="34" fill="#fbe5df" transform="rotate(-4 160 77)"/>
+    <rect x="144" y="104" width="34" height="30" fill="#fff6dc" transform="rotate(6 161 119)"/>
+    <rect x="194" y="110" width="34" height="30" fill="#e4e7f6" transform="rotate(-5 211 125)"/>
+    <rect x="244" y="56" width="34" height="30" fill="#cde9d9" transform="rotate(6 261 71)"/>
+    <rect x="46" y="166" width="36" height="28" fill="#fbe5df" transform="rotate(-3 64 180)"/>
+    <rect x="200" y="166" width="36" height="28" fill="#cde9d9" transform="rotate(4 218 180)"/>
+  </g>
+  <!-- marker -->
+  <g transform="translate(256 170) rotate(40)">
+    <rect width="14" height="58" rx="5" fill="#c94a36" stroke="#141b47" stroke-width="2.5"/>
+    <path d="M2 58 h10 l-2 10 h-6z" fill="#141b47"/>
+  </g>
+</svg>

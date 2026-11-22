@@ -5,7 +5,8 @@ import type { Metadata } from "next";
 import { DocumentsFinder } from "@/components/documents-finder";
 import Link from "@/components/locale-link";
 import { FORMAT } from "@/components/template-preview";
-import { CATEGORIES, CHECKED_ON, DOCS } from "@/documents";
+import { CATEGORIES, CHECKED_ON, COVERS, DOCS } from "@/documents";
+import { CoverShelf } from "@/components/template-cover";
 import { f, getDict } from "@/i18n";
 import { isLang } from "@/i18n/config";
 import { fmtDate } from "@/lib/format";
@@ -32,7 +33,9 @@ export default async function DocumentsHub({ params }: { params: Params }) {
         <p className="mt-2 text-slate">{f(d.count, { n: DOCS.length })} {d.free}</p>
       </PageIntro>
 
-      <section aria-labelledby="finder-h" className="mt-10 rounded-xl border-2 border-neel-900 p-6 md:p-8">
+      <CoverShelf slugs={COVERS} lang={lang} title={d.essentials} lead={d.essentialsLead} />
+
+      <section aria-labelledby="finder-h" className="mt-12 rounded-xl border-2 border-neel-900 p-6 md:p-8">
         <h2 id="finder-h" className="display mb-6 text-4xl">{d.finderTitle}</h2>
         <DocumentsFinder docs={Object.fromEntries(DOCS.map((x) => [x.slug, { title: x.title, titleHi: x.titleHi, kind: x.template.kind }]))} />
       </section>

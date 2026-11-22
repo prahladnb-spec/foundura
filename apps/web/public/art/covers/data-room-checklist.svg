@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <rect width="320" height="240" fill="#f1f3fb"/>
+  <!-- filing cabinet, top drawer open with folders -->
+  <g transform="translate(52 24)">
+    <rect x="0" y="0" width="130" height="200" rx="6" fill="#dde2f6" transform="translate(6 6)"/>
+    <rect x="0" y="0" width="130" height="200" rx="6" fill="#3b4aa3" stroke="#141b47" stroke-width="3"/>
+    <rect x="12" y="108" width="106" height="40" rx="3" fill="#e4e7f6" stroke="#141b47" stroke-width="3"/>
+    <rect x="12" y="154" width="106" height="38" rx="3" fill="#e4e7f6" stroke="#141b47" stroke-width="3"/>
+    <path d="M52 128 h26 M52 172 h26" stroke="#141b47" stroke-width="5"/>
+    <!-- open drawer pulled toward us -->
+    <path d="M-6 52 h142 l-8 50 H2z" fill="#e4e7f6" stroke="#141b47" stroke-width="3"/>
+    <path d="M12 52 v-26 l10 -8 h18 v34" fill="#e8cf8f" stroke="#141b47" stroke-width="2.5"/>
+    <path d="M42 52 v-30 l10 -8 h18 v38" fill="#f2a900" stroke="#141b47" stroke-width="2.5"/>
+    <path d="M72 52 v-24 l10 -8 h18 v32" fill="#e8cf8f" stroke="#141b47" stroke-width="2.5"/>
+    <path d="M102 52 v-28 l10 -6 h10 v34" fill="#cde9d9" stroke="#141b47" stroke-width="2.5"/>
+    <path d="M52 80 h26" stroke="#141b47" stroke-width="5"/>
+  </g>
+  <!-- checklist on a clipboard -->
+  <g transform="translate(200 60) rotate(6)">
+    <rect x="0" y="0" width="86" height="130" rx="8" fill="#c98a3d" stroke="#141b47" stroke-width="3"/>
+    <rect x="8" y="14" width="70" height="108" rx="3" fill="#fff" stroke="#141b47" stroke-width="2.5"/>
+    <rect x="26" y="-6" width="34" height="16" rx="4" fill="#e4e7f6" stroke="#141b47" stroke-width="2.5"/>
+    <g stroke-width="2.5">
+      <rect x="16" y="28" width="12" height="12" rx="2" fill="#e3f3ea" stroke="#141b47"/>
+      <path d="M18 34 l3 3 l6 -7" stroke="#1e7a4e" stroke-width="3"/>
+      <rect x="16" y="52" width="12" height="12" rx="2" fill="#e3f3ea" stroke="#141b47"/>
+      <path d="M18 58 l3 3 l6 -7" stroke="#1e7a4e" stroke-width="3"/>
+      <rect x="16" y="76" width="12" height="12" rx="2" fill="#fff" stroke="#141b47"/>
+      <rect x="16" y="100" width="12" height="12" rx="2" fill="#fff" stroke="#141b47"/>
+      <path d="M36 34 h34 M36 58 h28 M36 82 h32 M36 106 h24" stroke="#141b47" opacity=".5"/>
+    </g>
+  </g>
+</svg>

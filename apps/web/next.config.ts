@@ -33,7 +33,7 @@ const nextConfig: NextConfig = {
   // Self-contained server bundle for the Docker image (apps/web/Dockerfile).
   output: "standalone",
   outputFileTracingRoot: path.join(__dirname, "../../"),
-  outputFileTracingIncludes: { "/**/*": ["./assets/og-fonts/*"] },
+  outputFileTracingIncludes: { "/**/*": ["./assets/og-fonts/*", "./public/art/covers/*"] },
   poweredByHeader: false,
   transpilePackages: ["@foundura/shared"],
   async headers() {

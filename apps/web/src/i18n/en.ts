@@ -285,6 +285,8 @@ export const en = {
     metaDescription: "Pitch deck, financial model, cap table, founders' agreement, NDA, offer letter and more: guides and free Word, Excel and PowerPoint templates written for India.",
     lead: "The documents a startup needs, from the first pitch to the first hire. Each one has a short guide, the points that are specific to India, and a template you can download and edit.",
     free: "Free to download. No sign-up, and we don't record who downloads what.",
+    essentials: "The essentials",
+    essentialsLead: "The twelve most founders need: for raising money, signing agreements and hiring the first team.",
     count: "{n} templates.",
     finderTitle: "What do you need first?",
     goal: "What are you doing now?",

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <rect width="320" height="240" fill="#f1f3fb"/>
+  <!-- manila folder held shut with a padlock -->
+  <g transform="rotate(-3 160 130)">
+    <path d="M50 70 h50 l12 -18 h74 l12 18 h72 a8 8 0 0 1 8 8 v120 a8 8 0 0 1 -8 8 H50 a8 8 0 0 1 -8 -8 V78 a8 8 0 0 1 8 -8z" fill="#d9bd72" transform="translate(6 6)"/>
+    <path d="M50 70 h50 l12 -18 h74 l12 18 h72 a8 8 0 0 1 8 8 v120 a8 8 0 0 1 -8 8 H50 a8 8 0 0 1 -8 -8 V78 a8 8 0 0 1 8 -8z" fill="#e8cf8f" stroke="#141b47" stroke-width="3"/>
+    <path d="M126 64 h46" stroke="#141b47" stroke-width="2.5" opacity=".5"/>
+    <!-- tape across -->
+    <path d="M42 132 h236" stroke="#c94a36" stroke-width="12"/>
+  </g>
+  <!-- padlock -->
+  <g transform="translate(160 132)">
+    <path d="M-20 -14 v-14 a20 20 0 0 1 40 0 v14" stroke="#141b47" stroke-width="7"/>
+    <rect x="-32" y="-16" width="64" height="52" rx="8" fill="#f2a900" stroke="#141b47" stroke-width="3"/>
+    <circle cx="0" cy="6" r="7" fill="#141b47"/>
+    <path d="M0 10 v12" stroke="#141b47" stroke-width="6"/>
+  </g>
+  <!-- eye with a slash: not to be shared -->
+  <g transform="translate(262 46)">
+    <circle r="26" fill="#fff" stroke="#141b47" stroke-width="3"/>
+    <path d="M-16 0 c 8 -12 24 -12 32 0 c -8 12 -24 12 -32 0z" stroke="#141b47" stroke-width="2.5"/>
+    <circle r="5" fill="#141b47"/>
+    <path d="M-16 14 l32 -28" stroke="#c94a36" stroke-width="4"/>
+  </g>
+</svg>

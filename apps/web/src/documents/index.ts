@@ -62,3 +62,4 @@ export const SOURCES = [
 ];
 
 export { GOALS, documentsFor, type Goal, type Stage } from "./finder";
+export { COVERS, coverSrc, hasCover } from "./covers";
