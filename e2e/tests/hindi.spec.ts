@@ -80,6 +80,8 @@ test.describe("Hindi", () => {
     "/hi/documents/founders-agreement",
     "/hi/documents/pitch-deck",
     "/hi/documents/cap-table",
+    "/hi/documents/medtech-regulatory-plan",
+    "/hi/documents/quotation-and-invoice",
     "/hi/investors",
     "/hi/partners",
     "/hi/signin",

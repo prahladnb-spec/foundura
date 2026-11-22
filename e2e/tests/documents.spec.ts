@@ -9,16 +9,19 @@ test.describe("founder documents", () => {
   test("the hub lists every template and the finder changes with goal and stage", async ({ page }) => {
     await page.goto("/documents");
     await expect(page.locator("h1")).toHaveText("Founder documents");
-    expect(await page.locator('main section[aria-labelledby^="cat-"] li').count()).toBeGreaterThanOrEqual(31);
+    expect(await page.locator('main section[aria-labelledby^="cat-"] li').count()).toBeGreaterThanOrEqual(47);
 
     const first = page.locator('ol[aria-labelledby="first-h"] li');
     await expect(first.first()).toContainText("Pitch deck");
+    await page.locator("label", { hasText: "Testing an idea" }).click();
+    await expect(first.first()).toContainText("Lean canvas");
     await page.locator("label", { hasText: "Registering the company" }).click();
     await expect(first.first()).toContainText("Founders' agreement");
     await page.locator("label", { hasText: "Hiring people" }).click();
     await expect(first.first()).toContainText("Offer letter");
     const next = page.locator('ol[aria-labelledby="next-h"]');
     await expect(next).not.toContainText("ESOP grant letter");
+    await expect(next).toContainText("Internship offer letter");
     await page.locator("label", { hasText: "Growth" }).click();
     await expect(next).toContainText("ESOP grant letter");
 
@@ -49,7 +52,7 @@ test.describe("founder documents", () => {
     const items = await page.locator('main section[aria-labelledby^="cat-"] li').evaluateAll((lis) =>
       lis.map((li) => ({ slug: li.querySelector("a")!.getAttribute("href")!.split("/").pop()!, format: li.querySelector('span[lang="en"]')!.textContent! })),
     );
-    expect(items.length).toBeGreaterThanOrEqual(31);
+    expect(items.length).toBeGreaterThanOrEqual(47);
     for (const { slug, format } of items) {
       const ext = format === "PowerPoint" ? "pptx" : format === "Excel" ? "xlsx" : "docx";
       const res = await request.get(`/downloads/foundura-${slug}.${ext}`);

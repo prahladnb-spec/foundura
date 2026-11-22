@@ -212,6 +212,7 @@ export const en = {
     goal: "What are you doing now?",
     stage: "Your stage",
     goals: {
+      validate: "Testing an idea",
       incorporate: "Registering the company",
       raise: "Raising investment",
       grant: "Applying for a grant or loan",
