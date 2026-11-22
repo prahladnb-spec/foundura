@@ -1,4 +1,6 @@
 import "server-only";
+import { connection } from "next/server";
+import { clientIpHeader } from "./client-ip";
 
 export const API_URL = process.env.API_URL ?? "http://localhost:4000";
 
@@ -18,7 +20,8 @@ export async function api<T>(path: string, init: RequestInit & { token?: string;
     ...rest,
     headers: {
       "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      // Signed-in calls are per visitor, so pass their IP on; public reads stay cacheable.
+      ...(token ? { Authorization: `Bearer ${token}`, ...(await clientIpHeader()) } : {}),
       ...headers,
     },
     ...(token || rest.method ? { cache: "no-store" as const } : { next: { revalidate } }),
@@ -35,9 +38,14 @@ export async function api<T>(path: string, init: RequestInit & { token?: string;
 
 /** Same as api() but returns `fallback` when the API is unreachable, so public pages still render. */
 export async function apiOr<T>(path: string, fallback: T, revalidate = 300): Promise<T> {
+  let data: T;
   try {
-    return await api<T>(path, { revalidate });
+    data = await api<T>(path, { revalidate });
   } catch {
+    // During `next build` the API is usually unreachable (e.g. inside Docker). Rather than baking an
+    // empty page into the build, render this page on request; the data itself is still cached.
+    if (process.env.NEXT_PHASE === "phase-production-build") await connection();
     return fallback;
   }
+  return data;
 }

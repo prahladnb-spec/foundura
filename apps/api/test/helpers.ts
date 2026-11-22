@@ -15,7 +15,7 @@ export const ADMIN_KEY = "test-admin-key-123";
 export const ADMIN_EMAIL = "editor@foundura.test";
 
 /** Fresh schema, migrations, seeded schemes, and a running app. */
-export async function startTestApp(): Promise<{ app: INestApplication; http: ReturnType<typeof request> }> {
+export async function startTestApp(overrides: Record<string, string> = {}): Promise<{ app: INestApplication; http: ReturnType<typeof request> }> {
   const { db, pool } = createDb(DATABASE_URL);
   await db.execute(sql`DROP SCHEMA IF EXISTS public CASCADE; CREATE SCHEMA public;`);
   await db.execute(sql`DROP SCHEMA IF EXISTS drizzle CASCADE;`);
@@ -33,6 +33,7 @@ export async function startTestApp(): Promise<{ app: INestApplication; http: Ret
       ADMIN_EMAILS: `${ADMIN_EMAIL}, other-admin@foundura.test`,
       OTP_DELIVERY: "dev",
       NODE_ENV: "test",
+      ...overrides,
     }),
   );
   await app.init();

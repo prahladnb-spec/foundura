@@ -1,3 +1,4 @@
+import { clientIpHeader } from "@/lib/client-ip";
 import { NextResponse } from "next/server";
 import { API_URL } from "@/lib/api";
 import { getToken } from "@/lib/session";
@@ -13,7 +14,7 @@ async function forward(req: Request, ctx: { params: Promise<{ path: string[] }> 
   const contentType = req.headers.get("content-type")?.startsWith("text/csv") ? "text/csv" : "application/json";
   const res = await fetch(`${API_URL}/v1/admin/${path.map(encodeURIComponent).join("/")}`, {
     method: req.method,
-    headers: { "Content-Type": contentType, Authorization: `Bearer ${token}` },
+    headers: { ...(await clientIpHeader()), "Content-Type": contentType, Authorization: `Bearer ${token}` },
     body: ["GET", "HEAD"].includes(req.method) ? undefined : await req.text(),
     cache: "no-store",
   });

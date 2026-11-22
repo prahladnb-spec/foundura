@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 export default function PartnersPage() {
-  const host = process.env.NEXT_PUBLIC_SITE_URL ?? "https://foundura.in";
+  const host = process.env.NEXT_PUBLIC_SITE_URL ?? "https://foundura.org";
   return (
     <div className="mx-auto max-w-4xl px-5 pt-10">
       <h1 className="display text-6xl md:text-7xl">Add the Scheme Scan to your website</h1>

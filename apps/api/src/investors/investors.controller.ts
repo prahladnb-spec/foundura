@@ -1,7 +1,10 @@
+import { SkipThrottle } from "@nestjs/throttler";
 import { Controller, Get, Inject, Param, Query } from "@nestjs/common";
 import { InvestorsService, investorPublicView } from "./investors.service";
 
 /** Public investor directory. */
+/** Public, cacheable reads. The web server caches these, so they are not rate limited per visitor. */
+@SkipThrottle()
 @Controller("investors")
 export class InvestorsController {
   constructor(@Inject(InvestorsService) private readonly investors: InvestorsService) {}

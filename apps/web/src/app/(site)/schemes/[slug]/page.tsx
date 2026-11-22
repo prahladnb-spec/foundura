@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { JsonLd } from "@/components/json-ld";
 import { notFound } from "next/navigation";
 import { INDIAN_STATES } from "@foundura/shared";
 import { api, ApiError } from "@/lib/api";
@@ -25,6 +26,18 @@ export default async function SchemePage({ params }: { params: Promise<{ slug: s
   const stateName = INDIAN_STATES.find((x) => x.value === s.state)?.label;
   return (
     <article className="mx-auto max-w-3xl px-5 pt-10">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "GovernmentService",
+          name: s.name,
+          description: s.summary,
+          provider: { "@type": "GovernmentOrganization", name: s.issuer },
+          areaServed: { "@type": s.level === "state" ? "State" : "Country", name: stateName ?? "India" },
+          audience: { "@type": "BusinessAudience", name: "Startups in India" },
+          url: s.sourceUrl,
+        }}
+      />
       <p className="text-slate">
         <Link href="/schemes" className="underline">Schemes</Link>
         {stateName ? `, ${stateName}` : ", Central government"}

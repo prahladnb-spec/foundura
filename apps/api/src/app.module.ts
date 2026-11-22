@@ -7,6 +7,7 @@ import { AdminController } from "./admin/admin.controller";
 import { AdminGuard } from "./admin/admin.guard";
 import { AuditService } from "./admin/audit.service";
 import { MailerService } from "./mail/mailer.service";
+import { HealthController } from "./health/health.controller";
 import { AdminDigestController, DigestController } from "./digest/digest.controller";
 import { DigestScheduler } from "./digest/digest.scheduler";
 import { DigestService } from "./digest/digest.service";
@@ -33,7 +34,7 @@ export function buildAppModule(config: AppConfig) {
       JwtModule.register({ global: true, secret: config.JWT_SECRET, signOptions: { expiresIn: "30d" } }),
       ThrottlerModule.forRoot([{ ttl: 60_000, limit: 120 }]),
     ],
-    controllers: [AuthController, MeController, ScanController, ContentController, InvestorsController, AdminController, AdminConsoleController, DigestController, AdminDigestController],
+    controllers: [AuthController, MeController, ScanController, ContentController, InvestorsController, AdminController, AdminConsoleController, DigestController, AdminDigestController, HealthController],
     providers: [
       AuthService,
       AdminGuard,

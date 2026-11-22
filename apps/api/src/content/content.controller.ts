@@ -1,3 +1,4 @@
+import { SkipThrottle } from "@nestjs/throttler";
 import { Controller, Get, Inject, NotFoundException, Param, Query } from "@nestjs/common";
 import { and, asc, desc, eq, gte, isNotNull, isNull, or, type SQL } from "drizzle-orm";
 import { todayInIndia } from "../common/zod";
@@ -7,6 +8,8 @@ import { articles, events, policyItems, schemes } from "../db/schema";
 import { StartupsService } from "../startups/startups.service";
 
 /** Public, read-only content used by the website (SEO pages). */
+/** Public, cacheable reads. The web server caches these, so they are not rate limited per visitor. */
+@SkipThrottle()
 @Controller()
 export class ContentController {
   constructor(
@@ -96,10 +99,5 @@ export class ContentController {
   @Get("startups/:slug")
   getPublicStartup(@Param("slug") slug: string) {
     return this.startups.getPublic(slug);
-  }
-
-  @Get("health")
-  health() {
-    return { ok: true, date: todayInIndia() };
   }
 }

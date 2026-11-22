@@ -47,7 +47,17 @@ pnpm db:seed
 pnpm dev                        # API on :4000, web on :3000
 ```
 
-With `OTP_DELIVERY=dev`, the sign-in code is shown on screen instead of emailed. Production requires `OTP_DELIVERY=email` and a `RESEND_API_KEY`.
+With `OTP_DELIVERY=dev`, the sign-in code is shown on screen instead of emailed.
+
+`pnpm db:seed` only adds items that aren't in the database yet, so it never undoes editors' changes. To reset your local catalogue to the seed files, run `pnpm --filter @foundura/api db:seed -- --overwrite`.
+
+## Deploy
+
+See [DEPLOY.md](DEPLOY.md): Docker images for the API and web, a one-server production stack with automatic HTTPS (Caddy), migrations on every deploy, backups and monitoring. The API refuses to start with unsafe production settings and tells you what to fix.
+
+Before opening to the public, work through [docs/launch-checklist.md](docs/launch-checklist.md) (domain and email, DPDP and CERT-In items, scheme checks, search setup, final walkthrough).
+
+The site publishes `/sitemap.xml`, `/robots.txt`, share images for every page, scheme and guide, and structured data for schemes, guides and confirmed events. `/api/health` checks the web app, API and database together for uptime monitors.
 
 ## Tests
 

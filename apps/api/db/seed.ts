@@ -6,7 +6,13 @@ import { EVENTS } from "./seed-data/events";
 import { POLICY } from "./seed-data/policy";
 import { SCHEMES } from "./seed-data/schemes";
 
-/** Re-runnable: upserts by slug. An editor's lastVerifiedAt on a scheme is preserved. */
+/**
+ * Re-runnable. By default only adds items that aren't in the database yet, so editors' changes made
+ * in the admin console are never overwritten. `--overwrite` replaces existing rows with the seed
+ * files (local development only); an editor's lastVerifiedAt on a scheme is kept either way.
+ */
+const OVERWRITE = process.argv.includes("--overwrite");
+
 async function main() {
   const { db, pool } = createDb();
 
@@ -29,7 +35,8 @@ async function main() {
       sourceName: s.sourceName,
     };
     const { slug: _slug, ...update } = row;
-    await db.insert(schemes).values(row).onConflictDoUpdate({ target: schemes.slug, set: update });
+    const q = db.insert(schemes).values(row);
+    await (OVERWRITE ? q.onConflictDoUpdate({ target: schemes.slug, set: update }) : q.onConflictDoNothing());
   }
 
   for (const e of EVENTS) {
@@ -51,22 +58,25 @@ async function main() {
       lastChecked: "2026-11-22",
     };
     const { slug: _slug, ...update } = row;
-    await db.insert(events).values(row).onConflictDoUpdate({ target: events.slug, set: update });
+    const q = db.insert(events).values(row);
+    await (OVERWRITE ? q.onConflictDoUpdate({ target: events.slug, set: update }) : q.onConflictDoNothing());
   }
 
   for (const p of POLICY) {
     const row = { slug: slugify(`${p.date} ${p.headline}`), ...p, amount: p.amount ?? null };
     const { slug: _slug, ...update } = row;
-    await db.insert(policyItems).values(row).onConflictDoUpdate({ target: policyItems.slug, set: update });
+    const q = db.insert(policyItems).values(row);
+    await (OVERWRITE ? q.onConflictDoUpdate({ target: policyItems.slug, set: update }) : q.onConflictDoNothing());
   }
 
   for (const a of ARTICLES) {
     const { slug: _slug, ...update } = a;
-    await db.insert(articles).values(a).onConflictDoUpdate({ target: articles.slug, set: update });
+    const q = db.insert(articles).values(a);
+    await (OVERWRITE ? q.onConflictDoUpdate({ target: articles.slug, set: update }) : q.onConflictDoNothing());
   }
 
   console.log(
-    `Seeded ${SCHEMES.length} schemes, ${EVENTS.length} events, ${POLICY.length} policy items, ${ARTICLES.length} articles.`,
+    `${OVERWRITE ? "Seeded (overwriting)" : "Seeded (new items only)"}: checked ${SCHEMES.length} schemes, ${EVENTS.length} events, ${POLICY.length} policy items, ${ARTICLES.length} articles.`,
   );
   await pool.end();
 }

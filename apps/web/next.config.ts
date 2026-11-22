@@ -1,3 +1,4 @@
+import path from "node:path";
 import type { NextConfig } from "next";
 
 const common = [
@@ -8,6 +9,10 @@ const common = [
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // Self-contained server bundle for the Docker image (apps/web/Dockerfile).
+  output: "standalone",
+  outputFileTracingRoot: path.join(__dirname, "../../"),
+  outputFileTracingIncludes: { "/**/*": ["./assets/og-fonts/*"] },
   poweredByHeader: false,
   transpilePackages: ["@foundura/shared"],
   async headers() {

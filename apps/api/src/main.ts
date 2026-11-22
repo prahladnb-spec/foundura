@@ -11,6 +11,8 @@ export async function createApp(config: AppConfig): Promise<INestApplication> {
     logger: config.NODE_ENV === "test" ? false : undefined,
     rawBody: false,
   });
+  // Rate limits key on the visitor's IP, which the web server forwards in X-Forwarded-For.
+  if (config.TRUST_PROXY > 0) app.set("trust proxy", config.TRUST_PROXY);
   app.use(helmet());
   app.useBodyParser("json", { limit: "200kb" });
   app.useBodyParser("text", { type: ["text/csv", "text/plain"], limit: "2mb" });
@@ -23,7 +25,8 @@ export async function createApp(config: AppConfig): Promise<INestApplication> {
 async function bootstrap() {
   const config = loadConfig();
   const app = await createApp(config);
-  await app.listen(config.API_PORT);
+  await app.listen(config.API_PORT, "0.0.0.0");
+  if (!config.ADMIN_EMAILS.trim()) Logger.warn("ADMIN_EMAILS is empty: nobody can open the editor console", "Bootstrap");
   Logger.log(`Foundura API listening on http://localhost:${config.API_PORT}/v1`, "Bootstrap");
 }
 

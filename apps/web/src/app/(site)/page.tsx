@@ -1,9 +1,12 @@
+import { JsonLd } from "@/components/json-ld";
 import Link from "next/link";
 import { ENTITY_TYPES, INDIAN_STATES, STAGES } from "@foundura/shared";
 import { Stamp } from "@/components/stamp";
 import { apiOr } from "@/lib/api";
 import { fmtDate, fmtRange } from "@/lib/format";
 import type { ArticleSummary, EventItem, PolicyItem } from "@/lib/types";
+
+const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
 
 const select = "w-full rounded-md border border-rule bg-white px-3 py-2.5 text-[1rem]";
 
@@ -16,6 +19,19 @@ export default async function Home() {
 
   return (
     <>
+      <JsonLd
+        data={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Foundura",
+            url: SITE,
+            logo: `${SITE}/icon.svg`,
+            description: "Free help for Indian founders: government schemes, investors, events and guides. Foundura never handles money.",
+          },
+          { "@context": "https://schema.org", "@type": "WebSite", name: "Foundura", url: SITE, inLanguage: "en-IN" },
+        ]}
+      />
       <section className="mx-auto max-w-6xl px-5 pt-12 pb-16 grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:items-end">
         <div>
           <h1 className="display text-[3.4rem] sm:text-[4.6rem] lg:text-[5.4rem] text-neel-950">

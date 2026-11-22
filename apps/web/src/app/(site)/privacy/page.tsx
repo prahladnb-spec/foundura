@@ -40,7 +40,11 @@ export default function PrivacyPage() {
       </p>
 
       <h2>Where data is kept</h2>
-      <p>On servers in India. Sign-in codes are stored only as a one-way hash and expire after 10 minutes.</p>
+      <p>
+        Your account, profiles and consent records are stored on servers in India. Emails we send you (sign-in codes, intro
+        updates and scheme alerts) pass through our email delivery provider. Sign-in codes are stored only as a one-way hash and
+        expire after 10 minutes.
+      </p>
 
       <p><em>Questions or a complaint: write to our grievance officer (contact details to be added before launch).</em></p>
     </article>

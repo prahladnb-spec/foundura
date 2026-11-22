@@ -1,3 +1,4 @@
+import { clientIpHeader } from "@/lib/client-ip";
 import { NextResponse } from "next/server";
 import { API_URL } from "@/lib/api";
 import { SESSION_COOKIE, sessionCookieOptions } from "@/lib/session";
@@ -6,7 +7,7 @@ import { SESSION_COOKIE, sessionCookieOptions } from "@/lib/session";
 export async function POST(req: Request) {
   const res = await fetch(`${API_URL}/v1/auth/verify-otp`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { ...(await clientIpHeader()), "Content-Type": "application/json" },
     body: await req.text(),
   });
   const data = await res.json();

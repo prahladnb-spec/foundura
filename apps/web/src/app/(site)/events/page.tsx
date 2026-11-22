@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { JsonLd } from "@/components/json-ld";
 import { apiOr } from "@/lib/api";
 import { fmtDate, fmtRange } from "@/lib/format";
 import type { EventItem } from "@/lib/types";
@@ -34,6 +35,23 @@ export default async function EventsPage({ searchParams }: { searchParams: Promi
 
   return (
     <div className="mx-auto max-w-5xl px-5 pt-10">
+      {/* Only confirmed events with dates go to search engines; "to verify" ones stay on the page only. */}
+      <JsonLd
+        data={events
+          .filter((e) => e.status === "Confirmed" && e.startDate)
+          .map((e) => ({
+            "@context": "https://schema.org",
+            "@type": "Event",
+            name: e.name,
+            startDate: e.startDate,
+            ...(e.endDate ? { endDate: e.endDate } : {}),
+            eventStatus: "https://schema.org/EventScheduled",
+            eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+            location: { "@type": "Place", name: e.city ?? e.country, address: { "@type": "PostalAddress", addressLocality: e.city ?? undefined, addressCountry: e.country } },
+            ...(e.sourceUrl ? { url: e.sourceUrl } : {}),
+            ...(e.bestFor ? { description: `Best for ${e.bestFor.toLowerCase()}` } : {}),
+          }))}
+      />
       <h1 className="display text-6xl md:text-7xl">Events</h1>
       <p className="mt-3 max-w-[60ch] text-lg text-neel-700">
         Expos, summits, pitch days and application deadlines. Updated every week.

@@ -1,3 +1,4 @@
+import { clientIpHeader } from "@/lib/client-ip";
 import { NextResponse } from "next/server";
 import { API_URL } from "@/lib/api";
 
@@ -16,7 +17,7 @@ export async function POST(req: Request) {
   }
   const res = await fetch(`${API_URL}/v1/digest/unsubscribe`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { ...(await clientIpHeader()), "Content-Type": "application/json" },
     body: JSON.stringify({ u, t }),
     cache: "no-store",
   });
