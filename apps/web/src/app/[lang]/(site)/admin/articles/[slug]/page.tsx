@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { type AdminArticle, AdminArticleEditor } from "@/components/admin-article-editor";
-import { api, ApiError } from "@/lib/api";
-import { getToken } from "@/lib/session";
+import { ApiError } from "@/lib/api";
+import { editorApi } from "@/lib/editor-api";
 
 export const metadata = { title: "Edit article" };
 
@@ -11,11 +11,12 @@ export default async function EditArticle({ params }: { params: Promise<{ slug: 
   let article: AdminArticle | null = null;
   if (slug !== "new") {
     try {
-      article = await api<AdminArticle>(`/admin/articles/${encodeURIComponent(slug)}`, { token: await getToken() });
+      article = await editorApi<AdminArticle>(`/admin/articles/${encodeURIComponent(slug)}`);
     } catch (e) {
       if (e instanceof ApiError && e.status === 404) notFound();
       throw e;
     }
+    if (!article) return null;
   }
   return (
     <>

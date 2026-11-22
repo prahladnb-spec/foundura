@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { api } from "@/lib/api";
-import { getToken } from "@/lib/session";
+import { editorApi } from "@/lib/editor-api";
 
 interface Overview {
   users: number;
@@ -20,7 +19,8 @@ interface Overview {
 export const metadata = { title: "Overview" };
 
 export default async function AdminOverview() {
-  const o = await api<Overview>("/admin/overview", { token: await getToken() });
+  const o = await editorApi<Overview>("/admin/overview");
+  if (!o) return null;
   const todo = [
     o.unverifiedSchemes > 0 && {
       href: "/admin/schemes",

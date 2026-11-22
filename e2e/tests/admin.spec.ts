@@ -21,6 +21,14 @@ test.describe("editor console", () => {
     await expect(page.locator('a[href="/admin"]')).toBeVisible();
   });
 
+  test("a deep editor link survives sign-in", async ({ page }) => {
+    await page.goto("/admin/schemes/birac-big");
+    await expect(page).toHaveURL(/\/signin\?next=%2Fadmin%2Fschemes%2Fbirac-big$/);
+    await signIn(page, ADMIN_EMAIL, { path: page.url() });
+    await expect(page).toHaveURL(/\/admin\/schemes\/birac-big$/);
+    await expect(page.locator("#hi-h")).toBeVisible();
+  });
+
   test("scheme editor rejects unknown answers, saves and records the check", async ({ page }) => {
     await signIn(page, ADMIN_EMAIL, { path: "/signin?next=/admin/schemes/dpiit-startup-recognition" });
     const rule = page.locator("#rule");

@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { api } from "@/lib/api";
+import { editorApi } from "@/lib/editor-api";
 import { shortDate } from "@/lib/admin-client";
-import { getToken } from "@/lib/session";
 
 interface Row {
   slug: string;
@@ -14,7 +13,8 @@ interface Row {
 export const metadata = { title: "Articles" };
 
 export default async function AdminArticles() {
-  const rows = await api<Row[]>("/admin/articles", { token: await getToken() });
+  const rows = await editorApi<Row[]>("/admin/articles");
+  if (!rows) return null;
   return (
     <>
       <div className="flex flex-wrap items-end justify-between gap-4">

@@ -4,6 +4,9 @@ import { type NextRequest, NextResponse } from "next/server";
  * Language routing. English keeps today's URLs (served internally from /en/...), Hindi lives
  * under /hi/... The editor console is English-only.
  */
+/** Request header carrying the original path of an editor console page. */
+const PATH_HEADER = "x-foundura-path";
+
 export function middleware(req: NextRequest) {
   const url = req.nextUrl.clone();
   const { pathname } = url;
@@ -23,6 +26,12 @@ export function middleware(req: NextRequest) {
   }
 
   url.pathname = `/en${pathname === "/" ? "" : pathname}`;
+  // The editor console's layout needs the requested page to send people back to it after sign-in.
+  if (/^\/admin(\/|$)/.test(pathname)) {
+    const headers = new Headers(req.headers);
+    headers.set(PATH_HEADER, pathname);
+    return NextResponse.rewrite(url, { request: { headers } });
+  }
   return NextResponse.rewrite(url);
 }
 

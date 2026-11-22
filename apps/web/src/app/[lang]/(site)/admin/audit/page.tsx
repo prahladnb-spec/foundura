@@ -1,5 +1,4 @@
-import { api } from "@/lib/api";
-import { getToken } from "@/lib/session";
+import { editorApi } from "@/lib/editor-api";
 
 interface Entry {
   id: string;
@@ -32,7 +31,8 @@ const ACTION_LABEL: Record<string, string> = {
 export const metadata = { title: "Audit log" };
 
 export default async function AdminAudit() {
-  const rows = await api<Entry[]>("/admin/audit", { token: await getToken() });
+  const rows = await editorApi<Entry[]>("/admin/audit");
+  if (!rows) return null;
   return (
     <>
       <h1 className="display text-[2.6rem] leading-none">Audit log</h1>

@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { api } from "@/lib/api";
+import { editorApi } from "@/lib/editor-api";
 import { stateLabel } from "@/lib/labels";
-import { getToken } from "@/lib/session";
 import { shortDate } from "@/lib/admin-client";
 
 interface Row {
@@ -24,7 +23,8 @@ const HI = {
 export const metadata = { title: "Schemes" };
 
 export default async function AdminSchemes() {
-  const rows = await api<Row[]>("/admin/schemes", { token: await getToken() });
+  const rows = await editorApi<Row[]>("/admin/schemes");
+  if (!rows) return null;
   const pending = rows.filter((r) => !r.lastVerifiedAt).length;
   return (
     <>
