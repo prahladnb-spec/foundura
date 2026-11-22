@@ -1,3 +1,4 @@
+import { describe, keywordList, seoMetadata, seoTitle } from "@/seo";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DeckDownloads } from "@/components/deck-downloads";
@@ -15,8 +16,24 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const p = await params;
   const doc = docBySlug(p.slug);
   if (!doc) return {};
-  const hi = langOf(p.lang) === "hi";
-  return { title: hi ? doc.titleHi : `${doc.title}: free template and guide`, description: hi ? doc.summaryHi : doc.summary };
+  const lang = langOf(p.lang);
+  const hi = lang === "hi";
+  const name = hi ? doc.titleHi : doc.title;
+  const already = /template|checklist|pack|tracker|model|sheet|plan|script|canvas|टेम्पलेट|चेकलिस्ट/i.test(name);
+  const noun = already ? name : hi ? `${name} टेम्पलेट` : `${name} template`;
+  const format = FORMAT[doc.template.kind];
+  return seoMetadata(`/documents/${doc.slug}`, lang, {
+    focus: noun,
+    title: seoTitle(noun, hi ? "मुफ़्त, भारत के लिए" : "free, for India"),
+    description: describe(hi ? doc.summaryHi : doc.summary, hi ? `मुफ़्त ${format} डाउनलोड, छोटी गाइड के साथ।` : `Free ${format} download with a short guide for India.`),
+    excerpt: hi ? doc.summaryHi : doc.summary,
+    keywords: keywordList(
+      [noun, hi ? `${name} फ़ॉर्मेट` : `${doc.title} format`, hi ? `${name} नमूना` : `${doc.title} sample`, hi ? `मुफ़्त ${noun}` : `free ${noun}`, hi ? `${noun} भारत` : `${noun} India`, `${doc.title} ${format}`],
+      hi
+        ? ["स्टार्टअप टेम्पलेट", "मुफ़्त स्टार्टअप दस्तावेज़", "भारतीय स्टार्टअप", "संस्थापकों के लिए गाइड", "Foundura"]
+        : ["startup templates", "free startup documents", "Indian startups", "founder guides", "Foundura"],
+    ),
+  });
 }
 
 export default async function DocumentPage({ params }: { params: Params }) {

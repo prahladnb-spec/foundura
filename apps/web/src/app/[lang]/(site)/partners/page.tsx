@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/seo";
 import type { Metadata } from "next";
 import { INDIAN_STATES } from "@foundura/shared";
 import { f, getDict } from "@/i18n";
@@ -9,9 +10,9 @@ const langOf = async (params: Params) => {
   return isLang(lang) ? lang : "en";
 };
 
-export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
-  const t = getDict(await langOf(params));
-  return { title: t.partners.title, description: t.partners.metaDescription };
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const { lang } = await params;
+  return pageMetadata("partners", isLang(lang) ? lang : "en");
 }
 
 export default async function PartnersPage({ params }: { params: Params }) {

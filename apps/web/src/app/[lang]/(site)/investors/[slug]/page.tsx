@@ -1,3 +1,4 @@
+import { clip, describe, keywordList, seoMetadata, seoTitle } from "@/seo";
 import type { Metadata } from "next";
 import Link from "@/components/locale-link";
 import { notFound } from "next/navigation";
@@ -20,8 +21,23 @@ type Params = Promise<{ slug: string; lang: string }>;
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const p = await params;
+  const lang = isLang(p.lang) ? p.lang : "en";
+  const hi = lang === "hi";
   const i = await load(p.slug);
-  return { title: i.firm ?? i.name, description: i.bio ?? `${investorTypeLabel(i.type)} on Foundura` };
+  const name = i.firm ?? i.name;
+  const type = investorTypeLabel(i.type, lang);
+  const sectors = i.sectors.map((x) => sectorLabel(x, lang));
+  const summary = i.bio ?? (hi ? `${type}, ${sectors.join(", ")} में निवेश करते हैं।` : `${type} investing in ${sectors.join(", ")}.`);
+  return seoMetadata(`/investors/${i.slug}`, lang, {
+    focus: name,
+    title: seoTitle(name, hi ? "निवेशक प्रोफ़ाइल" : `${type} profile`),
+    description: describe(summary, hi ? "क्षेत्र, चरण और निवेश राशि देखें, और Foundura पर परिचय माँगें।" : "See their sectors, stages and cheque size, and ask for an intro on Foundura."),
+    excerpt: clip(summary, 300),
+    keywords: keywordList(
+      [name, i.firm ? i.name : null, type, ...sectors.map((s) => (hi ? `${s} निवेशक` : `${s} investor`)), ...i.stages.map((s) => stageLabel(s, lang))],
+      hi ? ["भारत में एंजल निवेशक", "स्टार्टअप निवेशक", "निवेशक से परिचय", "Foundura"] : ["angel investors in India", "startup investors", "investor intro", "Foundura"],
+    ),
+  });
 }
 
 export default async function InvestorPage({ params }: { params: Params }) {

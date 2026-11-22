@@ -1,3 +1,4 @@
+import { alternates } from "@/seo";
 import type { Metadata } from "next";
 import { PrivacyEn } from "@/components/legal/privacy-en";
 import { PrivacyHi } from "@/components/legal/privacy-hi";
@@ -8,9 +9,11 @@ type Params = Promise<{ lang: string }>;
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { lang } = await params;
-  return lang === "hi"
-    ? { title: "गोपनीयता और आपका डेटा" }
-    : { title: "Privacy and your data", description: "What Foundura collects, why, who sees it, and how to see, export, correct or delete your data." };
+  const l = lang === "hi" ? "hi" : "en";
+  return {
+    ...(l === "hi" ? { title: "गोपनीयता और आपका डेटा", description: "Foundura क्या जानकारी लेता है, क्यों, उसे कौन देखता है, और आप अपना डेटा कैसे देखें, निकालें, सुधारें या मिटाएँ।" } : { title: "Privacy and your data", description: "What Foundura collects, why, who sees it, and how to see, export, correct or delete your data." }),
+    alternates: alternates("/privacy", l),
+  };
 }
 
 // Company and grievance details come from the server's settings at request time.

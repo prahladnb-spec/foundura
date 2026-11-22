@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/seo";
 import { PageIntro } from "@/components/art";
 import type { Metadata } from "next";
 import { EVENT_FORMATS, EVENT_REGIONS } from "@foundura/shared";
@@ -21,9 +22,9 @@ const langOf = async (params: Params) => {
   return isLang(lang) ? lang : "en";
 };
 
-export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
-  const t = getDict(await langOf(params));
-  return { title: t.events.metaTitle, description: t.events.metaDescription };
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const { lang } = await params;
+  return pageMetadata("events", isLang(lang) ? lang : "en");
 }
 
 export default async function EventsPage({ params, searchParams }: { params: Params; searchParams: Search }) {

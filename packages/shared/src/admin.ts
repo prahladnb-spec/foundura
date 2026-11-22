@@ -83,6 +83,8 @@ export const schemeEditSchema = z.object({
 });
 export type SchemeEditInput = z.infer<typeof schemeEditSchema>;
 
+import { wordCount } from "./seo";
+
 export const articleSchema = z.object({
   title: z.string().min(5).max(200),
   slug: z
@@ -90,8 +92,17 @@ export const articleSchema = z.object({
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Lowercase letters, numbers and hyphens only")
     .max(100),
   theme: z.string().min(2).max(60),
-  excerpt: z.string().min(20).max(300),
+  excerpt: z
+    .string()
+    .min(20)
+    .max(400)
+    .refine((v) => wordCount(v) <= 50, "Keep the excerpt to 50 words or fewer"),
   body: z.string().min(200).max(60000),
+  /** Search details (see seo.ts). Optional so a draft can be saved before they're written. */
+  focusKeyphrase: z.string().trim().max(80).default(""),
+  seoTitle: z.string().trim().max(70, "Keep the SEO title to 60 characters").default(""),
+  metaDescription: z.string().trim().max(170, "Keep the meta description to 160 characters").default(""),
+  keywords: z.array(z.string().trim().min(2).max(60)).max(15, "Up to 15 keywords").default([]),
   /** ISO date to publish on; null keeps it as a draft. */
   publishedAt: z
     .string()

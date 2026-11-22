@@ -321,6 +321,11 @@ export const articles = pgTable("articles", {
   title: text("title").notNull(),
   theme: text("theme").notNull(),
   excerpt: text("excerpt").notNull(),
+  /** Search details: the phrase to rank for, the title and description shown in results, and keywords. */
+  focusKeyphrase: text("focus_keyphrase").notNull().default(""),
+  seoTitle: text("seo_title").notNull().default(""),
+  metaDescription: text("meta_description").notNull().default(""),
+  keywords: jsonb("keywords").$type<string[]>().notNull().default([]),
   /** Markdown body */
   body: text("body").notNull(),
   readMinutes: integer("read_minutes").notNull(),

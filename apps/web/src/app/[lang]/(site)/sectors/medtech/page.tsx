@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/seo";
 import { CategoryStamp } from "@/components/icons";
 import type { Metadata } from "next";
 import Link from "@/components/locale-link";
@@ -12,10 +13,9 @@ import { CHECKED_ON, hubText, MEDTECH_SCHEMES, SOURCES } from "@/sectors/medtech
 
 type Params = Promise<{ lang: string }>;
 
-export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
-  const t = hubText[isLang(lang) ? lang : "en"];
-  return { title: t.metaTitle, description: t.metaDescription };
+  return pageMetadata("medtech", isLang(lang) ? lang : "en");
 }
 
 const HEALTH = /med|health|bio|diagnos|hospital|pharma/i;

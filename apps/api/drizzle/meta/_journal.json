@@ -85,6 +85,13 @@
       "when": 1795357983577,
       "tag": "0011_daily_counts",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1795367908998,
+      "tag": "0012_article_seo",
+      "breakpoints": true
     }
   ]
 }

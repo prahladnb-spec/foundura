@@ -96,6 +96,10 @@ export interface ArticleSummary {
 
 export interface Article extends ArticleSummary {
   body: string;
+  focusKeyphrase: string;
+  seoTitle: string;
+  metaDescription: string;
+  keywords: string[];
 }
 
 export interface Startup {

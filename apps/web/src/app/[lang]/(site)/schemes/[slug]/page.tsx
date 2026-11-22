@@ -1,3 +1,4 @@
+import { clip, describe, keywordList, seoMetadata, seoTitle } from "@/seo";
 import { CategoryStamp } from "@/components/icons";
 import type { Metadata } from "next";
 import Link from "@/components/locale-link";
@@ -22,8 +23,23 @@ type Params = Promise<{ slug: string; lang: string }>;
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const p = await params;
+  const lang = isLang(p.lang) ? p.lang : "en";
   const s = await load(p.slug, p.lang);
-  return { title: s.name, description: s.summary };
+  const t = getDict(lang);
+  const hi = lang === "hi";
+  const where = s.level === "state" ? String(lab(t.labels.state, s.state)) : t.scheme.central;
+  return seoMetadata(`/schemes/${s.slug}`, lang, {
+    focus: s.name,
+    title: seoTitle(s.name, hi ? "पात्रता और आवेदन" : "eligibility and how to apply"),
+    description: describe(s.summary, hi ? "Foundura पर मुफ़्त जाँचें कि आपका स्टार्टअप योग्य है या नहीं।" : "Check free on Foundura whether your startup qualifies."),
+    excerpt: clip(s.summary, 300),
+    keywords: keywordList(
+      [s.name, hi ? `${s.name} पात्रता` : `${s.name} eligibility`, hi ? `${s.name} आवेदन` : `how to apply for ${s.name}`, s.issuer, String(lab(t.labels.category, s.category)), where],
+      hi
+        ? ["स्टार्टअप योजना", "स्टार्टअप के लिए सरकारी योजनाएँ", "योजना पात्रता जाँच", "स्टार्टअप इंडिया", "DPIIT मान्यता", "स्टार्टअप अनुदान", "स्टार्टअप लोन", "राज्य स्टार्टअप नीति", "Foundura"]
+        : ["startup scheme India", "government schemes for startups", "scheme eligibility check", "Startup India", "DPIIT recognition", "startup grants India", "startup loans India", "state startup policy", "Foundura"],
+    ),
+  });
 }
 
 export default async function SchemePage({ params }: { params: Params }) {

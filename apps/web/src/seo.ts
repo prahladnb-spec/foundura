@@ -1,0 +1,762 @@
+import type { Metadata } from "next";
+import type { Lang } from "./i18n/config";
+
+/**
+ * Search engine details for each main page, in English and Hindi.
+ *
+ * - focus: the phrase the page should rank for; it opens the SEO title and appears in the description.
+ * - title: the SEO title shown in search results (at most 60 characters, ending "| Foundura").
+ * - description: the meta description (120 to 160 characters).
+ * - excerpt: a short summary (at most 50 words) for social shares and structured data.
+ * - keywords: 15 phrases people search for. Google ignores the keywords tag for ranking, but it
+ *   records the page's target searches in one place and other engines still read it.
+ * - slug: the page's address. Hindi pages live at /hi + the same slug.
+ *
+ * e2e/tests/seo.spec.ts checks every limit above.
+ */
+export type PageSeo = { slug: string; focus: string; title: string; description: string; excerpt: string; keywords: string[] };
+export type PageKey =
+  | "home"
+  | "scan"
+  | "schemes"
+  | "medtech"
+  | "startups"
+  | "investors"
+  | "events"
+  | "policy"
+  | "learn"
+  | "documents"
+  | "glossary"
+  | "partners";
+
+export const SEO: Record<PageKey, Record<Lang, PageSeo>> = {
+  home: {
+    en: {
+      slug: "/",
+      focus: "government schemes for startups",
+      title: "Government schemes for startups in India | Foundura",
+      description:
+        "Find the government schemes for startups you qualify for: a free scan of central and state schemes, plus investors, events, guides and templates.",
+      excerpt:
+        "Foundura helps Indian founders find the central and state government schemes they qualify for, see why, and apply at the official source. It also lists investors, startup events and policy news, with free guides and templates.",
+      keywords: [
+        "government schemes for startups",
+        "startup schemes India",
+        "Startup India schemes",
+        "DPIIT recognition",
+        "startup grants India",
+        "seed funding India",
+        "startup loans India",
+        "state startup policy",
+        "angel investors India",
+        "startup events India",
+        "startup templates",
+        "pitch deck template",
+        "founder guides India",
+        "startup eligibility check",
+        "Foundura",
+      ],
+    },
+    hi: {
+      slug: "/",
+      focus: "स्टार्टअप के लिए सरकारी योजनाएँ",
+      title: "स्टार्टअप के लिए सरकारी योजनाएँ, भारत | Foundura",
+      description:
+        "स्टार्टअप के लिए सरकारी योजनाएँ जिनके लिए आप योग्य हैं, मुफ़्त जाँच से जानें: केंद्र और राज्य की योजनाएँ, साथ में निवेशक, कार्यक्रम, गाइड और टेम्पलेट।",
+      excerpt:
+        "Foundura भारतीय संस्थापकों को बताता है कि वे केंद्र और राज्य की किन सरकारी योजनाओं के लिए योग्य हैं, क्यों, और आवेदन कहाँ करें। साथ में निवेशक, स्टार्टअप कार्यक्रम, नीति समाचार, मुफ़्त गाइड और टेम्पलेट।",
+      keywords: [
+        "स्टार्टअप के लिए सरकारी योजनाएँ",
+        "स्टार्टअप योजना",
+        "स्टार्टअप इंडिया योजना",
+        "DPIIT मान्यता",
+        "स्टार्टअप अनुदान",
+        "सीड फ़ंड योजना",
+        "स्टार्टअप लोन",
+        "राज्य स्टार्टअप नीति",
+        "एंजल निवेशक भारत",
+        "स्टार्टअप कार्यक्रम",
+        "स्टार्टअप टेम्पलेट",
+        "पिच डेक",
+        "संस्थापकों के लिए गाइड",
+        "योजना पात्रता जाँच",
+        "Foundura",
+      ],
+    },
+  },
+  scan: {
+    en: {
+      slug: "/scan",
+      focus: "startup scheme eligibility check",
+      title: "Startup scheme eligibility check, free | Foundura",
+      description:
+        "A free startup scheme eligibility check: answer a few questions and see which central and state schemes you qualify for. Nothing you enter is stored.",
+      excerpt:
+        "The Scheme Scan checks your startup against every central and state scheme on Foundura, rule by rule, and shows which conditions you meet and which you don't. It takes a few minutes, needs no sign-up, and stores nothing you enter.",
+      keywords: [
+        "startup scheme eligibility check",
+        "scheme eligibility checker",
+        "government scheme finder",
+        "which government schemes am I eligible for",
+        "DPIIT recognition eligibility",
+        "Startup India eligibility",
+        "Seed Fund Scheme eligibility",
+        "startup grant eligibility",
+        "MSME scheme eligibility",
+        "Section 80-IAC eligibility",
+        "state startup scheme eligibility",
+        "central government startup schemes",
+        "free eligibility check",
+        "startup benefits India",
+        "Scheme Scan",
+      ],
+    },
+    hi: {
+      slug: "/scan",
+      focus: "स्टार्टअप योजना पात्रता जाँच",
+      title: "स्टार्टअप योजना पात्रता जाँच, मुफ़्त | Foundura",
+      description:
+        "मुफ़्त स्टार्टअप योजना पात्रता जाँच: कुछ सवालों के जवाब दें और देखें कि आप केंद्र और राज्य की किन योजनाओं के योग्य हैं। आपकी कोई जानकारी सेव नहीं होती।",
+      excerpt:
+        "योजना जाँच आपके स्टार्टअप को Foundura की हर केंद्रीय और राज्य योजना से नियम-दर-नियम मिलाती है और बताती है कि आप कौन-सी शर्तें पूरी करते हैं। कुछ मिनट लगते हैं, साइन-अप नहीं चाहिए, और कुछ सेव नहीं होता।",
+      keywords: [
+        "स्टार्टअप योजना पात्रता जाँच",
+        "योजना पात्रता",
+        "सरकारी योजना खोजें",
+        "मैं किन योजनाओं के लिए योग्य हूँ",
+        "DPIIT मान्यता पात्रता",
+        "स्टार्टअप इंडिया पात्रता",
+        "सीड फ़ंड योजना पात्रता",
+        "स्टार्टअप अनुदान पात्रता",
+        "MSME योजना पात्रता",
+        "धारा 80-IAC",
+        "राज्य स्टार्टअप योजना",
+        "केंद्र सरकार की स्टार्टअप योजनाएँ",
+        "मुफ़्त पात्रता जाँच",
+        "स्टार्टअप लाभ",
+        "योजना जाँच",
+      ],
+    },
+  },
+  schemes: {
+    en: {
+      slug: "/schemes",
+      focus: "startup schemes in India",
+      title: "Startup schemes in India: grants, loans, tax | Foundura",
+      description:
+        "Startup schemes in India in one list: DPIIT recognition, Seed Fund, grants, loans, tax holiday and state policies, each linked to its official source.",
+      excerpt:
+        "Every central and state government scheme for startups on Foundura, with what it gives, who qualifies, whether it's open, and a link to the official source. Covers recognition, grants, loans, tax benefits, IP fee relief, selling to government and state policies.",
+      keywords: [
+        "startup schemes in India",
+        "government schemes for startups",
+        "Startup India Seed Fund Scheme",
+        "DPIIT startup recognition",
+        "Section 80-IAC tax holiday",
+        "Credit Guarantee Scheme for Startups",
+        "BIRAC BIG grant",
+        "NIDHI-PRAYAS",
+        "startup grants India",
+        "startup loans India",
+        "Fund of Funds for Startups",
+        "state startup policy",
+        "Karnataka startup policy",
+        "GeM Startup Runway",
+        "startup IP benefits",
+      ],
+    },
+    hi: {
+      slug: "/schemes",
+      focus: "भारत में स्टार्टअप योजनाएँ",
+      title: "भारत में स्टार्टअप योजनाएँ: अनुदान, लोन, टैक्स | Foundura",
+      description:
+        "भारत में स्टार्टअप योजनाएँ एक सूची में: DPIIT मान्यता, सीड फ़ंड, अनुदान, लोन, टैक्स छूट और राज्य नीतियाँ, हर एक के आधिकारिक स्रोत के लिंक के साथ।",
+      excerpt:
+        "Foundura पर स्टार्टअप के लिए केंद्र और राज्य की हर सरकारी योजना: क्या मिलता है, कौन योग्य है, अभी खुली है या नहीं, और आधिकारिक स्रोत का लिंक। मान्यता, अनुदान, लोन, टैक्स लाभ, IP शुल्क छूट और राज्य नीतियाँ।",
+      keywords: [
+        "भारत में स्टार्टअप योजनाएँ",
+        "स्टार्टअप के लिए सरकारी योजनाएँ",
+        "स्टार्टअप इंडिया सीड फ़ंड योजना",
+        "DPIIT स्टार्टअप मान्यता",
+        "धारा 80-IAC टैक्स छूट",
+        "स्टार्टअप क्रेडिट गारंटी योजना",
+        "BIRAC BIG अनुदान",
+        "NIDHI-PRAYAS",
+        "स्टार्टअप अनुदान",
+        "स्टार्टअप लोन",
+        "स्टार्टअप फ़ंड ऑफ़ फ़ंड्स",
+        "राज्य स्टार्टअप नीति",
+        "कर्नाटक स्टार्टअप नीति",
+        "GeM स्टार्टअप रनवे",
+        "स्टार्टअप IP लाभ",
+      ],
+    },
+  },
+  medtech: {
+    en: {
+      slug: "/sectors/medtech",
+      focus: "medtech startups in India",
+      title: "Medtech startups in India: CDSCO and funding | Foundura",
+      description:
+        "For medtech startups in India: which CDSCO licence your device needs, the forms, grants for clinical studies and R&D, and the investors and events to know.",
+      excerpt:
+        "For medical device and diagnostics founders in India: how to classify your device and which CDSCO licence you need, the forms and who decides, the grants and incentives for clinical studies and R&D, and the investors and events that focus on medtech.",
+      keywords: [
+        "medtech startups in India",
+        "medical device startup India",
+        "CDSCO medical device licence",
+        "Medical Devices Rules 2017",
+        "medical device classification India",
+        "CDSCO MD forms",
+        "BIRAC BIG medtech",
+        "PRIP scheme",
+        "MAHA MedTech Mission",
+        "PLI scheme medical devices",
+        "SMDI clinical studies support",
+        "medtech grants India",
+        "medtech investors India",
+        "medical device regulatory pathway",
+        "diagnostics startup India",
+      ],
+    },
+    hi: {
+      slug: "/sectors/medtech",
+      focus: "मेडटेक स्टार्टअप",
+      title: "मेडटेक स्टार्टअप गाइड: CDSCO लाइसेंस और फ़ंडिंग | Foundura",
+      description:
+        "मेडटेक स्टार्टअप के लिए गाइड: आपके उपकरण को कौन-सा CDSCO लाइसेंस चाहिए, फ़ॉर्म, क्लिनिकल स्टडी और R&D के लिए अनुदान, और ज़रूरी निवेशक और कार्यक्रम।",
+      excerpt:
+        "भारत में मेडिकल डिवाइस और डायग्नोस्टिक्स संस्थापकों के लिए: उपकरण का वर्गीकरण और ज़रूरी CDSCO लाइसेंस, फ़ॉर्म और फ़ैसला कौन करता है, क्लिनिकल स्टडी और R&D के लिए अनुदान, और मेडटेक पर ध्यान देने वाले निवेशक और कार्यक्रम।",
+      keywords: [
+        "मेडटेक स्टार्टअप",
+        "मेडिकल डिवाइस स्टार्टअप",
+        "CDSCO मेडिकल डिवाइस लाइसेंस",
+        "मेडिकल डिवाइस नियम 2017",
+        "मेडिकल डिवाइस वर्गीकरण",
+        "CDSCO MD फ़ॉर्म",
+        "BIRAC BIG मेडटेक",
+        "PRIP योजना",
+        "MAHA मेडटेक मिशन",
+        "मेडिकल डिवाइस PLI योजना",
+        "SMDI क्लिनिकल स्टडी सहायता",
+        "मेडटेक अनुदान",
+        "मेडटेक निवेशक",
+        "मेडिकल डिवाइस नियामक प्रक्रिया",
+        "डायग्नोस्टिक्स स्टार्टअप",
+      ],
+    },
+  },
+  startups: {
+    en: {
+      slug: "/startups",
+      focus: "Indian startups",
+      title: "Indian startups to discover, by sector and stage | Foundura",
+      description:
+        "Discover Indian startups by sector, stage and state: what they make, where they're based, and whether they want customers, partners, pilots or investors.",
+      excerpt:
+        "A showcase of Indian startups listed by their founders: what each one makes, its sector, stage and state, and what it's looking for, from first customers and pilots to partners and investors. Listing is free; financial details are never shown.",
+      keywords: [
+        "Indian startups",
+        "startup showcase India",
+        "new startups in India",
+        "startup directory India",
+        "early-stage startups India",
+        "startups by sector",
+        "medtech startups India",
+        "fintech startups India",
+        "agritech startups India",
+        "edtech startups India",
+        "startups looking for investors",
+        "startups looking for pilots",
+        "list your startup free",
+        "startup products India",
+        "Foundura startups",
+      ],
+    },
+    hi: {
+      slug: "/startups",
+      focus: "भारतीय स्टार्टअप",
+      title: "भारतीय स्टार्टअप: क्षेत्र और चरण के अनुसार खोजें | Foundura",
+      description:
+        "भारतीय स्टार्टअप खोजें, क्षेत्र, चरण और राज्य के अनुसार: वे क्या बनाते हैं, कहाँ हैं, और उन्हें ग्राहक, पार्टनर, पायलट या निवेशक में से क्या चाहिए।",
+      excerpt:
+        "संस्थापकों द्वारा जोड़े गए भारतीय स्टार्टअप: हर एक क्या बनाता है, उसका क्षेत्र, चरण और राज्य, और उसे क्या चाहिए, पहले ग्राहक और पायलट से लेकर पार्टनर और निवेशक तक। लिस्टिंग मुफ़्त है; वित्तीय जानकारी कभी नहीं दिखाई जाती।",
+      keywords: [
+        "भारतीय स्टार्टअप",
+        "स्टार्टअप शोकेस",
+        "भारत के नए स्टार्टअप",
+        "स्टार्टअप सूची",
+        "शुरुआती चरण के स्टार्टअप",
+        "क्षेत्र के अनुसार स्टार्टअप",
+        "मेडटेक स्टार्टअप",
+        "फ़िनटेक स्टार्टअप",
+        "एग्रीटेक स्टार्टअप",
+        "एडटेक स्टार्टअप",
+        "निवेशक खोज रहे स्टार्टअप",
+        "पायलट खोज रहे स्टार्टअप",
+        "अपना स्टार्टअप मुफ़्त जोड़ें",
+        "स्टार्टअप उत्पाद",
+        "Foundura स्टार्टअप",
+      ],
+    },
+  },
+  investors: {
+    en: {
+      slug: "/investors",
+      focus: "angel investors in India",
+      title: "Angel investors in India and VC funds | Foundura",
+      description:
+        "Angel investors in India, networks and VC funds, with the sectors, stages and cheque sizes they back. Founders get matched and can request an intro, free.",
+      excerpt:
+        "Angels, angel networks and funds that invest in Indian startups, with the sectors, stages, states and cheque sizes each one backs. Founders with a complete profile are matched and can request an intro; emails are shared only when an investor accepts.",
+      keywords: [
+        "angel investors in India",
+        "VC funds India",
+        "angel networks India",
+        "seed investors India",
+        "pre-seed funding India",
+        "startup investors list",
+        "find investors for startup",
+        "investor intro",
+        "venture capital India",
+        "early-stage investors",
+        "medtech investors India",
+        "deep tech investors India",
+        "cheque size",
+        "how to raise seed funding",
+        "investor matching",
+      ],
+    },
+    hi: {
+      slug: "/investors",
+      focus: "भारत में एंजल निवेशक",
+      title: "भारत में एंजल निवेशक और VC फ़ंड | Foundura",
+      description:
+        "भारत में एंजल निवेशक, नेटवर्क और VC फ़ंड, उनके क्षेत्र, चरण और निवेश राशि के साथ। संस्थापकों का मिलान होता है और वे मुफ़्त में परिचय माँग सकते हैं।",
+      excerpt:
+        "भारतीय स्टार्टअप में निवेश करने वाले एंजल, एंजल नेटवर्क और फ़ंड, हर एक के क्षेत्र, चरण, राज्य और निवेश राशि के साथ। पूरी प्रोफ़ाइल वाले संस्थापकों का मिलान होता है; ईमेल तभी साझा होते हैं जब निवेशक स्वीकार करें।",
+      keywords: [
+        "भारत में एंजल निवेशक",
+        "VC फ़ंड",
+        "एंजल नेटवर्क",
+        "सीड निवेशक",
+        "प्री-सीड फ़ंडिंग",
+        "स्टार्टअप निवेशक सूची",
+        "स्टार्टअप के लिए निवेशक कैसे खोजें",
+        "निवेशक से परिचय",
+        "वेंचर कैपिटल",
+        "शुरुआती चरण के निवेशक",
+        "मेडटेक निवेशक",
+        "डीप टेक निवेशक",
+        "निवेश राशि",
+        "सीड फ़ंडिंग कैसे जुटाएँ",
+        "निवेशक मिलान",
+      ],
+    },
+  },
+  events: {
+    en: {
+      slug: "/events",
+      focus: "startup events in India",
+      title: "Startup events in India and worldwide | Foundura",
+      description:
+        "Startup events in India and worldwide: expos, summits, pitch days and application deadlines in a calendar, updated daily. Add any event to your calendar.",
+      excerpt:
+        "A calendar of startup events in India and around the world: expos, summits, conferences, pitch days and application deadlines, filtered by region and format. Updated daily from organisers' own listings, and every event can be added to Google, Outlook or Apple Calendar.",
+      keywords: [
+        "startup events in India",
+        "startup events calendar",
+        "startup conferences India",
+        "startup expo India",
+        "startup summit",
+        "pitch competition India",
+        "startup events Bengaluru",
+        "startup events Delhi",
+        "startup events Mumbai",
+        "global startup events",
+        "tech conferences",
+        "medtech conferences",
+        "accelerator application deadlines",
+        "Startup Mahakumbh",
+        "TiEcon",
+      ],
+    },
+    hi: {
+      slug: "/events",
+      focus: "भारत में स्टार्टअप कार्यक्रम",
+      title: "भारत में स्टार्टअप कार्यक्रम और वैश्विक आयोजन | Foundura",
+      description:
+        "भारत में स्टार्टअप कार्यक्रम और दुनिया भर के आयोजन: एक्सपो, समिट, पिच डे और आवेदन की तारीख़ें, रोज़ अपडेट। कोई भी कार्यक्रम कैलेंडर में जोड़ें।",
+      excerpt:
+        "भारत और दुनिया भर के स्टार्टअप कार्यक्रमों का कैलेंडर: एक्सपो, समिट, सम्मेलन, पिच डे और आवेदन की आख़िरी तारीख़ें, क्षेत्र और तरीक़े के फ़िल्टर के साथ। आयोजकों की अपनी सूचियों से रोज़ अपडेट।",
+      keywords: [
+        "भारत में स्टार्टअप कार्यक्रम",
+        "स्टार्टअप इवेंट कैलेंडर",
+        "स्टार्टअप सम्मेलन",
+        "स्टार्टअप एक्सपो",
+        "स्टार्टअप समिट",
+        "पिच प्रतियोगिता",
+        "बेंगलुरु स्टार्टअप कार्यक्रम",
+        "दिल्ली स्टार्टअप कार्यक्रम",
+        "मुंबई स्टार्टअप कार्यक्रम",
+        "दुनिया भर के स्टार्टअप कार्यक्रम",
+        "टेक सम्मेलन",
+        "मेडटेक सम्मेलन",
+        "एक्सेलरेटर आवेदन की तारीख़",
+        "स्टार्टअप महाकुंभ",
+        "TiEcon",
+      ],
+    },
+  },
+  policy: {
+    en: {
+      slug: "/policy",
+      focus: "startup policy news",
+      title: "Startup policy news for Indian founders | Foundura",
+      description:
+        "Startup policy news for Indian founders: changes from DPIIT, ministries, regulators and states, each with a plain-language takeaway on what it means for you.",
+      excerpt:
+        "Government policy changes that affect Indian startups, from DPIIT, ministries, regulators and state governments, each summarised with a plain-language takeaway on what it means for founders and a link to the official notice.",
+      keywords: [
+        "startup policy news",
+        "startup policy India",
+        "DPIIT notification",
+        "Startup India news",
+        "government policy for startups",
+        "startup rules 2026",
+        "state startup policy news",
+        "MCA rules for startups",
+        "startup tax news",
+        "angel tax",
+        "SEBI AIF rules",
+        "RBI rules for startups",
+        "new startup schemes",
+        "startup policy updates",
+        "policy news for founders",
+      ],
+    },
+    hi: {
+      slug: "/policy",
+      focus: "स्टार्टअप नीति समाचार",
+      title: "स्टार्टअप नीति समाचार, भारतीय संस्थापकों के लिए | Foundura",
+      description:
+        "स्टार्टअप नीति समाचार: DPIIT, मंत्रालयों, नियामकों और राज्यों के बदलाव, हर एक के साथ आसान भाषा में बताया गया कि संस्थापकों के लिए इसका क्या मतलब है।",
+      excerpt:
+        "भारतीय स्टार्टअप पर असर डालने वाले सरकारी नीति बदलाव, DPIIT, मंत्रालयों, नियामकों और राज्य सरकारों से, हर एक का आसान सार कि संस्थापकों के लिए इसका क्या मतलब है, और आधिकारिक सूचना का लिंक।",
+      keywords: [
+        "स्टार्टअप नीति समाचार",
+        "भारत की स्टार्टअप नीति",
+        "DPIIT अधिसूचना",
+        "स्टार्टअप इंडिया समाचार",
+        "स्टार्टअप के लिए सरकारी नीति",
+        "स्टार्टअप नियम 2026",
+        "राज्य स्टार्टअप नीति समाचार",
+        "स्टार्टअप के लिए MCA नियम",
+        "स्टार्टअप टैक्स समाचार",
+        "एंजल टैक्स",
+        "SEBI AIF नियम",
+        "स्टार्टअप के लिए RBI नियम",
+        "नई स्टार्टअप योजनाएँ",
+        "स्टार्टअप नीति अपडेट",
+        "संस्थापकों के लिए नीति समाचार",
+      ],
+    },
+  },
+  learn: {
+    en: {
+      slug: "/learn",
+      focus: "startup guides",
+      title: "Startup guides for Indian founders | Foundura",
+      description:
+        "Practical startup guides for Indian founders, from finding an idea to registering, funding and growth. A new guide every day, plus a map from idea to market.",
+      excerpt:
+        "Practical guides for Indian founders on every stage from idea to market: validating an idea, registering the company, building, raising money and growing. A new guide every day, and a six-stage map linking the templates and schemes that help at each step.",
+      keywords: [
+        "startup guides",
+        "how to start a startup in India",
+        "startup idea validation",
+        "how to register a startup in India",
+        "DPIIT recognition guide",
+        "how to raise funding",
+        "go-to-market strategy",
+        "startup growth tips",
+        "founder advice India",
+        "first-time founder",
+        "startup journey",
+        "idea to market",
+        "product-market fit",
+        "startup fundraising guide",
+        "Startup India guide",
+      ],
+    },
+    hi: {
+      slug: "/learn",
+      focus: "स्टार्टअप गाइड",
+      title: "स्टार्टअप गाइड, आइडिया से बाज़ार तक | Foundura",
+      description:
+        "भारतीय संस्थापकों के लिए व्यावहारिक स्टार्टअप गाइड, आइडिया खोजने से रजिस्ट्रेशन, फ़ंडिंग और ग्रोथ तक। हर दिन एक नई गाइड, और आइडिया से बाज़ार तक का नक्शा।",
+      excerpt:
+        "आइडिया से बाज़ार तक हर चरण पर भारतीय संस्थापकों के लिए व्यावहारिक गाइड: आइडिया परखना, कंपनी रजिस्टर करना, निर्माण, पैसा जुटाना और बढ़ना। हर दिन नई गाइड, और हर चरण के टेम्पलेट और योजनाओं से जुड़ा छह चरणों का नक्शा।",
+      keywords: [
+        "स्टार्टअप गाइड",
+        "भारत में स्टार्टअप कैसे शुरू करें",
+        "स्टार्टअप आइडिया की पुष्टि",
+        "स्टार्टअप रजिस्ट्रेशन कैसे करें",
+        "DPIIT मान्यता गाइड",
+        "फ़ंडिंग कैसे जुटाएँ",
+        "गो-टू-मार्केट रणनीति",
+        "स्टार्टअप ग्रोथ टिप्स",
+        "संस्थापकों के लिए सलाह",
+        "पहली बार संस्थापक",
+        "स्टार्टअप का सफ़र",
+        "आइडिया से बाज़ार तक",
+        "प्रोडक्ट-मार्केट फ़िट",
+        "स्टार्टअप फ़ंडरेज़िंग गाइड",
+        "स्टार्टअप इंडिया गाइड",
+      ],
+    },
+  },
+  documents: {
+    en: {
+      slug: "/documents",
+      focus: "startup templates",
+      title: "Startup templates for India, free download | Foundura",
+      description:
+        "Free startup templates written for India: pitch deck, financial model, cap table, founders' agreement, NDA, offer letter and more, each with a short guide.",
+      excerpt:
+        "Free Word, Excel and PowerPoint templates written for Indian startups, from the first pitch to the first hire: pitch deck, financial model, cap table, founders' agreement, NDA, term sheet, offer letter and more, each with a short guide to the points specific to India.",
+      keywords: [
+        "startup templates",
+        "pitch deck template",
+        "financial model template",
+        "cap table template",
+        "founders agreement template India",
+        "NDA template India",
+        "term sheet template",
+        "offer letter template India",
+        "ESOP policy template",
+        "business plan template",
+        "DPR template",
+        "data room checklist",
+        "shareholders agreement India",
+        "privacy policy template India",
+        "free startup documents",
+      ],
+    },
+    hi: {
+      slug: "/documents",
+      focus: "स्टार्टअप टेम्पलेट",
+      title: "भारत के लिए स्टार्टअप टेम्पलेट, मुफ़्त डाउनलोड | Foundura",
+      description:
+        "भारत के लिए लिखे मुफ़्त स्टार्टअप टेम्पलेट: पिच डेक, फ़ाइनेंशियल मॉडल, कैप टेबल, संस्थापकों का समझौता, NDA, ऑफ़र लेटर और बहुत कुछ, हर एक के साथ छोटी गाइड।",
+      excerpt:
+        "भारतीय स्टार्टअप के लिए लिखे मुफ़्त Word, Excel और PowerPoint टेम्पलेट, पहली पिच से पहली भर्ती तक: पिच डेक, फ़ाइनेंशियल मॉडल, कैप टेबल, संस्थापकों का समझौता, NDA, टर्म शीट, ऑफ़र लेटर और बहुत कुछ, हर एक के साथ छोटी गाइड।",
+      keywords: [
+        "स्टार्टअप टेम्पलेट",
+        "पिच डेक टेम्पलेट",
+        "फ़ाइनेंशियल मॉडल टेम्पलेट",
+        "कैप टेबल टेम्पलेट",
+        "संस्थापकों का समझौता",
+        "NDA टेम्पलेट",
+        "टर्म शीट टेम्पलेट",
+        "ऑफ़र लेटर टेम्पलेट",
+        "ESOP नीति",
+        "बिज़नेस प्लान टेम्पलेट",
+        "DPR टेम्पलेट",
+        "डेटा रूम चेकलिस्ट",
+        "शेयरधारक समझौता",
+        "प्राइवेसी पॉलिसी टेम्पलेट",
+        "मुफ़्त स्टार्टअप दस्तावेज़",
+      ],
+    },
+  },
+  glossary: {
+    en: {
+      slug: "/glossary",
+      focus: "startup glossary",
+      title: "Startup glossary: funding and legal terms | Foundura",
+      description:
+        "A startup glossary in plain language: the funding, legal and finance terms Indian founders meet, from ESOP, SAFE and cap table to term sheet and DPIIT.",
+      excerpt:
+        "Plain-language meanings of the startup terms Indian founders meet when raising money, signing agreements and reading the numbers: ESOP, vesting, cap table, dilution, SAFE, term sheet, liquidation preference, runway, unit economics, DPIIT recognition and more, in English and Hindi.",
+      keywords: [
+        "startup glossary",
+        "startup terms",
+        "funding terms explained",
+        "ESOP meaning",
+        "vesting cliff",
+        "cap table meaning",
+        "dilution meaning",
+        "SAFE note",
+        "iSAFE India",
+        "term sheet meaning",
+        "liquidation preference",
+        "pre-money post-money valuation",
+        "burn rate and runway",
+        "unit economics",
+        "startup jargon",
+      ],
+    },
+    hi: {
+      slug: "/glossary",
+      focus: "स्टार्टअप शब्दावली",
+      title: "स्टार्टअप शब्दावली: फ़ंडिंग और क़ानूनी शब्द | Foundura",
+      description:
+        "आसान भाषा में स्टार्टअप शब्दावली: फ़ंडिंग, क़ानूनी और वित्त के वे शब्द जो भारतीय संस्थापकों के सामने आते हैं, ESOP, SAFE और कैप टेबल से टर्म शीट और DPIIT तक।",
+      excerpt:
+        "पैसा जुटाते, समझौते करते और आँकड़े पढ़ते समय संस्थापकों के सामने आने वाले स्टार्टअप शब्दों के आसान अर्थ: ESOP, वेस्टिंग, कैप टेबल, डाइल्यूशन, SAFE, टर्म शीट, लिक्विडेशन प्रेफ़रेंस, रनवे, यूनिट इकोनॉमिक्स, DPIIT मान्यता और बहुत कुछ।",
+      keywords: [
+        "स्टार्टअप शब्दावली",
+        "स्टार्टअप शब्द",
+        "फ़ंडिंग शब्दों के अर्थ",
+        "ESOP का मतलब",
+        "वेस्टिंग क्लिफ़",
+        "कैप टेबल का मतलब",
+        "डाइल्यूशन का मतलब",
+        "SAFE नोट",
+        "iSAFE",
+        "टर्म शीट का मतलब",
+        "लिक्विडेशन प्रेफ़रेंस",
+        "प्री-मनी पोस्ट-मनी वैल्यूएशन",
+        "बर्न रेट और रनवे",
+        "यूनिट इकोनॉमिक्स",
+        "स्टार्टअप की भाषा",
+      ],
+    },
+  },
+  partners: {
+    en: {
+      slug: "/partners",
+      focus: "scheme eligibility widget",
+      title: "Scheme eligibility widget for your website | Foundura",
+      description:
+        "A free scheme eligibility widget: incubators, accelerators and associations can add Foundura's Scheme Scan to their own website with one line of code.",
+      excerpt:
+        "Incubators, accelerators, chambers and founder associations can embed Foundura's free Scheme Scan on their own website with one line of code. Founders check scheme eligibility without leaving the partner's site, in English or Hindi, and nothing they enter is stored.",
+      keywords: [
+        "scheme eligibility widget",
+        "embed scheme checker",
+        "incubator website tools",
+        "accelerator tools",
+        "startup support widget",
+        "government scheme widget",
+        "free embeddable widget",
+        "startup association tools",
+        "chamber of commerce startups",
+        "incubator resources India",
+        "scheme finder for incubators",
+        "Hindi startup tools",
+        "startup ecosystem partners",
+        "embed code",
+        "Foundura partners",
+      ],
+    },
+    hi: {
+      slug: "/partners",
+      focus: "योजना पात्रता विजेट",
+      title: "आपकी वेबसाइट के लिए योजना पात्रता विजेट | Foundura",
+      description:
+        "मुफ़्त योजना पात्रता विजेट: इनक्यूबेटर, एक्सेलरेटर और संगठन Foundura की योजना जाँच को कोड की एक पंक्ति से अपनी वेबसाइट पर जोड़ सकते हैं।",
+      excerpt:
+        "इनक्यूबेटर, एक्सेलरेटर, चैंबर और संस्थापक संगठन Foundura की मुफ़्त योजना जाँच को कोड की एक पंक्ति से अपनी वेबसाइट पर लगा सकते हैं। संस्थापक पार्टनर की साइट छोड़े बिना, हिंदी या अंग्रेज़ी में, पात्रता जाँचते हैं, और कुछ सेव नहीं होता।",
+      keywords: [
+        "योजना पात्रता विजेट",
+        "योजना जाँच वेबसाइट पर लगाएँ",
+        "इनक्यूबेटर वेबसाइट टूल",
+        "एक्सेलरेटर टूल",
+        "स्टार्टअप सहायता विजेट",
+        "सरकारी योजना विजेट",
+        "मुफ़्त विजेट",
+        "स्टार्टअप संगठन टूल",
+        "चैंबर ऑफ़ कॉमर्स स्टार्टअप",
+        "इनक्यूबेटर संसाधन",
+        "इनक्यूबेटर के लिए योजना खोज",
+        "हिंदी स्टार्टअप टूल",
+        "स्टार्टअप इकोसिस्टम पार्टनर",
+        "एम्बेड कोड",
+        "Foundura पार्टनर",
+      ],
+    },
+  },
+};
+
+const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
+
+/** The page's address in a language: English at the plain path, Hindi under /hi. */
+export function urlFor(path: string, lang: Lang): string {
+  return `${SITE}${lang === "hi" ? (path === "/" ? "/hi" : `/hi${path}`) : path}`;
+}
+
+/** Canonical address plus the English and Hindi versions, so search engines show the right one. */
+export function alternates(path: string, lang: Lang): Metadata["alternates"] {
+  return {
+    canonical: urlFor(path, lang),
+    languages: { "en-IN": urlFor(path, "en"), "hi-IN": urlFor(path, "hi"), "x-default": urlFor(path, "en") },
+  };
+}
+
+/** Full metadata for a page from explicit SEO details: title, description, keywords, alternates, shares. */
+export function seoMetadata(
+  path: string,
+  lang: Lang,
+  s: Omit<PageSeo, "slug"> & { type?: "website" | "article"; published?: string | null; noindex?: boolean },
+): Metadata {
+  return {
+    title: { absolute: s.title },
+    description: s.description,
+    keywords: s.keywords,
+    alternates: alternates(path, lang),
+    openGraph: {
+      title: s.title,
+      description: s.excerpt,
+      url: urlFor(path, lang),
+      siteName: "Foundura",
+      locale: lang === "hi" ? "hi_IN" : "en_IN",
+      alternateLocale: lang === "hi" ? "en_IN" : "hi_IN",
+      type: s.type ?? "website",
+      ...(s.type === "article" && s.published ? { publishedTime: s.published } : {}),
+    },
+    twitter: { card: "summary_large_image", title: s.title, description: s.description },
+    ...(s.noindex ? { robots: { index: false, follow: true } } : {}),
+  };
+}
+
+/** Metadata for one of the main pages listed in SEO. */
+export function pageMetadata(key: PageKey, lang: Lang): Metadata {
+  const s = SEO[key][lang];
+  return seoMetadata(s.slug, lang, s);
+}
+
+/** Cut text to a meta description: whole words, at most `max` characters. */
+export function clip(text: string, max = 158): string {
+  const t = text.replace(/\s+/g, " ").trim();
+  if (t.length <= max) return t;
+  return `${t.slice(0, max - 1).replace(/[\s,;:.]+\S*$/, "")}…`;
+}
+
+/** An SEO title: the name first, then the site, within 60 characters when possible. */
+export function seoTitle(name: string, suffix?: string): string {
+  const full = suffix ? `${name}: ${suffix} | Foundura` : `${name} | Foundura`;
+  if (full.length <= 60 || !suffix) return full.length <= 60 ? full : `${clip(name, 48)} | Foundura`;
+  return `${name} | Foundura`.length <= 60 ? `${name} | Foundura` : `${clip(name, 48)} | Foundura`;
+}
+
+/** Up to 15 distinct keywords, the most specific first, padded with general ones. */
+export function keywordList(specific: (string | null | undefined)[], general: string[]): string[] {
+  const out: string[] = [];
+  for (const k of [...specific, ...general]) {
+    // The keywords tag is comma-separated, so a comma inside a keyword would split it in two.
+    const v = k?.replace(/\s*,\s*/g, " ").trim();
+    if (v && !out.some((o) => o.toLowerCase() === v.toLowerCase())) out.push(v);
+    if (out.length === 15) break;
+  }
+  return out;
+}
+
+/** A description of 120–160 characters: the text, then a closing line if there's room. */
+export function describe(text: string, closing: string): string {
+  const t = text.replace(/\s+/g, " ").trim();
+  const withClosing = `${t.replace(/[.。।]?$/, lang => lang || ".")} ${closing}`.trim();
+  if ([...withClosing].length <= 158) return withClosing;
+  return clip(t, 158);
+}

@@ -7,6 +7,10 @@ export interface ArticleSeed {
   title: string;
   theme: string;
   excerpt: string;
+  focusKeyphrase: string;
+  seoTitle: string;
+  metaDescription: string;
+  keywords: string[];
   body: string;
   readMinutes: number;
   publishedAt: string;
@@ -19,9 +23,30 @@ export const ARTICLES: ArticleSeed[] = [
     theme: "Funding Thursday",
     excerpt:
       "The startup definition changed on 4 February 2026. Here is what the new limits mean for your company, in plain words.",
+    focusKeyphrase: "DPIIT recognition",
+    seoTitle: "DPIIT recognition 2026: who qualifies now | Foundura",
+    metaDescription:
+      "DPIIT recognition rules changed in February 2026: a ₹200 crore turnover limit, a Deep Tech category and cooperatives. See if your startup now qualifies.",
+    keywords: [
+      "DPIIT recognition",
+      "DPIIT recognition 2026",
+      "startup definition 2026",
+      "DPIIT eligibility",
+      "₹200 crore turnover limit",
+      "Deep Tech startup",
+      "Deep Tech recognition DPIIT",
+      "cooperative society startup",
+      "Startup India recognition",
+      "how to get DPIIT recognition",
+      "DPIIT certificate",
+      "startup recognition benefits",
+      "Section 80-IAC",
+      "startup age limit",
+      "Startup India registration",
+    ],
     readMinutes: 4,
     publishedAt: "2026-11-22",
-    body: `On 4 February 2026 the government replaced the 2019 rules that decide who counts as a "startup" in India. If you were told you were too old, too big or the wrong kind of entity, it is worth checking again.
+    body: `On 4 February 2026 the government replaced the 2019 rules that decide who counts as a "startup" in India, and so who can get DPIIT recognition. If you were told you were too old, too big or the wrong kind of entity, it is worth checking again.
 
 ## Key takeaways
 
@@ -49,14 +74,35 @@ Run the free [Scheme Scan](/scan). It checks the new limits against your answers
 **Sources:** [Lakshmikumaran & Sridharan summary of G.S.R. 108(E)](https://www.lkslaw.com/insights/articles/india-s-new-startup-and-deep-tech-startup-framework-why-the-2026-dpiit-notification-matters)`,
   },
   {
-    slug: "problem-first-ideation",
+    slug: "startup-idea-problem-first",
     title: "Finding a startup idea worth solving: the problem-first method",
     theme: "Idea Tuesday",
     excerpt:
       "Most failed ideas start with a solution. Start with a painful, frequent problem that someone already pays to fix.",
+    focusKeyphrase: "startup idea",
+    seoTitle: "How to find a startup idea: problem-first method | Foundura",
+    metaDescription:
+      "How to find a startup idea worth building: start with a painful, frequent problem people already pay to fix, score it, and talk to 10 people first.",
+    keywords: [
+      "startup idea",
+      "how to find a startup idea",
+      "startup idea validation",
+      "problem-first method",
+      "problem worth solving",
+      "business idea India",
+      "customer problem interview",
+      "validate a startup idea",
+      "idea scoring",
+      "customer discovery",
+      "product-market fit",
+      "lean startup",
+      "first-time founder",
+      "ideation",
+      "startup ideas India",
+    ],
     readMinutes: 5,
     publishedAt: "2026-11-22",
-    body: `Many founders fall in love with a solution and then go looking for people who need it. The problem-first method flips that order.
+    body: `When looking for a startup idea, many founders fall in love with a solution and then go looking for people who need it. The problem-first method flips that order.
 
 ## Key takeaways
 

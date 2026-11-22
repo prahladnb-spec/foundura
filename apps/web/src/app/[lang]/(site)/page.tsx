@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { pageMetadata } from "@/seo";
 import { BookOpen, CalendarDays, Newspaper } from "lucide-react";
 import { Icon } from "@/components/icons";
 import { Steps } from "@/components/infographics/steps";
@@ -15,6 +17,11 @@ import type { ArticleSummary, EventItem, PolicyItem } from "@/lib/types";
 const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
 
 const select = "w-full rounded-md border border-rule bg-white px-3 py-2.5 text-[1rem]";
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const { lang } = await params;
+  return pageMetadata("home", isLang(lang) ? lang : "en");
+}
 
 export default async function Home({ params }: { params: Promise<{ lang: string }> }) {
   const p = await params;

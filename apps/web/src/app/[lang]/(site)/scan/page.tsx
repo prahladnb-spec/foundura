@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/seo";
 import { PageIntro } from "@/components/art";
 import type { Metadata } from "next";
 import { ScanForm } from "@/components/scan-form";
@@ -6,10 +7,9 @@ import { isLang } from "@/i18n/config";
 
 type Params = Promise<{ lang: string }>;
 
-export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
-  const t = getDict(isLang(lang) ? lang : "en");
-  return { title: t.scan.title, description: t.scan.metaDescription };
+  return pageMetadata("scan", isLang(lang) ? lang : "en");
 }
 
 export default async function ScanPage({ params, searchParams }: { params: Params; searchParams: Promise<Record<string, string | undefined>> }) {

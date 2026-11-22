@@ -1,3 +1,4 @@
+import { clip, describe, keywordList, seoMetadata, seoTitle } from "@/seo";
 import { Monogram } from "@/components/icons";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -27,9 +28,23 @@ const langOf = (l: string): Lang => (isLang(l) ? l : "en");
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const p = await params;
+  const lang = langOf(p.lang);
+  const hi = lang === "hi";
   const s = await load(p.slug);
-  const t = getDict(langOf(p.lang));
-  return { title: s.name, description: s.oneLiner ?? t.startups.metaDescription };
+  const t = getDict(lang);
+  const sectors = s.sectors.map((x) => sectorLabel(x, lang));
+  const place = stateLabel(s.state, lang);
+  const summary = s.oneLiner ?? s.description ?? t.startups.metaDescription;
+  return seoMetadata(`/startups/${s.slug}`, lang, {
+    focus: s.name,
+    title: seoTitle(s.name, sectors[0] ? (hi ? `${sectors[0]} स्टार्टअप` : `${sectors[0]} startup`) : undefined),
+    description: describe(summary, hi ? `${place ? `${place} का ` : ""}भारतीय स्टार्टअप, Foundura पर।` : `An Indian startup${place ? ` from ${place}` : ""} on Foundura.`),
+    excerpt: clip(s.description ?? summary, 300),
+    keywords: keywordList(
+      [s.name, ...sectors.map((x) => (hi ? `${x} स्टार्टअप` : `${x} startup`)), place ? (hi ? `${place} स्टार्टअप` : `${place} startups`) : null, stageLabel(s.stage, lang)],
+      hi ? ["भारतीय स्टार्टअप", "स्टार्टअप शोकेस", "Foundura"] : ["Indian startups", "startup showcase India", "Foundura"],
+    ),
+  });
 }
 
 /** Links founders add go out with nofollow/ugc, and never pass the visitor's page address on. */

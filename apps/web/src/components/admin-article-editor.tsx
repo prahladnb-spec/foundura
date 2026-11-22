@@ -3,7 +3,9 @@
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { ARTICLE_THEMES, readMinutes } from "@foundura/shared";
+import { ARTICLE_THEMES, charCount, readMinutes, SEO_LIMITS, seoChecks, wordCount } from "@foundura/shared";
+import { CircleCheck, CircleX } from "lucide-react";
+import { Icon } from "@/components/icons";
 import { adminCall, btn, btnQuiet, field, fieldLabel } from "@/lib/admin-client";
 
 export interface AdminArticle {
@@ -13,7 +15,13 @@ export interface AdminArticle {
   excerpt: string;
   body: string;
   publishedAt: string | null;
+  focusKeyphrase: string;
+  seoTitle: string;
+  metaDescription: string;
+  keywords: string[];
 }
+
+const EMPTY_SEO = { focusKeyphrase: "", seoTitle: "", metaDescription: "", keywords: [] as string[] };
 
 const slugify = (s: string) =>
   s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 100);
@@ -24,8 +32,10 @@ export function AdminArticleEditor({ article }: { article: AdminArticle | null }
   // Slug the article is stored under; null until the first save.
   const [storedSlug, setStoredSlug] = useState<string | null>(article?.slug ?? null);
   const [a, setA] = useState<AdminArticle>(
-    article ?? { slug: "", title: "", theme: ARTICLE_THEMES[0], excerpt: "", body: "", publishedAt: null },
+    article ? { ...EMPTY_SEO, ...article } : { slug: "", title: "", theme: ARTICLE_THEMES[0], excerpt: "", body: "", publishedAt: null, ...EMPTY_SEO },
   );
+  // Keywords are typed as one comma-separated line.
+  const [kwText, setKwText] = useState((article?.keywords ?? []).join(", "));
   const [slugTouched, setSlugTouched] = useState(!!article);
   const [tab, setTab] = useState<"write" | "preview">("write");
   const [msg, setMsg] = useState<{ kind: "ok" | "err"; text: string } | null>(null);
@@ -38,7 +48,8 @@ export function AdminArticleEditor({ article }: { article: AdminArticle | null }
     setBusy(true);
     setMsg(null);
     try {
-      const body = { ...a, publishedAt };
+      const keywords = [...new Set(kwText.split(",").map((k) => k.trim()).filter(Boolean))];
+      const body = { ...a, keywords, publishedAt };
       const saved = await adminCall<AdminArticle>(storedSlug ? `articles/${storedSlug}` : "articles", storedSlug ? "PUT" : "POST", body);
       setA(saved);
       setStoredSlug(saved.slug);
@@ -94,9 +105,11 @@ export function AdminArticleEditor({ article }: { article: AdminArticle | null }
       </div>
       <div>
         <label className={fieldLabel} htmlFor="excerpt">Short description</label>
-        <p className="mb-1 text-[0.9rem] text-slate">Shown on the Learn page and in search results. {a.excerpt.length}/300</p>
+        <p className="mb-1 text-[0.9rem] text-slate">The excerpt: shown on the Guides page and when the article is shared. {wordCount(a.excerpt)}/{SEO_LIMITS.excerptWords} words</p>
         <textarea id="excerpt" rows={2} className={field} value={a.excerpt} onChange={(e) => set("excerpt", e.target.value)} />
       </div>
+
+      <SearchPanel a={a} set={set} kwText={kwText} setKwText={setKwText} />
 
       <div>
         <div className="flex items-end justify-between gap-4">
@@ -152,5 +165,75 @@ export function AdminArticleEditor({ article }: { article: AdminArticle | null }
         {msg && <p role="status" className={msg.kind === "ok" ? "text-leaf" : "text-marigold-ink"}>{msg.text}</p>}
       </div>
     </div>
+  );
+}
+
+/** How the article appears in search results, with the checks the SEO tests use. */
+function SearchPanel({
+  a,
+  set,
+  kwText,
+  setKwText,
+}: {
+  a: AdminArticle;
+  set: <K extends keyof AdminArticle>(k: K, v: AdminArticle[K]) => void;
+  kwText: string;
+  setKwText: (v: string) => void;
+}) {
+  const keywords = [...new Set(kwText.split(",").map((k) => k.trim()).filter(Boolean))];
+  const checks = seoChecks({ ...a, keywords });
+  const title = a.seoTitle.trim() || `${a.title} | Foundura`;
+  const passed = checks.filter((c) => c.ok).length;
+  return (
+    <section aria-labelledby="search-h" className="rounded-lg border border-rule bg-white p-5">
+      <h2 id="search-h" className="text-xl font-semibold">In search results</h2>
+      <p className="mt-1 text-[0.92rem] text-slate">
+        What Google shows for this article. Leave the SEO title empty to use the article title.
+      </p>
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        <div>
+          <label className={fieldLabel} htmlFor="focus">Focus keyphrase</label>
+          <input id="focus" className={field} value={a.focusKeyphrase} onChange={(e) => set("focusKeyphrase", e.target.value)} placeholder="e.g. DPIIT recognition" />
+        </div>
+        <div>
+          <label className={fieldLabel} htmlFor="seo-title">SEO title <span className="font-normal text-slate">{charCount(title)}/{SEO_LIMITS.title}</span></label>
+          <input id="seo-title" className={field} value={a.seoTitle} onChange={(e) => set("seoTitle", e.target.value)} placeholder={`${a.title} | Foundura`} />
+        </div>
+      </div>
+      <div className="mt-4">
+        <label className={fieldLabel} htmlFor="meta">
+          Meta description <span className="font-normal text-slate">{charCount(a.metaDescription)} characters, aim for {SEO_LIMITS.descriptionMin} to {SEO_LIMITS.descriptionMax}</span>
+        </label>
+        <textarea id="meta" rows={2} className={field} value={a.metaDescription} onChange={(e) => set("metaDescription", e.target.value)} />
+      </div>
+      <div className="mt-4">
+        <label className={fieldLabel} htmlFor="keywords">
+          Keywords <span className="font-normal text-slate">{keywords.length}/{SEO_LIMITS.keywords}, separated by commas</span>
+        </label>
+        <textarea id="keywords" rows={2} className={field} value={kwText} onChange={(e) => setKwText(e.target.value)} />
+      </div>
+
+      <div className="mt-5 grid gap-5 lg:grid-cols-2">
+        <div aria-label="Search result preview" role="group" className="rounded-md border border-rule p-4 font-sans">
+          <p className="text-[0.85rem] text-slate">foundura.org › learn › {a.slug || "…"}</p>
+          <p className="mt-0.5 truncate text-[1.15rem] text-[#1a0dab]">{title}</p>
+          <p className="mt-0.5 line-clamp-2 text-[0.9rem] text-neel-700">{a.metaDescription || a.excerpt || "The meta description appears here."}</p>
+        </div>
+        <div>
+          <p className="font-semibold">{passed} of {checks.length} checks pass</p>
+          <ul className="mt-2 space-y-1 text-[0.92rem]">
+            {checks.map((c) => (
+              <li key={c.id} className="flex items-start gap-2">
+                <Icon icon={c.ok ? CircleCheck : CircleX} className={`mt-0.5 h-4 w-4 ${c.ok ? "text-leaf" : "text-marigold-ink"}`} />
+                <span>
+                  <span className="sr-only">{c.ok ? "Done: " : "To do: "}</span>
+                  {c.label}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
   );
 }

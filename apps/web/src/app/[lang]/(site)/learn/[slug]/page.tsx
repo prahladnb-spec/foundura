@@ -1,3 +1,4 @@
+import { clip, keywordList, seoMetadata, seoTitle } from "@/seo";
 import type { Metadata } from "next";
 import Link from "@/components/locale-link";
 import { JsonLd } from "@/components/json-ld";
@@ -24,8 +25,18 @@ async function load(slug: string): Promise<Article> {
 type Params = Promise<{ slug: string; lang: string }>;
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
-  const a = await load((await params).slug);
-  return { title: a.title, description: a.excerpt, openGraph: { type: "article", ...(a.publishedAt ? { publishedTime: a.publishedAt } : {}) } };
+  const p = await params;
+  const lang = isLang(p.lang) ? p.lang : "en";
+  const a = await load(p.slug);
+  return seoMetadata(`/learn/${a.slug}`, lang, {
+    focus: a.focusKeyphrase || a.title,
+    title: a.seoTitle || seoTitle(a.title),
+    description: a.metaDescription || clip(a.excerpt),
+    excerpt: a.excerpt,
+    keywords: a.keywords.length ? a.keywords : keywordList([a.title, a.theme], ["startup guides", "Indian founders", "Foundura"]),
+    type: "article",
+    published: a.publishedAt,
+  });
 }
 
 export default async function ArticlePage({ params }: { params: Params }) {
@@ -41,7 +52,10 @@ export default async function ArticlePage({ params }: { params: Params }) {
           "@context": "https://schema.org",
           "@type": "Article",
           headline: a.title,
-          description: a.excerpt,
+          description: a.metaDescription || a.excerpt,
+          abstract: a.excerpt,
+          ...(a.keywords.length ? { keywords: a.keywords.join(", ") } : {}),
+          inLanguage: "en-IN",
           ...(a.publishedAt ? { datePublished: a.publishedAt } : {}),
           author: { "@type": "Organization", name: "Foundura" },
           publisher: { "@type": "Organization", name: "Foundura" },

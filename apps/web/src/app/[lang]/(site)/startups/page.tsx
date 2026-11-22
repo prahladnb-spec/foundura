@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/seo";
 import { Monogram } from "@/components/icons";
 import { Art, PageIntro } from "@/components/art";
 import type { Metadata } from "next";
@@ -17,9 +18,9 @@ const langOf = async (params: Params) => {
   return isLang(lang) ? lang : "en";
 };
 
-export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
-  const t = getDict(await langOf(params));
-  return { title: t.startups.metaTitle, description: t.startups.metaDescription };
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const { lang } = await params;
+  return pageMetadata("startups", isLang(lang) ? lang : "en");
 }
 
 export default async function StartupsPage({ params, searchParams }: { params: Params; searchParams: Search }) {
