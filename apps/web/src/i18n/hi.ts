@@ -222,6 +222,8 @@ export const hi: Dict = {
     first: "इनसे शुरू करें",
     next: "फिर ये",
     all: "सभी दस्तावेज़",
+    colours: "अपने रंग चुनें",
+    themes: { classic: "नीला और गेंदा", ocean: "समुद्री नीला और फ़िरोज़ी", forest: "गहरा हरा और सुनहरा", plum: "जामुनी और गुलाबी", slate: "स्लेटी और मूँगिया", midnight: "आधी रात" },
     downloadHi: "हिन्दी में टेम्पलेट डाउनलोड करें",
     downloadExample: "भरा हुआ उदाहरण डाउनलोड करें",
     categories: {

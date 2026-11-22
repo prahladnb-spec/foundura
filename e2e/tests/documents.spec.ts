@@ -87,6 +87,29 @@ test.describe("founder documents", () => {
     }
   });
 
+  test("the pitch deck comes in six colour combinations", async ({ page, request }) => {
+    await page.goto("/documents/pitch-deck");
+    const main = page.getByRole("link", { name: "Download the PowerPoint template" });
+    await expect(main).toHaveAttribute("href", "/downloads/foundura-pitch-deck.pptx");
+    await expect(page.locator('input[name="deck-theme"]')).toHaveCount(6);
+    await page.locator("label", { hasText: "Midnight" }).click();
+    await expect(main).toHaveAttribute("href", "/downloads/foundura-pitch-deck-midnight.pptx");
+    await expect(page.getByRole("link", { name: "Download a filled-in example" })).toHaveAttribute("href", "/downloads/foundura-pitch-deck-example-midnight.pptx");
+    const [download] = await Promise.all([page.waitForEvent("download"), main.click()]);
+    expect(download.suggestedFilename()).toBe("foundura-pitch-deck-midnight.pptx");
+    for (const theme of ["ocean", "forest", "plum", "slate", "midnight"]) {
+      for (const file of [`foundura-pitch-deck-${theme}.pptx`, `foundura-pitch-deck-hi-${theme}.pptx`, `foundura-pitch-deck-example-${theme}.pptx`]) {
+        const res = await request.get(`/downloads/${file}`);
+        expect(res.status(), file).toBe(200);
+        expect((await res.body()).subarray(0, 2).toString(), file).toBe("PK");
+      }
+    }
+    // A different theme is a different file, not the same bytes under another name.
+    const a = await (await request.get("/downloads/foundura-pitch-deck.pptx")).body();
+    const b = await (await request.get("/downloads/foundura-pitch-deck-midnight.pptx")).body();
+    expect(a.equals(b)).toBe(false);
+  });
+
   test("glossary in English and Hindi", async ({ page }) => {
     await page.goto("/glossary");
     await expect(page.locator("h1")).toHaveText("Glossary");

@@ -223,6 +223,8 @@ export const en = {
     first: "Start with these",
     next: "Then these",
     all: "All documents",
+    colours: "Choose your colours",
+    themes: { classic: "Indigo and marigold", ocean: "Ocean and teal", forest: "Forest and gold", plum: "Plum and rose", slate: "Slate and coral", midnight: "Midnight" },
     downloadHi: "Download the template in Hindi",
     downloadExample: "Download a filled-in example",
     categories: {

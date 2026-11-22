@@ -73,7 +73,23 @@ export const closing = (seat = "[City]"): Block[] => [
 ];
 
 export const EXT = { doc: "docx", deck: "pptx", sheet: "xlsx" } as const;
-export const fileName = (d: FounderDoc, key?: "hi" | "example") => {
-  const t = key ? d.variants?.find((v) => v.key === key)?.template : d.template;
-  return `foundura-${d.slug}${key ? `-${key}` : ""}.${EXT[(t ?? d.template).kind]}`;
+/** Colour combinations for PowerPoint decks. Hex without "#". The first is the default and has no file suffix. */
+export const DECK_THEMES = {
+  classic: { bg: "F7F8FC", title: "141B47", text: "5B6478", accent: "F2A900" },
+  ocean: { bg: "F2F8FA", title: "0B3C5D", text: "4F6475", accent: "14919B" },
+  forest: { bg: "F4F8F2", title: "1E4D3A", text: "54655B", accent: "C98A1B" },
+  plum: { bg: "FAF5F8", title: "4A1942", text: "6A5868", accent: "D6457A" },
+  slate: { bg: "F5F5F3", title: "23272F", text: "5E636E", accent: "E4572E" },
+  midnight: { bg: "10172F", title: "FFFFFF", text: "C3CAE0", accent: "F2A900" },
+} as const;
+export type DeckTheme = keyof typeof DECK_THEMES;
+export const DECK_THEME_KEYS = Object.keys(DECK_THEMES) as DeckTheme[];
+
+/** File name of a deck download: foundura-<slug>[-hi|-example][-<theme>].pptx */
+export const deckFile = (slug: string, key?: "hi" | "example", theme: DeckTheme = "classic") =>
+  `foundura-${slug}${key ? `-${key}` : ""}${theme === "classic" ? "" : `-${theme}`}.pptx`;
+
+export const fileName = (d: FounderDoc, key?: "hi" | "example", theme?: DeckTheme) => {
+  const t = (key ? d.variants?.find((v) => v.key === key)?.template : d.template) ?? d.template;
+  return t.kind === "deck" ? deckFile(d.slug, key, theme) : `foundura-${d.slug}${key ? `-${key}` : ""}.${EXT[t.kind]}`;
 };

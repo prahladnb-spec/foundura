@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { DeckDownloads } from "@/components/deck-downloads";
 import Link from "@/components/locale-link";
 import { FORMAT, TemplatePreview } from "@/components/template-preview";
 import { CHECKED_ON, DOCS, docBySlug, fileName, SOURCES } from "@/documents";
@@ -44,19 +45,25 @@ export default async function DocumentPage({ params }: { params: Params }) {
       <h1 className="display mt-2 text-5xl md:text-6xl">{lang === "hi" ? doc.titleHi : doc.title}</h1>
       <p className="mt-3 max-w-[62ch] text-xl text-neel-700">{lang === "hi" ? doc.summaryHi : doc.summary}</p>
 
-      <p className="mt-6">
-        <a href={`/downloads/${fileName(doc)}`} download className="inline-block rounded-md bg-marigold px-5 py-3 font-semibold text-neel-950 no-underline">
-          {before}<span lang="en">{FORMAT[doc.template.kind]}</span>{after}
-        </a>
-      </p>
-      {doc.variants && (
-        <p className="mt-3 flex flex-wrap gap-x-5 gap-y-1">
-          {doc.variants.map((v) => (
-            <a key={v.key} href={`/downloads/${fileName(doc, v.key)}`} download className="font-semibold text-neel-500 underline">
-              {v.key === "hi" ? d.downloadHi : d.downloadExample}
+      {doc.template.kind === "deck" ? (
+        <DeckDownloads slug={doc.slug} variants={(doc.variants ?? []).map((v) => v.key)} />
+      ) : (
+        <>
+          <p className="mt-6">
+            <a href={`/downloads/${fileName(doc)}`} download className="inline-block rounded-md bg-marigold px-5 py-3 font-semibold text-neel-950 no-underline">
+              {before}<span lang="en">{FORMAT[doc.template.kind]}</span>{after}
             </a>
-          ))}
-        </p>
+          </p>
+          {doc.variants && (
+            <p className="mt-3 flex flex-wrap gap-x-5 gap-y-1">
+              {doc.variants.map((v) => (
+                <a key={v.key} href={`/downloads/${fileName(doc, v.key)}`} download className="font-semibold text-neel-500 underline">
+                  {v.key === "hi" ? d.downloadHi : d.downloadExample}
+                </a>
+              ))}
+            </p>
+          )}
+        </>
       )}
       <p className="mt-2 text-[0.93rem] text-slate">{d.free}</p>
       {d.englishOnly && <p className="mt-4 rounded-md bg-neel-50 px-4 py-3 text-neel-700">{d.englishOnly}</p>}
