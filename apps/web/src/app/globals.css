@@ -106,6 +106,37 @@ h3 {
 :lang(bn) .display {
   line-height: 1.2;
 }
+:root:lang(ja) {
+  /* Japanese uses the reader's system fonts: a web font for thousands of kanji would blow the page weight budget. */
+  --font-display: "Anek Latin Variable", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans JP", "Noto Sans CJK JP", system-ui, sans-serif;
+  --font-body: "Mukta", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans JP", "Noto Sans CJK JP", system-ui, sans-serif;
+}
+/* Kana and kanji don't take negative tracking, and break lines by the stricter Japanese rules. */
+:lang(ja) .display,
+:lang(ja) h1,
+:lang(ja) h2,
+:lang(ja) h3,
+:lang(ja) .stamp {
+  letter-spacing: 0;
+}
+:lang(ja) .display {
+  line-height: 1.2;
+}
+:lang(ja) body {
+  line-break: strict;
+}
+/* Break headings between phrases, not inside words (Japanese has no spaces). Browsers without it fall back to character breaks. */
+:lang(ja) h1,
+:lang(ja) h2,
+:lang(ja) h3,
+:lang(ja) .display {
+  word-break: auto-phrase;
+  overflow-wrap: anywhere;
+}
+/* Every kana and kanji is a full square, so the poster-size hero line is set smaller to keep phrases whole. */
+:lang(ja) h1.display {
+  font-size: clamp(2.4rem, 7vw, 4.2rem);
+}
 :lang(ar) .display,
 :lang(ar) h1,
 :lang(ar) h2,

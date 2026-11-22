@@ -10,6 +10,7 @@ export const TRANSLATION_REVIEWS: Partial<Record<Lang, { by: string; on: string 
   de: null,
   ar: null,
   he: null,
+  ja: null,
   bn: null,
   gu: null,
   te: null,
