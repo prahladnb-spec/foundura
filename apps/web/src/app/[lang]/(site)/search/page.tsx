@@ -5,7 +5,7 @@ import { PageIntro } from "@/components/art";
 import { Icon, KindIcon } from "@/components/icons";
 import Link from "@/components/locale-link";
 import { f, getDict } from "@/i18n";
-import { isLang, lp, type Lang } from "@/i18n/config";
+import { isLang, LANG_INFO, LANGS, lp, type Lang } from "@/i18n/config";
 import { catalogue } from "@/search/catalogue";
 import { alternates } from "@/seo";
 
@@ -16,11 +16,12 @@ const LIMIT = 40;
 
 /** The script a query is written in, so screen readers read it in the right voice. */
 function queryLang(q: string, page: Lang): string | undefined {
-  if (/[\u0900-\u097f]/.test(q)) return "hi";
-  if (/[\u0600-\u06ff]/.test(q)) return "ar";
-  if (/[\u0590-\u05ff]/.test(q)) return "he";
-  // Latin letters: the page's own language on Spanish and German pages, else English.
-  return page === "es" || page === "de" ? undefined : page === "en" ? undefined : "en";
+  // The page's own script first (Marathi and Hindi share Devanagari), then any other script.
+  if (LANG_INFO[page].script?.test(q)) return undefined;
+  const other = LANGS.find((l) => LANG_INFO[l].script?.test(q));
+  if (other) return LANG_INFO[other].tag;
+  // Latin letters: the page's own language on Latin-script pages, else English.
+  return LANG_INFO[page].script ? "en" : undefined;
 }
 
 /** "Nothing matches “{q}”" with the query marked in its own language. */
@@ -30,7 +31,7 @@ function withQuery(template: string, q: string, page: Lang) {
   return (
     <>
       {before}
-      <bdi lang={ql === page ? undefined : ql}>{q}</bdi>
+      <bdi lang={ql}>{q}</bdi>
       {after}
     </>
   );

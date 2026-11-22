@@ -102,11 +102,26 @@ importers:
 
   apps/web:
     dependencies:
+      '@fontsource-variable/anek-bangla':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@fontsource-variable/anek-devanagari':
+        specifier: ^5.3.0
+        version: 5.3.0
+      '@fontsource-variable/anek-gujarati':
+        specifier: ^5.3.0
+        version: 5.3.0
+      '@fontsource-variable/anek-kannada':
         specifier: ^5.3.0
         version: 5.3.0
       '@fontsource-variable/anek-latin':
         specifier: 5.3.0
+        version: 5.3.0
+      '@fontsource-variable/anek-tamil':
+        specifier: ^5.3.0
+        version: 5.3.0
+      '@fontsource-variable/anek-telugu':
+        specifier: ^5.3.0
         version: 5.3.0
       '@fontsource-variable/noto-sans-arabic':
         specifier: ^5.3.0
@@ -548,11 +563,26 @@ packages:
   '@fast-csv/parse@4.3.6':
     resolution: {integrity: sha512-uRsLYksqpbDmWaSmzvJcuApSEe38+6NQZBUsuAyMZKqHxH0g1wcJgsKUvN3WC8tewaqFjBMMGrkHmC+T7k8LvA==}
 
+  '@fontsource-variable/anek-bangla@5.3.0':
+    resolution: {integrity: sha512-OekuT8LFbA86VSfLjv6I6V2SS5owqTN+NHmhsr+3qHpCr4oqehkjvgDGuAyPH65BOIqVme0eLK7c2Ucml9gblg==}
+
   '@fontsource-variable/anek-devanagari@5.3.0':
     resolution: {integrity: sha512-mng3nw6XK5/5agZqIgCHcspyYbXe5HcF3F6b8J3v7He3Ilk4Mp7/irelZnCNde1rPg2JSiC7LeuI9Y9DcZk4yw==}
 
+  '@fontsource-variable/anek-gujarati@5.3.0':
+    resolution: {integrity: sha512-GtBN+reElKGGx3GyOPeoGdrNiZx7uegRSEkCaGSssx3X9ED4c86N9n+HEkFyeNbnDkfkjXFh3tA1efB2fjwASw==}
+
+  '@fontsource-variable/anek-kannada@5.3.0':
+    resolution: {integrity: sha512-Uvz2uR6aWvI4kRUAyO6BnghMSFs+R8xCR8C/FjBBPPA2UDuuyFm+3oTKSPns8u2SW0Axj8+MKN7xGASe+ke78g==}
+
   '@fontsource-variable/anek-latin@5.3.0':
     resolution: {integrity: sha512-NqJVtTUYWkPMPXsEy4Ve/xRnXrKLw/gfUYzLidSsdJAMEgNsRNYpJZkorD/xDyBS2mxhfu/y6KsWTetowCQjrQ==}
+
+  '@fontsource-variable/anek-tamil@5.3.0':
+    resolution: {integrity: sha512-gIYFuSE22Piov6heULEv29zjPR/vSiMoGxwiJh+NuZa7kWDtm+K2x8VjCY1ph+ACN/ACS9cGPSTwDfc+mLvW4A==}
+
+  '@fontsource-variable/anek-telugu@5.3.0':
+    resolution: {integrity: sha512-0mMvBxwEi7qd3G8Q1MVx1Yzm5HQBb0Y5RMftKwageWsKW5Loocu+pv/qon8LUwUJTvFg8ZLA0EAS4KvyS2tEHg==}
 
   '@fontsource-variable/noto-sans-arabic@5.3.0':
     resolution: {integrity: sha512-Rz8+DBzza3//cmN+DBQajJhx3x+Dx12eUgnQsTOgPWbOT0+In6APmE8z4I/QQnUWfAx+s8l93+60qDT5vJH1sA==}
@@ -3448,9 +3478,19 @@ snapshots:
       lodash.isundefined: 3.0.1
       lodash.uniq: 4.5.0
 
+  '@fontsource-variable/anek-bangla@5.3.0': {}
+
   '@fontsource-variable/anek-devanagari@5.3.0': {}
 
+  '@fontsource-variable/anek-gujarati@5.3.0': {}
+
+  '@fontsource-variable/anek-kannada@5.3.0': {}
+
   '@fontsource-variable/anek-latin@5.3.0': {}
+
+  '@fontsource-variable/anek-tamil@5.3.0': {}
+
+  '@fontsource-variable/anek-telugu@5.3.0': {}
 
   '@fontsource-variable/noto-sans-arabic@5.3.0': {}
 

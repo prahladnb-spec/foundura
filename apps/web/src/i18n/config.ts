@@ -3,11 +3,14 @@
  * /<code>/... (/hi, /es, /de, /ar, /he). Add a language here, give it a dictionary the same shape
  * as en.ts, and the routing, alternates, sitemap and language menu pick it up.
  */
-export const LANGS = ["en", "hi", "es", "de", "ar", "he"] as const;
+export const LANGS = ["en", "hi", "es", "de", "ar", "he", "mr"] as const;
 export type Lang = (typeof LANGS)[number];
 export const DEFAULT_LANG: Lang = "en";
 
 export const isLang = (v: unknown): v is Lang => typeof v === "string" && (LANGS as readonly string[]).includes(v);
+
+/** Languages whose page SEO, template titles and glossary come from per-language files (not en/hi). */
+export type IntlLang = Exclude<Lang, "en" | "hi">;
 
 export interface LangInfo {
   /** The language's own name, as the language menu shows it. */
@@ -19,19 +22,22 @@ export interface LangInfo {
   og: string;
   /** Sentence end, for text joined from parts. */
   stop: string;
+  /** Letters of the language's own script, for languages not written in Latin letters. */
+  script?: RegExp;
 }
 
 export const LANG_INFO: Record<Lang, LangInfo> = {
   en: { name: "English", tag: "en-IN", dir: "ltr", og: "en_IN", stop: "." },
-  hi: { name: "हिन्दी", tag: "hi-IN", dir: "ltr", og: "hi_IN", stop: "।" },
+  hi: { name: "हिन्दी", tag: "hi-IN", dir: "ltr", og: "hi_IN", stop: "।", script: /[\u0900-\u097f]/ },
   es: { name: "Español", tag: "es", dir: "ltr", og: "es_ES", stop: "." },
   de: { name: "Deutsch", tag: "de", dir: "ltr", og: "de_DE", stop: "." },
-  ar: { name: "العربية", tag: "ar", dir: "rtl", og: "ar_AR", stop: "." },
-  he: { name: "עברית", tag: "he", dir: "rtl", og: "he_IL", stop: "." },
+  ar: { name: "العربية", tag: "ar", dir: "rtl", og: "ar_AR", stop: ".", script: /[\u0600-\u06ff]/ },
+  he: { name: "עברית", tag: "he", dir: "rtl", og: "he_IL", stop: ".", script: /[\u0590-\u05ff]/ },
+  mr: { name: "मराठी", tag: "mr-IN", dir: "ltr", og: "mr_IN", stop: ".", script: /[\u0900-\u097f]/ },
 };
 
 /** Locale for Intl dates and numbers. Latin digits everywhere, as on the Hindi site. */
-export const INTL_LOCALE: Record<Lang, string> = { en: "en-IN", hi: "hi-IN", es: "es-ES", de: "de-DE", ar: "ar-u-nu-latn", he: "he-IL" };
+export const INTL_LOCALE: Record<Lang, string> = { en: "en-IN", hi: "hi-IN", es: "es-ES", de: "de-DE", ar: "ar-u-nu-latn", he: "he-IL", mr: "mr-IN-u-nu-latn" };
 
 /** Short month names for dates written as "2 Dec 2026", without loading a whole dictionary. */
 export const MONTHS: Record<Lang, readonly string[]> = {
@@ -41,6 +47,7 @@ export const MONTHS: Record<Lang, readonly string[]> = {
   de: ["Jan.", "Feb.", "März", "Apr.", "Mai", "Juni", "Juli", "Aug.", "Sept.", "Okt.", "Nov.", "Dez."],
   ar: ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"],
   he: ["ינו׳", "פבר׳", "מרץ", "אפר׳", "מאי", "יוני", "יולי", "אוג׳", "ספט׳", "אוק׳", "נוב׳", "דצמ׳"],
+  mr: ["जाने.", "फेब्रु.", "मार्च", "एप्रि.", "मे", "जून", "जुलै", "ऑग.", "सप्टें.", "ऑक्टो.", "नोव्हें.", "डिसें."],
 };
 
 const PREFIX = new RegExp(`^/(${LANGS.filter((l) => l !== DEFAULT_LANG).join("|")})(?=/|$)`);

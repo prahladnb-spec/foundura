@@ -63,11 +63,14 @@ export function queryTokens(q: string): string[] {
 
 const W = { title: 10, tags: 6, body: 2 } as const;
 
+/** Japanese and Chinese write without spaces, so a "word" is a whole run of text. */
+const CJK = /[\u3040-\u30ff\u3400-\u9fff\uf900-\ufaff]/;
+
 /** How well one query word matches one word of the text: whole word, start of a word, or inside a long word. */
 function wordMatch(q: string, w: string): number {
   if (w === q) return 1;
   if (q.length >= 2 && w.startsWith(q)) return 0.75;
-  if (q.length >= 4 && w.includes(q)) return 0.4;
+  if ((q.length >= 4 || (q.length >= 2 && CJK.test(q))) && w.includes(q)) return 0.4;
   return 0;
 }
 

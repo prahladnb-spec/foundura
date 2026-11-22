@@ -1,3 +1,5 @@
+import type { IntlLang } from "@/i18n/config";
+import { contentOf } from "@/i18n/content";
 /**
  * Template titles (t) and summaries (s) in Spanish, German, Arabic and Hebrew. English and Hindi
  * live on the template itself. Drafted, not yet checked by native speakers (see i18n/reviews.ts).
@@ -204,4 +206,4 @@ const he: T = {
   "trademark-checklist": { t: "רשימת בדיקה לרישום סימן מסחר", s: "השלבים לבדיקה, הגשה ומעקב של סימן מסחר לשם החברה או המוצר וללוגו." },
 };
 
-export const DOC_TEXT: Record<"es" | "de" | "ar" | "he", T> = { es, de, ar, he };
+export const DOC_TEXT: Record<IntlLang, T> = { es, de, ar, he, ...contentOf("docs") };

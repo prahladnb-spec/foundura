@@ -6,6 +6,7 @@ const entries: SearchEntry<null>[] = [
   { kind: "template", id: "pitch-deck", title: ["Pitch deck", "पिच डेक"], body: ["The slides investors expect."], data: null },
   { kind: "term", id: "esop", title: ["ESOP", "ईसॉप"], body: ["Employee stock option plan: shares promised to the team."], data: null },
   { kind: "guide", id: "seed", title: ["How to raise a seed round"], body: ["Pitch deck, data room and the investors to approach."], data: null },
+  { kind: "template", id: "cap-table", title: ["Cap table", "資本政策表"], data: null },
 ];
 const index = new SearchIndex(entries);
 const ids = (q: string) => index.search(q).map((h) => h.entry.id);
@@ -37,6 +38,11 @@ describe("search", () => {
     expect(ids("पिच")).toEqual(["pitch-deck"]);
     expect(ids("सीड फंड")).toEqual(["sisfs"]);
     expect(ids("esop")).toEqual(["esop"]);
+  });
+
+  it("finds Japanese words inside text written without spaces", () => {
+    expect(ids("政策")).toEqual(["cap-table"]);
+    expect(ids("資本政策表")).toEqual(["cap-table"]);
   });
 
   it("filters by kind and ignores an empty query", () => {

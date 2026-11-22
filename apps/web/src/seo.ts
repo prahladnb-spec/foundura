@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { LANG_INFO, LANGS, lp, type Lang } from "./i18n/config";
 import { SEO_INTL } from "./seo-intl";
+import { contentOf } from "./i18n/content";
 
 /**
  * Search engine details for each main page, in English and Hindi.
@@ -685,7 +686,8 @@ const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
 export const SEO: Record<PageKey, Record<Lang, PageSeo>> = Object.fromEntries(
   (Object.keys(SEO_EN_HI) as PageKey[]).map((k) => {
     const slug = SEO_EN_HI[k].en.slug;
-    const intl = Object.fromEntries(Object.entries(SEO_INTL[k]).map(([l, e]) => [l, { slug, ...e }]));
+    const later = Object.fromEntries(Object.entries(contentOf("seo")).map(([l, s]) => [l, (s as Record<PageKey, Omit<PageSeo, "slug">>)[k]]));
+    const intl = Object.fromEntries(Object.entries({ ...SEO_INTL[k], ...later }).map(([l, e]) => [l, { slug, ...e }]));
     return [k, { ...SEO_EN_HI[k], ...intl }];
   }),
 ) as Record<PageKey, Record<Lang, PageSeo>>;

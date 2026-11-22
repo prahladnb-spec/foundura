@@ -10,6 +10,7 @@ export const TRANSLATION_REVIEWS: Partial<Record<Lang, { by: string; on: string 
   de: null,
   ar: null,
   he: null,
+  mr: null,
 };
 
 export const awaitingReview = (lang: Lang) => lang in TRANSLATION_REVIEWS && !TRANSLATION_REVIEWS[lang];

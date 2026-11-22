@@ -2,6 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { ADMIN_EMAIL } from "../playwright.config";
 import type { Page } from "@playwright/test";
 import { expect, signIn, test } from "./fixtures";
+import { LANGS } from "../../apps/web/src/i18n/config";
 
 const PAGES = [
   "/",
@@ -33,7 +34,7 @@ async function expectNoSeriousProblems(page: Page) {
 
 // The other languages share the layouts; check the main ones in each, including right to left.
 const INTL_PAGES = ["/", "/scan", "/schemes", "/documents/pitch-deck", "/glossary", "/search?q=seed+fund"];
-for (const lang of ["/es", "/de", "/ar", "/he"]) {
+for (const lang of LANGS.filter((l) => l !== "en" && l !== "hi").map((l) => `/${l}`)) {
   for (const path of INTL_PAGES) {
     const url = `${lang}${path === "/" ? "" : path}`;
     test(`no serious accessibility problems on ${url}`, async ({ page }) => {

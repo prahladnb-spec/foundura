@@ -1,3 +1,5 @@
+import type { IntlLang } from "@/i18n/config";
+import { contentOf } from "@/i18n/content";
 /**
  * Glossary meanings (d) and, where the language has its own name, a local name (n), keyed by the
  * English term. Drafted, not yet checked by native speakers (see i18n/reviews.ts).
@@ -208,4 +210,4 @@ const he: T = {
   Vesting: { n: "הבשלה", d: "צבירת מניות או אופציות לאורך זמן, כך שמי שעוזב מוקדם שומר רק חלק." },
 };
 
-export const TERM_TEXT: Record<"es" | "de" | "ar" | "he", T> = { es, de, ar, he };
+export const TERM_TEXT: Record<IntlLang, T> = { es, de, ar, he, ...contentOf("terms") };

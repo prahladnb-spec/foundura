@@ -1,4 +1,4 @@
-import { MONTHS, type Lang } from "@/i18n/config";
+import { LANG_INFO, MONTHS, type Lang } from "@/i18n/config";
 
 /** "2026-12-02" → "2 Dec 2026" / "2 दिस॰ 2026" (string-based, so no time-zone shifts). */
 export function fmtDate(iso: string | null | undefined, withYear = true, lang: Lang = "en"): string {
@@ -26,7 +26,7 @@ export function fmtRange(start: string | null, end: string | null, lang: Lang = 
  */
 export function userTextLang(text: string | null | undefined, pageLang: Lang): "en" | undefined {
   if (pageLang === "en" || !text) return undefined;
-  const script = { hi: /[\u0900-\u097f]/, ar: /[\u0600-\u06ff]/, he: /[\u0590-\u05ff]/ }[pageLang as "hi" | "ar" | "he"];
-  // Spanish and German share the Latin script with English; founders mostly write in English.
+  const script = LANG_INFO[pageLang].script;
+  // Latin-script languages can't be told from English this way; founders mostly write in English.
   return script && script.test(text) ? undefined : "en";
 }
