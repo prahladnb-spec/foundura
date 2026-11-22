@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import type { HelpMap } from "@/documents/scheme-help";
 import { ENTITY_TYPES, INDIAN_STATES, SECTORS, STAGES } from "@foundura/shared/constants";
 import type { ScanInput } from "@foundura/shared";
 import { useT } from "@/i18n/client";
@@ -11,6 +12,32 @@ import { ScanResults } from "./scan-results";
 type Tri = "" | "yes" | "no";
 const tri = (v: Tri): boolean | undefined => (v === "" ? undefined : v === "yes");
 const num = (v: string): number | undefined => (v.trim() === "" ? undefined : Number(v));
+
+/**
+ * Answers travel in the link after "#", which browsers never send to a server, so a shared or
+ * saved link reopens the results without Foundura ever receiving or logging the answers.
+ */
+const HASH_KEYS = ["type", "inc", "state", "stage", "sectors", "turnover", "support", "promoter", "dpiit", "deep", "women"] as const;
+type Answers = Partial<Record<(typeof HASH_KEYS)[number], string>>;
+
+function readHash(): Answers | null {
+  if (typeof window === "undefined" || window.location.hash.length < 2) return null;
+  const p = new URLSearchParams(window.location.hash.slice(1));
+  const a: Answers = {};
+  for (const k of HASH_KEYS) {
+    const v = p.get(k);
+    if (v) a[k] = v.slice(0, 200);
+  }
+  return Object.keys(a).length ? a : null;
+}
+
+function writeHash(a: Answers) {
+  const p = new URLSearchParams();
+  for (const k of HASH_KEYS) if (a[k]) p.set(k, a[k]!);
+  history.replaceState(null, "", `${location.pathname}${location.search}#${p.toString()}`);
+}
+
+const asTri = (v: string | undefined): Tri => (v === "yes" || v === "no" ? v : "");
 
 const field = "block w-full rounded-md border border-rule bg-white px-3 py-2.5 text-[1rem] focus:border-neel-500";
 const label = "block text-[0.95rem] font-semibold text-neel-900 mb-1";
@@ -38,7 +65,7 @@ function YesNo({ name, value, onChange, legend }: { name: string; value: Tri; on
   );
 }
 
-export function ScanForm({ initial, embedded = false }: { initial: Partial<Record<string, string | undefined>>; embedded?: boolean }) {
+export function ScanForm({ initial, embedded = false, help }: { initial: Partial<Record<string, string | undefined>>; embedded?: boolean; help?: HelpMap }) {
   const { lang, t } = useT();
   const sc = t.scan;
   const [entityType, setEntityType] = useState(initial.entityType ?? "");
@@ -55,29 +82,93 @@ export function ScanForm({ initial, embedded = false }: { initial: Partial<Recor
   const [deepTech, setDeepTech] = useState<Tri>("");
   const [womenLed, setWomenLed] = useState<Tri>("");
   const [result, setResult] = useState<ScanResult | null>(null);
+  const [answered, setAnswered] = useState<{ k: string; v: string }[]>([]);
+  const [shareUrl, setShareUrl] = useState<string | null>(null);
+  const [reopened, setReopened] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
   const toggleSector = (v: string) =>
     setSectors((s) => (s.includes(v) ? s.filter((x) => x !== v) : s.length < 5 ? [...s, v] : s));
 
+  /** The answers as they stand, in the link's form. */
+  const current = (): Answers => ({
+    type: entityType,
+    inc: incorporationDate,
+    state,
+    stage,
+    sectors: sectors.join(","),
+    turnover,
+    support,
+    promoter,
+    dpiit,
+    deep: deepTech,
+    women: womenLed,
+  });
+
+  /** "Your answers", in words, for the results and the printout. */
+  const describe = (a: Answers) => {
+    const yn = (v?: string) => (v === "yes" ? t.common.yes : v === "no" ? t.common.no : "");
+    const rows: [string, string | undefined][] = [
+      [sc.howRegistered, a.type && String(lab(t.labels.entity, a.type))],
+      [sc.incDate, a.inc],
+      [sc.state, a.state && String(lab(t.labels.state, a.state))],
+      [sc.stage, a.stage && String(lab(t.labels.stage, a.stage))],
+      [sc.sectors, a.sectors && a.sectors.split(",").filter(Boolean).map((x) => String(lab(t.labels.sector, x))).join(", ")],
+      [sc.deepTech, yn(a.deep)],
+      [sc.dpiit, yn(a.dpiit)],
+      [sc.turnover, a.turnover],
+      [sc.support, a.support],
+      [sc.promoter, a.promoter],
+      [sc.womenLed, yn(a.women)],
+    ];
+    return rows.filter(([, v]) => v).map(([k, v]) => ({ k, v: v! }));
+  };
+
+  const bodyFrom = (a: Answers): ScanInput => ({
+    entityType: (a.type || undefined) as ScanInput["entityType"],
+    incorporationDate: a.inc || undefined,
+    state: (a.state || undefined) as ScanInput["state"],
+    stage: (a.stage || undefined) as ScanInput["stage"],
+    sectors: (a.sectors ? a.sectors.split(",").filter(Boolean) : []) as ScanInput["sectors"],
+    turnoverInrCr: num(a.turnover ?? ""),
+    govtSupportReceivedInrLakh: num(a.support ?? ""),
+    indianPromoterSharePct: num(a.promoter ?? ""),
+    dpiitRecognised: tri(asTri(a.dpiit)),
+    isDeepTech: tri(asTri(a.deep)),
+    womenLed: tri(asTri(a.women)),
+  });
+
+  // A link that carries answers fills the form and shows the results straight away.
+  useEffect(() => {
+    const a = readHash();
+    if (!a) return;
+    setEntityType(a.type ?? "");
+    setIncorporationDate(a.inc ?? "");
+    setState(a.state ?? "");
+    setStage(a.stage ?? "");
+    setSectors(a.sectors ? a.sectors.split(",").filter((x) => SECTORS.some((s) => s.value === x)).slice(0, 5) : []);
+    setTurnover(a.turnover ?? "");
+    setSupport(a.support ?? "");
+    setPromoter(a.promoter ?? "");
+    setDpiit(asTri(a.dpiit));
+    setDeepTech(asTri(a.deep));
+    setWomenLed(asTri(a.women));
+    setReopened(true);
+    void run(a);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- once, on opening
+  }, []);
+
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    setReopened(false);
+    await run(current());
+  }
+
+  async function run(a: Answers) {
     setBusy(true);
     setError(null);
-    const body: ScanInput = {
-      entityType: (entityType || undefined) as ScanInput["entityType"],
-      incorporationDate: incorporationDate || undefined,
-      state: (state || undefined) as ScanInput["state"],
-      stage: (stage || undefined) as ScanInput["stage"],
-      sectors: sectors as ScanInput["sectors"],
-      turnoverInrCr: num(turnover),
-      govtSupportReceivedInrLakh: num(support),
-      indianPromoterSharePct: num(promoter),
-      dpiitRecognised: tri(dpiit),
-      isDeepTech: tri(deepTech),
-      womenLed: tri(womenLed),
-    };
+    const body = bodyFrom(a);
     try {
       const res = await fetch(`/api/scan?lang=${lang}`, {
         method: "POST",
@@ -87,6 +178,12 @@ export function ScanForm({ initial, embedded = false }: { initial: Partial<Recor
       const data = await res.json();
       if (!res.ok) throw new Error(data?.issues?.[0]?.message ?? data?.message ?? sc.failed);
       setResult(data);
+      setAnswered(describe(a));
+      // The embed widget lives inside someone else's page, so it leaves their address alone.
+      if (!embedded) {
+        writeHash(a);
+        setShareUrl(location.href);
+      }
       requestAnimationFrame(() => document.getElementById("results-h")?.scrollIntoView({ behavior: "smooth" }));
     } catch (err) {
       setError(err instanceof Error ? err.message : sc.failed);
@@ -199,7 +296,7 @@ export function ScanForm({ initial, embedded = false }: { initial: Partial<Recor
           </p>
         )}
       </form>
-      {result && <ScanResults result={result} newTab={embedded} />}
+      {result && <ScanResults result={result} newTab={embedded} answers={answered} shareUrl={shareUrl} help={help} reopened={reopened} />}
     </>
   );
 }

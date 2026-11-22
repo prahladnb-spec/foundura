@@ -39,6 +39,7 @@ export interface ScanMatch {
     | "sourceUrl"
     | "sourceName"
     | "alsoCheck"
+    | "howToApply"
     | "lastVerifiedAt"
     | "contentLang"
   >;

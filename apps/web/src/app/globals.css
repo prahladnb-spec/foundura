@@ -496,3 +496,64 @@ a.tile:hover {
 :lang(hi) body {
   line-height: 1.7;
 }
+
+/* Printing: the Scheme Scan results print as a one-page-per-few-schemes checklist. */
+.print-only {
+  display: none;
+}
+@media print {
+  header,
+  footer,
+  nav,
+  form,
+  .no-print,
+  .art-settle,
+  img[src^="/art/"] {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  html,
+  body {
+    background: #fff !important;
+    font-size: 11pt;
+  }
+  /* Compact: the explanations stay on the site; paper gets what to do and where. */
+  .scan-results .reasons,
+  .scan-results .scheme-summary,
+  .scan-results details,
+  .scan-results .disclaimer-screen {
+    display: none !important;
+  }
+  .scan-results ol > li {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+    gap: 0.25rem 1rem !important;
+    grid-template-columns: 6.5rem 1fr !important;
+  }
+  .scan-results h3 {
+    font-size: 11.5pt !important;
+  }
+  .next-steps {
+    break-inside: avoid;
+    margin-top: 0.35rem !important;
+    padding: 0.4rem 0.6rem !important;
+    font-size: 9.5pt;
+  }
+  .next-steps ul {
+    margin-top: 0.2rem !important;
+  }
+  .scan-results a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    word-break: break-all;
+  }
+  a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+  .stamp-in {
+    animation: none !important;
+  }
+}

@@ -57,6 +57,15 @@ export const en = {
     all: "All schemes",
   },
   home: {
+    need: {
+      title: "What do you need today?",
+      options: [
+        { t: "Find government schemes", d: "See which central and state schemes your startup qualifies for, and why.", cta: "Start the Scheme Scan", more: "Browse all schemes" },
+        { t: "Raise money", d: "Investors who back your sector and stage, and the documents they ask for.", cta: "See investors", more: "Pitch deck template" },
+        { t: "Meet people", d: "Expos, summits and pitch days in India and abroad, in one calendar.", cta: "See events", more: "Startup showcase" },
+        { t: "Get a document ready", d: "Free templates written for India, from the first pitch to the first hire.", cta: "See templates", more: "Founder guides" },
+      ],
+    },
     how: {
       title: "How the Scheme Scan works",
       steps: [
@@ -140,6 +149,20 @@ export const en = {
     hiddenMany: "{n} schemes that don't fit right now",
     disclaimer:
       "Foundura checks the conditions it can from your answers. It is general information, not legal or tax advice. Your answers were not stored.",
+    keep: "Keep these results",
+    copyLink: "Copy link",
+    copied: "Link copied",
+    whatsapp: "Share on WhatsApp",
+    print: "Print or save as PDF",
+    linkNote: "The link holds your answers, so anyone you send it to can see them. Foundura doesn't store them.",
+    waText: "My startup's Scheme Scan results on Foundura: {url}",
+    answers: "Your answers",
+    nextSteps: "Next steps",
+    confirm: "Confirm: {x}",
+    tickNote: "Tick them off as you go. Ticks aren't saved.",
+    helpTemplates: "Templates that may help",
+    printedOn: "Scheme Scan results from Foundura, {date}. Check each scheme's official source before you apply.",
+    reopened: "These results come from a saved link. Change any answer and check again.",
   },
   schemes: {
     title: "Schemes",

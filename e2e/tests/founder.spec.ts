@@ -30,6 +30,68 @@ test.describe("founder journey", () => {
     await expect(page.locator("#results-h ~ ol a").first()).toHaveAttribute("href", /\/schemes\//);
   });
 
+  test("scan results can be kept, reopened from the link and printed", async ({ page, context }) => {
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+    const sent: string[] = [];
+    page.on("request", (r) => sent.push(r.url()));
+    await page.goto("/scan");
+    await page.locator("#state").selectOption("KA");
+    await page.locator("#entityType").selectOption("private_limited");
+    await page.locator("#stage").selectOption("prototype");
+    await page.locator("#inc").fill("2025-06-01");
+    await page.locator("#turnover").fill("0.5");
+    await page.getByRole("button", { name: "MedTech / Medical devices", exact: true }).click();
+    await page.locator('label:has(input[name="dpiit"])', { hasText: /^Yes$/ }).click();
+    await page.locator('button[type="submit"]').click();
+    await expect(page.locator("#results-h")).toBeVisible();
+
+    // The answers live in the link's #fragment, which browsers never send to a server.
+    await expect(page).toHaveURL(/\/scan#.*state=KA/);
+    const link = page.url();
+    expect(sent.some((u) => u.includes("state=KA"))).toBe(false);
+
+    await expect(page.getByRole("heading", { name: "Your answers" })).toBeVisible();
+    await expect(page.locator(".scan-results dl")).toContainText("Karnataka");
+    await page.getByRole("button", { name: "Copy link" }).click();
+    await expect(page.getByRole("button", { name: "Link copied" })).toBeVisible();
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(link);
+    await expect(page.getByRole("link", { name: "Share on WhatsApp" })).toHaveAttribute("href", /^https:\/\/wa\.me\/\?text=.*scan%23/);
+    await expect(page.getByRole("button", { name: "Print or save as PDF" })).toBeVisible();
+
+    // Next steps: real checkboxes plus templates that may help.
+    const steps = page.locator(".next-steps").first();
+    await expect(steps.getByText("Next steps", { exact: true })).toBeVisible();
+    const box = steps.getByRole("checkbox").first();
+    await box.check();
+    await expect(box).toBeChecked();
+    await expect(page.locator('.next-steps a[href^="/documents/"]').first()).toBeVisible();
+
+    // Opening the link elsewhere brings the same results back.
+    const other = await context.newPage();
+    await other.goto(link);
+    await expect(other.locator("#results-h")).toBeVisible();
+    await expect(other.getByText("These results come from a saved link.")).toBeVisible();
+    await expect(other.locator("#state")).toHaveValue("KA");
+    await expect(other.locator("#results-h")).toHaveText(await page.locator("#results-h").innerText());
+
+    // The printout leaves out the form and the share box.
+    await other.emulateMedia({ media: "print" });
+    await expect(other.locator("form")).toBeHidden();
+    await expect(other.getByRole("button", { name: "Copy link" })).toBeHidden();
+    await expect(other.locator(".print-only").first()).toBeVisible();
+  });
+
+  test("the scan widget has no share box", async ({ page }) => {
+    await page.goto("/embed/scan");
+    await page.locator("#state").selectOption("KA");
+    await page.locator("#entityType").selectOption("private_limited");
+    await page.locator("#stage").selectOption("prototype");
+    await page.locator('button[type="submit"]').click();
+    await expect(page.locator("#results-h")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Copy link" })).toHaveCount(0);
+    expect(page.url()).not.toContain("#");
+  });
+
   test("sign in, build a profile, manage consents, export and delete", async ({ page }) => {
     const email = uniqueEmail("founder");
     await signIn(page, email);

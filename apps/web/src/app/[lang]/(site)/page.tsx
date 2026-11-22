@@ -1,3 +1,4 @@
+import { NeedChooser } from "@/components/need-chooser";
 import type { Metadata } from "next";
 import { pageMetadata } from "@/seo";
 import { BookOpen, CalendarDays, Newspaper } from "lucide-react";
@@ -113,6 +114,8 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         </figure>
         </HeroFile>
       </section>
+
+      <NeedChooser t={t} />
 
       <section aria-labelledby="how-h" className="mx-auto max-w-6xl px-5 pb-16">
         <h2 id="how-h" className="display mb-8 text-4xl">{h.how.title}</h2>

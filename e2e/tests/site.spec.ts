@@ -136,3 +136,20 @@ test.describe("search engines and monitoring", () => {
     expect(await res.json()).toEqual({ web: "up", api: "up", db: "up" });
   });
 });
+
+test.describe("home chooser", () => {
+  test("four ways in, in both languages", async ({ page }) => {
+    await page.goto("/");
+    const chooser = page.getByRole("region", { name: "What do you need today?" });
+    await expect(chooser.getByRole("heading", { level: 3 })).toHaveCount(4);
+    for (const [name, href] of [["Find government schemes", "/scan"], ["Raise money", "/investors"], ["Meet people", "/events"], ["Get a document ready", "/documents"]]) {
+      await expect(chooser.getByRole("link", { name, exact: true })).toHaveAttribute("href", href);
+    }
+    await chooser.getByRole("link", { name: "Browse all schemes" }).click();
+    await expect(page).toHaveURL(/\/schemes$/);
+
+    await page.goto("/hi");
+    const hi = page.getByRole("region", { name: "आज आपको क्या चाहिए?" });
+    await expect(hi.getByRole("link").first()).toHaveAttribute("href", "/hi/scan");
+  });
+});

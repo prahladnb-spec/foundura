@@ -29,6 +29,7 @@ export interface ScanMatch extends EligibilityResult {
     | "sourceUrl"
     | "sourceName"
     | "alsoCheck"
+    | "howToApply"
     | "lastVerifiedAt"
   > & { contentLang: Locale };
 }
@@ -78,6 +79,7 @@ export class ScanService {
             sourceUrl: s.sourceUrl,
             sourceName: s.sourceName,
             alsoCheck: s.alsoCheck,
+            howToApply: s.howToApply,
             lastVerifiedAt: s.lastVerifiedAt,
             contentLang: s.contentLang,
           },
