@@ -18,7 +18,7 @@ export default async function ScanPage({ params, searchParams }: { params: Param
     <div className="mx-auto max-w-5xl px-5 pt-10">
       <h1 className="display text-6xl md:text-7xl">{t.scan.title}</h1>
       <p className="mt-3 mb-10 max-w-[60ch] text-lg text-neel-700">{t.scan.lead}</p>
-      <ScanForm initial={{ state: sp.state, entityType: sp.entityType, stage: sp.stage }} />
+      <ScanForm initial={{ state: sp.state, entityType: sp.entityType, stage: sp.stage, sector: sp.sector }} />
     </div>
   );
 }

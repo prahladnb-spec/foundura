@@ -40,6 +40,7 @@ export const en = {
       policy: "Policy news",
       guides: "Founder guides",
       investors: "Investors",
+      medtech: "MedTech guide",
       partners: "Add the scan to your site",
       privacy: "Privacy and your data",
       terms: "Terms of use",

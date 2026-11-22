@@ -39,6 +39,7 @@ export const hi: Dict = {
       policy: "नीति समाचार",
       guides: "संस्थापकों के लिए गाइड",
       investors: "निवेशक",
+      medtech: "मेडटेक गाइड",
       partners: "अपनी वेबसाइट पर जाँच जोड़ें",
       privacy: "गोपनीयता और आपका डेटा",
       terms: "उपयोग की शर्तें",

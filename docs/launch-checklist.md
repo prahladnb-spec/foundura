@@ -42,8 +42,9 @@ The DPDP Act's main duties (notice, consent, security safeguards, breach notific
 
 ## Content
 
-- [ ] Have a fluent Hindi reader review the Hindi drafts of all 14 schemes in each scheme's Hindi section (especially the conditions, which decide eligibility). After checking a scheme's English against the official source, update its Hindi too if the English changed.
-- [ ] **Check all 14 schemes** against their official sources in `/admin/schemes`. Until then every scheme page, and the alert emails, tell founders to confirm on the official page.
+- [ ] Have a fluent Hindi reader review the Hindi drafts of all 18 schemes in each scheme's Hindi section (especially the conditions, which decide eligibility). After checking a scheme's English against the official source, update its Hindi too if the English changed.
+- [ ] **Check all 18 schemes** against their official sources in `/admin/schemes` (the four MedTech schemes added on 22 Nov 2026 cite announcements; confirm each against the Department of Pharmaceuticals or ANRF guidelines).
+- [ ] Have someone with CDSCO filing experience read the MedTech guide's pathway steps (`apps/web/src/sectors/medtech.ts`) and update `CHECKED_ON` after each review. Until then every scheme page, and the alert emails, tell founders to confirm on the official page.
 - [ ] Confirm or remove the events marked "To verify".
 - [ ] Publish 5 to 10 founder guides from the content calendar, so `/learn` doesn't look empty.
 - [ ] Invite the first investors personally and verify each one in `/admin/investors`. Don't add sample investors.

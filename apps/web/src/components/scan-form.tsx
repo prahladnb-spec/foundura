@@ -44,7 +44,9 @@ export function ScanForm({ initial, embedded = false }: { initial: Partial<Recor
   const [incorporationDate, setIncorporationDate] = useState("");
   const [state, setState] = useState(initial.state ?? "");
   const [stage, setStage] = useState(initial.stage ?? "");
-  const [sectors, setSectors] = useState<string[]>([]);
+  const [sectors, setSectors] = useState<string[]>(
+    initial.sector && SECTORS.some((x) => x.value === initial.sector) ? [initial.sector] : [],
+  );
   const [turnover, setTurnover] = useState("");
   const [support, setSupport] = useState("");
   const [promoter, setPromoter] = useState("");

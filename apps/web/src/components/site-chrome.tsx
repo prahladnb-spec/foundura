@@ -88,6 +88,7 @@ export function SiteFooter({ lang }: { lang: Lang }) {
         <ul className="space-y-1.5">
           <li><Link href="/learn" className="hover:text-paper">{ft.guides}</Link></li>
           <li><Link href="/investors" className="hover:text-paper">{ft.investors}</Link></li>
+          <li><Link href="/sectors/medtech" className="hover:text-paper">{ft.medtech}</Link></li>
           <li><Link href="/partners" className="hover:text-paper">{ft.partners}</Link></li>
           <li><Link href="/privacy" className="hover:text-paper">{ft.privacy}</Link></li>
           <li><Link href="/terms" className="hover:text-paper">{ft.terms}</Link></li>

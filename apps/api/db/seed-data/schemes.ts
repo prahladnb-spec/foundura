@@ -449,4 +449,153 @@ export const SCHEMES: SchemeSeed[] = [
       "https://newsonair.gov.in/delhi-govt-approves-rs-400-crore-start-up-and-incubation-policy-to-promote-innovation-self-employment/",
     sourceName: "News on AIR",
   },
+  // ---------- MedTech (researched 22 Nov 2026; verify each against the official source) ----------
+  {
+    slug: "prip-pharma-medtech",
+    name: "PRIP: Promotion of Research and Innovation in Pharma-MedTech",
+    issuer: "Department of Pharmaceuticals, Ministry of Chemicals & Fertilizers",
+    level: "national",
+    category: "grant",
+    summary:
+      "A ₹5,000 crore research and innovation scheme. The second call has an Early Stage track for startups and MSMEs (technology readiness levels 1 to 3, up to ₹5 crore per project) and a Later Stage track (levels 4 to 6, up to ₹100 crore, with the government paying at most 35%).",
+    benefits: [
+      "Early Stage: up to ₹5 crore per project to take a technology from TRL 1–3 up to TRL 5",
+      "Later Stage: up to ₹100 crore per project for TRL 4–6, co-funded by the applicant",
+      "Priority MedTech areas include novel devices, AI and software as a medical device, surgical robotics and new in-vitro diagnostics",
+    ],
+    howToApply: ["Apply on the PRIP portal of the Department of Pharmaceuticals", "Early Stage applicants follow the call's first-stage process; Later Stage applicants submit the detailed form"],
+    rule: {
+      all: [
+        {
+          fact: "sectors",
+          op: "includesAny",
+          value: ["medtech", "biotech", "healthtech"],
+          label: "Works on medical devices, diagnostics or other life-science products",
+        },
+        {
+          fact: "entityType",
+          op: "in",
+          value: REGISTERED_FORMS,
+          label: "Registered as a company, LLP, partnership or cooperative",
+        },
+      ],
+    },
+    alsoCheck: [
+      "Your project's technology readiness level fits the track you apply to",
+      "For Later Stage, you can fund at least 65% of the project cost",
+      "Whether the call needs MSME (Udyam) registration or DPIIT recognition for your track",
+    ],
+    status: "open",
+    statusNote: "Second call: the PRIP portal was due to open for applications from mid-September 2026.",
+    sourceUrl: "https://newsonair.gov.in/department-of-pharmaceuticals-announces-second-call-for-prip-scheme-applications/",
+    sourceName: "News on AIR (Department of Pharmaceuticals announcement)",
+  },
+  {
+    slug: "smdi-clinical-studies-support",
+    name: "Medical Device Clinical Studies Support Scheme (SMDI)",
+    issuer: "Department of Pharmaceuticals, Ministry of Chemicals & Fertilizers",
+    level: "national",
+    category: "grant",
+    summary:
+      "Part of the Scheme for Strengthening of Medical Device Industry. Reimburses up to ₹5 crore of the cost of clinical investigations, clinical performance evaluations, post-market follow-up studies and animal studies for devices made in India.",
+    benefits: ["Reimbursement of up to ₹5 crore towards clinical and animal studies for a medical device or IVD"],
+    howToApply: ["Apply on the SMDI portal when a call is open", "Keep study protocols, approvals and invoices ready for reimbursement"],
+    rule: {
+      all: [
+        { fact: "sectors", op: "includesAny", value: ["medtech"], label: "Makes medical devices or in-vitro diagnostics" },
+        {
+          fact: "stage",
+          op: "in",
+          value: ["prototype", "early_revenue", "growth"],
+          label: "Has a device ready for studies (prototype or later)",
+        },
+        {
+          fact: "entityType",
+          op: "in",
+          value: REGISTERED_FORMS,
+          label: "Registered as a company, LLP, partnership or cooperative",
+        },
+      ],
+    },
+    alsoCheck: ["The guidelines ask for a manufacturing facility in India", "Support is paid as reimbursement after the study costs are incurred"],
+    status: "closed",
+    statusNote: "The latest call closed in July 2026. Watch Policy news for the next one.",
+    sourceUrl: "https://pharma-dept.gov.in/schemes",
+    sourceName: "Department of Pharmaceuticals",
+  },
+  {
+    slug: "pli-medical-devices-2",
+    name: "PLI-MD 2.0: Production Linked Incentive for Medical Devices",
+    issuer: "Department of Pharmaceuticals, Ministry of Chemicals & Fertilizers",
+    level: "national",
+    category: "fund",
+    summary:
+      "Incentives for making medical devices in India, reopened in November 2026 with simpler eligibility: the minimum sales requirement was removed and the minimum investment lowered. Covers consumables, disposables and implants; critical components; and high-end devices.",
+    benefits: [
+      "Production-linked incentives for domestic manufacturing in four segments",
+      "Three years to set up manufacturing after approval",
+      "Applications can cover more than one segment",
+    ],
+    howToApply: ["Apply on the PLI-MD 2.0 portal of the Department of Pharmaceuticals; the window stays open for an extended period"],
+    rule: {
+      all: [
+        { fact: "sectors", op: "includesAny", value: ["medtech", "manufacturing"], label: "Makes medical devices or their components" },
+        {
+          fact: "stage",
+          op: "in",
+          value: ["early_revenue", "growth"],
+          label: "Selling already and ready to invest in manufacturing",
+        },
+        {
+          fact: "entityType",
+          op: "in",
+          value: REGISTERED_FORMS,
+          label: "Registered as a company, LLP, partnership or cooperative",
+        },
+      ],
+    },
+    alsoCheck: ["The current minimum investment and incentive rates in the scheme guidelines", "Your product falls in one of the four eligible segments"],
+    status: "rolling",
+    statusNote: "Reopened in November 2026 with a continuous application window.",
+    sourceUrl: "https://newsonair.gov.in/government-invites-fresh-applications-under-pli-scheme-for-medical-devices/",
+    sourceName: "News on AIR (Department of Pharmaceuticals announcement)",
+  },
+  {
+    slug: "maha-medtech-mission",
+    name: "MAHA MedTech Mission",
+    issuer: "Anusandhan National Research Foundation (ANRF) with ICMR",
+    level: "national",
+    category: "grant",
+    summary:
+      "A ₹750 crore, five-year mission funding high-impact medical technology projects with milestone-linked grants of ₹5–25 crore (up to ₹50 crore in exceptional cases). Open to startups and MSMEs as well as academic institutions and hospitals.",
+    benefits: [
+      "Milestone-linked funding of ₹5–25 crore per project",
+      "Links to Patent Mitra, MedTech Mitra and ICMR's clinical trial network",
+    ],
+    howToApply: ["Watch the ANRF portal for the next call: a concept note first, then a full proposal if shortlisted"],
+    rule: {
+      all: [
+        {
+          fact: "sectors",
+          op: "includesAny",
+          value: ["medtech", "healthtech", "biotech"],
+          label: "Works on medical devices, diagnostics or digital health",
+        },
+        {
+          fact: "stage",
+          op: "in",
+          value: ["prototype", "early_revenue", "growth"],
+          label: "Past the idea stage (has a prototype or product)",
+        },
+      ],
+    },
+    alsoCheck: [
+      "The call asks applicants to show genuine R&D facilities and credentials (for example DSIR recognition)",
+      "Your technology is in the mission's priority areas (therapeutics and vaccines were not in the first call)",
+    ],
+    status: "closed",
+    statusNote: "The latest full-proposal window closed on 15 May 2026. Watch Policy news for the next call.",
+    sourceUrl: "https://anrfonline.in/ANRF/maha_medTech",
+    sourceName: "ANRF",
+  },
 ];
