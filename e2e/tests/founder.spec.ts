@@ -96,6 +96,7 @@ test.describe("founder journey", () => {
       ["/policy", /policy/i],
       ["/learn", /learn|guides/i],
       ["/startups", /startups/i],
+      ["/documents", /founder documents/i],
       ["/investors", /investor/i],
       ["/privacy", /privacy/i],
       ["/terms", /terms/i],

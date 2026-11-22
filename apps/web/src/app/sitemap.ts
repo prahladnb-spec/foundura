@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { DOCS } from "@/documents";
 import { apiOr, STARTUPS_TAG } from "@/lib/api";
 import type { ArticleSummary, InvestorPublic, Scheme, StartupPublic } from "@/lib/types";
 
@@ -33,6 +34,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     page("/events", "daily", 0.8),
     page("/policy", "daily", 0.7),
     page("/learn", "daily", 0.7),
+    page("/documents", "monthly", 0.8),
+    ...DOCS.map((d) => page(`/documents/${d.slug}`, "monthly", 0.7)),
     page("/startups", "daily", 0.7),
     page("/investors", "weekly", 0.6),
     page("/sectors/medtech", "monthly", 0.8),

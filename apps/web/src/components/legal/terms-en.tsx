@@ -22,6 +22,8 @@ export function TermsEn({ legal, version }: { legal: LegalDetails; version: stri
       <ul>
         <li>
           Foundura gives information and makes introductions. It is <strong>not legal, tax, financial or investment advice</strong>.
+          The document templates are starting points only: Foundura is not a law firm, and you should have a lawyer, CA or company
+          secretary review any agreement or filing before you sign or rely on it.
         </li>
         <li>
           Foundura is <strong>not a government website</strong> and isn&apos;t connected to DPIIT, Startup India or any scheme&apos;s
