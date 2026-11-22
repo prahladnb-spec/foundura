@@ -22,3 +22,13 @@ export function fmtRange(start: string | null, end: string | null, lang: Lang = 
 /** English labels, kept for the English-only editor console. */
 export const CATEGORY_LABEL: Record<string, string> = getDict("en").labels.category;
 export const SCHEME_STATUS_LABEL: Record<string, string> = getDict("en").labels.schemeStatus;
+
+/**
+ * `lang` for text people wrote themselves (startup names, descriptions), which may be English or
+ * Hindi whatever the page language. Devanagari text follows the page; anything else is marked English
+ * on Hindi pages so screen readers pronounce it properly.
+ */
+export function userTextLang(text: string | null | undefined, pageLang: "en" | "hi"): "en" | undefined {
+  if (pageLang === "en" || !text) return undefined;
+  return /[ऀ-ॿ]/.test(text) ? undefined : "en";
+}

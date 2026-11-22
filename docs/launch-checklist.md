@@ -48,6 +48,7 @@ The DPDP Act's main duties (notice, consent, security safeguards, breach notific
 - [ ] Confirm or remove the events marked "To verify".
 - [ ] Publish 5 to 10 founder guides from the content calendar, so `/learn` doesn't look empty.
 - [ ] Invite the first investors personally and verify each one in `/admin/investors`. Don't add sample investors.
+- [ ] Ask 10 to 20 founders you know to switch on a public profile, so `/startups` doesn't open empty. Don't add sample startups. Look through `/admin/startups` weekly and hide anything that breaks the terms.
 
 ## Search and sharing
 

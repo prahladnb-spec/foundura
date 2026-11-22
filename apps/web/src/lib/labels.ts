@@ -3,6 +3,7 @@ import { f, getDict, lab } from "@/i18n";
 
 export const sectorLabel = (v: string, lang: Lang = "en") => String(lab(getDict(lang).labels.sector, v));
 export const stageLabel = (v: string | null | undefined, lang: Lang = "en") => String(lab(getDict(lang).labels.stage, v));
+export const lookingForLabel = (v: string, lang: Lang = "en") => String(lab(getDict(lang).labels.lookingFor, v));
 export const stateLabel = (v: string | null | undefined, lang: Lang = "en") => String(lab(getDict(lang).labels.state, v));
 export const investorTypeLabel = (v: string, lang: Lang = "en") => String(lab(getDict(lang).labels.investorType, v));
 export const entityLabel = (v: string, lang: Lang = "en") => String(lab(getDict(lang).labels.entity, v));

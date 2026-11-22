@@ -8,6 +8,7 @@ import { LangSwitch } from "./lang-switch";
 const nav = (t: Dict) => [
   { href: "/scan", label: t.chrome.nav.scan },
   { href: "/schemes", label: t.chrome.nav.schemes },
+  { href: "/startups", label: t.chrome.nav.startups },
   { href: "/investors", label: t.chrome.nav.investors },
   { href: "/events", label: t.chrome.nav.events },
   { href: "/policy", label: t.chrome.nav.policy },
@@ -37,7 +38,7 @@ export async function SiteHeader({ lang }: { lang: Lang }) {
     <header className="border-b border-rule bg-paper/95 backdrop-blur sticky top-0 z-40">
       <div className="mx-auto max-w-6xl px-5 h-16 flex items-center gap-6">
         <Wordmark label={t.chrome.homeLabel} />
-        <nav aria-label="Main" className="hidden md:flex items-center gap-5 text-[0.95rem]">
+        <nav aria-label="Main" className="hidden lg:flex items-center gap-5 whitespace-nowrap text-[0.95rem]">
           {NAV.map((n) => (
             <Link key={n.href} href={n.href} className="text-neel-700 hover:text-neel-950 no-underline">
               {n.label}
@@ -50,13 +51,13 @@ export async function SiteHeader({ lang }: { lang: Lang }) {
           </Suspense>
           <Link
             href={signedIn ? "/dashboard" : "/signin"}
-            className="inline-block rounded-md border-2 border-neel-900 px-3.5 py-1.5 text-[0.95rem] font-semibold text-neel-900 hover:bg-neel-900 hover:text-paper no-underline"
+            className="inline-block whitespace-nowrap rounded-md border-2 border-neel-900 px-3.5 py-1.5 text-[0.95rem] font-semibold text-neel-900 hover:bg-neel-900 hover:text-paper no-underline"
           >
             {signedIn ? t.chrome.myStartup : t.chrome.signIn}
           </Link>
         </div>
       </div>
-      <nav aria-label="Main mobile" className="md:hidden border-t border-rule overflow-x-auto">
+      <nav aria-label="Main mobile" className="lg:hidden border-t border-rule overflow-x-auto">
         <div className="flex gap-5 px-5 py-2 text-[0.92rem] whitespace-nowrap">
           {NAV.map((n) => (
             <Link key={n.href} href={n.href} className="text-neel-700 no-underline">
@@ -87,6 +88,7 @@ export function SiteFooter({ lang }: { lang: Lang }) {
         </ul>
         <ul className="space-y-1.5">
           <li><Link href="/learn" className="hover:text-paper">{ft.guides}</Link></li>
+          <li><Link href="/startups" className="hover:text-paper">{ft.startups}</Link></li>
           <li><Link href="/investors" className="hover:text-paper">{ft.investors}</Link></li>
           <li><Link href="/sectors/medtech" className="hover:text-paper">{ft.medtech}</Link></li>
           <li><Link href="/partners" className="hover:text-paper">{ft.partners}</Link></li>

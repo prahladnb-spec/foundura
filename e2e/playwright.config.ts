@@ -58,7 +58,8 @@ export default defineConfig({
       stderr: "pipe",
     },
     {
-      command: "pnpm --filter @foundura/web start",
+      // Fresh database each run, so drop any data the last run cached.
+      command: "rm -rf ../apps/web/.next/standalone/apps/web/.next/cache && pnpm --filter @foundura/web start",
       url: `${WEB}/robots.txt`,
       env: { PORT: "3100", HOSTNAME: "0.0.0.0", API_URL: API, NODE_ENV: "production" },
       timeout: 120_000,

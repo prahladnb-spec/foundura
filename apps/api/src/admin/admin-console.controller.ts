@@ -139,6 +139,44 @@ export class AdminConsoleController {
     return row;
   }
 
+  // ----- startup showcase -----
+
+  /** Startups whose founders chose a public profile, newest first, including any hidden by an editor. */
+  @Get("startups")
+  listShowcase() {
+    return this.db
+      .select({
+        id: startups.id,
+        slug: startups.slug,
+        name: startups.name,
+        oneLiner: startups.oneLiner,
+        website: startups.website,
+        productUrl: startups.productUrl,
+        showcaseHiddenAt: startups.showcaseHiddenAt,
+        updatedAt: startups.updatedAt,
+        email: users.email,
+      })
+      .from(startups)
+      .innerJoin(users, eq(users.id, startups.ownerId))
+      .where(eq(startups.isPublic, true))
+      .orderBy(desc(startups.updatedAt));
+  }
+
+  /** Hide a startup from the public showcase (or show it again). The founder's own setting is untouched. */
+  @Post("startups/:id/showcase")
+  @HttpCode(200)
+  async setShowcase(@Admin() actor: AdminActor, @Param("id") id: string, @Body() body: unknown) {
+    const { hidden } = parseBody(z.object({ hidden: z.boolean() }), body);
+    const [row] = await this.db
+      .update(startups)
+      .set({ showcaseHiddenAt: hidden ? new Date() : null })
+      .where(eq(startups.id, id))
+      .returning({ id: startups.id, showcaseHiddenAt: startups.showcaseHiddenAt });
+    if (!row) throw new NotFoundException();
+    await this.audit.record(actor, hidden ? "startup.hide" : "startup.show", "startup", id);
+    return row;
+  }
+
   // ----- schemes -----
 
   @Get("schemes")

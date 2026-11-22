@@ -18,6 +18,17 @@ export const STAGES = [
 ] as const;
 export type Stage = (typeof STAGES)[number]["value"];
 
+/** What a startup is looking for, shown on its public showcase page. Never money amounts. */
+export const LOOKING_FOR = [
+  { value: "pilots", label: "Pilot customers" },
+  { value: "customers", label: "Customers" },
+  { value: "partners", label: "Partners" },
+  { value: "distributors", label: "Distributors" },
+  { value: "hiring", label: "People to hire" },
+  { value: "mentors", label: "Mentors" },
+] as const;
+export type LookingFor = (typeof LOOKING_FOR)[number]["value"];
+
 export const SECTORS = [
   { value: "medtech", label: "MedTech / Medical devices" },
   { value: "healthtech", label: "HealthTech" },

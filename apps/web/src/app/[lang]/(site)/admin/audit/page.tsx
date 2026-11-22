@@ -20,6 +20,8 @@ const ACTION_LABEL: Record<string, string> = {
   "investor.unverify": "Removed investor verification",
   "investor.list": "Listed investor",
   "investor.unlist": "Hid investor from directory",
+  "startup.hide": "Hid startup from showcase",
+  "startup.show": "Showed startup on showcase again",
   "article.draft": "Saved article draft",
   "article.edit": "Edited article",
   "article.publish": "Published article",

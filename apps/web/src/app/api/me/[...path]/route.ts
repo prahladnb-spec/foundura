@@ -1,6 +1,7 @@
 import { clientIpHeader } from "@/lib/client-ip";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
-import { API_URL } from "@/lib/api";
+import { API_URL, STARTUPS_TAG } from "@/lib/api";
 import { getToken, SESSION_COOKIE } from "@/lib/session";
 
 /**
@@ -25,6 +26,8 @@ async function forward(req: Request, ctx: { params: Promise<{ path: string[] }> 
     headers: { "Content-Type": res.headers.get("content-type") ?? "application/json" },
   });
   if (res.status === 401) out.cookies.delete(SESSION_COOKIE);
+  // A profile change (or deleting the account) can change what the public showcase lists.
+  if (res.ok && req.method !== "GET" && (sub === "_" || sub.startsWith("startups"))) revalidateTag(STARTUPS_TAG);
   return out;
 }
 

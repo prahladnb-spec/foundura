@@ -2,10 +2,11 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ENTITY_TYPES, INDIAN_STATES, SECTORS, STAGES } from "@foundura/shared";
+import { ENTITY_TYPES, INDIAN_STATES, LOOKING_FOR, SECTORS, STAGES } from "@foundura/shared";
 import { f as fmt, lab } from "@/i18n";
 import { useT } from "@/i18n/client";
 import { lp } from "@/i18n/config";
+import Link from "@/components/locale-link";
 import type { ConsentState, ScanResult, Startup } from "@/lib/types";
 import { FounderInvestors } from "./founder-investors";
 import { ScanResults } from "./scan-results";
@@ -18,6 +19,8 @@ type Form = {
   oneLiner: string;
   description: string;
   website: string;
+  productUrl: string;
+  lookingFor: string[];
   entityType: string;
   incorporationDate: string;
   state: string;
@@ -39,6 +42,8 @@ const fromStartup = (s: Startup | null): Form => ({
   oneLiner: s?.oneLiner ?? "",
   description: s?.description ?? "",
   website: s?.website ?? "",
+  productUrl: s?.productUrl ?? "",
+  lookingFor: s?.lookingFor ?? [],
   entityType: s?.entityType ?? "",
   incorporationDate: s?.incorporationDate ?? "",
   state: s?.state ?? "",
@@ -64,6 +69,8 @@ function toBody(f: Form) {
     oneLiner: s(f.oneLiner),
     description: s(f.description),
     website: f.website,
+    productUrl: f.productUrl,
+    lookingFor: f.lookingFor,
     entityType: s(f.entityType),
     incorporationDate: s(f.incorporationDate),
     state: s(f.state),
@@ -247,6 +254,31 @@ export function Dashboard({
             <textarea id="description" rows={4} maxLength={4000} className={field} value={f.description} onChange={(e) => set("description", e.target.value)} placeholder={d.descriptionPh} />
           </div>
           <div>
+            <label htmlFor="productUrl" className={label}>{d.productUrl}</label>
+            <input id="productUrl" type="url" placeholder="https://" className={field} value={f.productUrl} onChange={(e) => set("productUrl", e.target.value)} />
+            <span className="mt-1 block text-[0.85rem] text-slate">{d.productUrlHint}</span>
+          </div>
+          <fieldset className="md:col-span-2">
+            <legend className={label}>{d.lookingFor}</legend>
+            <div className="flex flex-wrap gap-2">
+              {LOOKING_FOR.map((x) => {
+                const on = f.lookingFor.includes(x.value);
+                return (
+                  <button
+                    type="button"
+                    key={x.value}
+                    aria-pressed={on}
+                    onClick={() => set("lookingFor", on ? f.lookingFor.filter((v) => v !== x.value) : [...f.lookingFor, x.value])}
+                    className={`rounded-full border px-3.5 py-1.5 text-[0.93rem] ${on ? "border-neel-900 bg-neel-900 text-paper" : "border-rule bg-white"}`}
+                  >
+                    {lab(t.labels.lookingFor, x.value)}
+                  </button>
+                );
+              })}
+            </div>
+            <span className="mt-1 block text-[0.85rem] text-slate">{d.lookingForHint}</span>
+          </fieldset>
+          <div>
             <label htmlFor="entity" className={label}>{d.registeredAs}</label>
             <select id="entity" className={field} value={f.entityType} onChange={(e) => set("entityType", e.target.value)}>
               <option value="">{t.common.choose}</option>
@@ -329,6 +361,12 @@ export function Dashboard({
             <span>
               <span className="font-semibold">{d.public}</span>
               <span className="block text-[0.92rem] text-slate">{d.publicHint}</span>
+              {current?.isPublic && !current.showcaseHiddenAt && (
+                <Link href={`/startups/${current.slug}`} className="mt-1 inline-block text-neel-500 underline">{d.publicPage}</Link>
+              )}
+              {current?.isPublic && current.showcaseHiddenAt && (
+                <span role="note" className="mt-1 block text-[0.92rem] text-marigold-ink">{d.hiddenByEditor}</span>
+              )}
             </span>
           </label>
           <div className="md:col-span-3 flex flex-wrap items-center gap-4">

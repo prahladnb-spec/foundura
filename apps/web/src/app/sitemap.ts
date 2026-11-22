@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
-import { apiOr } from "@/lib/api";
-import type { ArticleSummary, InvestorPublic, Scheme } from "@/lib/types";
+import { apiOr, STARTUPS_TAG } from "@/lib/api";
+import type { ArticleSummary, InvestorPublic, Scheme, StartupPublic } from "@/lib/types";
 
 const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
 
@@ -9,10 +9,12 @@ export const dynamic = "force-dynamic";
 
 /** Public pages only. Dashboards, admin, sign-in and the embed widget are left out on purpose. */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [schemes, articles, investors] = await Promise.all([
+  const [schemes, articles, investors, startups] = await Promise.all([
     apiOr<Scheme[]>("/schemes", [], 3600),
     apiOr<ArticleSummary[]>("/articles", [], 3600),
     apiOr<InvestorPublic[]>("/investors", [], 3600),
+    // Cleared whenever a founder changes their profile or an editor hides a listing.
+    apiOr<StartupPublic[]>("/startups", [], 600, [STARTUPS_TAG]),
   ]);
   // Every page exists in English (plain URL) and Hindi (/hi/...); each entry lists both as alternates.
   const urlFor = (path: string, lang: "en" | "hi") => `${SITE}${lang === "hi" ? (path === "/" ? "/hi" : `/hi${path}`) : path}`;
@@ -31,6 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     page("/events", "daily", 0.8),
     page("/policy", "daily", 0.7),
     page("/learn", "daily", 0.7),
+    page("/startups", "daily", 0.7),
     page("/investors", "weekly", 0.6),
     page("/sectors/medtech", "monthly", 0.8),
     page("/partners", "monthly", 0.4),
@@ -39,5 +42,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...schemes.map((s) => page(`/schemes/${s.slug}`, "monthly", 0.8, s.lastVerifiedAt)),
     ...articles.map((a) => page(`/learn/${a.slug}`, "yearly", 0.6, a.publishedAt)),
     ...investors.map((i) => page(`/investors/${i.slug}`, "monthly", 0.4)),
+    ...startups.map((s) => page(`/startups/${s.slug}`, "weekly", 0.5, s.updatedAt)),
   ].flat();
 }

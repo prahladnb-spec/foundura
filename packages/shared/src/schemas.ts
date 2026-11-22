@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CONSENT_PURPOSES, ENTITY_TYPES, INDIAN_STATES, INVESTOR_TYPES, SECTORS, STAGES } from "./constants";
+import { CONSENT_PURPOSES, ENTITY_TYPES, INDIAN_STATES, INVESTOR_TYPES, LOOKING_FOR, SECTORS, STAGES } from "./constants";
 
 const values = <T extends readonly { value: string }[]>(list: T) =>
   list.map((x) => x.value) as unknown as [T[number]["value"], ...T[number]["value"][]];
@@ -49,11 +49,24 @@ export const startupProfileSchema = scanInputSchema.extend({
   oneLiner: z.string().max(200).optional(),
   description: z.string().max(4000).optional(),
   isPublic: z.boolean().default(false),
+  /** Product page, demo video or app store link, shown on the public showcase page. */
+  productUrl: httpsUrl.optional().or(z.literal("")),
+  /** What the startup wants from visitors to its showcase page. */
+  lookingFor: z.array(z.enum(values(LOOKING_FOR))).max(LOOKING_FOR.length).optional(),
   /** Link to a pitch deck the founder hosts (Foundura does not store decks). Shown only to matched investors. */
   deckUrl: httpsUrl.optional().or(z.literal("")),
   /** Amount the startup is raising now, in ₹ lakh. Private; used for matching and shown only in intro requests. */
   raisingInrLakh: z.number().min(0).max(1_000_000).optional(),
 });
+
+/** Filters for the public startup directory. */
+export const startupDirectoryQuerySchema = z.object({
+  sector: sectorSchema.optional(),
+  stage: stageSchema.optional(),
+  state: stateSchema.optional(),
+  lookingFor: z.enum(values(LOOKING_FOR)).optional(),
+});
+export type StartupDirectoryQuery = z.infer<typeof startupDirectoryQuerySchema>;
 
 export const investorTypeSchema = z.enum(values(INVESTOR_TYPES));
 

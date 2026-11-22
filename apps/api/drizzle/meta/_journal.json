@@ -50,6 +50,13 @@
       "when": 1795318388727,
       "tag": "0006_scheme_translations",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1795324572394,
+      "tag": "0007_startup_showcase",
+      "breakpoints": true
     }
   ]
 }

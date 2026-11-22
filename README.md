@@ -4,9 +4,10 @@ India's founder launchpad. Phase 1 MVP:
 
 - **Scheme Scan**: answer a few questions and see which central and state government schemes a startup qualifies for, with the exact conditions met, not met, or still to confirm. Anonymous scans are never stored.
 - **Startup profile** (Passport v1): sign in with an emailed one-time code, save a profile, re-run the scan any time, and optionally publish a public profile (financial figures always stay private).
+- **Startup showcase** (`/startups`, in English and Hindi): founders who switch on a public profile get a page with what they make, website and product or demo links, sectors, stage, state, year founded and what they're looking for (pilot customers, customers, partners, distributors, people to hire, mentors). The directory filters by sector, stage, state and what startups are looking for. Each page has a share image and structured data and is in the sitemap. Turnover, funding, the raise, the deck and shareholding never appear. Switching the profile off removes the page at once; editors can hide a listing from `/admin/startups` (audited), and the founder's dashboard says so.
 - **Investor Connect**: investors list their focus and cheque size; founders get a **Readiness Score** (0–100 with a fix list) and ranked matches with reasons; intro requests open only at readiness ≥ 50 and match ≥ 40, with at most 10 pending; contact emails are revealed only when the investor accepts. Startups are visible to investors only if the founder made the profile public **and** switched on investor visibility.
 - **Embeddable Scheme Scan**: partners paste one `<script>` tag (see `/partners`). Only `/embed/*` may be framed; the rest of the site sends `X-Frame-Options: DENY`.
-- **Editor console** (`/admin`): check schemes against their official source, edit rules with validation and a plain-language preview, verify or hide investors, write and publish articles with a live preview, import the tracker sheets, and see an audit log of every change.
+- **Editor console** (`/admin`): check schemes against their official source, edit rules with validation and a plain-language preview, verify or hide investors, hide startup listings from the showcase, write and publish articles with a live preview, import the tracker sheets, and see an audit log of every change.
 - **Email notifications**: investors hear about new intro requests and founders hear when one is accepted or declined. Emails carry only names and a link; details stay on Foundura.
 - **MedTech sector guide** (`/sectors/medtech`, in English and Hindi): a regulatory pathway finder (what you're doing now plus the device's risk class gives the CDSCO steps, forms and who decides), MedTech funding from the scheme catalogue, help desks (ICMR MedTech Mitra, CDSCO's startup desk, Patent Mitra, BIRAC), MedTech investors and health events, with sources and a last-checked date. Content lives in `apps/web/src/sectors/medtech.ts`.
 - **Weekly scheme alerts**: founders who turn on alerts get one email a week, and only when something is new for them: schemes they now qualify for, changes to their schemes, deadlines in the next two weeks, the week's policy news and new guides. One-click unsubscribe (including mail apps' built-in button) is recorded in the consent ledger.
@@ -97,7 +98,7 @@ pnpm e2e
 
 Set `E2E_DATABASE_URL` to use another database (its name must contain `e2e` or `test`, because the run empties it), or `CHROME_PATH` to use an installed Chrome. When a test fails, `pnpm --filter @foundura/e2e report` opens the report with a trace of every step.
 
-They cover the founder journey (scan, sign-in, profile, consents, export, deletion, sign-out), Investor Connect across three browsers (investor, editor, founder), the editor console (access, rule checks, Hindi going out of date, publishing, CSV import, audit log, weekly alerts and unsubscribe), Hindi (language switch, scan, dashboard, email language, and a check for untranslated English on every Hindi page), the embed widget on a partner site and framing protection, the MedTech guide, and the sitemap, robots, share images and health check. GitHub runs them on every push and keeps the report when they fail.
+They cover the founder journey (scan, sign-in, profile, consents, export, deletion, sign-out), Investor Connect across three browsers (investor, editor, founder), the editor console (access, rule checks, Hindi going out of date, publishing, CSV import, audit log, weekly alerts and unsubscribe), Hindi (language switch, scan, dashboard, email language, and a check for untranslated English on every Hindi page), the startup showcase (public page, filters, Hindi, sitemap, editor hide, switching off), the embed widget on a partner site and framing protection, the MedTech guide, and the sitemap, robots, share images and health check. GitHub runs them on every push and keeps the report when they fail.
 
 ## How schemes work
 
@@ -135,7 +136,7 @@ Rows are upserted, so re-importing is safe.
 | `POST /scan` | Anonymous Scheme Scan |
 | `GET /schemes`, `/schemes/:slug` | Scheme catalogue |
 | `GET /events`, `/policy`, `/articles`, `/articles/:slug` | Content |
-| `GET /startups/:slug` | Public startup profile |
+| `GET /startups`, `/startups/:slug` | Startup showcase (public profiles not hidden by an editor); filters: `sector`, `stage`, `state`, `lookingFor` |
 | `GET /investors`, `/investors/:slug` | Investor directory (listed investors only) |
 | `POST /auth/request-otp`, `/auth/verify-otp` | Sign in |
 | `GET /me`, `/me/export`; `DELETE /me` | Account, data export, erasure |
@@ -149,6 +150,7 @@ Rows are upserted, so re-importing is safe.
 | `GET /admin/schemes`, `/admin/schemes/:slug`; `PUT /admin/schemes/:slug`; `POST /admin/schemes`, `/admin/schemes/:slug/verify`, `/admin/rules/validate` | Scheme review and editing |
 | `PUT /admin/schemes/:slug/translations/hi` | Save a scheme's Hindi (must translate every visible condition) |
 | `GET /admin/investors`; `POST /admin/investors/:id/verify`, `/admin/investors/:id/listing` | Investor review |
+| `GET /admin/startups`; `POST /admin/startups/:id/showcase` | Showcase moderation (hide or show a listing) |
 | `GET/POST /admin/articles`, `GET/PUT /admin/articles/:slug` | Articles and publishing |
 | `POST /admin/import/events`, `/admin/import/policy` | CSV import |
 | `GET /admin/digest/preview`; `POST /admin/digest/send` | Scheme alerts preview (editor's own profile or a sample) and send |
@@ -158,4 +160,4 @@ All `/admin` routes need a signed-in editor (`ADMIN_EMAILS`) or the `x-admin-key
 
 ## Next up (from the roadmap)
 
-Verified badges (MCA, GST, DigiLocker, Account Aggregator), Hindi and regional languages, events crawler, WhatsApp alerts, MedTech sector hub.
+Verified badges (MCA, GST, DigiLocker, Account Aggregator), product images on showcase pages (needs upload storage and moderation), regional languages, events crawler, WhatsApp alerts.

@@ -1,7 +1,8 @@
 import { SkipThrottle } from "@nestjs/throttler";
 import { Controller, Get, Inject, NotFoundException, Param, Query } from "@nestjs/common";
 import { and, asc, desc, eq, gte, isNotNull, isNull, or, type SQL } from "drizzle-orm";
-import { todayInIndia } from "../common/zod";
+import { startupDirectoryQuerySchema } from "@foundura/shared";
+import { parseBody, todayInIndia } from "../common/zod";
 import type { Db } from "../db/client";
 import { DB } from "../db/db.module";
 import { articles, events, policyItems, schemes } from "../db/schema";
@@ -102,6 +103,13 @@ export class ContentController {
     const [a] = await this.db.select().from(articles).where(eq(articles.slug, slug)).limit(1);
     if (!a || !a.publishedAt) throw new NotFoundException("Article not found.");
     return a;
+  }
+
+  /** The public startup showcase: only founders who chose a public profile, minus any an editor hid. */
+  @Get("startups")
+  listStartups(@Query() query: Record<string, string>) {
+    const { sector, stage, state, lookingFor } = query;
+    return this.startups.listPublic(parseBody(startupDirectoryQuerySchema, { sector, stage, state, lookingFor }));
   }
 
   @Get("startups/:slug")

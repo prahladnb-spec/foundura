@@ -75,6 +75,7 @@ test.describe("Hindi", () => {
     "/hi/events",
     "/hi/policy",
     "/hi/learn",
+    "/hi/startups",
     "/hi/investors",
     "/hi/partners",
     "/hi/signin",

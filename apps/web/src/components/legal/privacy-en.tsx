@@ -52,8 +52,11 @@ export function PrivacyEn({ legal, version }: { legal: LegalDetails; version: st
       <h2>Who sees it</h2>
       <ul>
         <li>
-          <strong>The public:</strong> only the parts of your startup or investor profile you choose to publish. Turnover, funding
-          and shareholding are never shown publicly.
+          <strong>The public:</strong> only the parts of your startup or investor profile you choose to publish. A public startup
+          page in the showcase shows the name, one-line summary, description, website and product links, sectors, stage, state,
+          year of incorporation, DPIIT and deep-tech status, and what you&apos;re looking for. Search engines can find it. Turnover,
+          funding, the amount you&apos;re raising, your deck link and shareholding are never shown publicly. Switching the public
+          profile off removes the page at once.
         </li>
         <li>
           <strong>Investors:</strong> your startup profile only if you made it public <em>and</em> turned on &ldquo;Show my

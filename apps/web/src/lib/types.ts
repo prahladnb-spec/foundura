@@ -103,6 +103,9 @@ export interface Startup {
   description: string | null;
   website: string | null;
   isPublic: boolean;
+  productUrl: string | null;
+  lookingFor: string[];
+  showcaseHiddenAt: string | null;
   entityType: string | null;
   incorporationDate: string | null;
   turnoverInrCr: number | null;
@@ -116,6 +119,24 @@ export interface Startup {
   indianPromoterSharePct: number | null;
   deckUrl: string | null;
   raisingInrLakh: number | null;
+}
+
+/** A startup on the public showcase. Never carries financial figures. */
+export interface StartupPublic {
+  name: string;
+  slug: string;
+  oneLiner: string | null;
+  description: string | null;
+  website: string | null;
+  productUrl: string | null;
+  lookingFor: string[];
+  state: string | null;
+  sectors: string[];
+  stage: string | null;
+  foundedYear: number | null;
+  dpiitRecognised: boolean | null;
+  isDeepTech: boolean | null;
+  updatedAt: string;
 }
 
 export interface InvestorPublic {

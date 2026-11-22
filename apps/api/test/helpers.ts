@@ -45,8 +45,13 @@ export async function startTestApp(overrides: Record<string, string> = {}): Prom
   return { app, http: request(app.getHttpServer()) };
 }
 
-export async function signIn(http: ReturnType<typeof request>, email: string, consents = ["account"]) {
-  const r1 = await http.post("/v1/auth/request-otp").send({ email }).expect(200);
-  const r2 = await http.post("/v1/auth/verify-otp").send({ email, code: r1.body.devCode, consents }).expect(200);
+/**
+ * Signs in and returns the auth header. Pass `ip` (with the app started with TRUST_PROXY=1) to
+ * sign in as a separate visitor, for files that need more than the 5 sign-ins a minute one IP gets.
+ */
+export async function signIn(http: ReturnType<typeof request>, email: string, consents = ["account"], ip?: string) {
+  const fwd = ip ? { "x-forwarded-for": ip } : {};
+  const r1 = await http.post("/v1/auth/request-otp").set(fwd).send({ email }).expect(200);
+  const r2 = await http.post("/v1/auth/verify-otp").set(fwd).send({ email, code: r1.body.devCode, consents }).expect(200);
   return { Authorization: `Bearer ${r2.body.token as string}` };
 }

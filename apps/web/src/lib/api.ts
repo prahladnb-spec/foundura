@@ -6,6 +6,8 @@ export const API_URL = process.env.API_URL ?? "http://localhost:4000";
 
 /** Cache tag on every public content fetch. */
 export const CONTENT_TAG = "content";
+/** Cached reads that change when founders edit their own profiles (the startup showcase list). */
+export const STARTUPS_TAG = "startups";
 
 export class ApiError extends Error {
   constructor(
@@ -17,8 +19,8 @@ export class ApiError extends Error {
 }
 
 /** Server-side fetch to the Foundura API. Public content is cached for 5 minutes. */
-export async function api<T>(path: string, init: RequestInit & { token?: string; revalidate?: number } = {}): Promise<T> {
-  const { token, revalidate = 300, headers, ...rest } = init;
+export async function api<T>(path: string, init: RequestInit & { token?: string; revalidate?: number; tags?: string[] } = {}): Promise<T> {
+  const { token, revalidate = 300, tags = [], headers, ...rest } = init;
   const res = await fetch(`${API_URL}/v1${path}`, {
     ...rest,
     headers: {
@@ -28,7 +30,7 @@ export async function api<T>(path: string, init: RequestInit & { token?: string;
       ...headers,
     },
     // Public content is cached and tagged, so editor changes can clear it at once (see the admin proxy).
-    ...(token || rest.method ? { cache: "no-store" as const } : { next: { revalidate, tags: [CONTENT_TAG] } }),
+    ...(token || rest.method ? { cache: "no-store" as const } : { next: { revalidate, tags: [CONTENT_TAG, ...tags] } }),
   });
   if (!res.ok) {
     let message = res.statusText;
@@ -41,10 +43,10 @@ export async function api<T>(path: string, init: RequestInit & { token?: string;
 }
 
 /** Same as api() but returns `fallback` when the API is unreachable, so public pages still render. */
-export async function apiOr<T>(path: string, fallback: T, revalidate = 300): Promise<T> {
+export async function apiOr<T>(path: string, fallback: T, revalidate = 300, tags: string[] = []): Promise<T> {
   let data: T;
   try {
-    data = await api<T>(path, { revalidate });
+    data = await api<T>(path, { revalidate, tags });
   } catch {
     // During `next build` the API is usually unreachable (e.g. inside Docker). Rather than baking an
     // empty page into the build, render this page on request; the data itself is still cached.
