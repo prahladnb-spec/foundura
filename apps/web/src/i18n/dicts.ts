@@ -1,4 +1,5 @@
 import type { Lang } from "./config";
+import { ta } from "./ta";
 import { kn } from "./kn";
 import { mr } from "./mr";
 import { en, type Dict } from "./en";
@@ -9,4 +10,4 @@ import { ar } from "./ar";
 import { he } from "./he";
 
 /** Every interface dictionary. Server code reads them through getDict(); tests import this directly. */
-export const DICTS: Record<Lang, Dict> = { en, hi, es, de, ar, he, mr, kn };
+export const DICTS: Record<Lang, Dict> = { en, hi, es, de, ar, he, mr, kn, ta };

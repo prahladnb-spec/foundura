@@ -50,7 +50,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
           { "@context": "https://schema.org", "@type": "WebSite", name: "Foundura", url: `${SITE}${lp(lang, "/") === "/" ? "" : lp(lang, "/")}`, inLanguage: INTL_LOCALE[lang] },
         ]}
       />
-      <section className="mx-auto max-w-6xl px-5 pt-12 pb-16 grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:items-end max-sm:overflow-x-clip">
+      <section className="mx-auto max-w-6xl px-5 pt-12 pb-16 grid gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-end max-sm:overflow-x-clip">
         <div>
           <h1 className="display text-[3.4rem] sm:text-[4.6rem] lg:text-[5.4rem] text-neel-950">
             {h.h1}
