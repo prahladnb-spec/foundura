@@ -5,6 +5,7 @@ import "@fontsource/mukta/600.css";
 // Arabic and Hebrew: only the script's own subset downloads, and only on pages that use it.
 import "@fontsource-variable/noto-sans-arabic/wght.css";
 import "@fontsource-variable/noto-sans-hebrew/wdth.css";
+import "@fontsource-variable/anek-kannada/wght.css";
 import "../globals.css";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";

@@ -4,7 +4,7 @@ import Link from "@/components/locale-link";
 import { cookies } from "next/headers";
 import { Suspense } from "react";
 import { type Dict, getDict } from "@/i18n";
-import type { Lang } from "@/i18n/config";
+import { LANG_INFO, type Lang } from "@/i18n/config";
 import { BookOpen, CalendarDays, ClipboardCheck, FolderOpen, Handshake, Landmark, Newspaper, Store, Search } from "lucide-react";
 import { Icon } from "./icons";
 import { LangSwitch } from "./lang-switch";
@@ -38,13 +38,14 @@ function Wordmark({ label }: { label: string }) {
 export async function SiteHeader({ lang }: { lang: Lang }) {
   const t = getDict(lang);
   const NAV = nav(t);
+  const wide = LANG_INFO[lang].wideNav;
   const support = legalDetails().supportEmail ?? "help@foundura.org";
   const signedIn = Boolean((await cookies()).get("fd_session"));
   return (
     <header className="border-b border-rule bg-paper/95 backdrop-blur sticky top-0 z-40">
       <div className="mx-auto max-w-6xl px-5 h-16 flex items-center gap-6">
         <Wordmark label={t.chrome.homeLabel} />
-        <nav aria-label="Main" className="hidden xl:flex items-center gap-5 whitespace-nowrap text-[0.95rem]">
+        <nav aria-label="Main" className={`hidden ${wide ? "2xl:flex" : "xl:flex"} items-center gap-5 whitespace-nowrap text-[0.95rem]`}>
           {NAV.map((n) => (
             <Link key={n.href} href={n.href} className="text-neel-700 hover:text-neel-950 no-underline">
               {n.label}
@@ -74,7 +75,7 @@ export async function SiteHeader({ lang }: { lang: Lang }) {
           {t.chrome.unreviewed.split("{email}")[1]}
         </p>
       )}
-      <nav aria-label="Main mobile" className="xl:hidden border-t border-rule overflow-x-auto">
+      <nav aria-label="Main mobile" className={`${wide ? "2xl:hidden" : "xl:hidden"} border-t border-rule overflow-x-auto`}>
         <div className="flex gap-5 px-5 py-2 text-[0.92rem] whitespace-nowrap">
           {NAV.map((n) => (
             <Link key={n.href} href={n.href} className="inline-flex items-center gap-1.5 text-neel-700 no-underline">

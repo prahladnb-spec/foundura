@@ -24,6 +24,7 @@
     ar: "فحص البرامج من Foundura",
     he: "בדיקת הזכאות של Foundura",
     mr: "Foundura योजना तपासणी",
+    kn: "Foundura ಯೋಜನೆ ಪರಿಶೀಲನೆ",
   };
   var lang = Object.prototype.hasOwnProperty.call(titles, script.dataset.lang) ? script.dataset.lang : "en";
   frame.src = origin + (lang === "en" ? "" : "/" + lang) + "/embed/scan" + (params.toString() ? "?" + params : "");

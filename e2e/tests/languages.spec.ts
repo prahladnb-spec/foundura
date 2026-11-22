@@ -53,6 +53,21 @@ test.describe("languages", () => {
     });
   }
 
+  test("the header fits on a laptop screen in every language", async ({ page }) => {
+    for (const width of [1280, 1536]) {
+      await page.setViewportSize({ width, height: 800 });
+      for (const l of LANGS) {
+        await page.goto(l === "en" ? "/" : `/${l}`);
+        const over = await page.evaluate(() => {
+          const h = document.querySelector("header")!;
+          const box = h.querySelector('a[href$="/signin"], a[href$="/dashboard"]')!.getBoundingClientRect();
+          return { scroll: document.documentElement.scrollWidth > window.innerWidth, signIn: box.left < 0 || box.right > window.innerWidth };
+        });
+        expect(over, `${l} at ${width}px (set wideNav in LANG_INFO if the menu labels are long)`).toEqual({ scroll: false, signIn: false });
+      }
+    }
+  });
+
   test("the scan works in Arabic and the map keeps west on the left", async ({ page }) => {
     await page.goto("/ar/scan");
     await page.locator("#state").selectOption("KA");

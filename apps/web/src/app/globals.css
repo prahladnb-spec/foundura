@@ -66,6 +66,14 @@ h3 {
   --font-display: "Anek Latin Variable", "Noto Sans Hebrew Variable", system-ui, sans-serif;
   --font-body: "Mukta", "Noto Sans Hebrew Variable", system-ui, sans-serif;
 }
+:root:lang(kn) {
+  --font-display: "Anek Latin Variable", "Anek Kannada Variable", system-ui, sans-serif;
+  --font-body: "Mukta", "Anek Kannada Variable", system-ui, sans-serif;
+}
+/* Tall vowel signs above and below the line need more room than the poster-tight Latin line. */
+:lang(kn) .display {
+  line-height: 1.2;
+}
 :lang(ar) .display,
 :lang(ar) h1,
 :lang(ar) h2,
