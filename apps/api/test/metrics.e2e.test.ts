@@ -1,6 +1,6 @@
 import type { INestApplication } from "@nestjs/common";
 import type request from "supertest";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { ADMIN_KEY, signIn, startTestApp } from "./helpers";
 
 let app: INestApplication;
@@ -47,10 +47,13 @@ describe("anonymous usage counts", () => {
     await http.post("/v1/scan").send({ state: "KA", entityType: "private_limited", stage: "prototype" }).expect(200);
     await signIn(http, `counted-${Date.now()}@example.com`);
     await http.get("/v1/events/calendar.ics").expect(200);
-    const after = await summary();
-    expect(total(after, "scan_run")).toBe(total(before, "scan_run") + 1);
-    expect(total(after, "signup")).toBe(total(before, "signup") + 1);
-    expect(total(after, "calendar_feed_read")).toBe(total(before, "calendar_feed_read") + 1);
+    // Counting doesn't hold up the request it belongs to, so the totals can land a moment later.
+    await vi.waitFor(async () => {
+      const after = await summary();
+      expect(total(after, "scan_run")).toBe(total(before, "scan_run") + 1);
+      expect(total(after, "signup")).toBe(total(before, "signup") + 1);
+      expect(total(after, "calendar_feed_read")).toBe(total(before, "calendar_feed_read") + 1);
+    }, { timeout: 5000, interval: 100 });
   });
 
   it("only editors see the summary", async () => {
