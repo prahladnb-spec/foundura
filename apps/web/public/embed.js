@@ -30,6 +30,7 @@
     gu: "Foundura યોજના તપાસ",
     bn: "Foundura প্রকল্প যাচাই",
     ja: "Foundura 制度チェック",
+    fr: "Vérification des dispositifs Foundura",
   };
   var lang = Object.prototype.hasOwnProperty.call(titles, script.dataset.lang) ? script.dataset.lang : "en";
   frame.src = origin + (lang === "en" ? "" : "/" + lang) + "/embed/scan" + (params.toString() ? "?" + params : "");

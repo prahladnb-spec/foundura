@@ -99,6 +99,7 @@ test.describe("languages", () => {
       [
         "Startups|Startup|Startup India|Foundura|India|Google Calendar|Idea|Seed Fund Scheme|Sector|Deep tech|Seed fund|Pitch deck|ESOP|Term sheet|FinTech|Family office|₹{n} lakh|₹{n} crore|0.5 = ₹50 lakh|{noun} India|{n} startup|{n} startups",
         "Events|Format|Online|Hybrid|Website|Investor|Event|Limited Liability Partnership (LLP)|Compliance",
+        "Europe|Guides|Guide|Prototype / MVP",
         "Pitch deck|Lean canvas|Business angel|Deep tech|Startup India Seed Fund|Seed Fund|MedTech|EdTech|HealthTech|AgriTech|CleanTech|SaaS|Cap table|Term sheet|Due diligence|Vesting|Cliff|Runway|Churn|Bootstrapping|Equity|Exit|Traction|Data room",
       ]
         .join("|")

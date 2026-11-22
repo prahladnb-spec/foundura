@@ -20,7 +20,7 @@ const BUDGET_KB: Record<string, { script: number; total: number }> = {
   gu: { script: 180, total: 620 },
   bn: { script: 180, total: 620 },
 };
-const PAGES = ["/", "/scan", "/schemes", "/events", "/documents", "/documents/pitch-deck", "/search?q=grant", "/hi", "/hi/scan", "/hi/documents", "/es", "/de/scan", "/ar", "/ar/scan", "/he", "/he/documents", "/mr", "/kn", "/ta", "/te", "/gu", "/bn", "/ja"];
+const PAGES = ["/", "/scan", "/schemes", "/events", "/documents", "/documents/pitch-deck", "/search?q=grant", "/hi", "/hi/scan", "/hi/documents", "/es", "/de/scan", "/ar", "/ar/scan", "/he", "/he/documents", "/mr", "/kn", "/ta", "/te", "/gu", "/bn", "/ja", "/fr"];
 
 for (const path of PAGES) {
   test(`${path} stays within the page weight budget`, async ({ page }) => {
