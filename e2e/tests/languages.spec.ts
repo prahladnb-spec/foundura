@@ -53,6 +53,16 @@ test.describe("languages", () => {
     });
   }
 
+  test("no home page is wider than a phone screen, in any language", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 800 });
+    const wide: string[] = [];
+    for (const l of LANGS) {
+      await page.goto(l === "en" ? "/" : `/${l}`);
+      if (await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)) wide.push(l);
+    }
+    expect(wide, "long words or labels push these pages sideways").toEqual([]);
+  });
+
   test("the header fits on a laptop screen in every language", async ({ page }) => {
     for (const width of [1280, 1536]) {
       await page.setViewportSize({ width, height: 800 });

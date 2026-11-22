@@ -124,7 +124,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
 
       <section className="bg-neel-900 text-paper">
         <div className="mx-auto max-w-6xl px-5 py-12">
-          <div className="flex items-baseline justify-between gap-4">
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
             <h2 className="display flex items-center gap-3 text-4xl"><Icon icon={Newspaper} className="h-8 w-8 text-marigold" />{h.policy}</h2>
             <Link href="/policy" className="text-neel-100 underline">{h.allPolicy}</Link>
           </div>
@@ -146,7 +146,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
 
       <section className="mx-auto max-w-6xl px-5 py-14 grid gap-14 lg:grid-cols-[1.3fr_1fr]">
         <div>
-          <div className="flex items-baseline justify-between gap-4">
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
             <h2 className="display flex items-center gap-3 text-4xl"><Icon icon={CalendarDays} className="h-8 w-8 text-tape" />{h.comingUp}</h2>
             <Link href="/events" className="text-neel-500 underline">{h.allEvents}</Link>
           </div>
@@ -166,7 +166,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
           </ul>
         </div>
         <div>
-          <div className="flex items-baseline justify-between gap-4">
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
             <h2 className="display flex items-center gap-3 text-4xl"><Icon icon={BookOpen} className="h-8 w-8 text-neel-500" />{h.readToday}</h2>
             <Link href="/learn" className="text-neel-500 underline">{h.allGuides}</Link>
           </div>
