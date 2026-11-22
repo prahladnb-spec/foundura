@@ -10,7 +10,7 @@ const field = "block w-full rounded-md border border-rule bg-white px-3 py-2.5 t
 
 export function SignInForm({ next = "/dashboard" }: { next?: string }) {
   const router = useRouter();
-  const { t } = useT();
+  const { lang, t } = useT();
   const si = t.signin;
   const [step, setStep] = useState<"email" | "code">("email");
   const [email, setEmail] = useState("");
@@ -32,7 +32,7 @@ export function SignInForm({ next = "/dashboard" }: { next?: string }) {
     setBusy(true);
     setError(null);
     try {
-      const data = await post("/api/auth/request", { email });
+      const data = await post("/api/auth/request", { email, locale: lang });
       setDevCode(data.devCode ?? null);
       setStep("code");
     } catch (err) {
@@ -47,7 +47,7 @@ export function SignInForm({ next = "/dashboard" }: { next?: string }) {
     setBusy(true);
     setError(null);
     try {
-      await post("/api/auth/verify", { email, code, consents });
+      await post("/api/auth/verify", { email, code, consents, locale: lang });
       router.push(next);
       router.refresh();
     } catch (err) {

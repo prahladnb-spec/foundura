@@ -43,7 +43,8 @@ export class AdminDigestController {
    * startup profile if they have one, otherwise a made-up sample, never another founder's data.
    */
   @Get("preview")
-  async preview(@Admin() actor: AdminActor) {
+  async preview(@Admin() actor: AdminActor, @Query("locale") locale?: string) {
+    const lang = locale === "hi" ? "hi" : "en";
     const today = todayInIndia();
     const [own] = actor.actorId
       ? await this.db.select().from(startups).where(eq(startups.ownerId, actor.actorId)).limit(1)
@@ -53,7 +54,7 @@ export class AdminDigestController {
     return {
       basedOn: own ? "your startup profile" : "a sample Karnataka medtech startup",
       hasNews: this.digest.hasNews(content),
-      ...this.digest.render(content, this.digest.unsubscribeUrl("preview")),
+      ...this.digest.render(content, this.digest.unsubscribeUrl("preview", lang), lang),
     };
   }
 

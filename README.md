@@ -11,7 +11,7 @@ India's founder launchpad. Phase 1 MVP:
 - **Weekly scheme alerts**: founders who turn on alerts get one email a week, and only when something is new for them: schemes they now qualify for, changes to their schemes, deadlines in the next two weeks, the week's policy news and new guides. One-click unsubscribe (including mail apps' built-in button) is recorded in the consent ledger.
 - **Events**, **Policy news** and **Founder guides**, fed from the tracker sheets and the daily content engine.
 - **Terms of use and grievance officer**: `/terms` and `/privacy` read the company and grievance officer details from settings, so they can change without a release. New accounts confirm they're 18+ and accept the terms. Every account holder gets a yearly reminder of both documents, as the IT Rules 2021 require.
-- **English and Hindi**: English at the plain URLs, Hindi under `/hi/...`, with a switch in the header. The privacy notice and terms are fully translated, as the DPDP Act expects notices to be offered in Indian languages. Scheme summaries, events, policy items and guides are database content and stay in English for now (Hindi pages say so). The investor dashboard and editor console are English-only.
+- **English and Hindi**: English at the plain URLs, Hindi under `/hi/...`, with a switch in the header. Emails come in each person's chosen language. The privacy notice and terms are fully translated, as the DPDP Act expects notices to be offered in Indian languages. Scheme summaries, events, policy items and guides are database content and stay in English for now (Hindi pages say so). The investor dashboard and editor console are English-only.
 - **Privacy by design** (DPDP Act 2023 / GDPR): consent ledger, self-service data export and account deletion, hashed sign-in codes, minimal data.
 
 Foundura never handles money.
@@ -56,6 +56,8 @@ With `OTP_DELIVERY=dev`, the sign-in code is shown on screen instead of emailed.
 ## Languages
 
 Interface text lives in `apps/web/src/i18n/en.ts` and `hi.ts`. `hi.ts` is typed against `en.ts`, so a missing Hindi string fails the build. Use `<Link>` from `@/components/locale-link` (it adds `/hi` on Hindi pages), `useT()` in client components and `getDict(lang)` in server components. `src/middleware.ts` serves English from the plain URLs, redirects `/en/...` to them, and keeps the editor console English-only. Partners can show the embedded scan in Hindi with `data-lang="hi"`.
+
+Emails follow each person's language (`users.locale`). It's set from the page they sign in on, can be changed under "Email language" on the dashboard, and is used for sign-in codes, intro notifications, weekly scheme alerts and the yearly terms reminder; links in those emails go to pages in the same language. Email wording lives in `apps/api/src/mail/templates.ts`. Editors can preview the weekly alert in either language at `/admin/alerts`.
 
 To add another language: add it to `LANGS` in `i18n/config.ts`, create its dictionary typed as `Dict`, translate the privacy notice and terms components, and extend the middleware and `next.config.ts` framing rule.
 
@@ -118,6 +120,7 @@ Rows are upserted, so re-importing is safe.
 | `GET /investors`, `/investors/:slug` | Investor directory (listed investors only) |
 | `POST /auth/request-otp`, `/auth/verify-otp` | Sign in |
 | `GET /me`, `/me/export`; `DELETE /me` | Account, data export, erasure |
+| `PATCH /me/locale` | Email language (`en` or `hi`) |
 | `POST /me/startups`, `PATCH/DELETE /me/startups/:id`, `GET /me/startups/:id/scan` | Startup profile |
 | `GET/POST /me/consents` | Consent ledger |
 | `GET /me/startups/:id/readiness`, `/me/startups/:id/investor-matches` | Readiness Score; ranked investors |

@@ -7,7 +7,7 @@ import {
   investorProfileSchema,
   setConsentSchema,
   startupProfileSchema,
-} from "@foundura/shared";
+ setLocaleSchema } from "@foundura/shared";
 import { IntrosService } from "../investors/intros.service";
 import { InvestorsService } from "../investors/investors.service";
 import { eq } from "drizzle-orm";
@@ -38,13 +38,23 @@ export class MeController {
 
   @Get()
   async me(@CurrentUser() user: SessionUser) {
+    const [row] = await this.db.select({ locale: users.locale }).from(users).where(eq(users.id, user.id));
     return {
       user,
+      locale: row?.locale ?? "en",
       isAdmin: this.adminGuard.isAdminEmail(user.email),
       startups: await this.startups.listMine(user.id),
       investor: await this.investors.getMine(user.id),
       consents: await this.consents.current(user.id),
     };
+  }
+
+  /** Language for the emails we send this person. */
+  @Patch("locale")
+  async setLocale(@CurrentUser() user: SessionUser, @Body() body: unknown) {
+    const { locale } = parseBody(setLocaleSchema, body);
+    await this.db.update(users).set({ locale }).where(eq(users.id, user.id));
+    return { locale };
   }
 
   // ----- readiness, matches and intros (founder side) -----

@@ -12,15 +12,15 @@ export class AuthController {
   @HttpCode(200)
   @Throttle({ default: { limit: 5, ttl: 60_000 } })
   requestOtp(@Body() body: unknown) {
-    const { email } = parseBody(requestOtpSchema, body);
-    return this.auth.requestOtp(email);
+    const { email, locale } = parseBody(requestOtpSchema, body);
+    return this.auth.requestOtp(email, locale);
   }
 
   @Post("verify-otp")
   @HttpCode(200)
   @Throttle({ default: { limit: 10, ttl: 60_000 } })
   verifyOtp(@Body() body: unknown) {
-    const { email, code, consents } = parseBody(verifyOtpSchema, body);
-    return this.auth.verifyOtp(email, code, consents);
+    const { email, code, consents, locale } = parseBody(verifyOtpSchema, body);
+    return this.auth.verifyOtp(email, code, consents, locale);
   }
 }

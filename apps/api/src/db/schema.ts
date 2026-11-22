@@ -30,6 +30,8 @@ export const users = pgTable("users", {
   email: text("email").notNull().unique(),
   createdAt: createdAt(),
   lastSeenAt: timestamp("last_seen_at", { withTimezone: true }),
+  /** Language for emails: set from the page they sign in on, changeable on the dashboard. */
+  locale: text("locale").$type<"en" | "hi">().notNull().default("en"),
   /** Last yearly reminder of the terms and privacy notice (IT Rules 2021 ask for one each year). */
   termsRemindedAt: timestamp("terms_reminded_at", { withTimezone: true }),
 });

@@ -18,7 +18,7 @@ export default async function DashboardPage({ params }: { params: Promise<{ lang
   const lang = isLang(p.lang) ? p.lang : "en";
   const token = await getToken();
   if (!token) redirect(lp(lang, "/signin"));
-  let me: { user: { id: string; email: string }; isAdmin: boolean; startups: Startup[]; consents: ConsentState[] };
+  let me: { user: { id: string; email: string }; locale: "en" | "hi"; isAdmin: boolean; startups: Startup[]; consents: ConsentState[] };
   try {
     me = await api("/me", { token });
   } catch (e) {
@@ -27,7 +27,7 @@ export default async function DashboardPage({ params }: { params: Promise<{ lang
   }
   return (
     <div className="mx-auto max-w-5xl px-5 pt-10">
-      <Dashboard email={me.user.email} isAdmin={me.isAdmin} startup={me.startups[0] ?? null} consents={me.consents} />
+      <Dashboard email={me.user.email} locale={me.locale} isAdmin={me.isAdmin} startup={me.startups[0] ?? null} consents={me.consents} />
     </div>
   );
 }

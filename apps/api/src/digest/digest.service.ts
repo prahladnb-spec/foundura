@@ -8,6 +8,8 @@ import type { Db } from "../db/client";
 import { DB } from "../db/db.module";
 import { articles, digestSends, events, policyItems, schemes, startups, type Startup, users } from "../db/schema";
 import { type Mail, MailerService } from "../mail/mailer.service";
+import { shortDate, siteLink, tFor } from "../mail/templates";
+import type { Locale } from "@foundura/shared";
 import { type ScanMatch, ScanService } from "../scan/scan.service";
 import { toScanInput } from "../startups/startups.service";
 
@@ -47,8 +49,6 @@ export function weekOf(iso: string): string {
   return addDays(iso, -((dow + 6) % 7));
 }
 
-const niceDate = (iso: string) =>
-  new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-IN", { day: "numeric", month: "short", timeZone: "UTC" });
 
 /**
  * The weekly scheme-alerts email. Goes only to people whose latest `scheme_alerts` consent is a
@@ -72,8 +72,8 @@ export class DigestService {
     return createHmac("sha256", this.config.JWT_SECRET).update(`unsubscribe:${userId}`).digest("base64url");
   }
 
-  unsubscribeUrl(userId: string): string {
-    return `${this.mailer.siteUrl}/unsubscribe?u=${encodeURIComponent(userId)}&t=${this.unsubscribeToken(userId)}`;
+  unsubscribeUrl(userId: string, locale: Locale = "en"): string {
+    return `${siteLink(this.mailer.siteUrl, locale, "/unsubscribe")}?u=${encodeURIComponent(userId)}&t=${this.unsubscribeToken(userId)}`;
   }
 
   /** One-click unsubscribe: records a withdrawal in the consent ledger. Returns false for a bad link. */
@@ -183,69 +183,62 @@ export class DigestService {
     return c.newSchemes.length + c.updatedSchemes.length + c.deadlines.length + c.policy.length + c.guides.length > 0;
   }
 
-  render(c: DigestContent, unsubscribeUrl: string): Pick<Mail, "subject" | "text"> {
+  render(c: DigestContent, unsubscribeUrl: string, locale: Locale = "en"): Pick<Mail, "subject" | "text"> {
     const site = this.mailer.siteUrl;
+    const link = (path: string) => siteLink(site, locale, path);
+    const T = tFor(locale).digest;
     const L: string[] = [];
+
     const bits = [
-      c.newEligible && `${c.newEligible} ${c.newEligible === 1 ? "scheme" : "schemes"} you qualify for`,
-      !c.newEligible && c.newMaybe && `${c.newMaybe} ${c.newMaybe === 1 ? "scheme" : "schemes"} worth checking`,
-      c.deadlines.length && `${c.deadlines.length} ${c.deadlines.length === 1 ? "deadline" : "deadlines"} soon`,
-      c.policy.length && `${c.policy.length} policy ${c.policy.length === 1 ? "update" : "updates"}`,
+      c.newEligible && T.qualify(c.newEligible),
+      !c.newEligible && c.newMaybe && T.worthChecking(c.newMaybe),
+      c.deadlines.length && T.deadlines(c.deadlines.length),
+      c.policy.length && T.policy(c.policy.length),
     ].filter(Boolean);
-    const subject = bits.length ? `Your Foundura week: ${bits.join(", ")}` : "Your Foundura week";
+    const subject = bits.length ? `${T.subjectBase}: ${bits.join(", ")}` : T.subjectBase;
 
-    L.push("Hi,", "", c.startupName ? `Here's what's new for ${c.startupName} this week.` : "Here's what's new on Foundura this week.");
-
-    if (!c.startupName) {
-      L.push("", "Add your startup profile to see which schemes you qualify for:", `${site}/dashboard`);
-    }
+    L.push(T.hi, "", c.startupName ? T.introFor(c.startupName) : T.introGeneral);
+    if (T.inEnglish) L.push(T.inEnglish);
+    if (!c.startupName) L.push("", T.addProfile, link("/dashboard"));
 
     if (c.newSchemes.length) {
-      L.push("", "New for you", "");
+      L.push("", T.newForYou, "");
       for (const m of c.newSchemes) {
-        const why = m.status === "eligible" ? "you qualify" : `you may qualify, ${m.unknown.length} ${m.unknown.length === 1 ? "thing" : "things"} to confirm`;
-        L.push(`- ${m.scheme.name}: ${why}`, `  ${site}/schemes/${m.scheme.slug}`);
+        const why = m.status === "eligible" ? T.youQualify : T.youMay(m.unknown.length);
+        L.push(`- ${m.scheme.name}: ${why}`, `  ${link(`/schemes/${m.scheme.slug}`)}`);
       }
-      if (c.moreNew) L.push(`- and ${c.moreNew} more on your dashboard: ${site}/dashboard`);
+      if (c.moreNew) L.push(T.more(c.moreNew, link("/dashboard")));
     }
 
     if (c.updatedSchemes.length) {
-      L.push("", "Updated since last week", "");
+      L.push("", T.updated, "");
       for (const m of c.updatedSchemes) {
-        const note = m.scheme.lastVerifiedAt ? `details checked on ${niceDate(m.scheme.lastVerifiedAt)}` : "details changed";
-        L.push(`- ${m.scheme.name}: ${note}`, `  ${site}/schemes/${m.scheme.slug}`);
+        const note = m.scheme.lastVerifiedAt ? T.checkedOn(shortDate(m.scheme.lastVerifiedAt, locale)) : T.changed;
+        L.push(`- ${m.scheme.name}: ${note}`, `  ${link(`/schemes/${m.scheme.slug}`)}`);
       }
     }
 
     if (c.deadlines.length) {
-      L.push("", "Coming up in the next two weeks", "");
+      L.push("", T.comingUp, "");
       for (const e of c.deadlines) {
-        const when = e.deadline ? `apply by ${niceDate(e.deadline)}` : `starts ${niceDate(e.startDate!)}`;
+        const when = e.deadline ? T.applyBy(shortDate(e.deadline, locale)) : T.starts(shortDate(e.startDate!, locale));
         const where = e.city ? `, ${e.city}` : "";
-        L.push(`- ${e.name}: ${when}${where}${e.status === "To verify" ? " (dates not yet confirmed)" : ""}`);
+        L.push(`- ${e.name}: ${when}${where}${e.status === "To verify" ? T.unconfirmed : ""}`);
         if (e.sourceUrl) L.push(`  ${e.sourceUrl}`);
       }
     }
 
     if (c.policy.length) {
-      L.push("", "Policy news", "");
+      L.push("", T.policyNews, "");
       for (const p of c.policy) L.push(`- ${p.headline} (${p.country})`, `  ${p.takeaway}`, `  ${p.sourceUrl}`);
     }
 
     if (c.guides.length) {
-      L.push("", "New founder guides", "");
-      for (const a of c.guides) L.push(`- ${a.title} (${a.readMinutes} min read)`, `  ${site}/learn/${a.slug}`);
+      L.push("", T.guides, "");
+      for (const a of c.guides) L.push(`- ${a.title} (${T.minRead(a.readMinutes)})`, `  ${link(`/learn/${a.slug}`)}`);
     }
 
-    L.push(
-      "",
-      "Scheme details are summaries. Always confirm on the official source before you apply.",
-      "",
-      "--",
-      "You get this because you turned on scheme and deadline alerts.",
-      `Stop these emails: ${unsubscribeUrl}`,
-      "Foundura never handles money and will never ask you to pay to apply for a scheme.",
-    );
+    L.push("", T.confirm, "", "--", T.why, T.stop(unsubscribeUrl), T.money);
     return { subject, text: L.join("\n") };
   }
 
@@ -296,7 +289,7 @@ export class DigestService {
       try {
         await this.mailer.send({
           to: user.email,
-          ...this.render(content, this.unsubscribeUrl(userId)),
+          ...this.render(content, this.unsubscribeUrl(userId, user.locale), user.locale),
           headers: {
             "List-Unsubscribe": `<${this.mailer.siteUrl}/api/unsubscribe?u=${encodeURIComponent(userId)}&t=${this.unsubscribeToken(userId)}>`,
             "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",

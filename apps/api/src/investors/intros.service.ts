@@ -9,6 +9,7 @@ import {
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { ConsentService } from "../consent/consent.service";
 import { MailerService } from "../mail/mailer.service";
+import { siteLink, tFor } from "../mail/templates";
 import type { Db } from "../db/client";
 import { DB } from "../db/db.module";
 import { introRequests, investors, startups, users, type Investor, type Startup } from "../db/schema";
@@ -32,9 +33,10 @@ export class IntrosService {
     @Inject(MailerService) private readonly mailer: MailerService,
   ) {}
 
-  private async emailOf(userId: string): Promise<string | null> {
-    const [u] = await this.db.select({ email: users.email }).from(users).where(eq(users.id, userId)).limit(1);
-    return u?.email ?? null;
+  /** Where and in which language to email a user. */
+  private async contactOf(userId: string): Promise<{ email: string; locale: "en" | "hi" } | null> {
+    const [u] = await this.db.select({ email: users.email, locale: users.locale }).from(users).where(eq(users.id, userId)).limit(1);
+    return u ?? null;
   }
 
   async readinessFor(ownerId: string, startupId: string) {
@@ -93,13 +95,10 @@ export class IntrosService {
       .returning();
 
     // Notify the investor. Only the startup's name goes in the email; details stay on Foundura.
-    const to = await this.emailOf(inv.ownerId);
+    const to = await this.contactOf(inv.ownerId);
     if (to) {
-      this.mailer.notify({
-        to,
-        subject: `New intro request from ${s.name} (${m.score}% match)`,
-        text: `${s.name} would like an introduction.\n\nRead their message and decide on Foundura: ${this.mailer.siteUrl}/dashboard/investor\n\nYour email is shared only if you accept.`,
-      });
+      const link = siteLink(this.mailer.siteUrl, to.locale, "/dashboard/investor");
+      this.mailer.notify({ to: to.email, ...tFor(to.locale).introRequest(s.name, m.score, link) });
     }
     return row;
   }
@@ -170,22 +169,12 @@ export class IntrosService {
       .where(eq(introRequests.id, intro.id));
 
     const [st] = await this.db.select().from(startups).where(eq(startups.id, intro.startupId)).limit(1);
-    const to = st ? await this.emailOf(st.ownerId) : null;
+    const to = st ? await this.contactOf(st.ownerId) : null;
     if (to) {
       const who = inv.firm ?? inv.name;
-      this.mailer.notify(
-        accept
-          ? {
-              to,
-              subject: `${who} accepted your intro request`,
-              text: `Good news: ${who} accepted your intro request for ${st!.name}. Their contact email is now on your dashboard: ${this.mailer.siteUrl}/dashboard`,
-            }
-          : {
-              to,
-              subject: `Update on your intro request to ${who}`,
-              text: `${who} has decided not to take your intro request for ${st!.name} forward. Your other matches are on your dashboard: ${this.mailer.siteUrl}/dashboard`,
-            },
-      );
+      const t = tFor(to.locale);
+      const link = siteLink(this.mailer.siteUrl, to.locale, "/dashboard");
+      this.mailer.notify({ to: to.email, ...(accept ? t.introAccepted(who, st!.name, link) : t.introDeclined(who, st!.name, link)) });
     }
     return { id: intro.id, status: accept ? "accepted" : "declined" };
   }

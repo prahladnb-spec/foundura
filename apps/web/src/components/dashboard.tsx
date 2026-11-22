@@ -104,13 +104,27 @@ function TriSelect({ id, value, onChange }: { id: string; value: string; onChang
   );
 }
 
-export function Dashboard({ email, isAdmin = false, startup, consents: initialConsents }: { email: string; isAdmin?: boolean; startup: Startup | null; consents: ConsentState[] }) {
+export function Dashboard({
+  email,
+  locale: initialLocale = "en",
+  isAdmin = false,
+  startup,
+  consents: initialConsents,
+}: {
+  email: string;
+  locale?: "en" | "hi";
+  isAdmin?: boolean;
+  startup: Startup | null;
+  consents: ConsentState[];
+}) {
   const router = useRouter();
   const { lang, t } = useT();
   const d = t.dashboard;
   const [current, setCurrent] = useState<Startup | null>(startup);
   const [f, setF] = useState<Form>(fromStartup(startup));
   const [consents, setConsents] = useState(initialConsents);
+  const [emailLocale, setEmailLocale] = useState(initialLocale);
+  const [localeSaved, setLocaleSaved] = useState(false);
   const [scan, setScan] = useState<ScanResult | null>(null);
   const [msg, setMsg] = useState<{ kind: "ok" | "err"; text: string } | null>(null);
   const [busy, setBusy] = useState(false);
@@ -154,6 +168,17 @@ export function Dashboard({ email, isAdmin = false, startup, consents: initialCo
     try {
       setConsents(await call("consents", "POST", { purpose: c.purpose, granted: !c.granted }));
       setVersion((v) => v + 1);
+    } catch (err) {
+      setMsg({ kind: "err", text: (err as Error).message });
+    }
+  }
+
+  async function changeEmailLocale(v: "en" | "hi") {
+    setLocaleSaved(false);
+    try {
+      await call("locale", "PATCH", { locale: v });
+      setEmailLocale(v);
+      setLocaleSaved(true);
     } catch (err) {
       setMsg({ kind: "err", text: (err as Error).message });
     }
@@ -346,6 +371,24 @@ export function Dashboard({ email, isAdmin = false, startup, consents: initialCo
             </li>
           ))}
         </ul>
+        <div className="mt-2 flex flex-wrap items-center justify-between gap-3 border-t border-rule py-4">
+          <label htmlFor="email-lang">
+            <span className="font-semibold">{d.emailLang}</span>
+            <span className="block text-[0.92rem] text-slate">{d.emailLangHint}</span>
+          </label>
+          <span className="flex items-center gap-3">
+            {localeSaved && <span role="status" className="text-[0.92rem] text-leaf">{d.emailLangSaved}</span>}
+            <select
+              id="email-lang"
+              className="rounded-md border border-rule bg-white px-3 py-2"
+              value={emailLocale}
+              onChange={(e) => changeEmailLocale(e.target.value as "en" | "hi")}
+            >
+              <option value="en" lang="en">English</option>
+              <option value="hi" lang="hi">हिन्दी</option>
+            </select>
+          </span>
+        </div>
         <div className="mt-6 flex flex-wrap gap-4">
           <button onClick={exportData} className="rounded-md border-2 border-neel-900 px-4 py-2 font-semibold">{d.download}</button>
           <button onClick={deleteAccount} className="rounded-md border-2 border-slate px-4 py-2 font-semibold text-slate">{d.delete}</button>

@@ -23,10 +23,12 @@ export function AdminAlerts() {
   const [result, setResult] = useState<RunResult | null>(null);
   const [err, setErr] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [lang, setLang] = useState<"en" | "hi">("en");
 
   useEffect(() => {
-    adminCall<Preview>("digest/preview").then(setPreview, (e) => setErr(e.message));
-  }, []);
+    setPreview(null);
+    adminCall<Preview>(`digest/preview?locale=${lang}`).then(setPreview, (e) => setErr(e.message));
+  }, [lang]);
 
   async function send() {
     setBusy(true);
@@ -43,13 +45,30 @@ export function AdminAlerts() {
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_20rem]">
       <section aria-labelledby="preview-h">
-        <h2 id="preview-h" className="text-[1.35rem] font-bold">This week&apos;s email</h2>
+        <div className="flex flex-wrap items-baseline justify-between gap-3">
+          <h2 id="preview-h" className="text-[1.35rem] font-bold">This week&apos;s email</h2>
+          <div role="group" aria-label="Preview language" className="flex gap-1">
+            {(["en", "hi"] as const).map((l) => (
+              <button
+                key={l}
+                type="button"
+                aria-pressed={lang === l}
+                onClick={() => setLang(l)}
+                className={`rounded-full border px-3 py-1 text-[0.93rem] ${lang === l ? "border-neel-900 bg-neel-900 text-paper" : "border-rule bg-white"}`}
+              >
+                {l === "en" ? "English" : "हिन्दी"}
+              </button>
+            ))}
+          </div>
+        </div>
         {preview ? (
           <>
-            <p className="mt-1 text-slate">As a first-time reader would see it, based on {preview.basedOn}.</p>
+            <p className="mt-1 text-slate">
+              As a first-time reader would see it, based on {preview.basedOn}. Founders get it in the email language set on their dashboard.
+            </p>
             <div className="mt-4 rounded-md border border-rule bg-white">
               <p className="border-b border-rule px-5 py-3 font-semibold">{preview.subject}</p>
-              <pre className="overflow-x-auto px-5 py-4 font-sans text-[0.97rem] leading-relaxed whitespace-pre-wrap">{preview.text}</pre>
+              <pre lang={lang} className="overflow-x-auto px-5 py-4 font-sans text-[0.97rem] leading-relaxed whitespace-pre-wrap">{preview.text}</pre>
             </div>
           </>
         ) : (

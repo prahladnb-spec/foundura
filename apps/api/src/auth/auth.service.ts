@@ -7,6 +7,8 @@ import { CONFIG, type AppConfig } from "../config";
 import { ConsentService } from "../consent/consent.service";
 import type { Db } from "../db/client";
 import { MailerService } from "../mail/mailer.service";
+import { tFor } from "../mail/templates";
+import type { Locale } from "@foundura/shared";
 import { DB } from "../db/db.module";
 import { otpCodes, users } from "../db/schema";
 
@@ -35,7 +37,7 @@ export class AuthService {
   }
 
   /** Creates a 6-digit code. In dev mode it is returned so the web app can show it; otherwise it is emailed. */
-  async requestOtp(rawEmail: string): Promise<{ sent: true; devCode?: string }> {
+  async requestOtp(rawEmail: string, locale?: Locale): Promise<{ sent: true; devCode?: string }> {
     const email = rawEmail.trim().toLowerCase();
     const code = String(randomInt(0, 1_000_000)).padStart(6, "0");
 
@@ -47,17 +49,15 @@ export class AuthService {
       expiresAt: new Date(Date.now() + OTP_TTL_MS),
     });
 
-    await this.sendEmail(email, code); // dev mode: logged to the mailer outbox, not sent
+    // The code arrives in the language of the page they asked from, else their saved language.
+    const lang = locale ?? (await this.db.select({ l: users.locale }).from(users).where(eq(users.email, email)).limit(1))[0]?.l;
+    await this.sendEmail(email, code, lang); // dev mode: logged to the mailer outbox, not sent
     return this.config.OTP_DELIVERY === "dev" ? { sent: true, devCode: code } : { sent: true };
   }
 
-  private async sendEmail(email: string, code: string) {
+  private async sendEmail(email: string, code: string, locale?: string) {
     try {
-      await this.mailer.send({
-        to: email,
-        subject: `${code} is your Foundura sign-in code`,
-        text: `Your Foundura sign-in code is ${code}. It expires in 10 minutes. If you did not ask for it, ignore this email.`,
-      });
+      await this.mailer.send({ to: email, ...tFor(locale).signIn(code) });
     } catch (e) {
       this.log.error((e as Error).message);
       throw new BadRequestException("Could not send the code. Try again in a minute.");
@@ -68,6 +68,7 @@ export class AuthService {
     rawEmail: string,
     code: string,
     consentsGiven: ConsentPurpose[] = [],
+    locale?: Locale,
   ): Promise<{ token: string; user: SessionUser; isNew: boolean }> {
     const email = rawEmail.trim().toLowerCase();
     const [row] = await this.db
@@ -93,9 +94,13 @@ export class AuthService {
       if (!consentsGiven.includes("account")) {
         throw new BadRequestException("Please agree to the account terms to create your account.");
       }
-      [user] = await this.db.insert(users).values({ email }).returning();
+      [user] = await this.db.insert(users).values({ email, locale: locale ?? "en" }).returning();
     }
-    await this.db.update(users).set({ lastSeenAt: new Date() }).where(eq(users.id, user.id));
+    // Emails follow the language they last signed in with (and can be changed on the dashboard).
+    await this.db
+      .update(users)
+      .set({ lastSeenAt: new Date(), ...(locale ? { locale } : {}) })
+      .where(eq(users.id, user.id));
     for (const purpose of consentsGiven) {
       await this.consents.record(user.id, purpose, true, { onlyIfChanged: true });
     }

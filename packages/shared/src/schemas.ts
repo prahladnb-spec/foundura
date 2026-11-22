@@ -87,13 +87,22 @@ export const introRequestSchema = z.object({
 export const introResponseSchema = z.object({ accept: z.boolean() });
 export type StartupProfileInput = z.infer<typeof startupProfileSchema>;
 
-export const requestOtpSchema = z.object({ email: z.string().email().max(254) });
+/** Languages Foundura speaks: the site and the emails it sends. */
+export const LOCALES = ["en", "hi"] as const;
+export type Locale = (typeof LOCALES)[number];
+export const localeSchema = z.enum(LOCALES);
+
+/** `locale` is the language of the page the person signed in from; emails follow it. */
+export const requestOtpSchema = z.object({ email: z.string().email().max(254), locale: localeSchema.optional() });
 export const verifyOtpSchema = z.object({
   email: z.string().email().max(254),
   code: z.string().regex(/^\d{6}$/),
+  locale: localeSchema.optional(),
   /** Purposes the person ticked on the sign-in form. "account" is required. */
   consents: z.array(consentPurposeSchema).optional(),
 });
+
+export const setLocaleSchema = z.object({ locale: localeSchema });
 
 export const setConsentSchema = z.object({
   purpose: consentPurposeSchema,
