@@ -40,7 +40,7 @@ export default async function PartnersPage({ params }: { params: Params }) {
           ["data-max-width", pt.attrs.width],
         ].map(([k, v]) => (
           <div key={k} className="grid gap-2 border-b border-rule py-3 md:grid-cols-[12rem_1fr]">
-            <dt className="font-semibold">{k}</dt>
+            <dt className="font-semibold"><code lang="en">{k}</code></dt>
             <dd>{v}</dd>
           </div>
         ))}

@@ -17,12 +17,12 @@ export default async function DashboardPage({ params }: { params: Promise<{ lang
   const p = await params;
   const lang = isLang(p.lang) ? p.lang : "en";
   const token = await getToken();
-  if (!token) redirect(lp(lang, "/signin"));
+  if (!token) redirect(`${lp(lang, "/signin")}?next=${encodeURIComponent(lp(lang, "/dashboard"))}`);
   let me: { user: { id: string; email: string }; locale: "en" | "hi"; isAdmin: boolean; startups: Startup[]; consents: ConsentState[] };
   try {
     me = await api("/me", { token });
   } catch (e) {
-    if (e instanceof ApiError && e.status === 401) redirect(lp(lang, "/signin"));
+    if (e instanceof ApiError && e.status === 401) redirect(`${lp(lang, "/signin")}?next=${encodeURIComponent(lp(lang, "/dashboard"))}`);
     throw e;
   }
   return (

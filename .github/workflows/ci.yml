@@ -7,6 +7,7 @@ on:
 
 jobs:
   test-and-build:
+    name: Typecheck, tests and build
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -39,10 +40,52 @@ jobs:
       - name: Build API and web
         run: pnpm build
 
+  browser:
+    name: Browser tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: foundura
+          POSTGRES_PASSWORD: foundura
+          POSTGRES_DB: foundura_e2e
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U foundura"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      E2E_DATABASE_URL: postgresql://foundura:foundura@localhost:5432/foundura_e2e
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Build API and web
+        run: pnpm build
+      - name: Install Chromium
+        run: pnpm --filter @foundura/e2e exec playwright install --with-deps chromium
+      - name: Run browser tests
+        run: pnpm e2e
+      - name: Keep the report and traces
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-test-report
+          path: |
+            e2e/playwright-report/
+            e2e/test-results/
+          retention-days: 14
+
   docker:
     name: Build production images
     runs-on: ubuntu-latest
-    needs: test
+    needs: test-and-build
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-buildx-action@v3

@@ -13,12 +13,12 @@ export default async function InvestorDashboardPage({ params }: { params: Promis
   const p = await params;
   const lang = isLang(p.lang) ? p.lang : "en";
   const token = await getToken();
-  if (!token) redirect(lp(lang, "/signin"));
+  if (!token) redirect(`${lp(lang, "/signin")}?next=${encodeURIComponent(lp(lang, "/dashboard/investor"))}`);
   let me: { user: { email: string }; investor: InvestorOwn | null };
   try {
     me = await api("/me", { token });
   } catch (e) {
-    if (e instanceof ApiError && e.status === 401) redirect(lp(lang, "/signin"));
+    if (e instanceof ApiError && e.status === 401) redirect(`${lp(lang, "/signin")}?next=${encodeURIComponent(lp(lang, "/dashboard/investor"))}`);
     throw e;
   }
   return (

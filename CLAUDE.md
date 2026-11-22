@@ -8,4 +8,4 @@
 - Privacy rules: don't store anonymous scan answers, don't expose turnover/funding/shareholding publicly, record consent changes as new ledger rows, and keep `/me/export` and `DELETE /me` complete when adding tables with personal data.
 - The platform never handles money.
 - Web copy: sentence case, plain words, no all-caps labels. Interface text goes in `apps/web/src/i18n/en.ts` and `hi.ts` (same shape); email text in `apps/api/src/mail/templates.ts`. Design tokens live in `apps/web/src/app/globals.css`.
-- Tests: `pnpm test` (needs Postgres; e2e uses `TEST_DATABASE_URL`, default `foundura_test`).
+- Tests: `pnpm test` (needs Postgres; e2e uses `TEST_DATABASE_URL`, default `foundura_test`). Browser tests: `pnpm build && pnpm e2e` (Playwright, in `e2e/`, fresh `foundura_e2e` database). When you change a page or flow, update its spec; new interface text on Hindi pages must pass the untranslated-English check in `e2e/tests/hindi.spec.ts`.

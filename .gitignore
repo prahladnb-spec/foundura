@@ -3,6 +3,8 @@ dist/
 .next/
 .turbo/
 coverage/
+e2e/test-results/
+e2e/playwright-report/
 *.log
 .env
 .env.local

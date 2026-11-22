@@ -85,6 +85,20 @@ pnpm test
 - `packages/shared`: also readiness scoring and match scoring.
 - `apps/api`: scheme catalogue sanity checks, plus end-to-end tests over HTTP against a real database: scan, sign-in with consent, profile, scan from profile, public profile privacy, consent withdrawal, data export, erasure, the editor console (access rules, rule validation, scheme check dates, article publishing, investor review, audit log, notification emails), weekly scheme alerts (opt-in only, once a week, nothing-new skip, updated schemes and deadlines, unsubscribe and export) and the full Investor Connect flow (readiness gate, matching, consent-gated visibility, duplicate and focus checks, accept reveals contacts, export and cascade on erasure).
 
+### Browser tests
+
+Playwright drives the built site in Chromium, the way a person would. Each run starts the API and web app on their own ports (4100 and 3100) against a fresh `foundura_e2e` database, so dev data is never touched.
+
+```bash
+pnpm build
+pnpm --filter @foundura/e2e exec playwright install chromium   # once
+pnpm e2e
+```
+
+Set `E2E_DATABASE_URL` to use another database (its name must contain `e2e` or `test`, because the run empties it), or `CHROME_PATH` to use an installed Chrome. When a test fails, `pnpm --filter @foundura/e2e report` opens the report with a trace of every step.
+
+They cover the founder journey (scan, sign-in, profile, consents, export, deletion, sign-out), Investor Connect across three browsers (investor, editor, founder), the editor console (access, rule checks, Hindi going out of date, publishing, CSV import, audit log, weekly alerts and unsubscribe), Hindi (language switch, scan, dashboard, email language, and a check for untranslated English on every Hindi page), the embed widget on a partner site and framing protection, the MedTech guide, and the sitemap, robots, share images and health check. GitHub runs them on every push and keeps the report when they fail.
+
 ## How schemes work
 
 Each scheme has a JSON rule tree (`all` / `any` / fact conditions with plain-language labels). The engine returns **eligible** only when every condition is met, **maybe** when an answer is missing, and **not eligible** when any condition fails. It never guesses. Conditions the scan can't test go in `alsoCheck`.
