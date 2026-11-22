@@ -9,7 +9,7 @@ test.describe("events calendar", () => {
     const grid = page.getByRole("grid", { name: "January 2027" });
     await expect(grid.getByRole("columnheader")).toHaveText(["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]);
     // CES runs 6 to 9 January.
-    const day7 = grid.getByRole("button", { name: /^7 Jan: \d+$/ });
+    const day7 = grid.getByRole("button", { name: /^7 Jan, \d+ events?$/ });
     await expect(day7).toContainText("CES 2027");
     await day7.click();
     await expect(page.locator("#day-h")).toHaveText("7 Jan 2027");

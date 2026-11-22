@@ -1,6 +1,5 @@
 import { UsageCounter } from "@/components/usage-counter";
 import "@fontsource-variable/anek-latin/wdth.css";
-import "@fontsource-variable/anek-devanagari/wdth.css";
 import "@fontsource/mukta/400.css";
 import "@fontsource/mukta/600.css";
 import "../globals.css";

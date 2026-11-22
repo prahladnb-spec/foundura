@@ -2,8 +2,11 @@
 
 import { useState } from "react";
 import Link from "@/components/locale-link";
-import { docBySlug, documentsFor, GOALS, type Goal, type Stage } from "@/documents";
-import { FORMAT } from "@/components/template-preview";
+import { documentsFor, GOALS, type Goal, type Stage } from "@/documents/finder";
+
+const FORMAT = { doc: "Word", deck: "PowerPoint", sheet: "Excel" } as const;
+/** Just what the list shows for each document, passed from the server so the content stays there. */
+export type FinderDoc = { title: string; titleHi: string; kind: keyof typeof FORMAT };
 import { useT } from "@/i18n/client";
 
 const STAGES: Stage[] = ["idea", "prototype", "early_revenue", "growth"];
@@ -37,7 +40,7 @@ function Choice<T extends string>({ name, legend, options, labels, value, onChan
 }
 
 /** Two questions in, an ordered list of documents out. Nothing is stored. */
-export function DocumentsFinder() {
+export function DocumentsFinder({ docs }: { docs: Record<string, FinderDoc> }) {
   const { lang, t } = useT();
   const d = t.documents;
   const [goal, setGoal] = useState<Goal>("raise");
@@ -49,13 +52,13 @@ export function DocumentsFinder() {
       <h3 id={id} className="font-semibold">{heading}</h3>
       <ol aria-labelledby={id} className="mt-2 space-y-2">
         {slugs.map((slug, i) => {
-          const doc = docBySlug(slug)!;
+          const doc = docs[slug];
           return (
             <li key={slug} className="flex gap-3">
               <span aria-hidden="true" className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-marigold text-[0.85rem] font-semibold text-neel-950">{i + 1}</span>
               <span>
                 <Link href={`/documents/${slug}`} className="font-semibold text-neel-900 underline">{lang === "hi" ? doc.titleHi : doc.title}</Link>{" "}
-                <span lang="en" className="text-[0.88rem] text-slate">{FORMAT[doc.template.kind]}</span>
+                <span lang="en" className="text-[0.88rem] text-slate">{FORMAT[doc.kind]}</span>
               </span>
             </li>
           );

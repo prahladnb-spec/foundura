@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { EventCard } from "@/components/event-card";
-import { f } from "@/i18n";
+import { f, plural } from "@/i18n";
 import { useT } from "@/i18n/client";
 import { monthGrid, monthLabel, onDay } from "@/lib/calendar";
 import { fmtDate } from "@/lib/format";
@@ -35,20 +35,22 @@ export function EventsCalendar({ month, events, today, site }: { month: string; 
               if (!d) return <div key={di} role="gridcell" aria-hidden="true" className="min-h-14 bg-paper md:min-h-28" />;
               const list = events.filter((e) => onDay(e, d));
               const selected = day === d;
-              const label = f(ev.dayEvents, { date: fmtDate(d, false, lang), n: list.length });
+              // The button's name starts with the day number people see, then says the month and how many events.
+              const month = t.months[Number(d.slice(5, 7)) - 1];
+              const count = list.length ? f(plural(list.length, ev.dayOne, ev.dayMany), { month }) : f(ev.dayNone, { month });
               return (
                 <div key={d} role="gridcell" className="border-l border-rule first:border-l-0">
                   <button
                     type="button"
                     onClick={() => setDay(selected ? null : d)}
                     aria-pressed={selected}
-                    aria-label={label}
                     disabled={list.length === 0}
                     className={`flex h-full min-h-14 w-full flex-col items-stretch gap-1 p-1.5 text-left md:min-h-28 ${selected ? "bg-marigold-50 outline-2 -outline-offset-2 outline-neel-900" : list.length ? "hover:bg-neel-50" : ""}`}
                   >
                     <span className={`grid h-6 w-6 place-items-center rounded-full text-[0.85rem] ${d === today ? "bg-neel-900 font-semibold text-paper" : "text-neel-700"}`}>
                       {Number(d.slice(8))}
                     </span>
+                    <span className="sr-only"> {count}</span>
                     <span aria-hidden="true" className="flex flex-wrap gap-1 md:hidden">
                       {list.slice(0, 4).map((e) => (
                         <span key={e.slug} className={`h-2 w-2 rounded-full ${e.startDate ? "bg-neel-500" : "bg-marigold"}`} />

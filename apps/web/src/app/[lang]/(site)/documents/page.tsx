@@ -29,7 +29,7 @@ export default async function DocumentsHub({ params }: { params: Params }) {
 
       <section aria-labelledby="finder-h" className="mt-10 rounded-xl border-2 border-neel-900 p-6 md:p-8">
         <h2 id="finder-h" className="display mb-6 text-4xl">{d.finderTitle}</h2>
-        <DocumentsFinder />
+        <DocumentsFinder docs={Object.fromEntries(DOCS.map((x) => [x.slug, { title: x.title, titleHi: x.titleHi, kind: x.template.kind }]))} />
       </section>
 
       <h2 className="display mt-14 text-4xl">{d.all}</h2>
