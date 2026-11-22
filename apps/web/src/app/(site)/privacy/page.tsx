@@ -20,6 +20,8 @@ export default function PrivacyPage() {
         <li><strong>Scheme Scan answers:</strong> used for that one check and not stored.</li>
         <li><strong>Your email:</strong> to sign you in with a one-time code. We never ask for a password.</li>
         <li><strong>Your startup profile:</strong> only what you choose to fill in, to run scans and, if you allow it, to show a public profile.</li>
+        <li><strong>Investor profile and intro requests:</strong> if you list yourself as an investor or send or receive an intro, the profile and the messages. Email addresses are shared only when an intro is accepted.</li>
+        <li><strong>Scheme alerts:</strong> if you turn them on, a weekly email. We keep a note of which schemes each email mentioned, so the next one only shows what&apos;s new. Every email has a one-click unsubscribe.</li>
         <li><strong>Your consent choices:</strong> a dated record of what you agreed to, kept so you can see your history.</li>
       </ul>
 
@@ -33,7 +35,7 @@ export default function PrivacyPage() {
       <h2>Your controls</h2>
       <p>
         Signed in, open <Link href="/dashboard">My startup</Link> to change your consent choices, download everything we
-        hold about you as a file, or delete your account. Deleting removes your account, startup profiles and consent
+        hold about you as a file, or delete your account. Deleting removes your account, startup and investor profiles, intro requests, alert history and consent
         records.
       </p>
 

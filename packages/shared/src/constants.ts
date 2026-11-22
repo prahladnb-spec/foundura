@@ -106,7 +106,7 @@ export const CONSENT_PURPOSES = [
   {
     value: "scheme_alerts",
     label: "Scheme and deadline alerts",
-    description: "Email me when a scheme or deadline matches my startup profile.",
+    description: "A weekly email with schemes that match my startup, upcoming deadlines and the week's policy news. Unsubscribe any time.",
     required: false,
   },
   {

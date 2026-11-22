@@ -8,6 +8,7 @@ India's founder launchpad. Phase 1 MVP:
 - **Embeddable Scheme Scan**: partners paste one `<script>` tag (see `/partners`). Only `/embed/*` may be framed; the rest of the site sends `X-Frame-Options: DENY`.
 - **Editor console** (`/admin`): check schemes against their official source, edit rules with validation and a plain-language preview, verify or hide investors, write and publish articles with a live preview, import the tracker sheets, and see an audit log of every change.
 - **Email notifications**: investors hear about new intro requests and founders hear when one is accepted or declined. Emails carry only names and a link; details stay on Foundura.
+- **Weekly scheme alerts**: founders who turn on alerts get one email a week, and only when something is new for them: schemes they now qualify for, changes to their schemes, deadlines in the next two weeks, the week's policy news and new guides. One-click unsubscribe (including mail apps' built-in button) is recorded in the consent ledger.
 - **Events**, **Policy news** and **Founder guides**, fed from the tracker sheets and the daily content engine.
 - **Privacy by design** (DPDP Act 2023 / GDPR): consent ledger, self-service data export and account deletion, hashed sign-in codes, minimal data.
 
@@ -57,7 +58,7 @@ pnpm test
 
 - `packages/shared`: rules engine (three-valued logic, deep-tech extensions, sector matching).
 - `packages/shared`: also readiness scoring and match scoring.
-- `apps/api`: scheme catalogue sanity checks, plus end-to-end tests over HTTP against a real database: scan, sign-in with consent, profile, scan from profile, public profile privacy, consent withdrawal, data export, erasure, the editor console (access rules, rule validation, scheme check dates, article publishing, investor review, audit log, notification emails), and the full Investor Connect flow (readiness gate, matching, consent-gated visibility, duplicate and focus checks, accept reveals contacts, export and cascade on erasure).
+- `apps/api`: scheme catalogue sanity checks, plus end-to-end tests over HTTP against a real database: scan, sign-in with consent, profile, scan from profile, public profile privacy, consent withdrawal, data export, erasure, the editor console (access rules, rule validation, scheme check dates, article publishing, investor review, audit log, notification emails), weekly scheme alerts (opt-in only, once a week, nothing-new skip, updated schemes and deadlines, unsubscribe and export) and the full Investor Connect flow (readiness gate, matching, consent-gated visibility, duplicate and focus checks, accept reveals contacts, export and cascade on erasure).
 
 ## How schemes work
 
@@ -70,6 +71,10 @@ Each scheme has a JSON rule tree (`all` / `any` / fact conditions with plain-lan
 Add editor emails to `ADMIN_EMAILS` (comma-separated), then sign in at `/signin` as usual and open `/admin`. Everyone else gets a 403. Scripts, such as the scheduled sheet imports, can use the `x-admin-key` header instead. Every change goes into `audit_log` with the editor's user id (set to null if that account is deleted), never their email.
 
 Rules are validated by `conditionSchema` in `@foundura/shared`, which only accepts facts in `FACT_KEYS` (the answers the Scheme Scan collects). The seed test checks that every seeded scheme passes the same validation.
+
+## Weekly scheme alerts
+
+Set `DIGEST_AUTO_SEND=true` on the API server and it sends on Mondays from 8:00 India time. Editors can preview the email and send it by hand at `/admin/alerts`, and scripts can call `POST /v1/admin/digest/send` with the admin key. Running it twice is safe: each founder gets at most one email per week (`digest_sends` has one row per person per week, claimed before sending). That table keeps only which schemes the email mentioned, so the next one can say what's new; it's included in `/me/export` and deleted with the account.
 
 ## Importing from the tracker sheets
 
@@ -105,6 +110,8 @@ Rows are upserted, so re-importing is safe.
 | `GET /admin/investors`; `POST /admin/investors/:id/verify`, `/admin/investors/:id/listing` | Investor review |
 | `GET/POST /admin/articles`, `GET/PUT /admin/articles/:slug` | Articles and publishing |
 | `POST /admin/import/events`, `/admin/import/policy` | CSV import |
+| `GET /admin/digest/preview`; `POST /admin/digest/send` | Scheme alerts preview (editor's own profile or a sample) and send |
+| `POST /digest/unsubscribe` | One-click unsubscribe from a signed link |
 
 All `/admin` routes need a signed-in editor (`ADMIN_EMAILS`) or the `x-admin-key` header.
 

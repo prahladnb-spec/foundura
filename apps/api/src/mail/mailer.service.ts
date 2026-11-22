@@ -5,6 +5,7 @@ export interface Mail {
   to: string;
   subject: string;
   text: string;
+  headers?: Record<string, string>;
 }
 
 /**
@@ -17,6 +18,10 @@ export class MailerService {
   readonly outbox: Mail[] = [];
 
   constructor(@Inject(CONFIG) private readonly config: AppConfig) {}
+
+  get isDev() {
+    return this.config.OTP_DELIVERY === "dev";
+  }
 
   get siteUrl() {
     return this.config.SITE_URL.replace(/\/$/, "");
@@ -34,7 +39,13 @@ export class MailerService {
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: { Authorization: `Bearer ${this.config.RESEND_API_KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ from: this.config.OTP_FROM_EMAIL, to: mail.to, subject: mail.subject, text: mail.text }),
+      body: JSON.stringify({
+        from: this.config.OTP_FROM_EMAIL,
+        to: mail.to,
+        subject: mail.subject,
+        text: mail.text,
+        ...(mail.headers ? { headers: mail.headers } : {}),
+      }),
     });
     if (!res.ok) throw new Error(`Email send failed with status ${res.status}`);
   }

@@ -1,4 +1,5 @@
 import { AdminGuard } from "../admin/admin.guard";
+import { DigestService } from "../digest/digest.service";
 import { Body, Controller, Delete, Get, HttpCode, Inject, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import {
   introRequestSchema,
@@ -32,6 +33,7 @@ export class MeController {
     @Inject(InvestorsService) private readonly investors: InvestorsService,
     @Inject(IntrosService) private readonly intros: IntrosService,
     @Inject(AdminGuard) private readonly adminGuard: AdminGuard,
+    @Inject(DigestService) private readonly digest: DigestService,
   ) {}
 
   @Get()
@@ -159,10 +161,11 @@ export class MeController {
       investorProfile: investor,
       introRequests: await this.intros.exportFor(user.id, investor),
       consentHistory: await this.consents.history(user.id),
+      schemeAlertsSent: await this.digest.exportFor(user.id),
     };
   }
 
-  /** Right to erasure: deletes the account; startups, investor profile, intros and consent rows cascade. */
+  /** Right to erasure: deletes the account; startups, investor profile, intros, consent rows and digest history cascade. */
   @Delete()
   @HttpCode(204)
   async deleteAccount(@CurrentUser() user: SessionUser) {

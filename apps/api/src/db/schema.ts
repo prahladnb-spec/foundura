@@ -12,6 +12,7 @@ import {
   pgTable,
   text,
   timestamp,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
 
 const id = () => text("id").primaryKey().$defaultFn(createId);
@@ -245,6 +246,26 @@ export const articles = pgTable("articles", {
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });
+
+// ---------- Weekly scheme alerts ----------
+
+/**
+ * One row per founder per week the digest went out. Keeps only what the next digest needs to
+ * say "new for you": scheme slugs and statuses, not the email body. Cascades on erasure.
+ */
+export const digestSends = pgTable(
+  "digest_sends",
+  {
+    id: id(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    weekOf: date("week_of").notNull(), // Monday, India time
+    schemes: jsonb("schemes").$type<{ slug: string; status: "eligible" | "maybe" }[]>().notNull(),
+    sentAt: createdAt(),
+  },
+  (t) => [uniqueIndex("digest_user_week_idx").on(t.userId, t.weekOf)],
+);
 
 // ---------- Admin audit log ----------
 

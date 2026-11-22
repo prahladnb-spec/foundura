@@ -8,6 +8,11 @@ const envSchema = z.object({
   ADMIN_API_KEY: z.string().min(12, "ADMIN_API_KEY must be at least 12 characters"),
   /** Comma-separated emails that may use the admin console after signing in. */
   ADMIN_EMAILS: z.string().default(""),
+  /** Send the weekly scheme-alerts digest automatically (Mondays from 8:00 India time). */
+  DIGEST_AUTO_SEND: z
+    .enum(["true", "false"])
+    .default("false")
+    .transform((v) => v === "true"),
   /** Public site URL, used in notification emails. */
   SITE_URL: z.string().url().default("http://localhost:3000"),
   OTP_DELIVERY: z.enum(["dev", "email"]).default("dev"),

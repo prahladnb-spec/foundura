@@ -99,3 +99,9 @@ export const setConsentSchema = z.object({
   purpose: consentPurposeSchema,
   granted: z.boolean(),
 });
+
+/** One-click unsubscribe link parameters (user id and HMAC token). */
+export const unsubscribeSchema = z.object({
+  u: z.string().min(1).max(64),
+  t: z.string().min(20).max(100),
+});

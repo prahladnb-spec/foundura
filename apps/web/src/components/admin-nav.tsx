@@ -8,6 +8,7 @@ const LINKS = [
   { href: "/admin/schemes", label: "Schemes" },
   { href: "/admin/investors", label: "Investors" },
   { href: "/admin/articles", label: "Articles" },
+  { href: "/admin/alerts", label: "Scheme alerts" },
   { href: "/admin/imports", label: "Imports" },
   { href: "/admin/audit", label: "Audit log" },
 ];

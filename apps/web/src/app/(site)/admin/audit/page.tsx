@@ -26,6 +26,7 @@ const ACTION_LABEL: Record<string, string> = {
   "article.publish": "Published article",
   "import.events": "Imported events",
   "import.policy": "Imported policy items",
+  "digest.send": "Sent weekly scheme alerts",
 };
 
 export const metadata = { title: "Audit log" };
@@ -49,6 +50,7 @@ export default async function AdminAudit() {
                 <span className="font-semibold">{ACTION_LABEL[r.action] ?? r.action}</span>{" "}
                 <span className="text-neel-700">{r.targetId}</span>
                 {typeof r.detail?.imported === "number" && <span className="text-slate"> ({r.detail.imported} rows)</span>}
+                {typeof r.detail?.sent === "number" && <span className="text-slate"> ({r.detail.sent} sent)</span>}
                 <span className="block text-[0.9rem] text-slate">
                   {r.actorLabel === "api-key" ? "Import key (scheduled task)" : r.actorId ? `Editor ${r.actorId.slice(0, 8)}` : "Deleted editor"}
                 </span>
