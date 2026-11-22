@@ -1,3 +1,4 @@
+import { PageIntro } from "@/components/art";
 import type { Metadata } from "next";
 import Link from "@/components/locale-link";
 import { GLOSSARY } from "@/glossary";
@@ -22,8 +23,10 @@ export default async function GlossaryPage({ params }: { params: Params }) {
   const [before, after] = d.more.split("{link}");
   return (
     <div className="mx-auto max-w-4xl px-5 pt-10">
-      <h1 className="display text-6xl md:text-7xl">{d.title}</h1>
-      <p className="mt-3 max-w-[62ch] text-lg text-neel-700">{d.lead}</p>
+      <PageIntro art="glossary">
+        <h1 className="display text-6xl md:text-7xl">{d.title}</h1>
+        <p className="mt-3 max-w-[62ch] text-lg text-neel-700">{d.lead}</p>
+      </PageIntro>
       <nav aria-label={d.jump} className="mt-6 flex flex-wrap gap-1.5">
         {letters.map((l) => (
           <a key={l} href={`#${l}`} lang="en" className="grid h-9 w-9 place-items-center rounded border border-rule bg-white font-semibold no-underline">{l}</a>

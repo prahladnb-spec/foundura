@@ -19,6 +19,9 @@
   --color-slate: #5b6478;
   --color-slate-50: #eef0f4;
   --color-rule: #d6dbea;
+  /* Illustration accents: manila file covers and red tape. Never for text. */
+  --color-manila: #e8cf8f;
+  --color-tape: #c94a36;
 
   --font-display: "Anek Latin Variable", "Anek Devanagari Variable", "Anek Latin", system-ui, sans-serif;
   --font-body: "Mukta", system-ui, sans-serif;
@@ -128,6 +131,120 @@ a[hreflang="hi-IN"] {
       opacity: 1;
       transform: scale(1) rotate(-3deg);
     }
+  }
+}
+
+/*
+ * Motion: at most one moment per page, and none for people who ask for less.
+ * Illustrations settle onto the page like a sheet put down on a desk.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .art-settle {
+    animation: art-settle 700ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
+  }
+  @keyframes art-settle {
+    from {
+      opacity: 0;
+      transform: translateY(-10px) rotate(-2.5deg);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/* Home hero: the example result lying in an open government file (components/hero-file.tsx). */
+.hero-file-under,
+.hero-file-cover {
+  position: absolute;
+  inset: 1.5rem 0 1.25rem;
+  border-radius: 12px;
+  pointer-events: none;
+  z-index: -1;
+}
+.hero-file-under {
+  background: var(--color-neel-50);
+  border: 3px solid var(--color-neel-900);
+  transform: rotate(2.5deg);
+}
+.hero-file-cover {
+  border: 3px solid var(--color-neel-900);
+  transform: rotate(-3deg);
+}
+/* The cover's colour sits a few pixels off its outline, like a printed form. */
+.hero-file-cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  translate: 7px 7px;
+  background: var(--color-manila);
+  border-radius: 12px;
+  z-index: -1;
+}
+.hero-file-tab {
+  position: absolute;
+  left: 1.5rem;
+  top: -2.6rem;
+  width: 9rem;
+  height: 2.6rem;
+}
+.hero-file-tie {
+  position: absolute;
+  left: -2.2rem;
+  top: 50%;
+  translate: 0 -50%;
+  width: 3.4rem;
+}
+.hero-chai {
+  position: absolute;
+  right: -0.75rem;
+  bottom: -0.5rem;
+  width: 4.5rem;
+}
+.hero-stamp-mark {
+  position: absolute;
+  right: 3.5rem;
+  bottom: 0.5rem;
+  width: 6.5rem;
+  rotate: -12deg;
+  opacity: 0.9;
+}
+.hero-stamp-tool {
+  position: absolute;
+  right: -1.25rem;
+  top: -1.5rem;
+  width: 6.5rem;
+  rotate: 16deg;
+}
+@media (max-width: 639px) {
+  .hero-file-tie,
+  .hero-chai,
+  .hero-stamp-tool {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* The one moment on the home page: the stamp comes down and lifts, and the results get stamped. */
+  .hero-stamp-tool {
+    animation: stamp-press 900ms cubic-bezier(0.5, 0, 0.3, 1) 100ms both;
+  }
+  @keyframes stamp-press {
+    0% {
+      translate: 0 -14px;
+    }
+    40% {
+      translate: -10px 26px;
+    }
+    55% {
+      translate: -10px 26px;
+    }
+    100% {
+      translate: 0 0;
+    }
+  }
+  .hero-stamp-mark {
+    animation: stamp-in 380ms cubic-bezier(0.2, 1.4, 0.4, 1) 500ms both;
   }
 }
 

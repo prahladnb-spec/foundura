@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 280" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <style>@media (prefers-reduced-motion: no-preference) { .steam { animation: steam 3.2s ease-in-out infinite; } } @keyframes steam { 0%, 100% { transform: translateY(0); opacity: .7; } 50% { transform: translateY(-5px); opacity: .25; } }</style>
+
+  <!-- spiral notebook -->
+  <g transform="translate(64 40) rotate(-4)">
+    <rect x="0" y="0" width="190" height="220" rx="8" fill="#e4e7f6" transform="translate(6 6)"/>
+    <rect x="0" y="0" width="190" height="220" rx="8" fill="#fff" stroke="#141b47" stroke-width="3"/>
+    <g stroke="#141b47" stroke-width="3">
+      <path d="M24 -8 v18 M50 -8 v18 M76 -8 v18 M102 -8 v18 M128 -8 v18 M154 -8 v18"/>
+    </g>
+    <path d="M14 40 h164 M14 64 h164 M14 88 h164 M14 112 h164 M14 136 h164 M14 160 h164 M14 184 h164" stroke="#3b4aa3" stroke-width="1.6" opacity=".35"/>
+    <!-- sketch: problem → idea → customers -->
+    <circle cx="44" cy="76" r="18" stroke="#c94a36" stroke-width="3"/>
+    <path d="M36 76 h16 M44 68 v16" stroke="#c94a36" stroke-width="3" transform="rotate(45 44 76)"/>
+    <path d="M70 76 h28" stroke="#141b47" stroke-width="3"/>
+    <path d="M92 70 l6 6 l-6 6" stroke="#141b47" stroke-width="3"/>
+    <path d="M124 58 a18 18 0 1 1 14 30 v8 h-14 v-8 a18 18 0 0 1 0 -30z" fill="#fff6dc" stroke="#141b47" stroke-width="3" transform="translate(-6 0)"/>
+    <path d="M120 102 h12" stroke="#141b47" stroke-width="3"/>
+    <path d="M126 112 v24" stroke="#141b47" stroke-width="3" stroke-dasharray="1 7"/>
+    <circle cx="108" cy="164" r="9" stroke="#1e7a4e" stroke-width="3"/>
+    <circle cx="130" cy="164" r="9" fill="#e3f3ea" stroke="#1e7a4e" stroke-width="3"/>
+    <circle cx="152" cy="164" r="9" stroke="#1e7a4e" stroke-width="3"/>
+    <path d="M26 164 h56" stroke="#141b47" stroke-width="3" opacity=".45"/>
+  </g>
+  <!-- pencil -->
+  <g transform="translate(266 70) rotate(18)">
+    <rect x="0" y="0" width="18" height="120" fill="#f2a900" stroke="#141b47" stroke-width="3"/>
+    <path d="M0 120 l9 22 l9 -22z" fill="#fff6dc" stroke="#141b47" stroke-width="3"/>
+    <path d="M6 134 l3 8 l3 -8z" fill="#141b47"/>
+  </g>
+  <!-- chai -->
+  <g transform="translate(278 196)">
+    <path d="M2 4 L8 60 h34 l6 -56z" fill="#fff6dc" stroke="#141b47" stroke-width="3"/>
+    <path d="M5 22 L8 60 h34 l4 -38z" fill="#c98a3d"/>
+    <path d="M2 4 L8 60 h34 l6 -56z" stroke="#141b47" stroke-width="3"/>
+    <path class="steam" d="M18 -4 c -5 -7 5 -10 0 -18 M32 -4 c -5 -7 5 -10 0 -18" stroke="#3b4aa3" stroke-width="2.5" opacity=".7"/>
+  </g>
+</svg>

@@ -1,3 +1,4 @@
+import { PageIntro } from "@/components/art";
 import type { Metadata } from "next";
 import Link from "@/components/locale-link";
 import { type Dict, f, getDict, lab } from "@/i18n";
@@ -48,11 +49,13 @@ export default async function SchemesPage({ params }: { params: Params }) {
 
   return (
     <div className="mx-auto max-w-5xl px-5 pt-10">
-      <h1 className="display text-6xl md:text-7xl">{t.schemes.title}</h1>
-      <p className="mt-3 max-w-[60ch] text-lg text-neel-700">
-        {f(before, { n: schemes.length })}<Link href="/scan" className="underline text-neel-500">{t.schemes.runScan}</Link>{after}
-      </p>
-      {fellBack && t.common.someSchemesInEnglish && <p className="mt-2 text-[0.92rem] text-slate">{t.common.someSchemesInEnglish}</p>}
+      <PageIntro art="schemes">
+        <h1 className="display text-6xl md:text-7xl">{t.schemes.title}</h1>
+        <p className="mt-3 max-w-[60ch] text-lg text-neel-700">
+          {f(before, { n: schemes.length })}<Link href="/scan" className="underline text-neel-500">{t.schemes.runScan}</Link>{after}
+        </p>
+        {fellBack && t.common.someSchemesInEnglish && <p className="mt-2 text-[0.92rem] text-slate">{t.common.someSchemesInEnglish}</p>}
+      </PageIntro>
       <h2 className="display mt-10 mb-3 text-4xl">{t.schemes.central}</h2>
       <List items={national} t={t} lang={lang} />
       {states.map((code) => (

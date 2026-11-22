@@ -1,3 +1,4 @@
+import { PageIntro } from "@/components/art";
 import type { Metadata } from "next";
 import { ScanForm } from "@/components/scan-form";
 import { getDict } from "@/i18n";
@@ -16,8 +17,10 @@ export default async function ScanPage({ params, searchParams }: { params: Param
   const t = getDict(isLang(lang) ? lang : "en");
   return (
     <div className="mx-auto max-w-5xl px-5 pt-10">
-      <h1 className="display text-6xl md:text-7xl">{t.scan.title}</h1>
-      <p className="mt-3 mb-10 max-w-[60ch] text-lg text-neel-700">{t.scan.lead}</p>
+      <PageIntro art="scan">
+        <h1 className="display text-6xl md:text-7xl">{t.scan.title}</h1>
+        <p className="mt-3 mb-10 max-w-[60ch] text-lg text-neel-700">{t.scan.lead}</p>
+      </PageIntro>
       <ScanForm initial={{ state: sp.state, entityType: sp.entityType, stage: sp.stage, sector: sp.sector }} />
     </div>
   );

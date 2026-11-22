@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 280" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <!-- open register -->
+  <g transform="translate(28 66)">
+    <path d="M150 20 C 110 4, 50 4, 6 18 V188 C 50 174, 110 174, 150 190z" fill="#e4e7f6" transform="translate(6 6)"/>
+    <path d="M150 20 C 190 4, 250 4, 294 18 V188 C 250 174, 190 174, 150 190z" fill="#e4e7f6" transform="translate(6 6)"/>
+    <path d="M150 20 C 110 4, 50 4, 6 18 V188 C 50 174, 110 174, 150 190z" fill="#fff" stroke="#141b47" stroke-width="3"/>
+    <path d="M150 20 C 190 4, 250 4, 294 18 V188 C 250 174, 190 174, 150 190z" fill="#fff" stroke="#141b47" stroke-width="3"/>
+    <!-- ledger rules: left page -->
+    <path d="M24 46 C 60 38, 110 38, 136 46 M24 74 C 60 66, 110 66, 136 74 M24 102 C 60 94, 110 94, 136 102 M24 130 C 60 122, 110 122, 136 130 M24 158 C 60 150, 110 150, 136 158" stroke="#3b4aa3" stroke-width="1.8" opacity=".45"/>
+    <path d="M44 36 V168" stroke="#c94a36" stroke-width="2" opacity=".7"/>
+    <path d="M54 58 h44 M54 86 h60 M54 114 h36 M54 142 h52" stroke="#141b47" stroke-width="3" opacity=".55"/>
+    <!-- right page: ticks and amounts -->
+    <path d="M164 46 C 200 38, 250 38, 278 46 M164 74 C 200 66, 250 66, 278 74 M164 102 C 200 94, 250 94, 278 102 M164 130 C 200 122, 250 122, 278 130 M164 158 C 200 150, 250 150, 278 158" stroke="#3b4aa3" stroke-width="1.8" opacity=".45"/>
+    <path d="M178 54 l6 6 l12 -12 M178 82 l6 6 l12 -12" stroke="#1e7a4e" stroke-width="3.5"/>
+    <path d="M206 58 h48 M206 86 h36 M184 114 h70 M184 142 h40" stroke="#141b47" stroke-width="3" opacity=".55"/>
+    <!-- ribbon bookmark -->
+    <path d="M232 8 v44 l10 -9 l10 9 v-48" fill="#c94a36" stroke="#141b47" stroke-width="2.5"/>
+  </g>
+  <!-- coin stack -->
+  <g transform="translate(276 176)">
+    <ellipse cx="34" cy="72" rx="32" ry="10" fill="#f2a900" stroke="#141b47" stroke-width="3"/>
+    <path d="M2 72 v-12 M66 72 v-12" stroke="#141b47" stroke-width="3"/>
+    <ellipse cx="34" cy="60" rx="32" ry="10" fill="#f2a900" stroke="#141b47" stroke-width="3"/>
+    <path d="M2 60 v-12 M66 60 v-12" stroke="#141b47" stroke-width="3"/>
+    <ellipse cx="34" cy="48" rx="32" ry="10" fill="#ffd25a" stroke="#141b47" stroke-width="3"/>
+    <path d="M26 42 h16 M26 47 h16 M30 42 c 12 0 12 10 0 10 l12 8" stroke="#8a5a00" stroke-width="2.4"/>
+  </g>
+</svg>

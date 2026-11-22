@@ -1,3 +1,4 @@
+import { Art, PageIntro } from "@/components/art";
 import type { Metadata } from "next";
 import Link from "@/components/locale-link";
 import { INDIAN_STATES, LOOKING_FOR, SECTORS, STAGES } from "@foundura/shared";
@@ -49,8 +50,10 @@ export default async function StartupsPage({ params, searchParams }: { params: P
 
   return (
     <div className="mx-auto max-w-6xl px-5 pt-10">
-      <h1 className="display text-6xl md:text-7xl">{d.title}</h1>
-      <p className="mt-3 max-w-[62ch] text-lg text-neel-700">{d.lead}</p>
+      <PageIntro art="showcase">
+        <h1 className="display text-6xl md:text-7xl">{d.title}</h1>
+        <p className="mt-3 max-w-[62ch] text-lg text-neel-700">{d.lead}</p>
+      </PageIntro>
 
       <form className="mt-6 flex flex-wrap items-end gap-3" method="get">
         {filter("sector", d.sector, d.allSectors, SECTORS, (v) => String(lab(t.labels.sector, v)))}
@@ -85,7 +88,8 @@ export default async function StartupsPage({ params, searchParams }: { params: P
           </li>
         ))}
         {startups.length === 0 && (
-          <li className="py-8 md:col-span-2">
+          <li className="py-8 text-center md:col-span-2">
+            <Art name="empty" className="mx-auto mb-2 w-[220px]" />
             <p className="text-lg">{d.empty}</p>
             <p className="mt-1 text-slate">
               {before}

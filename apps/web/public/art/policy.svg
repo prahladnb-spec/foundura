@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 280" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <!-- folded gazette -->
+  <g transform="translate(46 44) rotate(-3)">
+    <path d="M0 10 h220 v190 a20 20 0 0 1 -20 20 H0z" fill="#e4e7f6" transform="translate(6 6)"/>
+    <path d="M0 10 h220 v190 a20 20 0 0 1 -20 20 H0z" fill="#fff" stroke="#141b47" stroke-width="3"/>
+    <path d="M220 60 h30 v140 a20 20 0 0 1 -40 0" fill="#f1f3fb" stroke="#141b47" stroke-width="3"/>
+    <!-- masthead with emblem-like roundel (abstract, not a real emblem) -->
+    <rect x="16" y="24" width="188" height="34" fill="#141b47"/>
+    <path d="M40 41 h96" stroke="#f7f8fc" stroke-width="5"/>
+    <circle cx="182" cy="41" r="10" stroke="#f2a900" stroke-width="3"/>
+    <!-- columns -->
+    <rect x="16" y="72" width="86" height="56" fill="#fff6dc" stroke="#141b47" stroke-width="2.5"/>
+    <path d="M28 112 l18 -20 l14 12 l12 -8 l18 16" stroke="#8a5a00" stroke-width="2.5"/>
+    <path d="M116 78 h88 M116 92 h70 M116 106 h88 M116 120 h56" stroke="#141b47" stroke-width="2.5" opacity=".5"/>
+    <path d="M16 146 h188 M16 160 h170 M16 174 h188 M16 188 h120" stroke="#141b47" stroke-width="2.5" opacity=".5"/>
+  </g>
+  <!-- highlighter mark -->
+  <g transform="translate(250 30) rotate(30)">
+    <rect x="0" y="0" width="26" height="100" rx="6" fill="#f2a900" stroke="#141b47" stroke-width="3"/>
+    <path d="M4 100 h18 l-4 18 h-10z" fill="#fff6dc" stroke="#141b47" stroke-width="3"/>
+    <rect x="0" y="0" width="26" height="30" rx="6" fill="#141b47"/>
+  </g>
+  <path d="M70 233 h120" stroke="#f2a900" stroke-width="12" opacity=".55"/>
+  <!-- new! burst -->
+  <g transform="translate(292 212)">
+    <path d="M0 -34 l9 18 l20 -6 l-6 20 l18 10 l-18 10 l6 20 l-20 -6 l-9 18 l-9 -18 l-20 6 l6 -20 l-18 -10 l18 -10 l-6 -20 l20 6z" fill="#c94a36" stroke="#141b47" stroke-width="3"/>
+    <circle cx="0" cy="2" r="7" fill="#fff"/>
+  </g>
+</svg>

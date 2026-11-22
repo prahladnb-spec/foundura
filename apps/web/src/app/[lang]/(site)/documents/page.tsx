@@ -1,3 +1,4 @@
+import { PageIntro } from "@/components/art";
 import type { Metadata } from "next";
 import { DocumentsFinder } from "@/components/documents-finder";
 import Link from "@/components/locale-link";
@@ -23,9 +24,11 @@ export default async function DocumentsHub({ params }: { params: Params }) {
   const d = getDict(lang).documents;
   return (
     <div className="mx-auto max-w-6xl px-5 pt-10">
-      <h1 className="display text-6xl md:text-7xl">{d.title}</h1>
-      <p className="mt-3 max-w-[64ch] text-lg text-neel-700">{d.lead}</p>
-      <p className="mt-2 text-slate">{f(d.count, { n: DOCS.length })} {d.free}</p>
+      <PageIntro art="documents">
+        <h1 className="display text-6xl md:text-7xl">{d.title}</h1>
+        <p className="mt-3 max-w-[64ch] text-lg text-neel-700">{d.lead}</p>
+        <p className="mt-2 text-slate">{f(d.count, { n: DOCS.length })} {d.free}</p>
+      </PageIntro>
 
       <section aria-labelledby="finder-h" className="mt-10 rounded-xl border-2 border-neel-900 p-6 md:p-8">
         <h2 id="finder-h" className="display mb-6 text-4xl">{d.finderTitle}</h2>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 130" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <style>@media (prefers-reduced-motion: no-preference) { .steam { animation: steam 3.2s ease-in-out infinite; } } @keyframes steam { 0%, 100% { transform: translateY(0); opacity: .7; } 50% { transform: translateY(-5px); opacity: .25; } }</style>
+  <ellipse cx="44" cy="122" rx="38" ry="7" fill="#141b47" opacity=".12"/>
+  <path d="M12 46 L20 116 h44 l8 -70z" fill="#fff6dc" transform="translate(5 4)"/>
+  <path d="M14 64 L20 116 h44 l6 -52z" fill="#c98a3d"/>
+  <path d="M12 46 L20 116 h44 l8 -70z" stroke="#141b47" stroke-width="3"/>
+  <path d="M16 76 h52 M18 96 h48" stroke="#141b47" stroke-width="2" opacity=".45"/>
+  <path class="steam" d="M32 34 c -6 -8 6 -12 0 -22 M50 34 c -6 -8 6 -12 0 -22" stroke="#3b4aa3" stroke-width="2.5" opacity=".7"/>
+</svg>

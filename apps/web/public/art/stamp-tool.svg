@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 210" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <!-- wooden handle -->
+  <path d="M56 14 c0 -10 48 -10 48 0 c 0 18 -10 22 -12 40 c -1 12 8 18 8 30 h-40 c0 -12 9 -18 8 -30 c-2 -18 -12 -22 -12 -40z" fill="#c98a3d" transform="translate(5 5)"/>
+  <path d="M56 14 c0 -10 48 -10 48 0 c 0 18 -10 22 -12 40 c -1 12 8 18 8 30 h-40 c0 -12 9 -18 8 -30 c-2 -18 -12 -22 -12 -40z" stroke="#141b47" stroke-width="3"/>
+  <path d="M70 20 c4 14 2 24 -2 36" stroke="#fff6dc" stroke-width="3" opacity=".8"/>
+  <!-- collar -->
+  <rect x="44" y="84" width="72" height="18" rx="5" fill="#f2a900"/>
+  <rect x="44" y="84" width="72" height="18" rx="5" stroke="#141b47" stroke-width="3"/>
+  <!-- block and rubber -->
+  <rect x="24" y="102" width="112" height="40" rx="6" fill="#3b4aa3"/>
+  <rect x="24" y="102" width="112" height="40" rx="6" stroke="#141b47" stroke-width="3"/>
+  <rect x="30" y="142" width="100" height="10" rx="2" fill="#1e7a4e" stroke="#141b47" stroke-width="3"/>
+</svg>

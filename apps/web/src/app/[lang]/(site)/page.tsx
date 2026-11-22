@@ -3,6 +3,7 @@ import Link from "@/components/locale-link";
 import { ENTITY_TYPES, INDIAN_STATES, STAGES } from "@foundura/shared";
 import { f, getDict, lab } from "@/i18n";
 import { INTL_LOCALE, isLang, lp } from "@/i18n/config";
+import { HeroFile } from "@/components/hero-file";
 import { Stamp } from "@/components/stamp";
 import { apiOr } from "@/lib/api";
 import { fmtDate, fmtRange } from "@/lib/format";
@@ -81,7 +82,8 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
           </form>
         </div>
 
-        <figure aria-label={h.exampleLabel} className="rounded-xl border-2 border-neel-900 bg-white p-6 shadow-[6px_6px_0_var(--color-neel-900)]">
+        <HeroFile>
+        <figure aria-label={h.exampleLabel} className="rotate-[1deg] rounded-xl border-2 border-neel-900 bg-white p-6 shadow-[6px_6px_0_var(--color-neel-900)]">
           <figcaption className="text-[0.92rem] text-slate">
             {h.exampleCaption}
           </figcaption>
@@ -99,6 +101,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
             ))}
           </ul>
         </figure>
+        </HeroFile>
       </section>
 
       <section className="bg-neel-900 text-paper">

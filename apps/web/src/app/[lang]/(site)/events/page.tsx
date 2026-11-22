@@ -1,3 +1,4 @@
+import { PageIntro } from "@/components/art";
 import type { Metadata } from "next";
 import { EVENT_FORMATS, EVENT_REGIONS } from "@foundura/shared";
 import { EventCard } from "@/components/event-card";
@@ -97,9 +98,11 @@ export default async function EventsPage({ params, searchParams }: { params: Par
             ...(e.bestFor ? { description: `Best for ${e.bestFor.toLowerCase()}` } : {}),
           }))}
       />
-      <h1 className="display text-6xl md:text-7xl">{ev.title}</h1>
-      <p className="mt-3 max-w-[64ch] text-lg text-neel-700">{ev.lead}</p>
-      {t.common.contentInEnglish && <p className="mt-2 text-[0.92rem] text-slate">{t.common.contentInEnglish}</p>}
+      <PageIntro art="events">
+        <h1 className="display text-6xl md:text-7xl">{ev.title}</h1>
+        <p className="mt-3 max-w-[64ch] text-lg text-neel-700">{ev.lead}</p>
+        {t.common.contentInEnglish && <p className="mt-2 text-[0.92rem] text-slate">{t.common.contentInEnglish}</p>}
+      </PageIntro>
 
       <div className="mt-6 flex flex-wrap items-end justify-between gap-4">
         <nav aria-label={ev.view} className="flex gap-2">

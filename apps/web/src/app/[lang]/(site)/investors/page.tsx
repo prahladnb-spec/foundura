@@ -1,3 +1,4 @@
+import { Art, PageIntro } from "@/components/art";
 import type { Metadata } from "next";
 import Link from "@/components/locale-link";
 import { SECTORS, STAGES } from "@foundura/shared";
@@ -33,8 +34,10 @@ export default async function InvestorsPage({ params, searchParams }: { params: 
 
   return (
     <div className="mx-auto max-w-5xl px-5 pt-10">
-      <h1 className="display text-6xl md:text-7xl">{iv.title}</h1>
-      <p className="mt-3 max-w-[62ch] text-lg text-neel-700">{iv.lead}</p>
+      <PageIntro art="investors">
+        <h1 className="display text-6xl md:text-7xl">{iv.title}</h1>
+        <p className="mt-3 max-w-[62ch] text-lg text-neel-700">{iv.lead}</p>
+      </PageIntro>
       <form className="mt-6 flex flex-wrap items-end gap-3" method="get">
         <label>
           <span className="block text-[0.9rem] font-semibold mb-1">{iv.sector}</span>
@@ -81,7 +84,8 @@ export default async function InvestorsPage({ params, searchParams }: { params: 
           </li>
         ))}
         {list.length === 0 && (
-          <li className="py-8">
+          <li className="py-8 text-center">
+            <Art name="empty" className="mx-auto mb-2 w-[220px]" />
             <p className="text-lg">{iv.empty}</p>
             <p className="mt-1 text-slate">
               {before}<Link href="/signin" className="underline text-neel-500">{iv.listFree}</Link>{after}

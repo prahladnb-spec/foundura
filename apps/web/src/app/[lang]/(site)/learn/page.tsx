@@ -1,3 +1,4 @@
+import { PageIntro } from "@/components/art";
 import type { Metadata } from "next";
 import Link from "@/components/locale-link";
 import { apiOr } from "@/lib/api";
@@ -24,9 +25,11 @@ export default async function LearnPage({ params }: { params: Params }) {
   const articles = await apiOr<ArticleSummary[]>("/articles", []);
   return (
     <div className="mx-auto max-w-4xl px-5 pt-10">
-      <h1 className="display text-6xl md:text-7xl">{t.learn.title}</h1>
-      <p className="mt-3 max-w-[60ch] text-lg text-neel-700">{t.learn.lead}</p>
-      {t.common.contentInEnglish && <p className="mt-2 text-[0.92rem] text-slate">{t.common.contentInEnglish}</p>}
+      <PageIntro art="learn">
+        <h1 className="display text-6xl md:text-7xl">{t.learn.title}</h1>
+        <p className="mt-3 max-w-[60ch] text-lg text-neel-700">{t.learn.lead}</p>
+        {t.common.contentInEnglish && <p className="mt-2 text-[0.92rem] text-slate">{t.common.contentInEnglish}</p>}
+      </PageIntro>
       <ul className="mt-8 border-t-2 border-neel-900">
         {articles.map((a) => (
           <li key={a.slug} className="border-b border-rule py-6">

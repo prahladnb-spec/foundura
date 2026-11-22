@@ -1,3 +1,4 @@
+import { PageIntro } from "@/components/art";
 import type { Metadata } from "next";
 import { apiOr } from "@/lib/api";
 import { f, getDict } from "@/i18n";
@@ -23,9 +24,11 @@ export default async function PolicyPage({ params }: { params: Params }) {
   const items = await apiOr<PolicyItem[]>("/policy", []);
   return (
     <div className="mx-auto max-w-4xl px-5 pt-10">
-      <h1 className="display text-6xl md:text-7xl">{t.policy.title}</h1>
-      <p className="mt-3 max-w-[60ch] text-lg text-neel-700">{t.policy.lead}</p>
-      {t.common.contentInEnglish && <p className="mt-2 text-[0.92rem] text-slate">{t.common.contentInEnglish}</p>}
+      <PageIntro art="policy">
+        <h1 className="display text-6xl md:text-7xl">{t.policy.title}</h1>
+        <p className="mt-3 max-w-[60ch] text-lg text-neel-700">{t.policy.lead}</p>
+        {t.common.contentInEnglish && <p className="mt-2 text-[0.92rem] text-slate">{t.common.contentInEnglish}</p>}
+      </PageIntro>
       <ol className="mt-8 border-t-2 border-neel-900">
         {items.map((p) => (
           <li key={p.slug} className="border-b border-rule py-6">
