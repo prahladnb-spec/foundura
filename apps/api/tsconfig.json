@@ -10,5 +10,5 @@
     "strictPropertyInitialization": false,
     "declaration": false
   },
-  "include": ["src", "prisma", "test"]
+  "include": ["src", "db", "test"]
 }

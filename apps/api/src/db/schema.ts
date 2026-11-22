@@ -1,0 +1,192 @@
+// Foundura data model — Phase 1.
+// Personal data is kept to what each feature needs (DPDP Act 2023 / GDPR data minimisation).
+
+import { createId } from "./id";
+import {
+  boolean,
+  date,
+  doublePrecision,
+  index,
+  integer,
+  jsonb,
+  pgTable,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
+
+const id = () => text("id").primaryKey().$defaultFn(createId);
+const createdAt = () => timestamp("created_at", { withTimezone: true }).notNull().defaultNow();
+const updatedAt = () =>
+  timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date());
+
+// ---------- People, sign-in, consent ----------
+
+export const users = pgTable("users", {
+  id: id(),
+  email: text("email").notNull().unique(),
+  createdAt: createdAt(),
+  lastSeenAt: timestamp("last_seen_at", { withTimezone: true }),
+});
+
+/** One-time sign-in codes. Only a hash is stored; rows expire after 10 minutes. */
+export const otpCodes = pgTable(
+  "otp_codes",
+  {
+    id: id(),
+    email: text("email").notNull(),
+    codeHash: text("code_hash").notNull(),
+    attempts: integer("attempts").notNull().default(0),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    createdAt: createdAt(),
+  },
+  (t) => [index("otp_codes_email_idx").on(t.email)],
+);
+
+/** Consent ledger: one row per decision, never edited, so history can be shown on request. */
+export const consents = pgTable(
+  "consents",
+  {
+    id: id(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    purpose: text("purpose").notNull(),
+    granted: boolean("granted").notNull(),
+    noticeVersion: text("notice_version").notNull(),
+    createdAt: createdAt(),
+  },
+  (t) => [index("consents_user_purpose_idx").on(t.userId, t.purpose, t.createdAt)],
+);
+
+// ---------- Startup profile ("Startup Passport" v1) ----------
+
+export const startups = pgTable(
+  "startups",
+  {
+    id: id(),
+    ownerId: text("owner_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    name: text("name").notNull(),
+    slug: text("slug").notNull().unique(),
+    oneLiner: text("one_liner"),
+    description: text("description"),
+    website: text("website"),
+    isPublic: boolean("is_public").notNull().default(false),
+    entityType: text("entity_type"),
+    incorporationDate: date("incorporation_date"),
+    turnoverInrCr: doublePrecision("turnover_inr_cr"),
+    dpiitRecognised: boolean("dpiit_recognised"),
+    state: text("state"),
+    sectors: text("sectors").array().notNull().default([]),
+    stage: text("stage"),
+    isDeepTech: boolean("is_deep_tech"),
+    womenLed: boolean("women_led"),
+    govtSupportReceivedInrLakh: doublePrecision("govt_support_received_inr_lakh"),
+    indianPromoterSharePct: doublePrecision("indian_promoter_share_pct"),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [index("startups_owner_idx").on(t.ownerId)],
+);
+
+// ---------- Schemes ----------
+
+export const schemes = pgTable("schemes", {
+  id: id(),
+  slug: text("slug").notNull().unique(),
+  name: text("name").notNull(),
+  issuer: text("issuer").notNull(),
+  level: text("level").notNull(), // national | state
+  state: text("state"),
+  category: text("category").notNull(),
+  summary: text("summary").notNull(),
+  benefits: text("benefits").array().notNull().default([]),
+  howToApply: text("how_to_apply").array().notNull().default([]),
+  /** Eligibility rule tree (Condition in @foundura/shared). Decides eligibility deterministically. */
+  rule: jsonb("rule").notNull(),
+  /** Conditions the scan cannot check; shown as "also check". */
+  alsoCheck: text("also_check").array().notNull().default([]),
+  status: text("status").notNull().default("open"), // open | rolling | closed | indirect
+  statusNote: text("status_note"),
+  sourceUrl: text("source_url").notNull(),
+  sourceName: text("source_name").notNull(),
+  /** Editor sign-off date. Null = still needs a check against the official source. */
+  lastVerifiedAt: date("last_verified_at"),
+  createdAt: createdAt(),
+  updatedAt: updatedAt(),
+});
+
+// ---------- Events and policy news ----------
+
+export const events = pgTable(
+  "events",
+  {
+    id: id(),
+    slug: text("slug").notNull().unique(),
+    name: text("name").notNull(),
+    startDate: date("start_date"),
+    endDate: date("end_date"),
+    city: text("city"),
+    country: text("country").notNull(),
+    scope: text("scope").notNull(), // India | Global
+    type: text("type").notNull(),
+    status: text("status").notNull(),
+    deadline: date("deadline"),
+    bestFor: text("best_for"),
+    notes: text("notes"),
+    sourceUrl: text("source_url"),
+    sourceName: text("source_name"),
+    lastChecked: date("last_checked"),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [index("events_start_idx").on(t.startDate)],
+);
+
+export const policyItems = pgTable(
+  "policy_items",
+  {
+    id: id(),
+    slug: text("slug").notNull().unique(),
+    date: date("date").notNull(),
+    headline: text("headline").notNull(),
+    country: text("country").notNull(),
+    level: text("level").notNull(),
+    instrument: text("instrument").notNull(),
+    stage: text("stage").notNull(),
+    impact: text("impact").notNull(), // High | Medium | Low
+    amount: text("amount"),
+    takeaway: text("takeaway").notNull(),
+    sourceUrl: text("source_url").notNull(),
+    sourceName: text("source_name").notNull(),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [index("policy_date_idx").on(t.date)],
+);
+
+// ---------- Articles ----------
+
+export const articles = pgTable("articles", {
+  id: id(),
+  slug: text("slug").notNull().unique(),
+  title: text("title").notNull(),
+  theme: text("theme").notNull(),
+  excerpt: text("excerpt").notNull(),
+  /** Markdown body */
+  body: text("body").notNull(),
+  readMinutes: integer("read_minutes").notNull(),
+  publishedAt: date("published_at"),
+  createdAt: createdAt(),
+  updatedAt: updatedAt(),
+});
+
+export type Scheme = typeof schemes.$inferSelect;
+export type Startup = typeof startups.$inferSelect;
+export type EventRow = typeof events.$inferSelect;
+export type PolicyItem = typeof policyItems.$inferSelect;
+export type Article = typeof articles.$inferSelect;
