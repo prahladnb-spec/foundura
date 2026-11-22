@@ -470,7 +470,7 @@ export const hi: Dict = {
       state: "राज्य पहले से चुनें, जैसे KA। कोड: {codes}, आदि।",
       stage: "चरण पहले से चुनें: idea, prototype, early_revenue या growth।",
       entity: "पंजीकरण का प्रकार पहले से चुनें, जैसे private_limited।",
-      lang: "विजेट दूसरी भाषा में दिखाएँ: hi (हिन्दी), es, de, ar या he।",
+      lang: "विजेट दूसरी भाषा में उसके कोड से दिखाएँ: hi (हिन्दी), mr, kn, ta, te, gu, bn, es, de, fr, pt, ar, he, ja।",
       width: "अधिकतम चौड़ाई पिक्सेल में (डिफ़ॉल्ट 960)।",
     },
     get: "आपके संस्थापकों को क्या मिलता है",

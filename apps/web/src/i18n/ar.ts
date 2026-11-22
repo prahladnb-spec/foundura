@@ -470,7 +470,7 @@ export const ar: Dict = {
       state: "اختر ولاية مسبقًا، مثلًا KA. الرموز: {codes}، وهكذا.",
       stage: "اختر مرحلة مسبقًا: idea أو prototype أو early_revenue أو growth.",
       entity: "اختر شكلًا قانونيًا مسبقًا، مثلًا private_limited.",
-      lang: "اعرض الأداة بلغة أخرى: hi (الهندية) أو es أو de أو ar أو he.",
+      lang: "اعرض الأداة بلغة أخرى حسب رمزها: hi (الهندية)، mr, kn, ta, te, gu, bn, es, de, fr, pt, ar, he, ja.",
       width: "أقصى عرض بالبكسل (الافتراضي 960).",
     },
     get: "ما يحصل عليه مؤسسوك",

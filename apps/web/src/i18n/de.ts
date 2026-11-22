@@ -470,7 +470,7 @@ export const de: Dict = {
       state: "Einen Bundesstaat vorauswählen, z. B. KA. Codes: {codes} usw.",
       stage: "Eine Phase vorauswählen: idea, prototype, early_revenue oder growth.",
       entity: "Eine Rechtsform vorauswählen, z. B. private_limited.",
-      lang: "Das Widget in einer anderen Sprache zeigen: hi (Hindi), es, de, ar oder he.",
+      lang: "Das Widget in einer anderen Sprache zeigen, per Sprachcode: hi (Hindi), mr, kn, ta, te, gu, bn, es, de, fr, pt, ar, he, ja.",
       width: "Maximale Breite in Pixeln (Standard 960).",
     },
     get: "Was Ihre Gründer bekommen",

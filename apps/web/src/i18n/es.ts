@@ -470,7 +470,7 @@ export const es: Dict = {
       state: "Preselecciona un estado, p. ej. KA. Códigos: {codes}, etc.",
       stage: "Preselecciona una etapa: idea, prototype, early_revenue o growth.",
       entity: "Preselecciona una forma jurídica, p. ej. private_limited.",
-      lang: "Muestra el widget en otro idioma: hi (hindi), es, de, ar o he.",
+      lang: "Muestra el widget en otro idioma según su código: hi (hindi), mr, kn, ta, te, gu, bn, es, de, fr, pt, ar, he, ja.",
       width: "Ancho máximo en píxeles (960 por defecto).",
     },
     get: "Qué obtienen tus fundadores",

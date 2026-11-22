@@ -475,7 +475,7 @@ export const en = {
       state: "Pre-select a state, e.g. KA. Codes: {codes}, and so on.",
       stage: "Pre-select a stage: idea, prototype, early_revenue or growth.",
       entity: "Pre-select a registration type, e.g. private_limited.",
-      lang: "Show the widget in another language: hi (Hindi), es, de, ar or he.",
+      lang: "Show the widget in another language by its code: hi (Hindi), mr, kn, ta, te, gu, bn, es, de, fr, pt, ar, he, ja.",
       width: "Maximum width in pixels (default 960).",
     },
     get: "What your founders get",

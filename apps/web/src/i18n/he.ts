@@ -470,7 +470,7 @@ export const he: Dict = {
       state: "בחירה מראש של מדינה, למשל KA. קודים: {codes} וכן הלאה.",
       stage: "בחירה מראש של שלב: idea, prototype, early_revenue או growth.",
       entity: "בחירה מראש של צורת התאגדות, למשל private_limited.",
-      lang: "הצגת הווידג'ט בשפה אחרת: hi (הינדי), es, de, ar או he.",
+      lang: "הצגת הווידג'ט בשפה אחרת לפי הקוד שלה: hi (הינדי), mr, kn, ta, te, gu, bn, es, de, fr, pt, ar, he, ja.",
       width: "רוחב מרבי בפיקסלים (ברירת מחדל 960).",
     },
     get: "מה המייסדים שלכם מקבלים",

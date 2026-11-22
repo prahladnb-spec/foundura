@@ -1,3 +1,4 @@
+import { LANGS } from "../../apps/web/src/i18n/config";
 import { expect, signIn, test, uniqueEmail } from "./fixtures";
 
 test.describe("Hindi", () => {
@@ -66,7 +67,9 @@ test.describe("Hindi", () => {
     // The Data Protection Board's English name next to the Hindi one.
     ..."Data Protection Board of".split(" "),
     // Values partners type into the embed code, shown on the partners page.
-    ..."idea prototype early_revenue growth private_limited hi es de ar he".split(" "),
+    ..."idea prototype early_revenue growth private_limited".split(" "),
+    // Language codes, listed for partners on the widget page.
+    ...LANGS,
   ]);
   const isAcronym = (w: string) => /^[A-Z0-9&-]+$/.test(w) || /^[A-Z][A-Z0-9]*[a-z][A-Z0-9]+$/.test(w);
   const PAGES = [
