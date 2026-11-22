@@ -220,7 +220,8 @@ a[hreflang="hi-IN"] {
 @media (max-width: 639px) {
   .hero-file-tie,
   .hero-chai,
-  .hero-stamp-tool {
+  .hero-stamp-tool,
+  .hero-stamp-mark {
     display: none;
   }
 }

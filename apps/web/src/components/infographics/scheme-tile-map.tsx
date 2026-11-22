@@ -78,10 +78,10 @@ export function SchemeTileMap({ schemes, t }: { schemes: Scheme[]; t: Dict }) {
         <p className="mt-1 text-[0.95rem] text-slate">{f(s.typesLead, { n: schemes.length })}</p>
         <ul className="mt-5 space-y-3">
           {types.map(([cat, n]) => (
-            <li key={cat} className="grid grid-cols-[11rem_minmax(0,1fr)_2rem] items-center gap-3">
+            <li key={cat} className="grid grid-cols-[minmax(0,1fr)_2rem] items-center gap-x-3 gap-y-1.5 sm:grid-cols-[11rem_minmax(0,1fr)_2rem]">
               <span><CategoryStamp category={cat} label={String(lab(t.labels.category, cat))} /></span>
-              <span aria-hidden="true" className="ledger-bar"><span style={{ width: `${(n / max) * 100}%` }} /></span>
-              <span className="text-right font-semibold tabular-nums">{n}</span>
+              <span aria-hidden="true" className="ledger-bar col-span-2 row-start-2 sm:col-span-1 sm:row-start-auto"><span style={{ width: `${(n / max) * 100}%` }} /></span>
+              <span className="col-start-2 row-start-1 text-right font-semibold tabular-nums sm:col-start-auto sm:row-start-auto">{n}</span>
             </li>
           ))}
         </ul>

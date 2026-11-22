@@ -1,3 +1,5 @@
+import { BookOpen, CalendarDays, Newspaper } from "lucide-react";
+import { Icon } from "@/components/icons";
 import { Steps } from "@/components/infographics/steps";
 import { JsonLd } from "@/components/json-ld";
 import Link from "@/components/locale-link";
@@ -40,7 +42,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
           { "@context": "https://schema.org", "@type": "WebSite", name: "Foundura", url: `${SITE}${lp(lang, "/") === "/" ? "" : lp(lang, "/")}`, inLanguage: INTL_LOCALE[lang] },
         ]}
       />
-      <section className="mx-auto max-w-6xl px-5 pt-12 pb-16 grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:items-end">
+      <section className="mx-auto max-w-6xl px-5 pt-12 pb-16 grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:items-end max-sm:overflow-x-clip">
         <div>
           <h1 className="display text-[3.4rem] sm:text-[4.6rem] lg:text-[5.4rem] text-neel-950">
             {h.h1}
@@ -113,7 +115,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
       <section className="bg-neel-900 text-paper">
         <div className="mx-auto max-w-6xl px-5 py-12">
           <div className="flex items-baseline justify-between gap-4">
-            <h2 className="display text-4xl">{h.policy}</h2>
+            <h2 className="display flex items-center gap-3 text-4xl"><Icon icon={Newspaper} className="h-8 w-8 text-marigold" />{h.policy}</h2>
             <Link href="/policy" className="text-neel-100 underline">{h.allPolicy}</Link>
           </div>
           <ul className="mt-6 grid gap-x-10 md:grid-cols-2">
@@ -135,7 +137,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
       <section className="mx-auto max-w-6xl px-5 py-14 grid gap-14 lg:grid-cols-[1.3fr_1fr]">
         <div>
           <div className="flex items-baseline justify-between gap-4">
-            <h2 className="display text-4xl">{h.comingUp}</h2>
+            <h2 className="display flex items-center gap-3 text-4xl"><Icon icon={CalendarDays} className="h-8 w-8 text-tape" />{h.comingUp}</h2>
             <Link href="/events" className="text-neel-500 underline">{h.allEvents}</Link>
           </div>
           <ul className="mt-5 border-t-2 border-neel-900">
@@ -155,7 +157,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         </div>
         <div>
           <div className="flex items-baseline justify-between gap-4">
-            <h2 className="display text-4xl">{h.readToday}</h2>
+            <h2 className="display flex items-center gap-3 text-4xl"><Icon icon={BookOpen} className="h-8 w-8 text-neel-500" />{h.readToday}</h2>
             <Link href="/learn" className="text-neel-500 underline">{h.allGuides}</Link>
           </div>
           <ul className="mt-5 space-y-6">

@@ -3,17 +3,19 @@ import { cookies } from "next/headers";
 import { Suspense } from "react";
 import { type Dict, getDict } from "@/i18n";
 import type { Lang } from "@/i18n/config";
+import { BookOpen, CalendarDays, ClipboardCheck, FolderOpen, Handshake, Landmark, Newspaper, Store } from "lucide-react";
+import { Icon } from "./icons";
 import { LangSwitch } from "./lang-switch";
 
 const nav = (t: Dict) => [
-  { href: "/scan", label: t.chrome.nav.scan },
-  { href: "/schemes", label: t.chrome.nav.schemes },
-  { href: "/startups", label: t.chrome.nav.startups },
-  { href: "/investors", label: t.chrome.nav.investors },
-  { href: "/events", label: t.chrome.nav.events },
-  { href: "/policy", label: t.chrome.nav.policy },
-  { href: "/learn", label: t.chrome.nav.learn },
-  { href: "/documents", label: t.chrome.nav.documents },
+  { href: "/scan", label: t.chrome.nav.scan, icon: ClipboardCheck },
+  { href: "/schemes", label: t.chrome.nav.schemes, icon: Landmark },
+  { href: "/startups", label: t.chrome.nav.startups, icon: Store },
+  { href: "/investors", label: t.chrome.nav.investors, icon: Handshake },
+  { href: "/events", label: t.chrome.nav.events, icon: CalendarDays },
+  { href: "/policy", label: t.chrome.nav.policy, icon: Newspaper },
+  { href: "/learn", label: t.chrome.nav.learn, icon: BookOpen },
+  { href: "/documents", label: t.chrome.nav.documents, icon: FolderOpen },
 ];
 
 function Wordmark({ label }: { label: string }) {
@@ -61,7 +63,8 @@ export async function SiteHeader({ lang }: { lang: Lang }) {
       <nav aria-label="Main mobile" className="xl:hidden border-t border-rule overflow-x-auto">
         <div className="flex gap-5 px-5 py-2 text-[0.92rem] whitespace-nowrap">
           {NAV.map((n) => (
-            <Link key={n.href} href={n.href} className="text-neel-700 no-underline">
+            <Link key={n.href} href={n.href} className="inline-flex items-center gap-1.5 text-neel-700 no-underline">
+              <Icon icon={n.icon} className="h-4 w-4 text-neel-500" />
               {n.label}
             </Link>
           ))}
