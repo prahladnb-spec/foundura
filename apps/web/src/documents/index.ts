@@ -1,3 +1,4 @@
+import { corporate } from "./corporate";
 import { financial } from "./financial";
 import { fundraising } from "./fundraising";
 import { legal } from "./legal";
@@ -6,7 +7,7 @@ import type { FounderDoc } from "./types";
 
 export * from "./types";
 
-export const DOCS: FounderDoc[] = [...fundraising, ...legal, ...financial, ...team];
+export const DOCS: FounderDoc[] = [...fundraising, ...legal, ...financial, ...team, ...corporate];
 export const docBySlug = (slug: string) => DOCS.find((d) => d.slug === slug);
 
 /** The date the guides and templates were last checked against the law. Shown on every page and in every file. */

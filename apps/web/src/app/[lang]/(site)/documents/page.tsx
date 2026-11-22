@@ -33,7 +33,7 @@ export default async function DocumentsHub({ params }: { params: Params }) {
       </section>
 
       <h2 className="display mt-14 text-4xl">{d.all}</h2>
-      {CATEGORIES.map((c) => (
+      {CATEGORIES.filter((c) => DOCS.some((x) => x.category === c)).map((c) => (
         <section key={c} aria-labelledby={`cat-${c}`} className="mt-8">
           <h3 id={`cat-${c}`} className="border-b-2 border-neel-900 pb-2 text-xl font-semibold">{d.categories[c]}</h3>
           <ul className="grid gap-x-8 md:grid-cols-2">

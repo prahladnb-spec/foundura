@@ -1,5 +1,6 @@
 import ExcelJS from "exceljs";
 import { CHECKED_ON, type FounderDoc } from "..";
+import type { Template } from "../types";
 
 const INK = "FF141B47";
 const INPUT = "FFFFF3C4";
@@ -260,12 +261,42 @@ function financialModel(wb: ExcelJS.Workbook) {
 }
 
 /** Builds the Excel file for a spreadsheet template. Formulas are calculated when the file is opened. */
+function grids(wb: ExcelJS.Workbook, d: FounderDoc, t: Extract<Template, { kind: "sheet" }>) {
+  howTo(wb, d.title, [
+    "Fill in or replace the yellow cells. Cells without colour are formulas.",
+    ...t.sheets.map((s) => `'${s.name}' tab: ${s.what}`),
+    "Add rows by copying the last filled row down, so the formulas come with it.",
+  ]);
+  const FMT = { inr: RUPEE, pct: PCT, int: "#,##0" } as const;
+  for (const sh of t.sheets) {
+    if (!sh.grid) continue;
+    const ws = wb.addWorksheet(sh.name);
+    header(ws, 1, sh.grid.columns.map((c) => c.head));
+    sh.grid.columns.forEach((c, i) => (ws.getColumn(i + 1).width = c.width ?? 18));
+    sh.grid.rows.forEach((row, r) => {
+      row.forEach((v, c) => {
+        const cell = ws.getCell(r + 2, c + 1);
+        const fmt = sh.grid!.columns[c]?.fmt;
+        if (typeof v === "object") cell.value = f(v.f);
+        else {
+          cell.value = v;
+          input(cell);
+        }
+        if (fmt && typeof v !== "string") cell.numFmt = FMT[fmt];
+        cell.alignment = { wrapText: true, vertical: "top" };
+      });
+    });
+    ws.views = [{ state: "frozen", ySplit: 1 }];
+  }
+}
+
 export async function buildXlsx(d: FounderDoc): Promise<Buffer> {
   if (d.template.kind !== "sheet") throw new Error(`${d.slug} is not a spreadsheet template`);
   const wb = new ExcelJS.Workbook();
   wb.creator = "Foundura";
   wb.calcProperties.fullCalcOnLoad = true;
   if (d.template.builder === "capTable") capTable(wb);
-  else financialModel(wb);
+  else if (d.template.builder === "financialModel") financialModel(wb);
+  else grids(wb, d, d.template);
   return Buffer.from(await wb.xlsx.writeBuffer());
 }

@@ -17,9 +17,17 @@ export type Block =
 export type Template =
   | { kind: "doc"; blocks: Block[] }
   | { kind: "deck"; slides: { title: string; prompts: string[] }[] }
-  | { kind: "sheet"; builder: "capTable" | "financialModel"; sheets: { name: string; what: string }[] };
+  | { kind: "sheet"; builder: "capTable" | "financialModel" | "grid"; sheets: { name: string; what: string; grid?: Grid }[] };
 
-export const CATEGORIES = ["fundraising", "legal", "financial", "team"] as const;
+/** A cell in a simple spreadsheet: text, a number, or a formula (A1 references; the header is row 1). */
+export type Cell = string | number | { f: string };
+export interface Grid {
+  columns: { head: string; width?: number; fmt?: "inr" | "pct" | "int" }[];
+  rows: Cell[][];
+}
+export const fx = (f: string): Cell => ({ f });
+
+export const CATEGORIES = ["planning", "fundraising", "legal", "financial", "team", "sector"] as const;
 export type Category = (typeof CATEGORIES)[number];
 
 export interface FounderDoc {
@@ -38,6 +46,8 @@ export interface FounderDoc {
   /** A legal instrument: the page and the file say to have a lawyer review it before signing. */
   lawyer: boolean;
   template: Template;
+  /** Extra downloads: the same template in Hindi, or a filled-in example. */
+  variants?: { key: "hi" | "example"; template: Template }[];
 }
 
 export const h = (s: string): Block => ({ h: s });
@@ -63,4 +73,7 @@ export const closing = (seat = "[City]"): Block[] => [
 ];
 
 export const EXT = { doc: "docx", deck: "pptx", sheet: "xlsx" } as const;
-export const fileName = (d: FounderDoc) => `foundura-${d.slug}.${EXT[d.template.kind]}`;
+export const fileName = (d: FounderDoc, key?: "hi" | "example") => {
+  const t = key ? d.variants?.find((v) => v.key === key)?.template : d.template;
+  return `foundura-${d.slug}${key ? `-${key}` : ""}.${EXT[(t ?? d.template).kind]}`;
+};

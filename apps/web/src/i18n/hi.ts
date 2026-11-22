@@ -220,7 +220,11 @@ export const hi: Dict = {
     first: "इनसे शुरू करें",
     next: "फिर ये",
     all: "सभी दस्तावेज़",
+    downloadHi: "हिन्दी में टेम्पलेट डाउनलोड करें",
+    downloadExample: "भरा हुआ उदाहरण डाउनलोड करें",
     categories: {
+      planning: "आइडिया और बाज़ार में उतरना",
+      sector: "मेडटेक पैक",
       fundraising: "फ़ंडरेज़िंग और रणनीति",
       legal: "क़ानूनी और रजिस्ट्रेशन",
       financial: "वित्तीय",

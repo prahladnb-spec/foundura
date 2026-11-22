@@ -221,7 +221,11 @@ export const en = {
     first: "Start with these",
     next: "Then these",
     all: "All documents",
+    downloadHi: "Download the template in Hindi",
+    downloadExample: "Download a filled-in example",
     categories: {
+      planning: "Ideas and go-to-market",
+      sector: "MedTech pack",
       fundraising: "Fundraising and strategy",
       legal: "Legal and incorporation",
       financial: "Financial",

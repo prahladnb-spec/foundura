@@ -1,10 +1,11 @@
 import { AlignmentType, BorderStyle, Document, Footer, HeadingLevel, Packer, PageNumber, Paragraph, Table, TableCell, TableRow, TextRun, WidthType } from "docx";
 import { CHECKED_ON, type FounderDoc } from "..";
-import type { Block } from "../types";
+import type { Block, Template } from "../types";
 
 const INK = "141B47";
 const GREY = "5B6478";
-const FONT = "Calibri";
+// Latin text in Calibri; Devanagari falls to the complex-script font.
+const FONT = { ascii: "Calibri", hAnsi: "Calibri", cs: "Nirmala UI", eastAsia: "Calibri" };
 const run = (text: string, o: Partial<{ bold: boolean; italics: boolean; color: string; size: number }> = {}) => new TextRun({ text, font: FONT, size: 22, ...o });
 const para = (text: string, spacing = 140) => new Paragraph({ children: [run(text)], spacing: { after: spacing, line: 300 } });
 const edge = { style: BorderStyle.SINGLE, size: 4, color: "C9CEDD" };
@@ -32,7 +33,7 @@ function table(head: string[], rows: string[][]): Table {
 function render(b: Block): (Paragraph | Table)[] {
   if ("h" in b) return [new Paragraph({ heading: HeadingLevel.HEADING_2, spacing: { before: 280, after: 120 }, children: [run(b.h, { bold: true, color: INK, size: 26 })] })];
   if ("p" in b) return [para(b.p)];
-  if ("note" in b) return [new Paragraph({ spacing: { after: 140 }, shading: { fill: "FFF6DD" }, children: [run(`Note: ${b.note}`, { italics: true, color: "6B4E00", size: 20 })] })];
+  if ("note" in b) return [new Paragraph({ spacing: { after: 140 }, shading: { fill: "FFF6DD" }, children: [run(b.note, { italics: true, color: "6B4E00", size: 20 })] })];
   if ("ul" in b) return b.ul.map((t) => new Paragraph({ bullet: { level: 0 }, spacing: { after: 80, line: 300 }, children: [run(t)] }));
   if ("ol" in b) return b.ol.map((t, i) => new Paragraph({ indent: { left: 500, hanging: 360 }, spacing: { after: 80, line: 300 }, children: [run(`${i + 1}.  ${t}`)] }));
   if ("table" in b) return [table(b.table.head, b.table.rows), new Paragraph({ spacing: { after: 140 }, children: [] })];
@@ -44,14 +45,18 @@ function render(b: Block): (Paragraph | Table)[] {
 }
 
 /** Builds the Word file for a document template. */
-export async function buildDocx(d: FounderDoc): Promise<Buffer> {
-  if (d.template.kind !== "doc") throw new Error(`${d.slug} is not a Word template`);
-  const notice = d.lawyer
-    ? "A starting point, not legal advice. Have a lawyer review this before anyone signs it."
-    : "A starting point. Adapt it to your business.";
+export async function buildDocx(d: FounderDoc, template: Template = d.template, key?: "hi" | "example"): Promise<Buffer> {
+  if (template.kind !== "doc") throw new Error(`${d.slug} is not a Word template`);
+  const hi = key === "hi";
+  const notice = hi
+    ? "यह एक शुरुआत है। इसे अपने कारोबार के हिसाब से बदलें। [कोष्ठक] में लिखी हर चीज़ बदलें और इस बॉक्स और टिप्पणियों को हटा दें।"
+    : key === "example"
+      ? "A filled-in example for a made-up startup, to show the level of detail. Every name and number in it is invented."
+      : `${d.lawyer ? "A starting point, not legal advice. Have a lawyer review this before anyone signs it." : "A starting point. Adapt it to your business."} Replace everything in [square brackets] and delete this box and the notes before you use it.`;
+  const heading = hi ? d.titleHi : key === "example" ? `${d.title}: example` : d.title;
   const doc = new Document({
     creator: "Foundura",
-    title: d.title,
+    title: heading,
     description: d.summary,
     styles: { default: { document: { run: { font: FONT, size: 22 } } } },
     sections: [
@@ -68,13 +73,13 @@ export async function buildDocx(d: FounderDoc): Promise<Buffer> {
           }),
         },
         children: [
-          new Paragraph({ heading: HeadingLevel.TITLE, spacing: { after: 100 }, children: [run(d.title, { bold: true, color: INK, size: 40 })] }),
+          new Paragraph({ heading: HeadingLevel.TITLE, spacing: { after: 100 }, children: [run(heading, { bold: true, color: INK, size: 40 })] }),
           new Paragraph({
             spacing: { after: 300 },
             shading: { fill: "FFF6DD" },
-            children: [run(`${notice} Replace everything in [square brackets] and delete this box and the notes before you use it.`, { italics: true, color: "6B4E00", size: 20 })],
+            children: [run(notice, { italics: true, color: "6B4E00", size: 20 })],
           }),
-          ...d.template.blocks.flatMap(render),
+          ...template.blocks.flatMap(render),
         ],
       },
     ],

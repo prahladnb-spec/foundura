@@ -49,6 +49,15 @@ export default async function DocumentPage({ params }: { params: Params }) {
           {before}<span lang="en">{FORMAT[doc.template.kind]}</span>{after}
         </a>
       </p>
+      {doc.variants && (
+        <p className="mt-3 flex flex-wrap gap-x-5 gap-y-1">
+          {doc.variants.map((v) => (
+            <a key={v.key} href={`/downloads/${fileName(doc, v.key)}`} download className="font-semibold text-neel-500 underline">
+              {v.key === "hi" ? d.downloadHi : d.downloadExample}
+            </a>
+          ))}
+        </p>
+      )}
       <p className="mt-2 text-[0.93rem] text-slate">{d.free}</p>
       {d.englishOnly && <p className="mt-4 rounded-md bg-neel-50 px-4 py-3 text-neel-700">{d.englishOnly}</p>}
 

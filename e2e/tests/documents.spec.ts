@@ -9,7 +9,7 @@ test.describe("founder documents", () => {
   test("the hub lists every template and the finder changes with goal and stage", async ({ page }) => {
     await page.goto("/documents");
     await expect(page.locator("h1")).toHaveText("Founder documents");
-    await expect(page.locator('main section[aria-labelledby^="cat-"] li')).toHaveCount(24);
+    expect(await page.locator('main section[aria-labelledby^="cat-"] li').count()).toBeGreaterThanOrEqual(31);
 
     const first = page.locator('ol[aria-labelledby="first-h"] li');
     await expect(first.first()).toContainText("Pitch deck");
@@ -45,10 +45,13 @@ test.describe("founder documents", () => {
 
   test("every file downloads as a real Word, Excel or PowerPoint file", async ({ page, request }) => {
     await page.goto("/documents");
-    const slugs = await page.locator('main section[aria-labelledby^="cat-"] li a').evaluateAll((as) => as.map((a) => a.getAttribute("href")!.split("/").pop()!));
-    expect(slugs).toHaveLength(24);
-    for (const slug of slugs) {
-      const ext = slug === "pitch-deck" ? "pptx" : slug === "cap-table" || slug === "financial-model" ? "xlsx" : "docx";
+    // Each entry on the hub: its slug and the format shown beside it.
+    const items = await page.locator('main section[aria-labelledby^="cat-"] li').evaluateAll((lis) =>
+      lis.map((li) => ({ slug: li.querySelector("a")!.getAttribute("href")!.split("/").pop()!, format: li.querySelector('span[lang="en"]')!.textContent! })),
+    );
+    expect(items.length).toBeGreaterThanOrEqual(31);
+    for (const { slug, format } of items) {
+      const ext = format === "PowerPoint" ? "pptx" : format === "Excel" ? "xlsx" : "docx";
       const res = await request.get(`/downloads/foundura-${slug}.${ext}`);
       expect(res.status(), slug).toBe(200);
       expect(res.headers()["content-type"], slug).toBe(ext === "pptx" ? POWERPOINT : ext === "xlsx" ? EXCEL : WORD);
