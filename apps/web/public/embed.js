@@ -2,7 +2,7 @@
  * Foundura Scheme Scan embed.
  * Usage:
  *   <script src="https://YOUR-FOUNDURA-HOST/embed.js" data-state="KA" async></script>
- * Optional attributes: data-state (state code), data-stage, data-entity-type, data-lang ("hi" for Hindi),
+ * Optional attributes: data-state (state code), data-stage, data-entity-type, data-lang (hi, es, de, ar or he; English by default),
  * data-max-width (px).
  * The widget sets no cookies and stores no answers.
  */
@@ -16,9 +16,17 @@
   if (script.dataset.entityType) params.set("entityType", script.dataset.entityType);
 
   var frame = document.createElement("iframe");
-  var hindi = script.dataset.lang === "hi";
-  frame.src = origin + (hindi ? "/hi" : "") + "/embed/scan" + (params.toString() ? "?" + params : "");
-  frame.title = hindi ? "Foundura योजना जाँच" : "Foundura Scheme Scan";
+  var titles = {
+    en: "Foundura Scheme Scan",
+    hi: "Foundura योजना जाँच",
+    es: "Comprobador de programas de Foundura",
+    de: "Foundura Förder-Check",
+    ar: "فحص البرامج من Foundura",
+    he: "בדיקת הזכאות של Foundura",
+  };
+  var lang = Object.prototype.hasOwnProperty.call(titles, script.dataset.lang) ? script.dataset.lang : "en";
+  frame.src = origin + (lang === "en" ? "" : "/" + lang) + "/embed/scan" + (params.toString() ? "?" + params : "");
+  frame.title = titles[lang];
   frame.loading = "lazy";
   frame.style.cssText =
     "width:100%;max-width:" + (script.dataset.maxWidth || "960") + "px;height:900px;border:0;display:block;";

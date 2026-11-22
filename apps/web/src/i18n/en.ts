@@ -19,10 +19,11 @@ export const en = {
     source: "Source: {name}",
     skipToContent: "Skip to content",
     contentInEnglish: "",
+    /** Shown on pages whose main text exists only in English and Hindi. Empty for both. */
+    pageInEnglish: "",
     someSchemesInEnglish: "",
     schemeInEnglish: "",
   },
-  months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
   money: { lakh: "₹{n} lakh", crore: "₹{n} crore", range: "{min} to {max}" },
   chrome: {
     nav: { scan: "Scheme Scan", schemes: "Schemes", startups: "Startups", investors: "Investors", events: "Events", policy: "Policy news", learn: "Learn", documents: "Templates" },
@@ -30,8 +31,9 @@ export const en = {
     search: "Search",
     signIn: "Sign in",
     myStartup: "My startup",
-    switchTo: "हिन्दी",
-    switchLabel: "हिन्दी में पढ़ें",
+    language: "Language",
+    /** Shown on languages whose translation hasn't had a native speaker's check. */
+    unreviewed: "",
     footerBlurb:
       "Free help for Indian founders: which schemes you qualify for, who might invest, and where to show up. We never handle your money.",
     footer: {
@@ -184,6 +186,37 @@ export const en = {
     typesTitle: "What kind of help",
     typesLead: "All {n} schemes by the kind of support they give.",
   },
+  legalPages: {
+    termsTitle: "Terms of use",
+    termsDescription: "The rules for using Foundura: what it is and isn't, what you agree to, and how to raise a complaint.",
+    privacyTitle: "Privacy and your data",
+    privacyDescription: "What Foundura collects, why, who sees it, and how to see, export, correct or delete your data.",
+    /** Above the English text on languages without their own legal translation. Empty in English and Hindi. */
+    englishOnly: "",
+  },
+  seoText: {
+    scheme: {
+      tail: "eligibility and how to apply",
+      check: "Check free on Foundura whether your startup qualifies.",
+      eligibility: "{name} eligibility",
+      apply: "how to apply for {name}",
+      general: ["startup scheme India", "government schemes for startups", "scheme eligibility check", "Startup India", "DPIIT recognition", "startup grants India", "startup loans India", "state startup policy", "Foundura"],
+    },
+    investor: {
+      tail: "{type} profile",
+      summary: "{type} investing in {sectors}.",
+      check: "See their sectors, stages and cheque size, and ask for an intro on Foundura.",
+      sector: "{x} investor",
+      general: ["angel investors in India", "startup investors", "investor intro", "Foundura"],
+    },
+    startup: {
+      sector: "{x} startup",
+      from: "An Indian startup from {place} on Foundura.",
+      plain: "An Indian startup on Foundura.",
+      place: "{place} startups",
+      general: ["Indian startups", "startup showcase India", "Foundura"],
+    },
+  },
   scheme: {
     breadcrumb: "Schemes",
     central: "Central government",
@@ -304,6 +337,18 @@ export const en = {
     listFree: "Investors can list themselves for free",
   },
   documents: {
+    seo: {
+      /** Words that already say "template", so the title isn't "Pitch deck checklist template". */
+      kinds: "template|checklist|pack|tracker|model|sheet|plan|script|canvas",
+      noun: "{name} template",
+      tail: "free, for India",
+      download: "Free {format} download with a short guide for India.",
+      format: "{name} format",
+      sample: "{name} sample",
+      free: "free {noun}",
+      india: "{noun} India",
+      general: ["startup templates", "free startup documents", "Indian startups", "founder guides", "Foundura"],
+    },
     title: "Founder documents",
     metaTitle: "Free startup document templates for Indian founders",
     metaDescription: "Pitch deck, financial model, cap table, founders' agreement, NDA, offer letter and more: guides and free Word, Excel and PowerPoint templates written for India.",
@@ -430,7 +475,7 @@ export const en = {
       state: "Pre-select a state, e.g. KA. Codes: {codes}, and so on.",
       stage: "Pre-select a stage: idea, prototype, early_revenue or growth.",
       entity: "Pre-select a registration type, e.g. private_limited.",
-      lang: "Show the widget in Hindi: hi.",
+      lang: "Show the widget in another language: hi (Hindi), es, de, ar or he.",
       width: "Maximum width in pixels (default 960).",
     },
     get: "What your founders get",
@@ -557,7 +602,7 @@ export const en = {
   },
   search: {
     title: "Search",
-    lead: "Schemes, templates, guides, glossary terms, events, startups and investors. Type in English or Hindi.",
+    lead: "Schemes, templates, guides, glossary terms, events, startups and investors. Type in any of the site's languages.",
     label: "What are you looking for?",
     placeholder: "For example: seed fund, ESOP, pitch deck",
     button: "Search",

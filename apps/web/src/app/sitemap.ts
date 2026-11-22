@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
+import { LANGS } from "@/i18n/config";
+import { languagesFor, urlFor } from "@/seo";
 import { DOCS } from "@/documents";
 import { apiOr, STARTUPS_TAG } from "@/lib/api";
 import type { ArticleSummary, InvestorPublic, Scheme, StartupPublic } from "@/lib/types";
 
-const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
 
 // Built on request (data cached for an hour), so a build without the API never ships an empty sitemap.
 export const dynamic = "force-dynamic";
@@ -17,15 +18,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Cleared whenever a founder changes their profile or an editor hides a listing.
     apiOr<StartupPublic[]>("/startups", [], 600, [STARTUPS_TAG]),
   ]);
-  // Every page exists in English (plain URL) and Hindi (/hi/...); each entry lists both as alternates.
-  const urlFor = (path: string, lang: "en" | "hi") => `${SITE}${lang === "hi" ? (path === "/" ? "/hi" : `/hi${path}`) : path}`;
+  // Every page exists in every language (English at the plain URL); each entry lists them all as alternates.
   const page = (path: string, changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"], priority: number, lastModified?: string | null) =>
-    (["en", "hi"] as const).map((lang) => ({
+    LANGS.map((lang) => ({
       url: urlFor(path, lang),
       changeFrequency,
       priority: lang === "en" ? priority : Math.max(0.1, Math.round((priority - 0.1) * 10) / 10),
       ...(lastModified ? { lastModified } : {}),
-      alternates: { languages: { "en-IN": urlFor(path, "en"), "hi-IN": urlFor(path, "hi"), "x-default": urlFor(path, "en") } },
+      alternates: { languages: languagesFor(path) },
     }));
   return [
     page("/", "weekly", 1),

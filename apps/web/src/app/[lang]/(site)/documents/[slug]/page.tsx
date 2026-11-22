@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { DeckDownloads } from "@/components/deck-downloads";
 import Link from "@/components/locale-link";
 import { FORMAT, TemplatePreview } from "@/components/template-preview";
+import { docText } from "@/documents/text";
 import { CHECKED_ON, checkWith, DOCS, docBySlug, fileName, hasCover, reviewsFor, SOURCES } from "@/documents";
 import { Cover } from "@/components/template-cover";
 import { f, getDict } from "@/i18n";
@@ -18,22 +19,17 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const doc = docBySlug(p.slug);
   if (!doc) return {};
   const lang = langOf(p.lang);
-  const hi = lang === "hi";
-  const name = hi ? doc.titleHi : doc.title;
-  const already = /template|checklist|pack|tracker|model|sheet|plan|script|canvas|टेम्पलेट|चेकलिस्ट/i.test(name);
-  const noun = already ? name : hi ? `${name} टेम्पलेट` : `${name} template`;
+  const s = getDict(lang).documents.seo;
+  const { title: name, summary } = docText(doc, lang);
+  const already = new RegExp(s.kinds, "i").test(name) || /template|checklist|pack|tracker|model|sheet|plan|script|canvas/i.test(name);
+  const noun = already ? name : f(s.noun, { name });
   const format = FORMAT[doc.template.kind];
   return seoMetadata(`/documents/${doc.slug}`, lang, {
     focus: noun,
-    title: seoTitle(noun, hi ? "मुफ़्त, भारत के लिए" : "free, for India"),
-    description: describe(hi ? doc.summaryHi : doc.summary, hi ? `मुफ़्त ${format} डाउनलोड, छोटी गाइड के साथ।` : `Free ${format} download with a short guide for India.`),
-    excerpt: hi ? doc.summaryHi : doc.summary,
-    keywords: keywordList(
-      [noun, hi ? `${name} फ़ॉर्मेट` : `${doc.title} format`, hi ? `${name} नमूना` : `${doc.title} sample`, hi ? `मुफ़्त ${noun}` : `free ${noun}`, hi ? `${noun} भारत` : `${noun} India`, `${doc.title} ${format}`],
-      hi
-        ? ["स्टार्टअप टेम्पलेट", "मुफ़्त स्टार्टअप दस्तावेज़", "भारतीय स्टार्टअप", "संस्थापकों के लिए गाइड", "Foundura"]
-        : ["startup templates", "free startup documents", "Indian startups", "founder guides", "Foundura"],
-    ),
+    title: seoTitle(noun, s.tail),
+    description: describe(summary, f(s.download, { format })),
+    excerpt: summary,
+    keywords: keywordList([noun, f(s.format, { name }), f(s.sample, { name }), f(s.free, { noun }), f(s.india, { noun }), `${doc.title} ${format}`], s.general),
   });
 }
 
@@ -53,7 +49,7 @@ export default async function DocumentPage({ params }: { params: Params }) {
   const section = (id: string, heading: string, items: string[]) => (
     <section aria-labelledby={id} className="mt-8">
       <h2 id={id} className="text-xl font-semibold">{heading}</h2>
-      <ul lang={cond} className="mt-2 max-w-[70ch] list-disc space-y-1.5 pl-5">{items.map((x) => <li key={x}>{x}</li>)}</ul>
+      <ul lang={cond} className="mt-2 max-w-[70ch] list-disc space-y-1.5 ps-5">{items.map((x) => <li key={x}>{x}</li>)}</ul>
     </section>
   );
 
@@ -64,8 +60,8 @@ export default async function DocumentPage({ params }: { params: Params }) {
       </p>
       <div className={hasCover(doc.slug) ? "grid items-center gap-x-8 md:grid-cols-[minmax(0,1fr)_15rem]" : ""}>
         <div className="min-w-0">
-          <h1 className="display mt-2 text-5xl md:text-6xl">{lang === "hi" ? doc.titleHi : doc.title}</h1>
-          <p className="mt-3 max-w-[62ch] text-xl text-neel-700">{lang === "hi" ? doc.summaryHi : doc.summary}</p>
+          <h1 className="display mt-2 text-5xl md:text-6xl">{docText(doc, lang).title}</h1>
+          <p className="mt-3 max-w-[62ch] text-xl text-neel-700">{docText(doc, lang).summary}</p>
         </div>
         {hasCover(doc.slug) && <Cover slug={doc.slug} eager className="art-settle mt-6 hidden w-60 shadow-[5px_5px_0_var(--color-neel-900)] md:block" />}
       </div>
@@ -123,7 +119,7 @@ export default async function DocumentPage({ params }: { params: Params }) {
       </p>
       <section aria-labelledby="sources-h" className="mt-4 text-[0.93rem] text-slate">
         <h2 id="sources-h" className="font-semibold">{d.sources}</h2>
-        <ul lang="en" className="mt-1 list-disc space-y-1 pl-5">
+        <ul lang="en" className="mt-1 list-disc space-y-1 ps-5">
           {SOURCES.map((s) => <li key={s.url}><a href={s.url} target="_blank" rel="noopener noreferrer" className="underline">{s.name}</a></li>)}
         </ul>
       </section>
@@ -132,7 +128,7 @@ export default async function DocumentPage({ params }: { params: Params }) {
         <section aria-labelledby="more-h" className="mt-10 border-t-2 border-neel-900 pt-4">
           <h2 id="more-h" className="text-xl font-semibold">{d.more}</h2>
           <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1.5">
-            {others.map((x) => <li key={x.slug}><Link href={`/documents/${x.slug}`} className="text-neel-500 underline">{lang === "hi" ? x.titleHi : x.title}</Link></li>)}
+            {others.map((x) => <li key={x.slug}><Link href={`/documents/${x.slug}`} className="text-neel-500 underline">{docText(x, lang).title}</Link></li>)}
           </ul>
         </section>
       )}

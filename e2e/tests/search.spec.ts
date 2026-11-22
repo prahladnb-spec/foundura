@@ -1,6 +1,10 @@
 import { dbValue, expect, test } from "./fixtures";
 import { en } from "../../apps/web/src/i18n/en";
 import { hi } from "../../apps/web/src/i18n/hi";
+import { es } from "../../apps/web/src/i18n/es";
+import { de } from "../../apps/web/src/i18n/de";
+import { ar } from "../../apps/web/src/i18n/ar";
+import { he } from "../../apps/web/src/i18n/he";
 
 const count = (key: string) =>
   dbValue<number>("select coalesce(sum(count), 0)::int as v from daily_counts where metric = 'search' and key = $1", [key]);
@@ -38,7 +42,9 @@ test.describe("site search", () => {
   });
 
   test("every popular search finds something", async ({ page }) => {
-    for (const [lang, d] of [["", en], ["/hi", hi]] as const) {
+    // Six languages times eight searches.
+    test.slow();
+    for (const [lang, d] of [["", en], ["/hi", hi], ["/es", es], ["/de", de], ["/ar", ar], ["/he", he]] as const) {
       for (const q of d.search.popularItems) {
         await page.goto(`${lang}/search?q=${encodeURIComponent(q)}`);
         await expect(page.locator("ol > li").first(), `${lang || "/"} ${q}`).toBeVisible();

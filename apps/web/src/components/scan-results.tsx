@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "@/components/locale-link";
-import { f, lab, plural } from "@/i18n";
+import { f, lab, plural } from "@/i18n/util";
 import { useT } from "@/i18n/client";
 import { lp } from "@/i18n/config";
 import { fmtDate } from "@/lib/format";
@@ -166,7 +166,7 @@ function Row({ m, i, newTab, help }: { m: ScanMatch; i: number; newTab: boolean;
   return (
     <li className="grid gap-3 py-6 border-b border-rule md:grid-cols-[9rem_1fr]">
       <div className="pt-1">
-        <Stamp status={m.status} lang={lang} animate delayMs={Math.min(i, 8) * 70} />
+        <Stamp status={m.status} label={t.stamp[m.status]} animate delayMs={Math.min(i, 8) * 70} />
       </div>
       <div>
         <h3 lang={cond} className="text-xl font-semibold">

@@ -1,3 +1,4 @@
+import { docText } from "@/documents/text";
 import { pageMetadata } from "@/seo";
 import { KindIcon } from "@/components/icons";
 import { PageIntro } from "@/components/art";
@@ -37,7 +38,7 @@ export default async function DocumentsHub({ params }: { params: Params }) {
 
       <section aria-labelledby="finder-h" className="mt-12 rounded-xl border-2 border-neel-900 p-6 md:p-8">
         <h2 id="finder-h" className="display mb-6 text-4xl">{d.finderTitle}</h2>
-        <DocumentsFinder docs={Object.fromEntries(DOCS.map((x) => [x.slug, { title: x.title, titleHi: x.titleHi, kind: x.template.kind }]))} />
+        <DocumentsFinder docs={Object.fromEntries(DOCS.map((x) => [x.slug, { title: docText(x, lang).title, kind: x.template.kind }]))} />
       </section>
 
       <h2 className="display mt-14 text-4xl">{d.all}</h2>
@@ -48,10 +49,10 @@ export default async function DocumentsHub({ params }: { params: Params }) {
             {DOCS.filter((x) => x.category === c).map((x) => (
               <li key={x.slug} className="border-b border-rule py-4">
                 <p>
-                  <Link href={`/documents/${x.slug}`} className="text-lg font-semibold hover:underline">{lang === "hi" ? x.titleHi : x.title}</Link>{" "}
-                  <span lang="en" className="ml-1 inline-flex items-center gap-1 rounded border border-rule bg-white px-1.5 py-0.5 text-[0.8rem] text-slate"><KindIcon kind={x.template.kind} className="h-3.5 w-3.5" />{FORMAT[x.template.kind]}</span>
+                  <Link href={`/documents/${x.slug}`} className="text-lg font-semibold hover:underline">{docText(x, lang).title}</Link>{" "}
+                  <span lang="en" className="ms-1 inline-flex items-center gap-1 rounded border border-rule bg-white px-1.5 py-0.5 text-[0.8rem] text-slate"><KindIcon kind={x.template.kind} className="h-3.5 w-3.5" />{FORMAT[x.template.kind]}</span>
                 </p>
-                <p className="mt-1 text-neel-700">{lang === "hi" ? x.summaryHi : x.summary}</p>
+                <p className="mt-1 text-neel-700">{docText(x, lang).summary}</p>
               </li>
             ))}
           </ul>

@@ -137,13 +137,13 @@ export default async function EventsPage({ params, searchParams }: { params: Par
             <h2 className="display text-4xl">{monthLabel(month, lang)}</h2>
             <nav aria-label={ev.calendar} className="flex items-center gap-2">
               <Link href={href({ month: shiftMonth(month, -1) })} className="rounded-md border border-rule bg-white px-3 py-1.5 no-underline" aria-label={ev.prevMonth}>
-                <span aria-hidden="true">←</span>
+                <span aria-hidden="true" className="inline-block rtl:-scale-x-100">←</span>
               </Link>
               {month !== today.slice(0, 7) && (
                 <Link href={href({ month: today.slice(0, 7) })} className="rounded-md border border-rule bg-white px-3 py-1.5 no-underline">{ev.today}</Link>
               )}
               <Link href={href({ month: shiftMonth(month, 1) })} className="rounded-md border border-rule bg-white px-3 py-1.5 no-underline" aria-label={ev.nextMonth}>
-                <span aria-hidden="true">→</span>
+                <span aria-hidden="true" className="inline-block rtl:-scale-x-100">→</span>
               </Link>
             </nav>
           </div>

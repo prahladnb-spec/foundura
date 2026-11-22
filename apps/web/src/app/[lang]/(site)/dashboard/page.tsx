@@ -1,3 +1,4 @@
+import { docText } from "@/documents/text";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { INVESTOR_DOCS } from "@foundura/shared";
@@ -27,7 +28,7 @@ export default async function DashboardPage({ params }: { params: Promise<{ lang
     if (e instanceof ApiError && e.status === 401) redirect(`${lp(lang, "/signin")}?next=${encodeURIComponent(lp(lang, "/dashboard"))}`);
     throw e;
   }
-  const docTitles = Object.fromEntries(INVESTOR_DOCS.map((slug) => [slug, (lang === "hi" ? docBySlug(slug)?.titleHi : docBySlug(slug)?.title) ?? slug]));
+  const docTitles = Object.fromEntries(INVESTOR_DOCS.map((slug) => [slug, (docBySlug(slug) ? docText(docBySlug(slug)!, lang).title : slug)]));
   return (
     <div className="mx-auto max-w-5xl px-5 pt-10">
       <Dashboard email={me.user.email} locale={me.locale} isAdmin={me.isAdmin} startup={me.startups[0] ?? null} consents={me.consents} docTitles={docTitles} />

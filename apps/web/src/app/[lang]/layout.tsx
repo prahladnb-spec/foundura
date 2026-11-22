@@ -2,11 +2,15 @@ import { UsageCounter } from "@/components/usage-counter";
 import "@fontsource-variable/anek-latin/wdth.css";
 import "@fontsource/mukta/400.css";
 import "@fontsource/mukta/600.css";
+// Arabic and Hebrew: only the script's own subset downloads, and only on pages that use it.
+import "@fontsource-variable/noto-sans-arabic/wght.css";
+import "@fontsource-variable/noto-sans-hebrew/wdth.css";
 import "../globals.css";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDict } from "@/i18n";
-import { isLang, LANGS } from "@/i18n/config";
+import { isLang, LANG_INFO, LANGS } from "@/i18n/config";
+import { I18nProvider } from "@/i18n/client";
 
 export const dynamicParams = false;
 
@@ -29,9 +33,11 @@ export default async function RootLayout({ children, params }: { children: React
   const { lang } = await params;
   if (!isLang(lang)) notFound();
   return (
-    <html lang={lang === "hi" ? "hi-IN" : "en-IN"}>
+    <html lang={LANG_INFO[lang].tag} dir={LANG_INFO[lang].dir}>
       <body className="min-h-screen">
-        {children}
+        <I18nProvider lang={lang} t={getDict(lang)}>
+          {children}
+        </I18nProvider>
         <UsageCounter />
       </body>
     </html>

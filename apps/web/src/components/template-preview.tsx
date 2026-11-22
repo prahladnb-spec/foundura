@@ -7,8 +7,8 @@ function BlockView({ b }: { b: Block }) {
   if ("h" in b) return <h3 className="mt-6 font-semibold text-neel-900">{b.h}</h3>;
   if ("p" in b) return <p className="mt-2">{b.p}</p>;
   if ("note" in b) return <p className="mt-2 rounded bg-marigold-50 px-3 py-2 text-[0.92rem] italic text-marigold-ink">{b.note}</p>;
-  if ("ul" in b) return <ul className="mt-2 list-disc space-y-1 pl-5">{b.ul.map((x) => <li key={x}>{x}</li>)}</ul>;
-  if ("ol" in b) return <ol className="mt-2 list-decimal space-y-1 pl-5">{b.ol.map((x) => <li key={x}>{x}</li>)}</ol>;
+  if ("ul" in b) return <ul className="mt-2 list-disc space-y-1 ps-5">{b.ul.map((x) => <li key={x}>{x}</li>)}</ul>;
+  if ("ol" in b) return <ol className="mt-2 list-decimal space-y-1 ps-5">{b.ol.map((x) => <li key={x}>{x}</li>)}</ol>;
   if ("table" in b) {
     const hasHead = b.table.head.some(Boolean);
     return (
@@ -16,7 +16,7 @@ function BlockView({ b }: { b: Block }) {
         <table className="w-full border-collapse text-[0.92rem]">
           {hasHead && (
             <thead>
-              <tr>{b.table.head.map((x, i) => <th key={i} scope="col" className="border border-rule bg-neel-50 px-2.5 py-1.5 text-left font-semibold">{x}</th>)}</tr>
+              <tr>{b.table.head.map((x, i) => <th key={i} scope="col" className="border border-rule bg-neel-50 px-2.5 py-1.5 text-start font-semibold">{x}</th>)}</tr>
             </thead>
           )}
           <tbody>
@@ -52,10 +52,10 @@ export function TemplatePreview({ template, slideLabel, tabLabel }: { template: 
     return (
       <ol className="grid gap-4 md:grid-cols-2">
         {template.slides.map((s, i) => (
-          <li key={s.title} className="rounded-xl border border-rule border-l-[6px] border-l-marigold bg-white px-5 py-4">
+          <li key={s.title} className="rounded-xl border border-rule border-s-[6px] border-s-marigold bg-white px-5 py-4">
             <p className="text-[0.85rem] text-slate">{slideLabel(i + 1)}</p>
             <p lang="en" className="mt-1 font-semibold text-neel-900">{s.title}</p>
-            <ul lang="en" className="mt-2 list-disc space-y-1 pl-5 text-[0.95rem] text-neel-700">{s.prompts.map((x) => <li key={x}>{x}</li>)}</ul>
+            <ul lang="en" className="mt-2 list-disc space-y-1 ps-5 text-[0.95rem] text-neel-700">{s.prompts.map((x) => <li key={x}>{x}</li>)}</ul>
           </li>
         ))}
       </ol>

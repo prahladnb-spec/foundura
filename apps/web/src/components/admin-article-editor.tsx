@@ -80,11 +80,11 @@ export function AdminArticleEditor({ article }: { article: AdminArticle | null }
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label className={fieldLabel} htmlFor="slug">Web address</label>
-          <div className="flex items-center rounded-md border border-rule bg-white pl-3">
+          <div className="flex items-center rounded-md border border-rule bg-white ps-3">
             <span className="text-slate">/learn/</span>
             <input
               id="slug"
-              className="w-full rounded-r-md px-1 py-2.5"
+              className="w-full rounded-e-md px-1 py-2.5"
               value={a.slug}
               onChange={(e) => {
                 setSlugTouched(true);
@@ -135,13 +135,13 @@ export function AdminArticleEditor({ article }: { article: AdminArticle | null }
           <textarea
             aria-label="Article body in Markdown"
             rows={22}
-            className={`${field} rounded-tl-none font-mono text-[0.95rem] leading-relaxed`}
+            className={`${field} rounded-ss-none font-mono text-[0.95rem] leading-relaxed`}
             value={a.body}
             onChange={(e) => set("body", e.target.value)}
             placeholder="Write in Markdown. ## for headings, - for lists, [text](https://…) for links."
           />
         ) : (
-          <div className="min-h-[20rem] rounded-md rounded-tl-none border border-rule bg-white p-6">
+          <div className="min-h-[20rem] rounded-md rounded-ss-none border border-rule bg-white p-6">
             <div className="prose-f">
               {a.body.trim() ? <ReactMarkdown remarkPlugins={[remarkGfm]}>{a.body}</ReactMarkdown> : <p className="text-slate">Nothing to preview yet.</p>}
             </div>

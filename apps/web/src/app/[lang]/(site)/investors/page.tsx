@@ -70,14 +70,14 @@ export default async function InvestorsPage({ params, searchParams }: { params: 
               <Link href={`/investors/${i.slug}`} lang={cond} className="text-xl font-semibold hover:underline">
                 {i.firm ? `${i.firm}` : i.name}
               </Link>
-              {i.verified && <span className="ml-2 rounded border border-leaf px-1.5 text-[0.8rem] font-semibold text-leaf">{iv.verified}</span>}
+              {i.verified && <span className="ms-2 rounded border border-leaf px-1.5 text-[0.8rem] font-semibold text-leaf">{iv.verified}</span>}
               <p className="text-[0.93rem] text-slate">
                 {investorTypeLabel(i.type, lang)}
                 {i.firm ? <span lang={cond}>, {i.name}</span> : ""}
               </p>
               <p className="mt-1">{i.sectors.map((x) => sectorLabel(x, lang)).join(", ")}</p>
             </div>
-            <p className="text-[0.93rem] text-neel-700 md:text-right">
+            <p className="text-[0.93rem] text-neel-700 md:text-end">
               {chequeRange(i.chequeMinInrLakh, i.chequeMaxInrLakh, lang)}
               <br />
               {i.stages.map((x) => stageLabel(x, lang)).join(", ")}

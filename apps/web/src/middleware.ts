@@ -1,8 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server";
+import { DEFAULT_LANG, langOfPath, stripLang } from "@/i18n/config";
 
 /**
- * Language routing. English keeps today's URLs (served internally from /en/...), Hindi lives
- * under /hi/... The editor console is English-only.
+ * Language routing. English keeps today's URLs (served internally from /en/...); other languages
+ * live under /hi/..., /es/... and so on (see LANGS). The editor console is English-only.
  */
 /** Request header carrying the original path of an editor console page. */
 const PATH_HEADER = "x-foundura-path";
@@ -17,9 +18,11 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(url, 308);
   }
 
-  if (pathname === "/hi" || pathname.startsWith("/hi/")) {
-    if (/^\/hi\/admin(\/|$)/.test(pathname)) {
-      url.pathname = pathname.slice(3);
+  const lang = langOfPath(pathname);
+  if (lang !== DEFAULT_LANG) {
+    // The editor console is English-only.
+    if (/^\/[a-z]{2}\/admin(\/|$)/.test(pathname)) {
+      url.pathname = stripLang(pathname);
       return NextResponse.redirect(url, 307);
     }
     return NextResponse.next();

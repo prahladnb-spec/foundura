@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import type { Lang } from "./i18n/config";
+import { LANG_INFO, LANGS, lp, type Lang } from "./i18n/config";
+import { SEO_INTL } from "./seo-intl";
 
 /**
  * Search engine details for each main page, in English and Hindi.
@@ -29,7 +30,7 @@ export type PageKey =
   | "glossary"
   | "partners";
 
-export const SEO: Record<PageKey, Record<Lang, PageSeo>> = {
+const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
   home: {
     en: {
       slug: "/",
@@ -680,19 +681,30 @@ export const SEO: Record<PageKey, Record<Lang, PageSeo>> = {
   },
 };
 
+/** Every main page in every language; the other languages share the English slug. */
+export const SEO: Record<PageKey, Record<Lang, PageSeo>> = Object.fromEntries(
+  (Object.keys(SEO_EN_HI) as PageKey[]).map((k) => {
+    const slug = SEO_EN_HI[k].en.slug;
+    const intl = Object.fromEntries(Object.entries(SEO_INTL[k]).map(([l, e]) => [l, { slug, ...e }]));
+    return [k, { ...SEO_EN_HI[k], ...intl }];
+  }),
+) as Record<PageKey, Record<Lang, PageSeo>>;
+
 const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
 
-/** The page's address in a language: English at the plain path, Hindi under /hi. */
+/** The page's address in a language: English at the plain path, the others under /<code>. */
 export function urlFor(path: string, lang: Lang): string {
-  return `${SITE}${lang === "hi" ? (path === "/" ? "/hi" : `/hi${path}`) : path}`;
+  return `${SITE}${lp(lang, path)}`;
 }
 
-/** Canonical address plus the English and Hindi versions, so search engines show the right one. */
+/** Every language version of a page, keyed by hreflang, plus x-default (English). */
+export function languagesFor(path: string): Record<string, string> {
+  return { ...Object.fromEntries(LANGS.map((l) => [LANG_INFO[l].tag, urlFor(path, l)])), "x-default": urlFor(path, "en") };
+}
+
+/** Canonical address plus every language version, so search engines show the right one. */
 export function alternates(path: string, lang: Lang): Metadata["alternates"] {
-  return {
-    canonical: urlFor(path, lang),
-    languages: { "en-IN": urlFor(path, "en"), "hi-IN": urlFor(path, "hi"), "x-default": urlFor(path, "en") },
-  };
+  return { canonical: urlFor(path, lang), languages: languagesFor(path) };
 }
 
 /** Full metadata for a page from explicit SEO details: title, description, keywords, alternates, shares. */
@@ -711,8 +723,8 @@ export function seoMetadata(
       description: s.excerpt,
       url: urlFor(path, lang),
       siteName: "Foundura",
-      locale: lang === "hi" ? "hi_IN" : "en_IN",
-      alternateLocale: lang === "hi" ? "en_IN" : "hi_IN",
+      locale: LANG_INFO[lang].og,
+      alternateLocale: LANGS.filter((l) => l !== lang).map((l) => LANG_INFO[l].og),
       type: s.type ?? "website",
       ...(s.type === "article" && s.published ? { publishedTime: s.published } : {}),
     },

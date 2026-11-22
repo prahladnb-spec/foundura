@@ -10,7 +10,7 @@ export default async function SiteLayout({ children, params }: { children: React
     <div className="min-h-screen flex flex-col">
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 bg-white px-3 py-2 rounded z-50"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:start-2 bg-white px-3 py-2 rounded z-50"
       >
         {t.common.skipToContent}
       </a>

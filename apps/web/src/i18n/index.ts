@@ -1,26 +1,18 @@
+import "server-only";
 import { en, type Dict } from "./en";
 import { hi } from "./hi";
-import { type Lang, f, plural } from "./config";
+import { es } from "./es";
+import { de } from "./de";
+import { ar } from "./ar";
+import { he } from "./he";
+import type { Lang } from "./config";
 
 export type { Dict };
-export { f, plural };
+export { f, plural, lab, matchText } from "./util";
 
-const DICTS: Record<Lang, Dict> = { en, hi };
+const DICTS: Record<Lang, Dict> = { en, hi, es, de, ar, he };
 
+/** The interface text for a language. Server only: client components get theirs from `useT()`. */
 export function getDict(lang: Lang): Dict {
   return DICTS[lang];
-}
-
-/** Look up a label map by a dynamic key, falling back to the key itself. */
-export function lab<T extends Record<string, unknown>>(map: T, key: string | null | undefined): T[keyof T] | string {
-  if (!key) return "";
-  return (map as Record<string, T[keyof T]>)[key] ?? key;
-}
-
-/** Translate a match reason/gap produced in English by the shared matcher. */
-export function matchText(d: Dict, s: string): string {
-  const m = d.labels.match as Record<string, string>;
-  if (m[s]) return m[s];
-  const n = s.match(/^Invests in (\d+) of your sectors$/);
-  return n ? f(m["Invests in {n} of your sectors"], { n: n[1] }) : s;
 }

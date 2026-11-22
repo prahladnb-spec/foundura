@@ -53,6 +53,39 @@ h3 {
   line-height: 0.95;
 }
 
+/*
+ * Arabic and Hebrew. Latin text (the brand, acronyms) keeps the Latin fonts; the script's own
+ * letters fall through to Noto. Arabic is joined-up, so no letter spacing; both scripts need a
+ * looser line than the poster-tight Latin display line.
+ */
+:root:lang(ar) {
+  --font-display: "Anek Latin Variable", "Noto Sans Arabic Variable", system-ui, sans-serif;
+  --font-body: "Mukta", "Noto Sans Arabic Variable", system-ui, sans-serif;
+}
+:root:lang(he) {
+  --font-display: "Anek Latin Variable", "Noto Sans Hebrew Variable", system-ui, sans-serif;
+  --font-body: "Mukta", "Noto Sans Hebrew Variable", system-ui, sans-serif;
+}
+:lang(ar) .display,
+:lang(ar) h1,
+:lang(ar) h2,
+:lang(ar) h3,
+:lang(ar) .stamp {
+  letter-spacing: 0;
+}
+:lang(ar) .display,
+:lang(he) .display {
+  line-height: 1.2;
+}
+:lang(ar) body {
+  line-height: 1.7;
+}
+/* English text on a right-to-left page (scheme names, guides) keeps its own direction, so brackets
+   and full stops stay where English puts them. */
+[dir="rtl"] [lang="en"] {
+  unicode-bidi: plaintext;
+}
+
 /* Keep in-page jump targets clear of the sticky header. */
 [id] {
   scroll-margin-top: 6rem;
@@ -82,10 +115,13 @@ a {
   unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B09;
 }
 
-/* The "हिन्दी" link on English pages uses the phone's own Devanagari font, so English readers
-   don't download a Hindi web font for one word. */
-a[hreflang="hi-IN"] {
+/* The language menu names each language in its own script with the phone's own fonts, so nobody
+   downloads an Arabic or Devanagari web font for one word. */
+.lang-menu a[hreflang] {
   font-family: system-ui, sans-serif;
+}
+.lang-menu summary::-webkit-details-marker {
+  display: none;
 }
 
 /* The status stamp: the one bold element. Echoes an office rubber stamp. */
@@ -184,27 +220,27 @@ a[hreflang="hi-IN"] {
 }
 .hero-file-tab {
   position: absolute;
-  left: 1.5rem;
+  inset-inline-start: 1.5rem;
   top: -2.6rem;
   width: 9rem;
   height: 2.6rem;
 }
 .hero-file-tie {
   position: absolute;
-  left: -2.2rem;
+  inset-inline-start: -2.2rem;
   top: 50%;
   translate: 0 -50%;
   width: 3.4rem;
 }
 .hero-chai {
   position: absolute;
-  right: -0.75rem;
+  inset-inline-end: -0.75rem;
   bottom: -0.5rem;
   width: 4.5rem;
 }
 .hero-stamp-mark {
   position: absolute;
-  right: 3.5rem;
+  inset-inline-end: 3.5rem;
   bottom: 0.5rem;
   width: 6.5rem;
   rotate: -12deg;
@@ -212,7 +248,7 @@ a[hreflang="hi-IN"] {
 }
 .hero-stamp-tool {
   position: absolute;
-  right: -1.25rem;
+  inset-inline-end: -1.25rem;
   top: -1.5rem;
   width: 6.5rem;
   rotate: 16deg;
@@ -341,7 +377,7 @@ a.tile:hover {
 .tile-n {
   position: absolute;
   top: -7px;
-  right: -7px;
+  inset-inline-end: -7px;
   display: grid;
   place-items: center;
   min-width: 1.15rem;
@@ -387,6 +423,9 @@ a.tile:hover {
     animation: bar-grow 700ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
     transform-origin: left;
   }
+  [dir="rtl"] .ledger-bar > span {
+    transform-origin: right;
+  }
   @keyframes bar-grow {
     from { transform: scaleX(0); }
   }
@@ -418,19 +457,19 @@ a.tile:hover {
 .step:not(:last-child)::before {
   content: "";
   position: absolute;
-  left: 1.75rem;
+  inset-inline-start: 1.75rem;
   top: 3.5rem;
   bottom: -2rem;
-  border-left: 3px dashed var(--color-tape);
+  border-inline-start: 3px dashed var(--color-tape);
 }
 /* …and across on wider ones (only between rings on the same row). */
 @media (min-width: 768px) {
   .step:not(:last-child)::before {
-    left: 3.5rem;
-    right: -1.5rem;
+    inset-inline-start: 3.5rem;
+    inset-inline-end: -1.5rem;
     top: 1.75rem;
     bottom: auto;
-    border-left: 0;
+    border-inline-start: 0;
     border-top: 3px dashed var(--color-tape);
   }
   .steps-6 .step:nth-child(3)::before { display: none; }
@@ -456,11 +495,11 @@ a.tile:hover {
 }
 .prose-f ul {
   list-style: disc;
-  padding-left: 1.3rem;
+  padding-inline-start: 1.3rem;
 }
 .prose-f ol {
   list-style: decimal;
-  padding-left: 1.3rem;
+  padding-inline-start: 1.3rem;
 }
 .prose-f a {
   color: var(--color-neel-500);
@@ -473,8 +512,9 @@ a.tile:hover {
 .prose-f th,
 .prose-f td {
   border-bottom: 1px solid var(--color-rule);
-  padding: 0.5rem 0.6rem 0.4rem 0;
-  text-align: left;
+  padding-block: 0.5rem 0.4rem;
+  padding-inline: 0 0.6rem;
+  text-align: start;
   vertical-align: top;
 }
 .prose-f em {

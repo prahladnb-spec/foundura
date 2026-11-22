@@ -67,7 +67,7 @@ export default async function AdminOverview() {
       <h2 className="mt-12 text-[1.35rem] font-bold">Platform at a glance</h2>
       <dl className="mt-4 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-3">
         {stats.map((s) => (
-          <div key={s.label} className="border-l-[3px] border-neel-100 pl-4">
+          <div key={s.label} className="border-s-[3px] border-neel-100 ps-4">
             <dd className="display text-[2.4rem] leading-none text-neel-950">{s.n.toLocaleString("en-IN")}</dd>
             <dt className="mt-1 text-slate">{s.label}</dt>
           </div>

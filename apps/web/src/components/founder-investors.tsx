@@ -3,9 +3,10 @@
 import Link from "@/components/locale-link";
 import { useCallback, useEffect, useState } from "react";
 import { MIN_MATCH_FOR_INTRO, MIN_READINESS_FOR_INTRO } from "@foundura/shared/constants";
-import { f, lab, matchText } from "@/i18n";
+import { f, lab, matchText } from "@/i18n/util";
 import { useT } from "@/i18n/client";
-import { chequeRange, investorTypeLabel } from "@/lib/labels";
+import { LANG_INFO } from "@/i18n/config";
+import { labelsFor } from "@/lib/labels-core";
 import type { InvestorPublic, MatchResult, Readiness, ReadinessItem, SentIntro } from "@/lib/types";
 
 async function get<T>(path: string): Promise<T> {
@@ -55,7 +56,7 @@ function ReadinessCard({ r }: { r: Readiness }) {
               <li key={i.key} className="grid grid-cols-[3.5rem_1fr] gap-3 py-2.5">
                 <span className="font-semibold text-marigold-ink">+{i.points - i.earned}</span>
                 <span>
-                  <span className="font-semibold">{text(i).label}{lang === "hi" ? "।" : "."}</span> {text(i).fix}
+                  <span className="font-semibold">{text(i).label}{LANG_INFO[lang].stop}</span> {text(i).fix}
                 </span>
               </li>
             ))}
@@ -174,18 +175,18 @@ export function FounderInvestors({ startupId, version }: { startupId: string; ve
                     </span>
                   </div>
                   <p className="text-[0.92rem] text-slate">
-                    {investorTypeLabel(i.type, lang)}; {chequeRange(i.chequeMinInrLakh, i.chequeMaxInrLakh, lang)}
+                    {labelsFor(t).investorType(i.type)}; {labelsFor(t).chequeRange(i.chequeMinInrLakh, i.chequeMaxInrLakh)}
                     {i.verified ? fi.verified : ""}
                   </p>
                   <p className="mt-1 text-[0.95rem]">
-                    {m.reasons.map((x) => matchText(t, x)).join(lang === "hi" ? "। " : ". ")}
+                    {m.reasons.map((x) => matchText(t, x)).join(`${LANG_INFO[lang].stop} `)}
                     {m.gaps.length > 0 && (
                       <span className="text-slate">
-                        {m.reasons.length ? (lang === "hi" ? "। " : ". ") : ""}
-                        {m.gaps.map((x) => matchText(t, x)).join(lang === "hi" ? "। " : ". ")}
+                        {m.reasons.length ? `${LANG_INFO[lang].stop} ` : ""}
+                        {m.gaps.map((x) => matchText(t, x)).join(`${LANG_INFO[lang].stop} `)}
                       </span>
                     )}
-                    {lang === "hi" ? "।" : "."}
+                    {LANG_INFO[lang].stop}
                   </p>
                   {introStatus ? (
                     <p className="mt-2 text-[0.92rem] font-semibold text-neel-700">{f(fi.intro, { status: status(introStatus).toLowerCase() })}</p>

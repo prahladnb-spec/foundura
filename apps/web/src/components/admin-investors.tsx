@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { adminCall, btnQuiet, shortDate } from "@/lib/admin-client";
-import { investorTypeLabel } from "@/lib/labels";
+import { en } from "@/i18n/en";
+import { labelsFor } from "@/lib/labels-core";
+
+const { investorType: investorTypeLabel } = labelsFor(en);
 
 interface Row {
   id: string;

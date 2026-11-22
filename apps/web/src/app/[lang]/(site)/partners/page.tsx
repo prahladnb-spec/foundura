@@ -27,7 +27,7 @@ export default async function PartnersPage({ params }: { params: Params }) {
 
       <h2 className="display mt-10 text-4xl">{pt.paste}</h2>
       <pre className="mt-3 overflow-x-auto rounded-lg bg-neel-900 p-4 text-[0.95rem] text-paper">
-        <code>{`<script src="${host}/embed.js" data-state="KA"${lang === "hi" ? ' data-lang="hi"' : ""} async></script>`}</code>
+        <code>{`<script src="${host}/embed.js" data-state="KA"${lang === "en" ? "" : ` data-lang="${lang}"`} async></script>`}</code>
       </pre>
       <p className="mt-3 text-neel-700">
         {pt.where}
@@ -48,7 +48,7 @@ export default async function PartnersPage({ params }: { params: Params }) {
       </dl>
 
       <h2 className="display mt-10 text-4xl">{pt.get}</h2>
-      <ul className="mt-3 list-disc pl-5 space-y-1.5 max-w-[65ch]">
+      <ul className="mt-3 list-disc ps-5 space-y-1.5 max-w-[65ch]">
         {pt.bullets.map((b) => <li key={b}>{b}</li>)}
       </ul>
 

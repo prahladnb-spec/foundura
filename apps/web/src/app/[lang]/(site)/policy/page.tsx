@@ -36,7 +36,7 @@ export default async function PolicyPage({ params }: { params: Params }) {
             <p className="text-[0.92rem] text-slate">
               {fmtDate(p.date, true, lang)}, <span lang={cond}>{p.country}, {p.instrument.toLowerCase()}, {p.stage.toLowerCase()}</span>
               {p.impact === "High" && (
-                <span className="ml-2 rounded bg-marigold px-1.5 py-0.5 text-[0.8rem] font-semibold text-neel-950">{t.policy.highImpact}</span>
+                <span className="ms-2 rounded bg-marigold px-1.5 py-0.5 text-[0.8rem] font-semibold text-neel-950">{t.policy.highImpact}</span>
               )}
             </p>
             <h2 lang={cond} className="mt-1 text-2xl font-semibold leading-snug">{p.headline}</h2>

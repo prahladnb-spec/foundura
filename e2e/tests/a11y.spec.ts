@@ -31,6 +31,20 @@ async function expectNoSeriousProblems(page: Page) {
   expect(bad, bad.join("\n")).toEqual([]);
 }
 
+// The other languages share the layouts; check the main ones in each, including right to left.
+const INTL_PAGES = ["/", "/scan", "/schemes", "/documents/pitch-deck", "/glossary", "/search?q=seed+fund"];
+for (const lang of ["/es", "/de", "/ar", "/he"]) {
+  for (const path of INTL_PAGES) {
+    const url = `${lang}${path === "/" ? "" : path}`;
+    test(`no serious accessibility problems on ${url}`, async ({ page }) => {
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      const res = await page.goto(url);
+      expect(res?.status(), url).toBeLessThan(400);
+      await expectNoSeriousProblems(page);
+    });
+  }
+}
+
 for (const lang of ["", "/hi"]) {
   for (const path of PAGES) {
     const url = `${lang}${path === "/" && lang ? "" : path}`;

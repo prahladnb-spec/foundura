@@ -5,7 +5,7 @@ import { PageIntro } from "@/components/art";
 import { Icon, KindIcon } from "@/components/icons";
 import Link from "@/components/locale-link";
 import { f, getDict } from "@/i18n";
-import { isLang, lp } from "@/i18n/config";
+import { isLang, lp, type Lang } from "@/i18n/config";
 import { catalogue } from "@/search/catalogue";
 import { alternates } from "@/seo";
 
@@ -14,14 +14,23 @@ type Search = Promise<{ q?: string | string[]; type?: string }>;
 
 const LIMIT = 40;
 
-/** "Nothing matches “{q}”" with the query marked English when it is in Latin letters, for screen readers. */
-function withQuery(template: string, q: string) {
+/** The script a query is written in, so screen readers read it in the right voice. */
+function queryLang(q: string, page: Lang): string | undefined {
+  if (/[\u0900-\u097f]/.test(q)) return "hi";
+  if (/[\u0600-\u06ff]/.test(q)) return "ar";
+  if (/[\u0590-\u05ff]/.test(q)) return "he";
+  // Latin letters: the page's own language on Spanish and German pages, else English.
+  return page === "es" || page === "de" ? undefined : page === "en" ? undefined : "en";
+}
+
+/** "Nothing matches “{q}”" with the query marked in its own language. */
+function withQuery(template: string, q: string, page: Lang) {
   const [before, after] = template.split("{q}");
-  const latin = /[A-Za-z]/.test(q) && !/[\u0900-\u097f]/.test(q);
+  const ql = queryLang(q, page);
   return (
     <>
       {before}
-      <span lang={latin ? "en" : "hi"}>{q}</span>
+      <bdi lang={ql === page ? undefined : ql}>{q}</bdi>
       {after}
     </>
   );
@@ -114,13 +123,13 @@ export default async function SearchPage({ params, searchParams }: { params: Par
       {q && (
         <section aria-labelledby="results-h" className="mt-8">
           <h2 id="results-h" className="text-xl font-semibold">
-            {withQuery(hits.length === 0 ? s.none : f(total === 1 ? s.countOne : s.count, { n: total }), q)}
+            {withQuery(hits.length === 0 ? s.none : f(total === 1 ? s.countOne : s.count, { n: total }), q, lang)}
           </h2>
 
           {hits.length === 0 ? (
             <div className="mt-3">
               <p className="text-neel-700">{s.noneHelp}</p>
-              <ul className="mt-2 list-disc space-y-1 pl-5">
+              <ul className="mt-2 list-disc space-y-1 ps-5">
                 <li><Link href="/scan" className="text-neel-500 underline">{s.noneLinks.scan}</Link></li>
                 <li><Link href="/schemes" className="text-neel-500 underline">{s.noneLinks.schemes}</Link></li>
                 <li><Link href="/glossary" className="text-neel-500 underline">{s.noneLinks.glossary}</Link></li>
@@ -154,7 +163,7 @@ export default async function SearchPage({ params, searchParams }: { params: Par
                     <h3 className="mt-0.5 text-lg font-semibold leading-snug">
                       <Link href={data.href} className="text-neel-900 no-underline after:absolute after:inset-0 hover:underline">
                         <span lang={data.en ? "en" : undefined}>{data.title}</span>
-                        {data.titleHi && <span className="font-normal text-slate"> ({data.titleHi})</span>}
+                        {data.titleLocal && <span className="font-normal text-slate"> ({data.titleLocal})</span>}
                       </Link>
                     </h3>
                     {data.summary && (

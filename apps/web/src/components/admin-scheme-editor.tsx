@@ -167,7 +167,7 @@ function RuleTree({ c }: { c: Condition }) {
     <li>
       <span className="font-semibold">{c.label ?? ("all" in c ? "All of these" : "Any one of these")}</span>
       <span className="text-slate"> ({"all" in c ? "all must hold" : "any one is enough"})</span>
-      <ul className="mt-1 ml-5 list-disc space-y-1">
+      <ul className="mt-1 ms-5 list-disc space-y-1">
         {kids.map((k, i) => (
           <RuleTree key={i} c={k} />
         ))}
@@ -330,7 +330,7 @@ export function AdminSchemeEditor({ scheme: initial }: { scheme: AdminScheme }) 
         <div className="rounded-md border border-rule bg-white p-4">
           <p className="font-semibold">Who qualifies</p>
           {parsedRule.rule ? (
-            <ul className="mt-2 ml-5 list-disc space-y-1 text-[0.95rem]">
+            <ul className="mt-2 ms-5 list-disc space-y-1 text-[0.95rem]">
               <RuleTree c={parsedRule.rule} />
             </ul>
           ) : (

@@ -1,4 +1,6 @@
+import type { Lang } from "@/i18n/config";
 import { docBySlug } from "./index";
+import { docText } from "./text";
 
 /**
  * Templates that may help when applying, by scheme category. "May help", not "required": the
@@ -20,14 +22,14 @@ export type HelpLink = { slug: string; title: string; kind: "doc" | "sheet" | "d
 export type HelpMap = Record<string, HelpLink[]>;
 
 /** The map for one language, with only what the scan results need to show the links. */
-export function schemeHelp(lang: "en" | "hi"): HelpMap {
+export function schemeHelp(lang: Lang): HelpMap {
   return Object.fromEntries(
     Object.entries(BY_CATEGORY).map(([cat, slugs]) => [
       cat,
       slugs.map((slug) => {
         const d = docBySlug(slug);
         if (!d) throw new Error(`scheme-help: no template ${slug}`);
-        return { slug, title: lang === "hi" ? d.titleHi : d.title, kind: d.template.kind };
+        return { slug, title: docText(d, lang).title, kind: d.template.kind };
       }),
     ]),
   );

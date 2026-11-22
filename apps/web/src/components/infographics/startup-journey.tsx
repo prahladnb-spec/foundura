@@ -1,13 +1,15 @@
+import { docText } from "@/documents/text";
+import type { Lang } from "@/i18n/config";
 import { docBySlug } from "@/documents";
 import type { Dict } from "@/i18n";
 import { Steps, type StepLink } from "./steps";
 
 /** The six stages from idea to market, each with the templates, schemes and pages that help. */
-export function StartupJourney({ t, lang }: { t: Dict; lang: "en" | "hi" }) {
+export function StartupJourney({ t, lang }: { t: Dict; lang: Lang }) {
   const j = t.learn.journey;
   const doc = (slug: string): StepLink => {
     const d = docBySlug(slug)!;
-    return { href: `/documents/${slug}`, label: lang === "hi" ? d.titleHi : d.title, kind: d.template.kind };
+    return { href: `/documents/${slug}`, label: docText(d, lang).title, kind: d.template.kind };
   };
   const scheme = (slug: string, label: string): StepLink => ({ href: `/schemes/${slug}`, label, kind: "scheme" });
   const links: StepLink[][] = [

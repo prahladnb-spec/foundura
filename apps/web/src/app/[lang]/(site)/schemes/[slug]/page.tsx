@@ -26,19 +26,14 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const lang = isLang(p.lang) ? p.lang : "en";
   const s = await load(p.slug, p.lang);
   const t = getDict(lang);
-  const hi = lang === "hi";
+  const k = t.seoText.scheme;
   const where = s.level === "state" ? String(lab(t.labels.state, s.state)) : t.scheme.central;
   return seoMetadata(`/schemes/${s.slug}`, lang, {
     focus: s.name,
-    title: seoTitle(s.name, hi ? "पात्रता और आवेदन" : "eligibility and how to apply"),
-    description: describe(s.summary, hi ? "Foundura पर मुफ़्त जाँचें कि आपका स्टार्टअप योग्य है या नहीं।" : "Check free on Foundura whether your startup qualifies."),
+    title: seoTitle(s.name, k.tail),
+    description: describe(s.summary, k.check),
     excerpt: clip(s.summary, 300),
-    keywords: keywordList(
-      [s.name, hi ? `${s.name} पात्रता` : `${s.name} eligibility`, hi ? `${s.name} आवेदन` : `how to apply for ${s.name}`, s.issuer, String(lab(t.labels.category, s.category)), where],
-      hi
-        ? ["स्टार्टअप योजना", "स्टार्टअप के लिए सरकारी योजनाएँ", "योजना पात्रता जाँच", "स्टार्टअप इंडिया", "DPIIT मान्यता", "स्टार्टअप अनुदान", "स्टार्टअप लोन", "राज्य स्टार्टअप नीति", "Foundura"]
-        : ["startup scheme India", "government schemes for startups", "scheme eligibility check", "Startup India", "DPIIT recognition", "startup grants India", "startup loans India", "state startup policy", "Foundura"],
-    ),
+    keywords: keywordList([s.name, f(k.eligibility, { name: s.name }), f(k.apply, { name: s.name }), s.issuer, String(lab(t.labels.category, s.category)), where], k.general),
   });
 }
 
@@ -84,19 +79,19 @@ export default async function SchemePage({ params }: { params: Params }) {
       )}
 
       <h2 className="display mt-10 text-3xl">{sc.get}</h2>
-      <ul lang={cond} className="mt-3 list-disc pl-5 space-y-1.5">
+      <ul lang={cond} className="mt-3 list-disc ps-5 space-y-1.5">
         {s.benefits.map((b) => <li key={b}>{b}</li>)}
       </ul>
 
       <h2 className="display mt-10 text-3xl">{sc.apply}</h2>
-      <ol lang={cond} className="mt-3 list-decimal pl-5 space-y-1.5">
+      <ol lang={cond} className="mt-3 list-decimal ps-5 space-y-1.5">
         {s.howToApply.map((b) => <li key={b}>{b}</li>)}
       </ol>
 
       {s.alsoCheck.length > 0 && (
         <>
           <h2 className="display mt-10 text-3xl">{sc.alsoCheck}</h2>
-          <ul lang={cond} className="mt-3 list-disc pl-5 space-y-1.5">
+          <ul lang={cond} className="mt-3 list-disc ps-5 space-y-1.5">
             {s.alsoCheck.map((b) => <li key={b}>{b}</li>)}
           </ul>
         </>

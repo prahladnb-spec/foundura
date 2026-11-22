@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "@/components/locale-link";
 import { notFound } from "next/navigation";
 import { api, ApiError } from "@/lib/api";
-import { getDict } from "@/i18n";
+import { f, getDict } from "@/i18n";
 import { isLang } from "@/i18n/config";
 import { chequeRange, investorTypeLabel, sectorLabel, stageLabel, stateLabel } from "@/lib/labels";
 import type { InvestorPublic } from "@/lib/types";
@@ -22,21 +22,18 @@ type Params = Promise<{ slug: string; lang: string }>;
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const p = await params;
   const lang = isLang(p.lang) ? p.lang : "en";
-  const hi = lang === "hi";
+  const k = getDict(lang).seoText.investor;
   const i = await load(p.slug);
   const name = i.firm ?? i.name;
   const type = investorTypeLabel(i.type, lang);
   const sectors = i.sectors.map((x) => sectorLabel(x, lang));
-  const summary = i.bio ?? (hi ? `${type}, ${sectors.join(", ")} में निवेश करते हैं।` : `${type} investing in ${sectors.join(", ")}.`);
+  const summary = i.bio ?? f(k.summary, { type, sectors: sectors.join(", ") });
   return seoMetadata(`/investors/${i.slug}`, lang, {
     focus: name,
-    title: seoTitle(name, hi ? "निवेशक प्रोफ़ाइल" : `${type} profile`),
-    description: describe(summary, hi ? "क्षेत्र, चरण और निवेश राशि देखें, और Foundura पर परिचय माँगें।" : "See their sectors, stages and cheque size, and ask for an intro on Foundura."),
+    title: seoTitle(name, f(k.tail, { type })),
+    description: describe(summary, k.check),
     excerpt: clip(summary, 300),
-    keywords: keywordList(
-      [name, i.firm ? i.name : null, type, ...sectors.map((s) => (hi ? `${s} निवेशक` : `${s} investor`)), ...i.stages.map((s) => stageLabel(s, lang))],
-      hi ? ["भारत में एंजल निवेशक", "स्टार्टअप निवेशक", "निवेशक से परिचय", "Foundura"] : ["angel investors in India", "startup investors", "investor intro", "Foundura"],
-    ),
+    keywords: keywordList([name, i.firm ? i.name : null, type, ...sectors.map((x) => f(k.sector, { x })), ...i.stages.map((s) => stageLabel(s, lang))], k.general),
   });
 }
 

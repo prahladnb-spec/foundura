@@ -2,8 +2,10 @@ import "server-only";
 import { SearchIndex, type SearchEntry, type SearchKind } from "@foundura/shared";
 import { DOCS } from "@/documents";
 import { GLOSSARY, termId } from "@/glossary";
-import { getDict, lab } from "@/i18n";
-import type { Lang } from "@/i18n/config";
+import { type Dict, getDict, lab } from "@/i18n";
+import { docText } from "@/documents/text";
+import { termText } from "@/glossary";
+import { LANGS, type Lang } from "@/i18n/config";
 import { apiOr } from "@/lib/api";
 import type { ArticleSummary, EventItem, InvestorPublic, Scheme, StartupPublic } from "@/lib/types";
 import { fmtRange } from "@/lib/format";
@@ -12,8 +14,8 @@ import { fmtRange } from "@/lib/format";
 export interface ResultView {
   href: string;
   title: string;
-  /** A Hindi name shown after an English title, in brackets. */
-  titleHi?: string;
+  /** A local name shown after an English title, in brackets (glossary terms). */
+  titleLocal?: string;
   /** Only for templates: the file type, for the icon. */
   docKind?: "doc" | "sheet" | "deck";
   summary: string;
@@ -25,11 +27,9 @@ export interface ResultView {
   summaryEn?: boolean;
 }
 
-const en = getDict("en");
-const hi = getDict("hi");
-/** A label in both languages, so either finds it. */
-const both = (pick: (d: typeof en) => Record<string, unknown>, key: string | null | undefined): string[] =>
-  key ? [String(lab(pick(en), key)), String(lab(pick(hi), key))] : [];
+/** A label in every language, so a query in any of them finds it. */
+const both = (pick: (d: Dict) => Record<string, unknown>, key: string | null | undefined): string[] =>
+  key ? [...new Set(LANGS.map((l) => String(lab(pick(getDict(l)), key))))] : [];
 
 /**
  * Everything the search covers, for one page language. Lists come from the API through the same
@@ -45,6 +45,8 @@ export async function catalogue(lang: Lang): Promise<SearchIndex<ResultView>> {
     apiOr<InvestorPublic[]>("/investors", [], 300),
   ]);
   const isHi = lang === "hi";
+  /** English text on a page in another language. */
+  const foreign = lang !== "en";
   const entries: SearchEntry<ResultView>[] = [];
   const add = (kind: SearchKind, id: string, e: Omit<SearchEntry<ResultView>, "kind" | "id">) => entries.push({ kind, id, ...e });
 
@@ -61,20 +63,22 @@ export async function catalogue(lang: Lang): Promise<SearchIndex<ResultView>> {
         title: shown.name,
         summary: shown.summary,
         meta: [
-          { text: s.issuer, en: isHi },
+          { text: s.issuer, en: foreign },
           { text: String(lab(getDict(lang).labels.category, s.category)), en: false },
         ],
-        en: isHi && !h,
+        en: foreign && !(isHi && h),
       },
     });
   }
 
   for (const d of DOCS) {
+    const all = LANGS.map((l) => docText(d, l));
+    const shown = docText(d, lang);
     add("template", d.slug, {
-      title: [d.title, d.titleHi],
+      title: [...new Set(all.map((x) => x.title))],
       tags: [d.category],
-      body: [d.summary, d.summaryHi, d.when],
-      data: { href: `/documents/${d.slug}`, title: isHi ? d.titleHi : d.title, summary: isHi ? d.summaryHi : d.summary, docKind: d.template.kind, en: false },
+      body: [...new Set(all.map((x) => x.summary)), d.when],
+      data: { href: `/documents/${d.slug}`, title: shown.title, summary: shown.summary, docKind: d.template.kind, en: foreign && shown.en },
     });
   }
 
@@ -83,15 +87,17 @@ export async function catalogue(lang: Lang): Promise<SearchIndex<ResultView>> {
       title: [a.title],
       tags: [a.theme],
       body: [a.excerpt],
-      data: { href: `/learn/${a.slug}`, title: a.title, summary: a.excerpt, en: isHi },
+      data: { href: `/learn/${a.slug}`, title: a.title, summary: a.excerpt, en: foreign },
     });
   }
 
   for (const g of GLOSSARY) {
+    const all = LANGS.map((l) => termText(g, l));
+    const shown = termText(g, lang);
     add("term", g.term, {
-      title: [g.term, ...(g.hi ? [g.hi] : [])],
-      body: [g.en, g.hiDef],
-      data: { href: `/glossary#${termId(g.term)}`, title: g.term, titleHi: isHi ? g.hi : undefined, summary: isHi ? g.hiDef : g.en, en: isHi, summaryEn: false },
+      title: [g.term, ...all.flatMap((x) => (x.name ? [x.name] : []))],
+      body: [...new Set(all.map((x) => x.def))],
+      data: { href: `/glossary#${termId(g.term)}`, title: g.term, titleLocal: shown.name, summary: shown.def, en: foreign, summaryEn: foreign && shown.en },
     });
   }
 
@@ -105,7 +111,7 @@ export async function catalogue(lang: Lang): Promise<SearchIndex<ResultView>> {
         title: e.name,
         summary: [e.city, e.country].filter(Boolean).join(", "),
         meta: e.startDate ? [{ text: fmtRange(e.startDate, e.endDate, lang), en: false }] : undefined,
-        en: isHi,
+        en: foreign,
       },
     });
   }
@@ -115,7 +121,7 @@ export async function catalogue(lang: Lang): Promise<SearchIndex<ResultView>> {
       title: [s.name],
       tags: [...s.sectors.flatMap((x) => both((d) => d.labels.sector, x)), ...both((d) => d.labels.state, s.state)],
       body: [s.oneLiner ?? "", s.description ?? ""],
-      data: { href: `/startups/${s.slug}`, title: s.name, summary: s.oneLiner ?? s.description ?? "", en: isHi },
+      data: { href: `/startups/${s.slug}`, title: s.name, summary: s.oneLiner ?? s.description ?? "", en: foreign },
     });
   }
 
@@ -124,7 +130,7 @@ export async function catalogue(lang: Lang): Promise<SearchIndex<ResultView>> {
       title: [i.name, i.firm ?? ""],
       tags: [...i.sectors.flatMap((x) => both((d) => d.labels.sector, x)), ...both((d) => d.labels.investorType, i.type)],
       body: [i.bio ?? ""],
-      data: { href: `/investors/${i.slug}`, title: i.firm ? `${i.name}, ${i.firm}` : i.name, summary: i.bio ?? "", en: isHi },
+      data: { href: `/investors/${i.slug}`, title: i.firm ? `${i.name}, ${i.firm}` : i.name, summary: i.bio ?? "", en: foreign },
     });
   }
 

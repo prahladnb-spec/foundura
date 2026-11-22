@@ -1,3 +1,4 @@
+import { INTL_LOCALE, type Lang } from "@/i18n/config";
 import type { EventItem } from "@/lib/types";
 
 /** Month in the form 2027-03. Falls back to the current month in India. */
@@ -35,9 +36,9 @@ export function onDay(e: EventItem, day: string): boolean {
   return e.deadline === day;
 }
 
-export function monthLabel(month: string, lang: "en" | "hi"): string {
+export function monthLabel(month: string, lang: Lang): string {
   const [y, m] = month.split("-").map(Number);
-  return new Intl.DateTimeFormat(lang === "hi" ? "hi-IN" : "en-IN", { month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(Date.UTC(y, m - 1, 1)));
+  return new Intl.DateTimeFormat(INTL_LOCALE[lang], { month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(Date.UTC(y, m - 1, 1)));
 }
 
 const plusDay = (d: string) => new Date(Date.parse(`${d}T00:00:00Z`) + 86_400_000).toISOString().slice(0, 10);

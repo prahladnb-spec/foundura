@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useT } from "@/i18n/client";
+import { contentLang } from "@/i18n/config";
 import { type Goal, hubText, pathwaySteps, type RiskClass, whoDecides } from "@/sectors/medtech";
 
 const GOALS: Goal[] = ["prototype", "study", "make", "import"];
@@ -38,7 +39,7 @@ function Choice<T extends string>({ name, legend, options, labels, value, onChan
 /** Two questions in, the regulatory steps, forms and deciding authority out. Nothing is stored. */
 export function MedtechFinder() {
   const { lang } = useT();
-  const t = hubText[lang];
+  const t = hubText[contentLang(lang)];
   const [goal, setGoal] = useState<Goal>("prototype");
   const [cls, setCls] = useState<RiskClass>("unsure");
   const steps = pathwaySteps(goal, cls);
@@ -52,15 +53,15 @@ export function MedtechFinder() {
       </div>
       <div aria-live="polite">
         <h3 className="sr-only">{t.finder.yourSteps}</h3>
-        <ol className="space-y-0 border-l-[3px] border-neel-100">
+        <ol className="space-y-0 border-s-[3px] border-neel-100">
           {steps.map((k, i) => {
             const s = t.steps[k];
             const who = whoDecides(k, cls, t);
             return (
-              <li key={k} className="relative pb-6 pl-8 last:pb-0">
+              <li key={k} className="relative pb-6 ps-8 last:pb-0">
                 <span
                   aria-hidden
-                  className="absolute -left-[0.95rem] top-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-neel-900 bg-paper text-[0.9rem] font-semibold"
+                  className="absolute -start-[0.95rem] top-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-neel-900 bg-paper text-[0.9rem] font-semibold"
                 >
                   {i + 1}
                 </span>

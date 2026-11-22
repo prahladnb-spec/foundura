@@ -34,27 +34,27 @@ export default async function AdminSchemes() {
         official page, and mark it checked. {pending ? `${pending} still to check.` : "All checked."}
       </p>
       <div className="mt-6 overflow-x-auto">
-        <table className="w-full min-w-[720px] text-left">
+        <table className="w-full min-w-[720px] text-start">
           <thead className="border-b-2 border-neel-900 text-[0.95rem]">
             <tr>
-              <th className="py-2 pr-4 font-semibold">Scheme</th>
-              <th className="py-2 pr-4 font-semibold">Where</th>
-              <th className="py-2 pr-4 font-semibold">Status</th>
-              <th className="py-2 pr-4 font-semibold">Last checked</th>
+              <th className="py-2 pe-4 font-semibold">Scheme</th>
+              <th className="py-2 pe-4 font-semibold">Where</th>
+              <th className="py-2 pe-4 font-semibold">Status</th>
+              <th className="py-2 pe-4 font-semibold">Last checked</th>
               <th className="py-2 font-semibold">Hindi</th>
             </tr>
           </thead>
           <tbody>
             {rows.map((r) => (
               <tr key={r.slug} className="border-b border-rule">
-                <td className="py-3 pr-4">
+                <td className="py-3 pe-4">
                   <Link href={`/admin/schemes/${r.slug}`} className="font-semibold">
                     {r.name}
                   </Link>
                 </td>
-                <td className="py-3 pr-4 text-slate">{r.level === "state" ? stateLabel(r.state) : "All India"}</td>
-                <td className="py-3 pr-4 text-slate capitalize">{r.status}</td>
-                <td className="py-3 pr-4">
+                <td className="py-3 pe-4 text-slate">{r.level === "state" ? stateLabel(r.state) : "All India"}</td>
+                <td className="py-3 pe-4 text-slate capitalize">{r.status}</td>
+                <td className="py-3 pe-4">
                   {r.lastVerifiedAt ? (
                     <span className="text-leaf">{shortDate(r.lastVerifiedAt)}</span>
                   ) : (

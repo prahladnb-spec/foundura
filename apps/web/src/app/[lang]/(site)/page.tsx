@@ -57,7 +57,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
           </h1>
           <p className="mt-5 max-w-[52ch] text-lg text-neel-700">{h.lead}</p>
 
-          <form action={lp(lang, "/scan")} method="get" className="mt-8 grid gap-3 sm:grid-cols-3 max-w-2xl">
+          <form action={lp(lang, "/scan")} method="get" className="mt-8 grid items-end gap-3 sm:grid-cols-3 max-w-2xl">
             <label className="block">
               <span className="block text-[0.9rem] font-semibold mb-1">{h.state}</span>
               <select name="state" className={select} defaultValue="">
@@ -102,7 +102,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
             {h.example.map((r, i) => ({ ...r, s: i < 3 ? ("eligible" as const) : ("maybe" as const) })).map((r, i) => (
               <li key={r.n} className="flex items-center gap-4 py-3.5">
                 <span className="w-28 shrink-0">
-                  <Stamp status={r.s} lang={lang} animate delayMs={300 + i * 120} />
+                  <Stamp status={r.s} label={t.stamp[r.s]} animate delayMs={300 + i * 120} />
                 </span>
                 <span>
                   <span lang="en" className="block font-semibold leading-snug">{r.n}</span>
@@ -133,7 +133,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
               <li key={p.slug} className="border-t border-neel-500/60 py-4">
                 <p className="text-[0.88rem] text-neel-100/80">
                   {fmtDate(p.date, true, lang)}, <span lang="en">{p.country}</span>
-                  {p.impact === "High" && <span className="ml-2 rounded bg-marigold px-1.5 py-0.5 text-[0.78rem] font-semibold text-neel-950">{h.highImpact}</span>}
+                  {p.impact === "High" && <span className="ms-2 rounded bg-marigold px-1.5 py-0.5 text-[0.78rem] font-semibold text-neel-950">{h.highImpact}</span>}
                 </p>
                 <p lang="en" className="mt-1 text-lg font-semibold leading-snug">{p.headline}</p>
                 <p lang="en" className="mt-1 text-[0.95rem] text-neel-100/85">{p.takeaway}</p>

@@ -2,7 +2,11 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { INDIAN_STATES, INVESTOR_TYPES, SECTORS, STAGES } from "@foundura/shared/constants";
-import { inrLakh, sectorLabel, stageLabel, stateLabel } from "@/lib/labels";
+import { en } from "@/i18n/en";
+import { labelsFor } from "@/lib/labels-core";
+
+// The investor dashboard is English-only.
+const { inrLakh, sector: sectorLabel, stage: stageLabel, state: stateLabel } = labelsFor(en);
 import type { InvestorOwn, MatchResult, ReceivedIntro, StartupPublic } from "@/lib/types";
 
 const field = "block w-full rounded-md border border-rule bg-white px-3 py-2.5 text-[1rem]";
@@ -159,11 +163,11 @@ export function InvestorDashboard({ email, investor: initial }: { email: string;
                 <p className="text-[0.92rem] text-slate">
                   {[x.startup.oneLiner, x.startup.sectors.map((x) => sectorLabel(x)).join(", "), stageLabel(x.startup.stage), stateLabel(x.startup.state)].filter(Boolean).join("; ")}
                 </p>
-                <blockquote className="mt-3 border-l-4 border-marigold pl-4 max-w-[68ch]">{x.message}</blockquote>
+                <blockquote className="mt-3 border-s-4 border-marigold ps-4 max-w-[68ch]">{x.message}</blockquote>
                 <p className="mt-3 text-[0.95rem]">
                   {x.startup.raisingInrLakh ? <>Raising {inrLakh(x.startup.raisingInrLakh)}. </> : null}
                   {x.startup.deckUrl && <a href={x.startup.deckUrl} target="_blank" rel="noopener noreferrer" className="underline text-neel-500">Open pitch deck</a>}
-                  {x.startup.website && <> <a href={x.startup.website} target="_blank" rel="noopener noreferrer" className="ml-3 underline text-neel-500">Website</a></>}
+                  {x.startup.website && <> <a href={x.startup.website} target="_blank" rel="noopener noreferrer" className="ms-3 underline text-neel-500">Website</a></>}
                 </p>
                 <div className="mt-3 flex gap-3">
                   <button onClick={() => respond(x.id, true)} className="rounded-md bg-leaf px-4 py-2 font-semibold text-white">Accept and share contacts</button>

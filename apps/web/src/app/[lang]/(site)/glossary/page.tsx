@@ -2,7 +2,7 @@ import { pageMetadata } from "@/seo";
 import { PageIntro } from "@/components/art";
 import type { Metadata } from "next";
 import Link from "@/components/locale-link";
-import { GLOSSARY, termId } from "@/glossary";
+import { GLOSSARY, termId, termText } from "@/glossary";
 import { getDict } from "@/i18n";
 import { isLang } from "@/i18n/config";
 
@@ -37,15 +37,18 @@ export default async function GlossaryPage({ params }: { params: Params }) {
         <section key={l} aria-labelledby={l} className="mt-8">
           <h2 id={l} lang="en" className="display border-b-2 border-neel-900 pb-1 text-3xl">{l}</h2>
           <dl>
-            {GLOSSARY.filter((g) => g.term[0].toUpperCase() === l).map((g) => (
-              <div key={g.term} id={termId(g.term)} className="scroll-mt-28 border-b border-rule py-4 target:bg-marigold-50">
-                <dt className="text-lg font-semibold">
-                  <span lang="en">{g.term}</span>
-                  {lang === "hi" && g.hi && <span className="ml-2 font-normal text-slate">({g.hi})</span>}
-                </dt>
-                <dd className="mt-1 max-w-[68ch]">{lang === "hi" ? g.hiDef : g.en}</dd>
-              </div>
-            ))}
+            {GLOSSARY.filter((g) => g.term[0].toUpperCase() === l).map((g) => {
+              const x = termText(g, lang);
+              return (
+                <div key={g.term} id={termId(g.term)} className="scroll-mt-28 border-b border-rule py-4 target:bg-marigold-50">
+                  <dt className="text-lg font-semibold">
+                    <span lang="en">{g.term}</span>
+                    {x.name && <span className="ms-2 font-normal text-slate">({x.name})</span>}
+                  </dt>
+                  <dd lang={x.en && lang !== "en" ? "en" : undefined} className="mt-1 max-w-[68ch]">{x.def}</dd>
+                </div>
+              );
+            })}
           </dl>
         </section>
       ))}

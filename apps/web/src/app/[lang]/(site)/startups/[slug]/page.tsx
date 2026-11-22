@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/json-ld";
 import Link from "@/components/locale-link";
-import { getDict } from "@/i18n";
+import { f, getDict } from "@/i18n";
 import { isLang, type Lang } from "@/i18n/config";
 import { api, ApiError } from "@/lib/api";
 import { userTextLang } from "@/lib/format";
@@ -29,21 +29,18 @@ const langOf = (l: string): Lang => (isLang(l) ? l : "en");
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const p = await params;
   const lang = langOf(p.lang);
-  const hi = lang === "hi";
   const s = await load(p.slug);
   const t = getDict(lang);
+  const k = t.seoText.startup;
   const sectors = s.sectors.map((x) => sectorLabel(x, lang));
   const place = stateLabel(s.state, lang);
   const summary = s.oneLiner ?? s.description ?? t.startups.metaDescription;
   return seoMetadata(`/startups/${s.slug}`, lang, {
     focus: s.name,
-    title: seoTitle(s.name, sectors[0] ? (hi ? `${sectors[0]} स्टार्टअप` : `${sectors[0]} startup`) : undefined),
-    description: describe(summary, hi ? `${place ? `${place} का ` : ""}भारतीय स्टार्टअप, Foundura पर।` : `An Indian startup${place ? ` from ${place}` : ""} on Foundura.`),
+    title: seoTitle(s.name, sectors[0] ? f(k.sector, { x: sectors[0] }) : undefined),
+    description: describe(summary, place ? f(k.from, { place }) : k.plain),
     excerpt: clip(s.description ?? summary, 300),
-    keywords: keywordList(
-      [s.name, ...sectors.map((x) => (hi ? `${x} स्टार्टअप` : `${x} startup`)), place ? (hi ? `${place} स्टार्टअप` : `${place} startups`) : null, stageLabel(s.stage, lang)],
-      hi ? ["भारतीय स्टार्टअप", "स्टार्टअप शोकेस", "Foundura"] : ["Indian startups", "startup showcase India", "Foundura"],
-    ),
+    keywords: keywordList([s.name, ...sectors.map((x) => f(k.sector, { x })), place ? f(k.place, { place }) : null, stageLabel(s.stage, lang)], k.general),
   });
 }
 

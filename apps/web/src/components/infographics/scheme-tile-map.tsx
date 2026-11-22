@@ -37,7 +37,8 @@ export function SchemeTileMap({ schemes, t }: { schemes: Scheme[]; t: Dict }) {
       <div>
         <h2 id="map-h" className="display text-3xl">{s.mapTitle}</h2>
         <p className="mt-1 max-w-[42ch] text-[0.95rem] text-slate">{s.mapLead}</p>
-        <nav aria-label={s.mapLabel} className="tile-map mt-5">
+        {/* A map keeps west on the left in every language. */}
+        <nav aria-label={s.mapLabel} dir="ltr" className="tile-map mt-5">
           {INDIAN_STATES.map(({ value }) => {
             const pos = TILES[value];
             if (!pos) return null;
@@ -81,7 +82,7 @@ export function SchemeTileMap({ schemes, t }: { schemes: Scheme[]; t: Dict }) {
             <li key={cat} className="grid grid-cols-[minmax(0,1fr)_2rem] items-center gap-x-3 gap-y-1.5 sm:grid-cols-[11rem_minmax(0,1fr)_2rem]">
               <span><CategoryStamp category={cat} label={String(lab(t.labels.category, cat))} /></span>
               <span aria-hidden="true" className="ledger-bar col-span-2 row-start-2 sm:col-span-1 sm:row-start-auto"><span style={{ width: `${(n / max) * 100}%` }} /></span>
-              <span className="col-start-2 row-start-1 text-right font-semibold tabular-nums sm:col-start-auto sm:row-start-auto">{n}</span>
+              <span className="col-start-2 row-start-1 text-end font-semibold tabular-nums sm:col-start-auto sm:row-start-auto">{n}</span>
             </li>
           ))}
         </ul>

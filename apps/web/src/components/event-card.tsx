@@ -1,13 +1,14 @@
 import { CalendarPlus, Download } from "lucide-react";
 import { FormatIcon, Icon } from "@/components/icons";
 import type { Dict } from "@/i18n/en";
-import { f, lab } from "@/i18n";
+import { f, lab } from "@/i18n/util";
+import { LANG_INFO, type Lang } from "@/i18n/config";
 import { googleAddLink } from "@/lib/calendar";
 import { fmtDate, fmtRange } from "@/lib/format";
 import type { EventItem } from "@/lib/types";
 
 /** One event: dates, place, who it suits, status, source, and links to add it to a calendar. */
-export function EventCard({ e, t, lang, site, compactDate = false }: { e: EventItem; t: Dict; lang: "en" | "hi"; site: string; compactDate?: boolean }) {
+export function EventCard({ e, t, lang, site, compactDate = false }: { e: EventItem; t: Dict; lang: Lang; site: string; compactDate?: boolean }) {
   const ev = t.events;
   const cond = lang === "en" ? undefined : "en";
   const google = googleAddLink(e, site);
@@ -21,7 +22,7 @@ export function EventCard({ e, t, lang, site, compactDate = false }: { e: EventI
       <div>
         <p lang={cond} className="text-lg font-semibold leading-snug">{e.name}</p>
         <p className="text-[0.93rem] text-slate">
-          <FormatIcon format={e.format} className="mr-1 inline h-4 w-4 -translate-y-px" />
+          <FormatIcon format={e.format} className="me-1 inline h-4 w-4 -translate-y-px" />
           <span lang={cond}>{place}</span>
           {place && ", "}
           <span lang={cond}>{e.type}</span>
@@ -30,7 +31,7 @@ export function EventCard({ e, t, lang, site, compactDate = false }: { e: EventI
         {e.bestFor && <p className="mt-1">{ev.bestFor.split("{v}")[0]}<span lang={cond}>{e.bestFor}</span>{ev.bestFor.split("{v}")[1]}</p>}
         {e.notes && <p lang={cond} className="text-neel-700">{e.notes}</p>}
         <p className="mt-1 text-[0.88rem] text-slate">
-          {e.status in ev.status ? `${lab(ev.status, e.status)}${lang === "hi" ? "। " : ". "}` : ""}
+          {e.status in ev.status ? `${lab(ev.status, e.status)}${LANG_INFO[lang].stop} ` : ""}
           {e.sourceUrl && (
             <a href={e.sourceUrl} target="_blank" rel="noopener noreferrer" className="underline">
               {t.common.source.split("{name}")[0]}

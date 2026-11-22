@@ -1,5 +1,3 @@
-import { getDict } from "@/i18n";
-import type { Lang } from "@/i18n/config";
 import type { MatchStatus } from "@/lib/types";
 
 const CLS: Record<MatchStatus, string> = {
@@ -8,13 +6,14 @@ const CLS: Record<MatchStatus, string> = {
   not_eligible: "stamp-not",
 };
 
-export function Stamp({ status, lang = "en", animate = false, delayMs = 0 }: { status: MatchStatus; lang?: Lang; animate?: boolean; delayMs?: number }) {
+/** The status stamp. `label` is the page language's word for the status (t.stamp[status]). */
+export function Stamp({ status, label, animate = false, delayMs = 0 }: { status: MatchStatus; label: string; animate?: boolean; delayMs?: number }) {
   return (
     <span
       className={`stamp ${CLS[status]} ${animate && status !== "not_eligible" ? "stamp-in" : ""}`}
       style={animate ? { animationDelay: `${delayMs}ms` } : undefined}
     >
-      {getDict(lang).stamp[status]}
+      {label}
     </span>
   );
 }

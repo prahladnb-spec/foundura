@@ -1,4 +1,4 @@
-import type { Lang } from "@/i18n/config";
+import { contentLang, type Lang } from "@/i18n/config";
 import type { LegalDetails } from "@/lib/legal";
 
 const TEXT = {
@@ -25,11 +25,11 @@ const TEXT = {
 /** Shows a value, or a visible marker so a missing detail can't slip through to launch unnoticed. */
 export function Fill({ value, what, lang = "en" }: { value: string | null; what: string; lang?: Lang }) {
   if (value) return <>{value}</>;
-  return <mark className="rounded bg-marigold-50 px-1 text-marigold-ink">{what} ({TEXT[lang].pending})</mark>;
+  return <mark className="rounded bg-marigold-50 px-1 text-marigold-ink">{what} ({TEXT[contentLang(lang)].pending})</mark>;
 }
 
 export function GrievanceContact({ legal, lang = "en" }: { legal: LegalDetails; lang?: Lang }) {
-  const t = TEXT[lang];
+  const t = TEXT[contentLang(lang)];
   return (
     <div className="not-prose my-5 rounded-md border border-rule bg-white px-5 py-4">
       <p className="font-semibold">{t.officer}</p>

@@ -1,4 +1,7 @@
 /** Startup terms in plain language. `term` stays in English on both sites; `hi` is the Hindi name where one is used. */
+import type { Lang } from "@/i18n/config";
+import { TERM_TEXT } from "./glossary-translations";
+
 export interface Term {
   term: string;
   hi?: string;
@@ -64,3 +67,14 @@ export const GLOSSARY: Term[] = [
   { term: "Venture capital (VC)", hi: "वेंचर कैपिटल", en: "Funds that invest other people's money in young companies with high growth potential, in return for shares.", hiDef: "ऐसे फ़ंड जो दूसरों का पैसा तेज़ी से बढ़ सकने वाली नई कंपनियों में, शेयरों के बदले, लगाते हैं।" },
   { term: "Vesting", hi: "वेस्टिंग", en: "Earning shares or options over time, so that someone who leaves early keeps only part.", hiDef: "समय के साथ शेयर या ऑप्शन अर्जित करना, ताकि जल्दी छोड़ने वाले के पास सिर्फ़ एक हिस्सा रहे।" },
 ];
+
+/**
+ * A term in a language: its local name if one is used (the English term is always shown too) and
+ * its meaning. `en` says the meaning fell back to English.
+ */
+export function termText(g: Term, lang: Lang): { name?: string; def: string; en: boolean } {
+  if (lang === "en") return { def: g.en, en: false };
+  if (lang === "hi") return { name: g.hi, def: g.hiDef, en: false };
+  const x = TERM_TEXT[lang][g.term];
+  return x ? { name: x.n, def: x.d, en: false } : { def: g.en, en: true };
+}

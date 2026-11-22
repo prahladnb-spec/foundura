@@ -1,4 +1,5 @@
 import type { Page } from "@playwright/test";
+import { LANG_INFO, LANGS, lp } from "../../apps/web/src/i18n/config";
 import { SEO } from "../../apps/web/src/seo";
 import { expect, test } from "./fixtures";
 
@@ -15,6 +16,9 @@ async function head(page: Page) {
       canonical: link('link[rel="canonical"]'),
       en: link('link[rel="alternate"][hreflang="en-IN"]'),
       hi: link('link[rel="alternate"][hreflang="hi-IN"]'),
+      alternates: [...document.querySelectorAll<HTMLLinkElement>('link[rel="alternate"][hreflang]')].map((l) => [l.hreflang, new URL(l.href).pathname]),
+      htmlLang: document.documentElement.lang,
+      dir: document.documentElement.dir,
       xDefault: link('link[rel="alternate"][hreflang="x-default"]'),
       ogTitle: meta('meta[property="og:title"]'),
       ogDescription: meta('meta[property="og:description"]'),
@@ -28,9 +32,9 @@ async function head(page: Page) {
 
 test.describe("search engine details", () => {
   for (const [key, langs] of Object.entries(SEO)) {
-    for (const lang of ["en", "hi"] as const) {
+    for (const lang of LANGS) {
       const s = langs[lang];
-      const path = lang === "hi" ? (s.slug === "/" ? "/hi" : `/hi${s.slug}`) : s.slug;
+      const path = lp(lang, s.slug);
       test(`${key} (${lang}) has its SEO title, description, keywords and alternates`, async ({ page }) => {
         await page.goto(path);
         const h = await head(page);
@@ -51,7 +55,11 @@ test.describe("search engine details", () => {
         expect(h.ogTitle).toBe(s.title);
         expect(h.ogDescription).toBe(s.excerpt);
         expect(h.ogUrl).toBe(h.canonical);
-        expect(h.ogLocale).toBe(lang === "hi" ? "hi_IN" : "en_IN");
+        expect(h.ogLocale).toBe(LANG_INFO[lang].og);
+        // Every language version is listed, and the page says which language and direction it is.
+        expect(Object.fromEntries(h.alternates)).toEqual({ ...Object.fromEntries(LANGS.map((l) => [LANG_INFO[l].tag, lp(l, s.slug)])), "x-default": s.slug });
+        expect(h.htmlLang).toBe(LANG_INFO[lang].tag);
+        expect(h.dir).toBe(LANG_INFO[lang].dir);
         expect(h.twitter).toBe("summary_large_image");
         expect(h.h1).toBe(1);
       });
@@ -59,7 +67,7 @@ test.describe("search engine details", () => {
   }
 
   test("main page titles and descriptions are all different", () => {
-    for (const lang of ["en", "hi"] as const) {
+    for (const lang of LANGS) {
       const all = Object.values(SEO).map((p) => p[lang]);
       expect(new Set(all.map((p) => p.title)).size).toBe(all.length);
       expect(new Set(all.map((p) => p.description)).size).toBe(all.length);
@@ -67,7 +75,7 @@ test.describe("search engine details", () => {
     }
   });
 
-  for (const path of ["/schemes/startup-india-seed-fund", "/hi/schemes/startup-india-seed-fund", "/documents/pitch-deck", "/hi/documents/founders-agreement", "/learn/dpiit-recognition-2026-rules"]) {
+  for (const path of ["/schemes/startup-india-seed-fund", "/hi/schemes/startup-india-seed-fund", "/documents/pitch-deck", "/hi/documents/founders-agreement", "/learn/dpiit-recognition-2026-rules", "/es/documents/cap-table", "/de/schemes/startup-india-seed-fund", "/ar/documents/pitch-deck", "/he/investors"]) {
     test(`detail page ${path} gets generated SEO details within the limits`, async ({ page }) => {
       await page.goto(path);
       const h = await head(page);

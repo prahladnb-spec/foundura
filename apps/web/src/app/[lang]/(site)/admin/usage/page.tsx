@@ -34,12 +34,12 @@ function Top({ id, title, rows, empty }: { id: string; title: string; rows: { ke
       {rows.length === 0 ? (
         <p className="mt-2 text-slate">{empty}</p>
       ) : (
-        <table className="mt-2 w-full text-left">
+        <table className="mt-2 w-full text-start">
           <tbody className="divide-y divide-rule border-y border-rule">
             {rows.map((r) => (
               <tr key={r.key}>
-                <td className="truncate py-2 pr-3 font-mono text-[0.95rem]">{r.key || "/"}</td>
-                <td className="py-2 text-right tabular-nums">{fmt(r.total)}</td>
+                <td className="truncate py-2 pe-3 font-mono text-[0.95rem]">{r.key || "/"}</td>
+                <td className="py-2 text-end tabular-nums">{fmt(r.total)}</td>
               </tr>
             ))}
           </tbody>

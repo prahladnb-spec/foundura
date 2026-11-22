@@ -3,6 +3,7 @@ import { expect, signIn, test, uniqueEmail } from "./fixtures";
 test.describe("Hindi", () => {
   test("switching language keeps the page, and the scan works in Hindi", async ({ page }) => {
     await page.goto("/");
+    await page.locator("header details summary").click();
     await page.locator("header").getByRole("link", { name: "हिन्दी" }).click();
     await expect(page).toHaveURL(/\/hi$/);
     await expect(page.locator("html")).toHaveAttribute("lang", "hi-IN");
@@ -20,6 +21,7 @@ test.describe("Hindi", () => {
     await expect(page.locator("#results-h ~ ol a").first()).toHaveAttribute("href", /^\/hi\/schemes\//);
 
     await page.goto("/hi/privacy");
+    await page.locator("header details summary").click();
     await page.locator("header").getByRole("link", { name: "English" }).click();
     await expect(page).toHaveURL(/localhost:3100\/privacy$/);
   });
@@ -64,7 +66,7 @@ test.describe("Hindi", () => {
     // The Data Protection Board's English name next to the Hindi one.
     ..."Data Protection Board of".split(" "),
     // Values partners type into the embed code, shown on the partners page.
-    ..."idea prototype early_revenue growth private_limited hi".split(" "),
+    ..."idea prototype early_revenue growth private_limited hi es de ar he".split(" "),
   ]);
   const isAcronym = (w: string) => /^[A-Z0-9&-]+$/.test(w) || /^[A-Z][A-Z0-9]*[a-z][A-Z0-9]+$/.test(w);
   const PAGES = [
@@ -113,7 +115,7 @@ test.describe("Hindi", () => {
         let n: Node | null;
         while ((n = walk.nextNode())) {
           const el = n.parentElement;
-          if (!el || el.closest('[lang="en"],[lang="en-IN"],script,style,code,pre,noscript,mark,[aria-hidden="true"]')) continue;
+          if (!el || el.closest('[lang="en"],[lang="en-IN"],[lang]:not([lang^="hi"]),script,style,code,pre,noscript,mark,[aria-hidden="true"]')) continue;
           const text = (n.textContent ?? "").replace(/\S+@\S+|https?:\/\/\S+|\b[\w-]+(\.[\w-]+)*\.(in|org|com|gov|net)\b\S*/g, " ");
           for (const w of text.match(/[A-Za-z][A-Za-z&_\-]+/g) ?? []) out.push(w);
         }

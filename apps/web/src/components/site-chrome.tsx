@@ -1,3 +1,5 @@
+import { awaitingReview } from "@/i18n/reviews";
+import { legalDetails } from "@/lib/legal";
 import Link from "@/components/locale-link";
 import { cookies } from "next/headers";
 import { Suspense } from "react";
@@ -36,6 +38,7 @@ function Wordmark({ label }: { label: string }) {
 export async function SiteHeader({ lang }: { lang: Lang }) {
   const t = getDict(lang);
   const NAV = nav(t);
+  const support = legalDetails().supportEmail ?? "help@foundura.org";
   const signedIn = Boolean((await cookies()).get("fd_session"));
   return (
     <header className="border-b border-rule bg-paper/95 backdrop-blur sticky top-0 z-40">
@@ -48,7 +51,7 @@ export async function SiteHeader({ lang }: { lang: Lang }) {
             </Link>
           ))}
         </nav>
-        <div className="ml-auto flex items-center gap-4">
+        <div className="ms-auto flex items-center gap-4">
           <Link href="/search" className="inline-flex items-center gap-1.5 text-[0.95rem] font-semibold text-neel-700 hover:text-neel-950 no-underline">
             <Icon icon={Search} className="h-[1.1rem] w-[1.1rem]" />
             <span className="sr-only sm:not-sr-only">{t.chrome.search}</span>
@@ -64,6 +67,13 @@ export async function SiteHeader({ lang }: { lang: Lang }) {
           </Link>
         </div>
       </div>
+      {awaitingReview(lang) && (
+        <p className="border-t border-rule bg-marigold-50 px-5 py-1.5 text-center text-[0.85rem] text-neel-700">
+          {t.chrome.unreviewed.split("{email}")[0]}
+          <a href={`mailto:${support}`} className="underline" dir="ltr">{support}</a>
+          {t.chrome.unreviewed.split("{email}")[1]}
+        </p>
+      )}
       <nav aria-label="Main mobile" className="xl:hidden border-t border-rule overflow-x-auto">
         <div className="flex gap-5 px-5 py-2 text-[0.92rem] whitespace-nowrap">
           {NAV.map((n) => (

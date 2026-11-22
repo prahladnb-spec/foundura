@@ -5,7 +5,7 @@ import type { HelpMap } from "@/documents/scheme-help";
 import { ENTITY_TYPES, INDIAN_STATES, SECTORS, STAGES } from "@foundura/shared/constants";
 import type { ScanInput } from "@foundura/shared";
 import { useT } from "@/i18n/client";
-import { lab } from "@/i18n";
+import { lab } from "@/i18n/util";
 import type { ScanResult } from "@/lib/types";
 import { ScanResults } from "./scan-results";
 
