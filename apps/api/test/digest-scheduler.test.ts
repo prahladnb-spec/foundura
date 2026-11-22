@@ -3,6 +3,10 @@ import type { AppConfig } from "../src/config";
 import { DigestScheduler } from "../src/digest/digest.scheduler";
 import type { DigestService } from "../src/digest/digest.service";
 import type { TermsReminderService } from "../src/legal/terms-reminder.service";
+import type { OpsService } from "../src/ops/ops.service";
+
+/** Runs jobs straight through, as OpsService does when nothing fails. */
+const ops = { track: (_n: string, fn: () => Promise<unknown>) => fn() } as unknown as OpsService;
 
 function make() {
   const run = vi.fn().mockResolvedValue({ failed: 0 });
@@ -11,6 +15,7 @@ function make() {
     { SCHEDULED_EMAILS: true } as AppConfig,
     { run } as unknown as DigestService,
     { run: remind } as unknown as TermsReminderService,
+    ops,
   );
   return { s, run, remind };
 }

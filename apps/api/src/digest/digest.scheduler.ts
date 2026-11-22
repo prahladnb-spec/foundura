@@ -1,6 +1,7 @@
 import { Inject, Injectable, Logger, type OnModuleDestroy, type OnModuleInit } from "@nestjs/common";
 import { CONFIG, type AppConfig } from "../config";
 import { TermsReminderService } from "../legal/terms-reminder.service";
+import { OpsService } from "../ops/ops.service";
 import { DigestService, weekOf } from "./digest.service";
 
 /**
@@ -21,6 +22,7 @@ export class DigestScheduler implements OnModuleInit, OnModuleDestroy {
     @Inject(CONFIG) private readonly config: AppConfig,
     @Inject(DigestService) private readonly digest: DigestService,
     @Inject(TermsReminderService) private readonly reminders: TermsReminderService,
+    @Inject(OpsService) private readonly ops: OpsService,
   ) {}
 
   onModuleInit() {
@@ -42,12 +44,12 @@ export class DigestScheduler implements OnModuleInit, OnModuleDestroy {
     this.running = true;
     try {
       if (ist.getUTCDay() === 1 && hour >= 8 && this.doneWeek !== weekOf(today)) {
-        const r = await this.digest.run(today);
-        if (r.failed === 0) this.doneWeek = weekOf(today);
+        const r = await this.ops.track("weekly_digest", () => this.digest.run(today), (x) => (x.failed ? `${x.failed} digest emails failed to send` : null));
+        if (r && r.failed === 0) this.doneWeek = weekOf(today);
       }
       if (hour >= 10 && this.doneReminderDay !== today) {
-        const r = await this.reminders.run(now);
-        if (r.failed === 0) this.doneReminderDay = today;
+        const r = await this.ops.track("terms_reminder", () => this.reminders.run(now), (x) => (x.failed ? `${x.failed} terms reminders failed to send` : null));
+        if (r && r.failed === 0) this.doneReminderDay = today;
       }
     } catch (e) {
       this.log.error(`Scheduled emails failed: ${(e as Error).message}`);

@@ -81,7 +81,12 @@ docker compose -f docker-compose.prod.yml exec -T db pg_restore -U foundura -d f
 
 ## 7. Monitoring
 
-- Point an uptime monitor at `https://foundura.org/api/health`. It checks the web app, API and database in one call and returns 503 if any is down.
+- **Uptime:** point an outside uptime monitor at `https://foundura.org/api/health` every 5 minutes (any uptime service with a free tier works), with alerts to your phone. It checks the web app, API and database in one call and returns 503 if any is down. This is the only alert that works when the whole server is down, so don't skip it.
+- **Error and job alerts:** set `OPS_ALERT_EMAIL` and `OPS_REPORT_TOKEN`. Then:
+  - an unexpected error in the API, or while the web server renders a page, is emailed (the same error at most once every 30 minutes; only the method, path and stack trace, never request bodies or query strings);
+  - a scheduled job that fails is emailed (weekly scheme alerts, terms reminders, or every event source failing at once);
+  - a job that hasn't succeeded for too long is emailed: weekly alerts after 8 days, terms reminders and the event sync after 2 days. The API checks this hourly.
+  - Test it after deploying: `docker compose -f docker-compose.prod.yml exec api node -e "fetch('http://localhost:4000/v1/ops/report',{method:'POST',headers:{'content-type':'application/json','x-ops-token':process.env.OPS_REPORT_TOKEN},body:JSON.stringify({source:'web',message:'Test alert',path:'/test'})}).then(r=>console.log(r.status))"` should print 202 and send an email.
 - Container logs: `docker compose -f docker-compose.prod.yml logs --since 1h api web`.
 - Access logs (visitor IP, time, request) are written by Caddy to `/data/logs/access.log` in the `caddy_data` volume and kept for 180 days, as the CERT-In directions require and the privacy page states. Read them with `docker compose -f docker-compose.prod.yml exec caddy tail -f /data/logs/access.log`.
 - Offsite backup copies should also be deleted after 14 days; the privacy page tells users backups roll over within 14 days of erasure.
@@ -91,6 +96,8 @@ docker compose -f docker-compose.prod.yml exec -T db pg_restore -U foundura -d f
 | Setting | Where | What it does |
 | --- | --- | --- |
 | `SITE_DOMAIN` | compose | Domain Caddy serves and gets a certificate for |
+| `OPS_ALERT_EMAIL` | api | Inbox for error and stalled-job alerts |
+| `OPS_REPORT_TOKEN` | api, web | Shared secret for the web server to report its errors |
 | `ACME_EMAIL` | compose | Contact for certificate expiry notices |
 | `POSTGRES_PASSWORD` | compose | Database password |
 | `SITE_URL`, `CORS_ORIGINS` | API | Public address, used in emails and CORS |

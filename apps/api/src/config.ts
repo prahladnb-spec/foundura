@@ -23,6 +23,10 @@ const envSchema = z.object({
     .enum(["true", "false"])
     .default("false")
     .transform((v) => v === "true"),
+  /** Where to email alerts about server errors and stalled scheduled jobs. Strongly recommended in production. */
+  OPS_ALERT_EMAIL: z.string().email().optional().or(z.literal("").transform(() => undefined)),
+  /** Shared secret the web server uses to report its own errors to the API (POST /v1/ops/report). */
+  OPS_REPORT_TOKEN: z.string().min(24, "OPS_REPORT_TOKEN must be at least 24 characters").optional().or(z.literal("").transform(() => undefined)),
   /** Public site URL, used in notification emails. */
   SITE_URL: z.string().url().default("http://localhost:3000"),
   OTP_DELIVERY: z.enum(["dev", "email"]).default("dev"),

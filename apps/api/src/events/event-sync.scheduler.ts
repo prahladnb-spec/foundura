@@ -1,5 +1,6 @@
 import { Inject, Injectable, Logger, type OnModuleDestroy, type OnModuleInit } from "@nestjs/common";
 import { CONFIG, type AppConfig } from "../config";
+import { OpsService } from "../ops/ops.service";
 import { EventSyncService } from "./event-sync.service";
 
 /**
@@ -16,6 +17,7 @@ export class EventSyncScheduler implements OnModuleInit, OnModuleDestroy {
   constructor(
     @Inject(CONFIG) private readonly config: AppConfig,
     @Inject(EventSyncService) private readonly sync: EventSyncService,
+    @Inject(OpsService) private readonly ops: OpsService,
   ) {}
 
   onModuleInit() {
@@ -36,9 +38,13 @@ export class EventSyncScheduler implements OnModuleInit, OnModuleDestroy {
     if (ist.getUTCHours() < 6 || this.doneDay === today) return;
     this.running = true;
     try {
-      const r = await this.sync.syncAll(today);
-      this.doneDay = today;
-      this.log.log(`Event sync: ${r.sources} sources, ${r.failed} failed.`);
+      // Individual sources failing (a site down for a day) is normal and shown in the editor console;
+      // only alert when every source failed, which usually means the server can't reach the internet.
+      const r = await this.ops.track("event_sync", () => this.sync.syncAll(today), (x) => (x.sources > 0 && x.failed === x.sources ? `All ${x.sources} event sources failed` : null));
+      if (r) {
+        this.doneDay = today;
+        this.log.log(`Event sync: ${r.sources} sources, ${r.failed} failed.`);
+      }
     } catch (e) {
       this.log.error(`Event sync failed: ${(e as Error).message}`);
     } finally {

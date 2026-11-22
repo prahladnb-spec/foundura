@@ -217,6 +217,15 @@ export const schemes = pgTable("schemes", {
  * Places the daily sync reads events from: an iCalendar (.ics) feed, or a web page that publishes
  * schema.org Event data. Added by editors. Events from sources that aren't trusted wait for review.
  */
+/** When each scheduled job last ran, succeeded and failed, so a stalled job can be noticed. */
+export const jobRuns = pgTable("job_runs", {
+  name: text("name").primaryKey(),
+  lastStartedAt: timestamp("last_started_at", { withTimezone: true }),
+  lastSuccessAt: timestamp("last_success_at", { withTimezone: true }),
+  lastErrorAt: timestamp("last_error_at", { withTimezone: true }),
+  lastError: text("last_error"),
+});
+
 export const eventSources = pgTable("event_sources", {
   id: id(),
   name: text("name").notNull(),
