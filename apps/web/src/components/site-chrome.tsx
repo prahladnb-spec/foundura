@@ -36,7 +36,7 @@ export async function SiteHeader({ lang }: { lang: Lang }) {
   const t = getDict(lang);
   const NAV = nav(t);
   const wide = LANG_INFO[lang].wideNav;
-  const support = legalDetails().supportEmail ?? "help@foundura.org";
+  const support = legalDetails().supportEmail ?? "support@foundura.org";
   const signedIn = Boolean((await cookies()).get("fd_session"));
   return (
     <header className="border-b border-rule bg-paper/95 backdrop-blur sticky top-0 z-40">
