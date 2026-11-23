@@ -100,6 +100,12 @@ curl https://foundura.org/api/health        # {"web":"up","api":"up","db":"up"}
 docker compose -f docker-compose.prod.yml logs -f api
 ```
 
+Then load every page once, so the first visitors don't wait for pages to be generated (about 20 seconds):
+
+```bash
+./deploy/warm.sh
+```
+
 Then sign in with an address listed in `ADMIN_EMAILS` and open `/admin`.
 
 ## 5. Updating
@@ -107,9 +113,10 @@ Then sign in with an address listed in `ADMIN_EMAILS` and open `/admin`.
 ```bash
 git pull
 docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
+./deploy/warm.sh
 ```
 
-Migrations run on every deploy before the new API starts. Expect a few seconds of downtime while containers restart.
+Migrations run on every deploy before the new API starts. Expect a few seconds of downtime while containers restart. `warm.sh` waits for the site to be healthy, loads every page in the sitemap once and lists any page that didn't return 200.
 
 ## 6. Backups
 

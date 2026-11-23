@@ -1,5 +1,6 @@
 import path from "node:path";
 import type { NextConfig } from "next";
+import { LANGS } from "./src/i18n/config";
 
 const common = [
   { key: "X-Content-Type-Options", value: "nosniff" },
@@ -28,6 +29,9 @@ const csp = (frameAncestors: string) =>
     `frame-ancestors ${frameAncestors}`,
   ].join("; ");
 
+// Languages with a URL prefix (English lives at plain URLs).
+const PREFIXED = LANGS.filter((l) => l !== "en").join("|");
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   // Self-contained server bundle for the Docker image (apps/web/Dockerfile).
@@ -35,12 +39,15 @@ const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(__dirname, "../../"),
   outputFileTracingIncludes: { "/**/*": ["./assets/og-fonts/*", "./public/art/covers/*"] },
   poweredByHeader: false,
+  // Put the title, description, canonical and social tags in the <head> for every visitor. Next streams them into the body
+  // by default (even for prerendered pages), where link previews and some crawlers miss them. Ours are computed locally.
+  htmlLimitedBots: /.*/,
   transpilePackages: ["@foundura/shared"],
   async headers() {
     return [
-      // Everything except the embed widget (English or Hindi) refuses to be framed (clickjacking protection).
+      // Everything except the embed widget refuses to be framed (clickjacking protection).
       {
-        source: "/((?!embed/|hi/embed/).*)",
+        source: `/((?!embed/|(?:${PREFIXED})/embed/).*)`,
         headers: [
           ...common,
           { key: "X-Frame-Options", value: "DENY" },
@@ -48,13 +55,13 @@ const nextConfig: NextConfig = {
           { key: "Content-Security-Policy", value: csp("'none'") },
         ],
       },
-      // The widget may be framed by partner sites. It sets no cookies and stores nothing.
+      // The widget, in every language, may be framed by partner sites. It sets no cookies and stores nothing.
       {
         source: "/embed/:path*",
         headers: [...common, { key: "Content-Security-Policy", value: csp("*") }],
       },
       {
-        source: "/hi/embed/:path*",
+        source: `/:lang(${PREFIXED})/embed/:path*`,
         headers: [...common, { key: "Content-Security-Policy", value: csp("*") }],
       },
       { source: "/embed.js", headers: [{ key: "Cache-Control", value: "public, max-age=3600" }] },

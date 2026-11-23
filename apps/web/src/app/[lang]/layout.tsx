@@ -11,6 +11,7 @@ import "@fontsource-variable/anek-telugu/wght.css";
 import "@fontsource-variable/anek-tamil/wght.css";
 import "@fontsource-variable/anek-kannada/wght.css";
 import "../globals.css";
+import { anekLatin, mukta } from "../fonts";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDict } from "@/i18n";
@@ -38,7 +39,7 @@ export default async function RootLayout({ children, params }: { children: React
   const { lang } = await params;
   if (!isLang(lang)) notFound();
   return (
-    <html lang={LANG_INFO[lang].tag} dir={LANG_INFO[lang].dir}>
+    <html lang={LANG_INFO[lang].tag} dir={LANG_INFO[lang].dir} className={`${anekLatin.variable} ${mukta.variable}`}>
       <body className="min-h-screen">
         <I18nProvider lang={lang} t={getDict(lang)}>
           {children}

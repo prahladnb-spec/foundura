@@ -39,7 +39,7 @@ Request bodies are capped at 200 KB (2 MB for editor CSV imports).
 
 Set in `apps/web/next.config.ts` and checked by `e2e/tests/security.spec.ts`:
 
-- `Content-Security-Policy`: everything from our own origin only (`default-src 'self'`), no plugins, no outside forms, and framing refused (`frame-ancestors 'none'`). Inline scripts are allowed because Next.js adds small ones to statically built pages; nonces would make every page render per request. The scan widget under `/embed` may be framed by any site.
+- `Content-Security-Policy`: everything from our own origin only (`default-src 'self'`), no plugins, no outside forms, and framing refused (`frame-ancestors 'none'`). Inline scripts are allowed because Next.js adds small ones to statically built pages; nonces would make every page render per request. The scan widget under `/embed` (and `/<lang>/embed` for every language in `LANGS`, built into the rule in `next.config.ts`) may be framed by any site; it sets no cookies and stores nothing. `e2e/tests/security.spec.ts` checks every language.
 - `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Cross-Origin-Opener-Policy: same-origin`, and a `Permissions-Policy` that turns off camera, microphone, location, payment, USB and ad topics.
 - HSTS comes from Caddy.
 

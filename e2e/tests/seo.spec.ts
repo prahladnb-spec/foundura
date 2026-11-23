@@ -66,6 +66,20 @@ test.describe("search engine details", () => {
     }
   }
 
+  test("titles, descriptions, canonical and social tags are in the <head> the server sends", async ({ request }) => {
+    // Link previews (WhatsApp, LinkedIn) and some crawlers read only the raw <head>, without running scripts.
+    const paths = ["/", "/schemes", "/documents/pitch-deck", "/events", "/glossary"];
+    for (const l of LANGS) {
+      for (const p of l === "en" || l === "hi" ? paths : [paths[0]]) {
+        const html = await (await request.get(lp(l, p))).text();
+        const headHtml = html.slice(0, html.indexOf("</head>"));
+        for (const tag of ["<title>", 'name="description"', 'rel="canonical"', 'property="og:title"']) {
+          expect(headHtml, `${lp(l, p)} ${tag}`).toContain(tag);
+        }
+      }
+    }
+  });
+
   test("main page titles and descriptions are all different", () => {
     for (const lang of LANGS) {
       const all = Object.values(SEO).map((p) => p[lang]);

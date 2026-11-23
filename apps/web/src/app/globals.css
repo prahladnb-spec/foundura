@@ -23,8 +23,8 @@
   --color-manila: #e8cf8f;
   --color-tape: #c94a36;
 
-  --font-display: "Anek Latin Variable", "Anek Devanagari Variable", "Anek Latin", system-ui, sans-serif;
-  --font-body: "Mukta", system-ui, sans-serif;
+  --font-display: var(--font-anek-latin), "Anek Latin Variable", "Anek Devanagari Variable", "Anek Latin", system-ui, sans-serif;
+  --font-body: var(--font-mukta), "Mukta", system-ui, sans-serif;
 }
 
 html {
@@ -59,48 +59,48 @@ h3 {
  * looser line than the poster-tight Latin display line.
  */
 :root:lang(ar) {
-  --font-display: "Anek Latin Variable", "Noto Sans Arabic Variable", system-ui, sans-serif;
-  --font-body: "Mukta", "Noto Sans Arabic Variable", system-ui, sans-serif;
+  --font-display: var(--font-anek-latin), "Anek Latin Variable", "Noto Sans Arabic Variable", system-ui, sans-serif;
+  --font-body: var(--font-mukta), "Mukta", "Noto Sans Arabic Variable", system-ui, sans-serif;
 }
 :root:lang(he) {
-  --font-display: "Anek Latin Variable", "Noto Sans Hebrew Variable", system-ui, sans-serif;
-  --font-body: "Mukta", "Noto Sans Hebrew Variable", system-ui, sans-serif;
+  --font-display: var(--font-anek-latin), "Anek Latin Variable", "Noto Sans Hebrew Variable", system-ui, sans-serif;
+  --font-body: var(--font-mukta), "Mukta", "Noto Sans Hebrew Variable", system-ui, sans-serif;
 }
 :root:lang(kn) {
-  --font-display: "Anek Latin Variable", "Anek Kannada Variable", system-ui, sans-serif;
-  --font-body: "Mukta", "Anek Kannada Variable", system-ui, sans-serif;
+  --font-display: var(--font-anek-latin), "Anek Latin Variable", "Anek Kannada Variable", system-ui, sans-serif;
+  --font-body: var(--font-mukta), "Mukta", "Anek Kannada Variable", system-ui, sans-serif;
 }
 /* Tall vowel signs above and below the line need more room than the poster-tight Latin line. */
 :lang(kn) .display {
   line-height: 1.2;
 }
 :root:lang(ta) {
-  --font-display: "Anek Latin Variable", "Anek Tamil Variable", system-ui, sans-serif;
-  --font-body: "Mukta", "Anek Tamil Variable", system-ui, sans-serif;
+  --font-display: var(--font-anek-latin), "Anek Latin Variable", "Anek Tamil Variable", system-ui, sans-serif;
+  --font-body: var(--font-mukta), "Mukta", "Anek Tamil Variable", system-ui, sans-serif;
 }
 /* Tall vowel signs above and below the line need more room than the poster-tight Latin line. */
 :lang(ta) .display {
   line-height: 1.2;
 }
 :root:lang(te) {
-  --font-display: "Anek Latin Variable", "Anek Telugu Variable", system-ui, sans-serif;
-  --font-body: "Mukta", "Anek Telugu Variable", system-ui, sans-serif;
+  --font-display: var(--font-anek-latin), "Anek Latin Variable", "Anek Telugu Variable", system-ui, sans-serif;
+  --font-body: var(--font-mukta), "Mukta", "Anek Telugu Variable", system-ui, sans-serif;
 }
 /* Tall vowel signs above and below the line need more room than the poster-tight Latin line. */
 :lang(te) .display {
   line-height: 1.2;
 }
 :root:lang(gu) {
-  --font-display: "Anek Latin Variable", "Anek Gujarati Variable", system-ui, sans-serif;
-  --font-body: "Mukta", "Anek Gujarati Variable", system-ui, sans-serif;
+  --font-display: var(--font-anek-latin), "Anek Latin Variable", "Anek Gujarati Variable", system-ui, sans-serif;
+  --font-body: var(--font-mukta), "Mukta", "Anek Gujarati Variable", system-ui, sans-serif;
 }
 /* Tall vowel signs above and below the line need more room than the poster-tight Latin line. */
 :lang(gu) .display {
   line-height: 1.2;
 }
 :root:lang(bn) {
-  --font-display: "Anek Latin Variable", "Anek Bangla Variable", system-ui, sans-serif;
-  --font-body: "Mukta", "Anek Bangla Variable", system-ui, sans-serif;
+  --font-display: var(--font-anek-latin), "Anek Latin Variable", "Anek Bangla Variable", system-ui, sans-serif;
+  --font-body: var(--font-mukta), "Mukta", "Anek Bangla Variable", system-ui, sans-serif;
 }
 /* Tall vowel signs above and below the line need more room than the poster-tight Latin line. */
 :lang(bn) .display {
@@ -108,8 +108,8 @@ h3 {
 }
 :root:lang(ja) {
   /* Japanese uses the reader's system fonts: a web font for thousands of kanji would blow the page weight budget. */
-  --font-display: "Anek Latin Variable", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans JP", "Noto Sans CJK JP", system-ui, sans-serif;
-  --font-body: "Mukta", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans JP", "Noto Sans CJK JP", system-ui, sans-serif;
+  --font-display: var(--font-anek-latin), "Anek Latin Variable", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans JP", "Noto Sans CJK JP", system-ui, sans-serif;
+  --font-body: var(--font-mukta), "Mukta", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans JP", "Noto Sans CJK JP", system-ui, sans-serif;
 }
 /* Kana and kanji don't take negative tracking, and break lines by the stricter Japanese rules. */
 :lang(ja) .display,

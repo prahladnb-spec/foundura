@@ -21,3 +21,6 @@ next-env.d.ts
 backups/
 deploy/certs/*
 !deploy/certs/README.md
+
+# TypeScript incremental build state
+*.tsbuildinfo

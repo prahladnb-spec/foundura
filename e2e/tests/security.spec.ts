@@ -1,3 +1,4 @@
+import { LANGS } from "../../apps/web/src/i18n/config";
 import { ADMIN_EMAIL } from "../playwright.config";
 import { expect, signIn, test } from "./fixtures";
 
@@ -30,7 +31,13 @@ test.describe("security headers", () => {
     const embed = await request.get("/embed/scan");
     expect(embed.headers()["content-security-policy"]).toContain("frame-ancestors *");
     expect(embed.headers()["x-frame-options"]).toBeUndefined();
-    const hiEmbed = await request.get("/hi/embed/scan");
-    expect(hiEmbed.headers()["content-security-policy"]).toContain("frame-ancestors *");
+    // Partners can show the widget in any language (embed.js data-lang), and nothing else in that language is frameable.
+    for (const l of LANGS.filter((x) => x !== "en")) {
+      const res = await request.get(`/${l}/embed/scan`);
+      expect(res.headers()["content-security-policy"], l).toContain("frame-ancestors *");
+      expect(res.headers()["x-frame-options"], l).toBeUndefined();
+      const page = await request.get(`/${l}/scan`);
+      expect(page.headers()["content-security-policy"], l).toContain("frame-ancestors 'none'");
+    }
   });
 });
