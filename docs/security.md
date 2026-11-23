@@ -52,7 +52,7 @@ Event sources are fetched with `safeFetchText`: https only, private and internal
 ## Dependencies
 
 - CI runs `pnpm audit --prod --audit-level high` on every push and fails on a known high or critical problem in anything that ships.
-- Dependabot opens update pull requests weekly (npm), and monthly for GitHub Actions and Docker base images.
+- Dependabot opens update pull requests weekly (npm), and monthly for GitHub Actions and Docker base images. npm updates wait 7 days after a release (`cooldown`), so a hijacked version has time to be caught and pulled before we install it.
 - `pnpm-workspace.yaml` overrides a few packages we don't use directly, to pick up fixes their parents haven't released: `postcss` (in Next.js), `image-size` (in pptxgenjs, not used by our code path), `uuid` (in exceljs), and `esbuild` inside drizzle-kit's loader (development only). Remove an override once the parent ships the fix.
 - Zod 4 note: `.partial()` still fills in `.default()` values. Use `patchSchema()` from `@foundura/shared` for PATCH bodies so fields the request didn't mention aren't reset.
 
