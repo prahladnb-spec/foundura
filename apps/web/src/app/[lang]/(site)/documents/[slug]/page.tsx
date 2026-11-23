@@ -25,6 +25,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const noun = already ? name : f(s.noun, { name });
   const format = FORMAT[doc.template.kind];
   return seoMetadata(`/documents/${doc.slug}`, lang, {
+    ownImage: true,
     focus: noun,
     title: seoTitle(noun, s.tail),
     description: describe(summary, f(s.download, { format })),

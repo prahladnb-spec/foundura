@@ -73,9 +73,13 @@ test.describe("search engine details", () => {
       for (const p of l === "en" || l === "hi" ? paths : [paths[0]]) {
         const html = await (await request.get(lp(l, p))).text();
         const headHtml = html.slice(0, html.indexOf("</head>"));
-        for (const tag of ["<title>", 'name="description"', 'rel="canonical"', 'property="og:title"']) {
+        for (const tag of ["<title>", 'name="description"', 'rel="canonical"', 'property="og:title"', 'property="og:image"']) {
           expect(headHtml, `${lp(l, p)} ${tag}`).toContain(tag);
         }
+        // The share image itself loads (link previews follow one redirect at most).
+        const img = new URL(headHtml.match(/property="og:image" content="([^"]+)"/)![1].replaceAll("&amp;", "&"));
+        const res = await request.get(img.pathname + img.search);
+        expect(res.headers()["content-type"], `${lp(l, p)} share image`).toBe("image/png");
       }
     }
   });

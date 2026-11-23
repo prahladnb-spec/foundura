@@ -26,6 +26,7 @@ export const es: Dict = {
   chrome: {
     nav: { scan: "Comprobador", schemes: "Programas", startups: "Startups", investors: "Inversores", events: "Eventos", policy: "Políticas", learn: "Aprender", documents: "Plantillas" },
     homeLabel: "Inicio de Foundura",
+    tagline: "De la idea al mercado, para startups de todo el mundo",
     search: "Buscar",
     signIn: "Entrar",
     myStartup: "Mi startup",

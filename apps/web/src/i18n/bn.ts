@@ -26,6 +26,7 @@ export const bn: Dict = {
   chrome: {
     nav: { scan: "যাচাই", schemes: "প্রকল্প", startups: "স্টার্টআপ", investors: "বিনিয়োগকারী", events: "অনুষ্ঠান", policy: "নীতি", learn: "শিখুন", documents: "টেমপ্লেট" },
     homeLabel: "Foundura হোম",
+    tagline: "ভাবনা থেকে বাজার পর্যন্ত, বিশ্বজুড়ে স্টার্টআপের জন্য",
     search: "খুঁজুন",
     signIn: "সাইন ইন",
     myStartup: "আমার স্টার্টআপ",

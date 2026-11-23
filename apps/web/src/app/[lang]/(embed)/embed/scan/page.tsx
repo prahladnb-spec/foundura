@@ -26,12 +26,16 @@ export default async function EmbedScan({ params, searchParams }: { params: Para
       <h1 className="display text-4xl">{t.scan.embedTitle}</h1>
       <p className="mt-2 mb-6 text-neel-700">{t.scan.embedLead}</p>
       <ScanForm initial={{ state: sp.state, entityType: sp.entityType, stage: sp.stage }} embedded />
-      <p className="mt-6 text-[0.85rem] text-slate">
+      <p className="mt-6 flex items-center gap-2 text-[0.85rem] text-slate">
+        {/* eslint-disable-next-line @next/next/no-img-element -- a static SVG */}
+        <img src="/brand/foundura-mark.svg" alt="" width={22} height={22} />
+        <span>
         {before}
         <a href={`${lp(lang, "/")}?utm_source=embed`} target="_blank" rel="noopener" className="underline">
           Foundura
         </a>
         {after}
+        </span>
       </p>
     </main>
   );

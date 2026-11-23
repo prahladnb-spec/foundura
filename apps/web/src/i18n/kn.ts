@@ -26,6 +26,7 @@ export const kn: Dict = {
   chrome: {
     nav: { scan: "ಯೋಜನೆ ಪರಿಶೀಲನೆ", schemes: "ಯೋಜನೆಗಳು", startups: "ಸ್ಟಾರ್ಟಪ್‌ಗಳು", investors: "ಹೂಡಿಕೆದಾರರು", events: "ಕಾರ್ಯಕ್ರಮಗಳು", policy: "ನೀತಿ ಸುದ್ದಿ", learn: "ಕಲಿಯಿರಿ", documents: "ಟೆಂಪ್ಲೇಟ್‌ಗಳು" },
     homeLabel: "Foundura ಮುಖಪುಟ",
+    tagline: "ಆಲೋಚನೆಯಿಂದ ಮಾರುಕಟ್ಟೆಯವರೆಗೆ, ಜಗತ್ತಿನಾದ್ಯಂತದ ಸ್ಟಾರ್ಟಪ್‌ಗಳಿಗಾಗಿ",
     search: "ಹುಡುಕಿ",
     signIn: "ಸೈನ್ ಇನ್",
     myStartup: "ನನ್ನ ಸ್ಟಾರ್ಟಪ್",

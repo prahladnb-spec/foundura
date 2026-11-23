@@ -29,6 +29,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const lang = isLang(p.lang) ? p.lang : "en";
   const a = await load(p.slug);
   return seoMetadata(`/learn/${a.slug}`, lang, {
+    ownImage: true,
     focus: a.focusKeyphrase || a.title,
     title: a.seoTitle || seoTitle(a.title),
     description: a.metaDescription || clip(a.excerpt),

@@ -26,6 +26,7 @@ export const he: Dict = {
   chrome: {
     nav: { scan: "בדיקת זכאות", schemes: "תוכניות", startups: "סטארט־אפים", investors: "משקיעים", events: "אירועים", policy: "חדשות מדיניות", learn: "ללמוד", documents: "תבניות" },
     homeLabel: "דף הבית של Foundura",
+    tagline: "מהרעיון ועד השוק, לסטארט־אפים בכל העולם",
     search: "חיפוש",
     signIn: "כניסה",
     myStartup: "הסטארט־אפ שלי",

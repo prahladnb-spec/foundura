@@ -36,6 +36,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const place = stateLabel(s.state, lang);
   const summary = s.oneLiner ?? s.description ?? t.startups.metaDescription;
   return seoMetadata(`/startups/${s.slug}`, lang, {
+    ownImage: true,
     focus: s.name,
     title: seoTitle(s.name, sectors[0] ? f(k.sector, { x: sectors[0] }) : undefined),
     description: describe(summary, place ? f(k.from, { place }) : k.plain),

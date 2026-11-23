@@ -28,6 +28,7 @@ export const en = {
   chrome: {
     nav: { scan: "Scheme Scan", schemes: "Schemes", startups: "Startups", investors: "Investors", events: "Events", policy: "Policy news", learn: "Learn", documents: "Templates" },
     homeLabel: "Foundura home",
+    tagline: "From idea to market, for startups worldwide",
     search: "Search",
     signIn: "Sign in",
     myStartup: "My startup",

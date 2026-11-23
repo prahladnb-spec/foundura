@@ -713,7 +713,7 @@ export function alternates(path: string, lang: Lang): Metadata["alternates"] {
 export function seoMetadata(
   path: string,
   lang: Lang,
-  s: Omit<PageSeo, "slug"> & { type?: "website" | "article"; published?: string | null; noindex?: boolean },
+  s: Omit<PageSeo, "slug"> & { type?: "website" | "article"; published?: string | null; noindex?: boolean; ownImage?: boolean },
 ): Metadata {
   return {
     title: { absolute: s.title },
@@ -729,8 +729,11 @@ export function seoMetadata(
       alternateLocale: LANGS.filter((l) => l !== lang).map((l) => LANG_INFO[l].og),
       type: s.type ?? "website",
       ...(s.type === "article" && s.published ? { publishedTime: s.published } : {}),
+      // The default share image ([lang]/opengraph-image.tsx). Naming it here is needed because a page's own openGraph
+      // replaces the inherited one. Pages with their own opengraph-image file pass ownImage, or this would replace theirs.
+      ...(s.ownImage ? {} : { images: [{ url: urlFor("/opengraph-image", lang), width: 1200, height: 630, alt: "Foundura" }] }),
     },
-    twitter: { card: "summary_large_image", title: s.title, description: s.description },
+    twitter: { card: "summary_large_image", title: s.title, description: s.description, ...(s.ownImage ? {} : { images: [urlFor("/opengraph-image", lang)] }) },
     ...(s.noindex ? { robots: { index: false, follow: true } } : {}),
   };
 }

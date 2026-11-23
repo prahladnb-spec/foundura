@@ -27,6 +27,7 @@ export const hi: Dict = {
     nav: { scan: "योजना जाँच", schemes: "योजनाएँ", startups: "स्टार्टअप", investors: "निवेशक", events: "कार्यक्रम", policy: "नीति समाचार", learn: "सीखें", documents: "टेम्पलेट" },
     search: "खोजें",
     homeLabel: "Foundura मुखपृष्ठ",
+    tagline: "विचार से बाज़ार तक, दुनिया भर के स्टार्टअप के लिए",
     signIn: "साइन इन",
     myStartup: "मेरा स्टार्टअप",
     language: "भाषा",

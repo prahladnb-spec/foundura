@@ -26,6 +26,7 @@ export const gu: Dict = {
   chrome: {
     nav: { scan: "તપાસ", schemes: "યોજનાઓ", startups: "સ્ટાર્ટઅપ", investors: "રોકાણકારો", events: "કાર્યક્રમો", policy: "નીતિ", learn: "શીખો", documents: "ટેમ્પ્લેટ" },
     homeLabel: "Foundura હોમ",
+    tagline: "વિચારથી બજાર સુધી, વિશ્વભરનાં સ્ટાર્ટઅપ માટે",
     search: "શોધો",
     signIn: "સાઇન ઇન",
     myStartup: "મારું સ્ટાર્ટઅપ",

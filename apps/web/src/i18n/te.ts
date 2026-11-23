@@ -26,6 +26,7 @@ export const te: Dict = {
   chrome: {
     nav: { scan: "తనిఖీ", schemes: "పథకాలు", startups: "స్టార్టప్‌లు", investors: "పెట్టుబడిదారులు", events: "ఈవెంట్లు", policy: "విధానం", learn: "నేర్చుకోండి", documents: "టెంప్లేట్లు" },
     homeLabel: "Foundura హోమ్",
+    tagline: "ఆలోచన నుండి మార్కెట్ వరకు, ప్రపంచవ్యాప్త స్టార్టప్‌ల కోసం",
     search: "వెతకండి",
     signIn: "సైన్ ఇన్",
     myStartup: "నా స్టార్టప్",

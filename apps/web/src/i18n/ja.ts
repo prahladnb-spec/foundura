@@ -26,6 +26,7 @@ export const ja: Dict = {
   chrome: {
     nav: { scan: "制度チェック", schemes: "支援制度", startups: "スタートアップ", investors: "投資家", events: "イベント", policy: "政策", learn: "学ぶ", documents: "テンプレート" },
     homeLabel: "Foundura ホーム",
+    tagline: "アイデアから市場へ。世界中のスタートアップのために",
     search: "検索",
     signIn: "ログイン",
     myStartup: "マイスタートアップ",

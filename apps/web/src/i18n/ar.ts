@@ -26,6 +26,7 @@ export const ar: Dict = {
   chrome: {
     nav: { scan: "فحص البرامج", schemes: "البرامج", startups: "الشركات الناشئة", investors: "المستثمرون", events: "الفعاليات", policy: "أخبار السياسات", learn: "تعلّم", documents: "القوالب" },
     homeLabel: "الصفحة الرئيسية لـ Foundura",
+    tagline: "من الفكرة إلى السوق، للشركات الناشئة حول العالم",
     search: "بحث",
     signIn: "تسجيل الدخول",
     myStartup: "شركتي",

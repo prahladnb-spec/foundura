@@ -29,6 +29,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const k = t.seoText.scheme;
   const where = s.level === "state" ? String(lab(t.labels.state, s.state)) : t.scheme.central;
   return seoMetadata(`/schemes/${s.slug}`, lang, {
+    ownImage: true,
     focus: s.name,
     title: seoTitle(s.name, k.tail),
     description: describe(s.summary, k.check),

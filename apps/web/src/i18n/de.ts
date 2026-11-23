@@ -26,6 +26,7 @@ export const de: Dict = {
   chrome: {
     nav: { scan: "Förder-Check", schemes: "Programme", startups: "Startups", investors: "Investoren", events: "Events", policy: "Politik-News", learn: "Wissen", documents: "Vorlagen" },
     homeLabel: "Foundura Startseite",
+    tagline: "Von der Idee bis zum Markt, für Startups weltweit",
     search: "Suche",
     signIn: "Anmelden",
     myStartup: "Mein Startup",

@@ -20,17 +20,14 @@ const nav = (t: Dict) => [
   { href: "/documents", label: t.chrome.nav.documents, icon: FolderOpen },
 ];
 
+// The logo files (public/brand) are 3602 × 1000; the link carries the accessible name.
+const LOGO_RATIO = 3602 / 1000;
+
 function Wordmark({ label }: { label: string }) {
   return (
-    <Link href="/" className="flex items-center gap-2 text-neel-900 no-underline" aria-label={label}>
-      {/* Mark: a sprouting seed inside a stamp ring */}
-      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
-        <circle cx="15" cy="15" r="13" fill="none" stroke="currentColor" strokeWidth="2.5" />
-        <path d="M15 22V13" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-        <path d="M15 14c0-3.5 2.5-5.5 6-5.5 0 3.5-2.5 5.5-6 5.5Z" fill="var(--color-marigold)" />
-        <path d="M15 16c0-2.8-2-4.5-5-4.5 0 2.8 2 4.5 5 4.5Z" fill="currentColor" />
-      </svg>
-      <span lang="en" className="display text-[1.7rem] leading-none pt-1">Foundura</span>
+    <Link href="/" className="flex shrink-0 items-center no-underline" aria-label={label}>
+      {/* eslint-disable-next-line @next/next/no-img-element -- a static SVG; next/image adds nothing here */}
+      <img src="/brand/foundura-logo.svg" alt="" width={Math.round(36 * LOGO_RATIO)} height={36} className="h-8 w-auto sm:h-9" />
     </Link>
   );
 }
@@ -96,7 +93,9 @@ export function SiteFooter({ lang }: { lang: Lang }) {
     <footer className="mt-20 bg-neel-900 text-neel-100">
       <div className="mx-auto max-w-6xl px-5 py-10 grid gap-8 md:grid-cols-[2fr_1fr_1fr] text-[0.95rem]">
         <div>
-          <p lang="en" className="display text-3xl text-paper">Foundura</p>
+          {/* eslint-disable-next-line @next/next/no-img-element -- a static SVG */}
+          <img src="/brand/foundura-logo-white.svg" alt="Foundura" width={Math.round(44 * LOGO_RATIO)} height={44} className="h-11 w-auto" loading="lazy" />
+          <p className="mt-3 text-paper font-semibold">{t.chrome.tagline}</p>
           <p className="mt-2 max-w-md text-neel-100/80">{t.chrome.footerBlurb}</p>
         </div>
         <ul className="space-y-1.5">
