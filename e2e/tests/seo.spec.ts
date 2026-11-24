@@ -1,3 +1,4 @@
+import { CHAPTERS } from "../../apps/web/src/basics/chapters";
 import type { Page } from "@playwright/test";
 import { LANG_INFO, LANGS, lp } from "../../apps/web/src/i18n/config";
 import { SEO } from "../../apps/web/src/seo";
@@ -93,7 +94,7 @@ test.describe("search engine details", () => {
     }
   });
 
-  for (const path of ["/schemes/startup-india-seed-fund", "/hi/schemes/startup-india-seed-fund", "/documents/pitch-deck", "/hi/documents/founders-agreement", "/learn/dpiit-recognition-2026-rules", "/es/documents/cap-table", "/de/schemes/startup-india-seed-fund", "/ar/documents/pitch-deck", "/he/investors"]) {
+  for (const path of ["/schemes/startup-india-seed-fund", "/hi/schemes/startup-india-seed-fund", "/documents/pitch-deck", "/hi/documents/founders-agreement", "/learn/dpiit-recognition-2026-rules", "/es/documents/cap-table", "/de/schemes/startup-india-seed-fund", "/ar/documents/pitch-deck", "/he/investors", ...CHAPTERS.flatMap((c) => [`/basics/${c.slug}`, `/hi/basics/${c.slug}`]), "/ta/basics/valuation"]) {
     test(`detail page ${path} gets generated SEO details within the limits`, async ({ page }) => {
       await page.goto(path);
       const h = await head(page);

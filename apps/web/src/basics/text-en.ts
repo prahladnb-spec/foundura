@@ -218,7 +218,7 @@ export const EN: Record<string, ChapterText> = {
   vc: {
     title: "How venture capital works",
     summary: "Where VC money comes from, why funds back only a few big bets, how angels and angel funds fit in, and what a fundraise looks like.",
-    keywords: ["how venture capital works", "VC fund structure", "AIF India", "angel fund SEBI", "how to raise venture capital"],
+    keywords: ["how venture capital works", "VC fund structure", "AIF India", "angel fund SEBI", "how to raise venture capital", "venture capital India", "VC funding process"],
     sections: [
       {
         h: "Where the money comes from",
