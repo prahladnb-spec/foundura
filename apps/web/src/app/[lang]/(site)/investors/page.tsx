@@ -40,6 +40,11 @@ export default async function InvestorsPage({ params, searchParams }: { params: 
       <PageIntro art="investors">
         <h1 className="display text-6xl md:text-7xl">{iv.title}</h1>
         <p className="mt-3 max-w-[62ch] text-lg text-neel-700">{iv.lead}</p>
+        <p className="mt-3 max-w-[62ch] text-neel-700">
+          {iv.directory.split("{link}")[0]}
+          <Link href="/funding" className="font-semibold text-neel-500 underline">{iv.directoryLink}</Link>
+          {iv.directory.split("{link}")[1]}
+        </p>
       </PageIntro>
       <section aria-labelledby="how-h" className="mt-10 rounded-xl border-2 border-neel-900 bg-white p-6 md:p-8">
         <h2 id="how-h" className="display mb-6 text-3xl">{iv.how.title}</h2>

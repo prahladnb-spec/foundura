@@ -95,6 +95,7 @@ test.describe("Hindi", () => {
     "/hi/documents/medtech-regulatory-plan",
     "/hi/documents/quotation-and-invoice",
     "/hi/investors",
+    "/hi/funding",
     "/hi/partners",
     "/hi/signin",
     "/hi/privacy",

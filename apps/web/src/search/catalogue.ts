@@ -9,6 +9,7 @@ import { LANGS, type Lang } from "@/i18n/config";
 import { apiOr } from "@/lib/api";
 import type { ArticleSummary, EventItem, InvestorPublic, Scheme, StartupPublic } from "@/lib/types";
 import { fmtRange } from "@/lib/format";
+import { FUNDING, fundingId, isState } from "@/funding/directory";
 
 /** What a result shows: a link, a title and a line or two, plus whether the text is in English. */
 export interface ResultView {
@@ -131,6 +132,23 @@ export async function catalogue(lang: Lang): Promise<SearchIndex<ResultView>> {
       tags: [...i.sectors.flatMap((x) => both((d) => d.labels.sector, x)), ...both((d) => d.labels.investorType, i.type)],
       body: [i.bio ?? ""],
       data: { href: `/investors/${i.slug}`, title: i.firm ? `${i.name}, ${i.firm}` : i.name, summary: i.bio ?? "", en: foreign },
+    });
+  }
+
+  // The funding directory: entries are English; kind and place labels in every language.
+  for (const e of FUNDING) {
+    const place = isState(e.geo) ? both((d) => d.labels.state, e.geo) : both((d) => d.funding.regions, e.geo);
+    add("funding", fundingId(e), {
+      title: [e.name],
+      tags: [e.base, ...both((d) => d.funding.kinds, e.kind), ...place],
+      body: [e.stage, e.focus, e.offer],
+      data: {
+        href: `/funding#${fundingId(e)}`,
+        title: e.name,
+        summary: e.offer,
+        meta: [{ text: isState(e.geo) ? String(lab(getDict(lang).labels.state, e.geo)) : getDict(lang).funding.regions[e.geo], en: false }],
+        en: foreign,
+      },
     });
   }
 

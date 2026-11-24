@@ -672,3 +672,19 @@ a.tile:hover {
     animation: none !important;
   }
 }
+
+/* Funding directory: India as a tile map on the navy band. Covered states fill from pale to
+   marigold by how many entries they have (--v); the rest stay dashed outlines. */
+.funding-tile {
+  border: 1px dashed color-mix(in srgb, var(--color-paper) 45%, transparent);
+  color: var(--color-neel-100);
+}
+.funding-tile.has {
+  border: 0;
+  cursor: pointer;
+  color: var(--color-neel-950);
+  background: color-mix(in srgb, var(--color-marigold) calc(var(--v) * 100%), var(--color-neel-100));
+}
+.funding-tile[aria-pressed="true"] {
+  box-shadow: 0 0 0 3px var(--color-paper);
+}

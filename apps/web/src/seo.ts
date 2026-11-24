@@ -29,6 +29,7 @@ export type PageKey =
   | "learn"
   | "documents"
   | "glossary"
+  | "funding"
   | "partners";
 
 const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
@@ -569,6 +570,60 @@ const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
         "शेयरधारक समझौता",
         "प्राइवेसी पॉलिसी टेम्पलेट",
         "मुफ़्त स्टार्टअप दस्तावेज़",
+      ],
+    },
+  },
+  funding: {
+    en: {
+      slug: "/funding",
+      focus: "startup funding in India",
+      title: "Startup funding in India: investors and grants | Foundura",
+      description:
+        "Startup funding in India by state: venture funds, angel networks, venture debt, government grants and accelerators, with what each offers and when to apply.",
+      excerpt:
+        "A directory of the money open to Indian startups: more than a hundred venture funds, angel networks, government funds, grants, state schemes and accelerators, sorted by state and region, with what each offers and whether it is open now.",
+      keywords: [
+        "startup funding in India",
+        "startup funding by state",
+        "venture capital firms India",
+        "angel networks India",
+        "government grants for startups",
+        "state startup schemes",
+        "seed funding India",
+        "venture debt India",
+        "startup accelerators",
+        "Startup India Fund of Funds",
+        "Karnataka ELEVATE",
+        "TANSEED",
+        "Kerala Startup Mission grants",
+        "startup grants abroad",
+        "Foundura",
+      ],
+    },
+    hi: {
+      slug: "/funding",
+      focus: "स्टार्टअप फ़ंडिंग",
+      title: "स्टार्टअप फ़ंडिंग: निवेशक, ग्रांट और योजनाएँ | Foundura",
+      description:
+        "भारत में स्टार्टअप फ़ंडिंग, राज्य के हिसाब से: वेंचर फ़ंड, एंजेल नेटवर्क, वेंचर डेट, सरकारी ग्रांट और एक्सेलरेटर, हर एक क्या देता है और कब आवेदन करें।",
+      excerpt:
+        "भारतीय स्टार्टअप के लिए खुले पैसे की डायरेक्टरी: सौ से ज़्यादा वेंचर फ़ंड, एंजेल नेटवर्क, सरकारी फ़ंड, ग्रांट, राज्य योजनाएँ और एक्सेलरेटर, राज्य और क्षेत्र के हिसाब से, हर एक क्या देता है और अभी खुला है या नहीं।",
+      keywords: [
+        "स्टार्टअप फ़ंडिंग",
+        "राज्य के हिसाब से स्टार्टअप फ़ंडिंग",
+        "वेंचर कैपिटल फ़र्म",
+        "एंजेल नेटवर्क",
+        "स्टार्टअप के लिए सरकारी ग्रांट",
+        "राज्य स्टार्टअप योजनाएँ",
+        "सीड फ़ंडिंग",
+        "वेंचर डेट",
+        "स्टार्टअप एक्सेलरेटर",
+        "Startup India Fund of Funds",
+        "कर्नाटक ELEVATE",
+        "TANSEED",
+        "केरल स्टार्टअप मिशन ग्रांट",
+        "विदेश में स्टार्टअप ग्रांट",
+        "Foundura",
       ],
     },
   },

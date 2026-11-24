@@ -1,4 +1,4 @@
-import { BookA, BookOpen, CalendarDays, Handshake, Landmark, Search, Store, type LucideIcon } from "lucide-react";
+import { BookA, BookOpen, CalendarDays, Coins, Handshake, Landmark, Search, Store, type LucideIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { SEARCH_KINDS, SEARCH_MAX_QUERY, type SearchKind } from "@foundura/shared";
 import { PageIntro } from "@/components/art";
@@ -43,6 +43,7 @@ const ICONS: Record<Exclude<SearchKind, "template">, LucideIcon> = {
   event: CalendarDays,
   startup: Store,
   investor: Handshake,
+  funding: Coins,
 };
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {

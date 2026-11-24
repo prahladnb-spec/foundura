@@ -110,6 +110,8 @@ test.describe("languages", () => {
         "Startups|Startup|Startup India|Foundura|India|Google Calendar|Idea|Seed Fund Scheme|Sector|Deep tech|Seed fund|Pitch deck|ESOP|Term sheet|FinTech|Family office|₹{n} lakh|₹{n} crore|0.5 = ₹50 lakh|{noun} India|{n} startup|{n} startups",
         "Events|Format|Online|Hybrid|Website|Investor|Event|Limited Liability Partnership (LLP)|Compliance",
         "Europe|Guides|Guide|Prototype / MVP|Slide {n}",
+        // Funding directory regions spelled the same in Spanish, German and Portuguese.
+        "Israel|Global",
         "Pitch deck|Lean canvas|Business angel|Deep tech|Startup India Seed Fund|Seed Fund|MedTech|EdTech|HealthTech|AgriTech|CleanTech|SaaS|Cap table|Term sheet|Due diligence|Vesting|Cliff|Runway|Churn|Bootstrapping|Equity|Exit|Traction|Data room",
       ]
         .join("|")
@@ -133,7 +135,7 @@ test.describe("languages", () => {
       ...LANGS.filter((l) => l.length === 2),
     ]);
     const isAcronym = (w: string) => /^[A-Z0-9&-]+$/.test(w) || /^[A-Z][A-Z0-9]*[a-z][A-Z0-9]+$/.test(w);
-    const PAGES = ["/", "/scan", "/schemes", "/documents", "/documents/pitch-deck", "/glossary", "/search?q=pitch", "/events?view=list", "/investors", "/partners", "/signin", "/no-such-page"];
+    const PAGES = ["/", "/scan", "/schemes", "/documents", "/documents/pitch-deck", "/glossary", "/search?q=pitch", "/events?view=list", "/investors", "/funding", "/partners", "/signin", "/no-such-page"];
     const report: Record<string, string[]> = {};
     const scripted = OTHERS.filter((l) => LANG_INFO[l].script) as Lang[];
     for (const code of scripted) {

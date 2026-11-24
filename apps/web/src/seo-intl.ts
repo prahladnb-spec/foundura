@@ -306,6 +306,36 @@ export const SEO_INTL: Record<PageKey, Record<"es" | "de" | "ar" | "he", Entry>>
       keywords: ["תבניות לסטארט־אפים", "תבנית מצגת משקיעים", "מודל פיננסי", "טבלת הון", "הסכם מייסדים", "תבנית הסכם סודיות", "מכתב הצעה", "תוכנית עסקית", "תבניות בחינם", "מסמכים משפטיים", "תבניות Excel", "תבניות PowerPoint", "תבניות Word", "מסמכים למשקיעים", "Foundura"],
     },
   },
+  funding: {
+    es: {
+      focus: "financiación para startups",
+      title: "Financiación para startups en India: inversores | Foundura",
+      description: "Financiación para startups en la India por estado: fondos de capital riesgo, redes de ángeles, deuda, ayudas públicas y aceleradoras, y lo que ofrece cada uno.",
+      excerpt: "Un directorio del dinero disponible para startups indias: más de cien fondos, redes de ángeles, fondos públicos, ayudas, programas estatales y aceleradoras, ordenados por estado y región, con lo que ofrece cada uno y si está abierto.",
+      keywords: ["financiación para startups", "financiación de startups en India", "capital riesgo India", "redes de inversores ángel", "ayudas públicas para startups", "programas estatales", "financiación semilla", "deuda venture", "aceleradoras de startups", "Startup India Fund of Funds", "ELEVATE Karnataka", "TANSEED", "Kerala Startup Mission", "ayudas en el extranjero", "Foundura"],
+    },
+    de: {
+      focus: "Startup-Finanzierung",
+      title: "Startup-Finanzierung in Indien: Investoren | Foundura",
+      description: "Startup-Finanzierung in Indien nach Bundesstaat: Wagniskapital, Angel-Netzwerke, Venture Debt, staatliche Förderung und Akzeleratoren, mit Angebot und Fristen.",
+      excerpt: "Ein Verzeichnis des Geldes für indische Startups: über hundert Fonds, Angel-Netzwerke, staatliche Fonds, Förderungen, Landesprogramme und Akzeleratoren, nach Bundesstaat und Region sortiert, mit Angebot und aktuellem Stand.",
+      keywords: ["Startup-Finanzierung", "Startup-Finanzierung Indien", "Wagniskapital Indien", "Angel-Netzwerke", "staatliche Förderung für Startups", "Landesprogramme", "Seed-Finanzierung", "Venture Debt", "Startup-Akzeleratoren", "Startup India Fund of Funds", "ELEVATE Karnataka", "TANSEED", "Kerala Startup Mission", "Förderung im Ausland", "Foundura"],
+    },
+    ar: {
+      focus: "تمويل الشركات الناشئة",
+      title: "تمويل الشركات الناشئة في الهند: مستثمرون ومنح | Foundura",
+      description: "تمويل الشركات الناشئة في الهند حسب الولاية: صناديق رأس المال الجريء وشبكات المستثمرين الملائكيين والمنح الحكومية والمسرّعات، مع ما يقدّمه كل منها.",
+      excerpt: "دليل للأموال المتاحة للشركات الناشئة الهندية: أكثر من مئة صندوق وشبكة مستثمرين ملائكيين وصندوق حكومي ومنحة وبرنامج ولاية ومسرّع، مرتبة حسب الولاية والمنطقة، مع ما يقدّمه كل منها وهل هو مفتوح الآن.",
+      keywords: ["تمويل الشركات الناشئة", "تمويل الشركات الناشئة في الهند", "رأس المال الجريء في الهند", "شبكات المستثمرين الملائكيين", "منح حكومية للشركات الناشئة", "برامج الولايات", "التمويل الأولي", "الدين الجريء", "مسرّعات الأعمال", "Startup India Fund of Funds", "ELEVATE كارناتاكا", "TANSEED", "Kerala Startup Mission", "منح في الخارج", "Foundura"],
+    },
+    he: {
+      focus: "מימון לסטארט־אפים",
+      title: "מימון לסטארט־אפים בהודו: משקיעים ומענקים | Foundura",
+      description: "מימון לסטארט־אפים בהודו לפי מדינה: קרנות הון סיכון, רשתות אנג'לים, חוב סיכון, מענקים ממשלתיים ומאיצים, עם מה שכל אחד מציע ומתי מגישים.",
+      excerpt: "מדריך לכסף הזמין לסטארט־אפים בהודו: יותר ממאה קרנות, רשתות אנג'לים, קרנות ממשלתיות, מענקים, תוכניות מדינה ומאיצים, ממוינים לפי מדינה ואזור, עם מה שכל אחד מציע והאם הוא פתוח עכשיו.",
+      keywords: ["מימון לסטארט־אפים", "מימון סטארט־אפים בהודו", "הון סיכון בהודו", "רשתות אנג'לים", "מענקים ממשלתיים לסטארט־אפים", "תוכניות מדינה", "מימון סיד", "חוב סיכון", "מאיצים", "Startup India Fund of Funds", "ELEVATE קרנטקה", "TANSEED", "Kerala Startup Mission", "מענקים בחו״ל", "Foundura"],
+    },
+  },
   glossary: {
     es: {
       focus: "glosario de startups",
