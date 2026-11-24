@@ -1,3 +1,4 @@
+import { CHAPTERS } from "@/basics/chapters";
 import type { MetadataRoute } from "next";
 import { LANGS } from "@/i18n/config";
 import { languagesFor, urlFor } from "@/seo";
@@ -40,6 +41,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     page("/startups", "daily", 0.7),
     page("/investors", "weekly", 0.6),
     page("/funding", "monthly", 0.7),
+    page("/basics", "monthly", 0.8),
+    ...CHAPTERS.map((c) => page(`/basics/${c.slug}`, "monthly", 0.7)),
     page("/sectors/medtech", "monthly", 0.8),
     page("/partners", "monthly", 0.4),
     page("/privacy", "yearly", 0.3),

@@ -142,6 +142,11 @@ export default async function FundingPage({ params }: { params: Params }) {
       </section>
 
       <div className="mx-auto max-w-6xl px-5 pt-6">
+        <p className="mb-3 text-neel-700">
+          {t.basics.fundingLine.split("{link}")[0]}
+          <Link href="/basics" className="font-semibold text-neel-500 underline">{t.basics.fundingLink}</Link>
+          {t.basics.fundingLine.split("{link}")[1]}
+        </p>
         <p className="rounded-md bg-marigold-50 px-4 py-2.5 text-[0.95rem] text-neel-900">
           {f(CHECKED_ON ? d.checked : d.unchecked, { date: fmtDate(CHECKED_ON ?? GATHERED_ON, true, lang) })} {d.orgsOnly} {d.inEnglish}
         </p>

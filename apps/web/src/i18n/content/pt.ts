@@ -73,6 +73,13 @@ export const pt: LangContent = {
       excerpt: "Mais de quarenta modelos em Word, Excel e PowerPoint para fundadores na Índia, cada um com um guia curto e as particularidades da Índia. Os modelos estão em inglês.",
       keywords: ["modelos para startups", "modelo de pitch deck", "modelo financeiro", "cap table", "acordo de fundadores", "acordo de confidencialidade", "carta-oferta", "plano de negócios", "modelos grátis", "documentos jurídicos", "modelos Excel", "modelos PowerPoint", "modelos Word", "documentos para investidores", "Foundura"],
     },
+    basics: {
+      focus: "noções de financiamento",
+      title: "Noções de financiamento para startups | Foundura",
+      description: "Noções de financiamento para fundadores na Índia: fases, rodadas, participação, dívida, subsídios, capital de risco, valuation, term sheet e regras indianas.",
+      excerpt: "Um curso gratuito de dez capítulos sobre o dinheiro de uma startup: fases, rodadas do bootstrapping ao IPO, participação, dívida e subsídios, capital de risco, valuation e diluição, term sheet e regras da Índia, com calculadora de diluição.",
+      keywords: ["noções de financiamento", "curso de financiamento de startups", "fases do financiamento", "participação ou dívida", "subsídios para startups", "como funciona o capital de risco", "valuation pré-money", "calculadora de diluição", "term sheet explicado", "notas conversíveis Índia", "educação financeira para fundadores", "finanças de startups", "série A", "rodadas de investimento", "Foundura"],
+    },
     funding: {
       focus: "financiamento para startups",
       title: "Financiamento para startups na Índia | Foundura",

@@ -135,7 +135,7 @@ test.describe("languages", () => {
       ...LANGS.filter((l) => l.length === 2),
     ]);
     const isAcronym = (w: string) => /^[A-Z0-9&-]+$/.test(w) || /^[A-Z][A-Z0-9]*[a-z][A-Z0-9]+$/.test(w);
-    const PAGES = ["/", "/scan", "/schemes", "/documents", "/documents/pitch-deck", "/glossary", "/search?q=pitch", "/events?view=list", "/investors", "/funding", "/partners", "/signin", "/no-such-page"];
+    const PAGES = ["/", "/scan", "/schemes", "/documents", "/documents/pitch-deck", "/glossary", "/search?q=pitch", "/events?view=list", "/investors", "/funding", "/basics", "/basics/valuation", "/partners", "/signin", "/no-such-page"];
     const report: Record<string, string[]> = {};
     const scripted = OTHERS.filter((l) => LANG_INFO[l].script) as Lang[];
     for (const code of scripted) {

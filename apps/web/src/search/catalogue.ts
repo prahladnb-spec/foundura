@@ -10,6 +10,7 @@ import { apiOr } from "@/lib/api";
 import type { ArticleSummary, EventItem, InvestorPublic, Scheme, StartupPublic } from "@/lib/types";
 import { fmtRange } from "@/lib/format";
 import { FUNDING, fundingId, isState } from "@/funding/directory";
+import { CHAPTERS } from "@/basics/chapters";
 
 /** What a result shows: a link, a title and a line or two, plus whether the text is in English. */
 export interface ResultView {
@@ -132,6 +133,17 @@ export async function catalogue(lang: Lang): Promise<SearchIndex<ResultView>> {
       tags: [...i.sectors.flatMap((x) => both((d) => d.labels.sector, x)), ...both((d) => d.labels.investorType, i.type)],
       body: [i.bio ?? ""],
       data: { href: `/investors/${i.slug}`, title: i.firm ? `${i.name}, ${i.firm}` : i.name, summary: i.bio ?? "", en: foreign },
+    });
+  }
+
+  // Funding basics chapters, in English and Hindi.
+  for (const c of CHAPTERS) {
+    const shown = isHi ? c.hi : c.en;
+    add("guide", `basics-${c.slug}`, {
+      title: [c.en.title, c.hi.title],
+      tags: [...c.en.keywords, ...c.hi.keywords],
+      body: [c.en.summary, c.hi.summary],
+      data: { href: `/basics/${c.slug}`, title: shown.title, summary: shown.summary, en: foreign && !isHi },
     });
   }
 

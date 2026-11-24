@@ -306,6 +306,36 @@ export const SEO_INTL: Record<PageKey, Record<"es" | "de" | "ar" | "he", Entry>>
       keywords: ["תבניות לסטארט־אפים", "תבנית מצגת משקיעים", "מודל פיננסי", "טבלת הון", "הסכם מייסדים", "תבנית הסכם סודיות", "מכתב הצעה", "תוכנית עסקית", "תבניות בחינם", "מסמכים משפטיים", "תבניות Excel", "תבניות PowerPoint", "תבניות Word", "מסמכים למשקיעים", "Foundura"],
     },
   },
+  basics: {
+    es: {
+      focus: "fundamentos de la financiación",
+      title: "Fundamentos de la financiación para startups | Foundura",
+      description: "Fundamentos de la financiación para fundadores en la India: etapas, rondas, capital, deuda, ayudas, capital riesgo, valoración, term sheet y normas indias.",
+      excerpt: "Un curso gratuito de diez capítulos sobre el dinero de una startup: etapas, rondas desde el bootstrapping hasta la salida a bolsa, capital, deuda y ayudas, capital riesgo, valoración y dilución, term sheet y normas de la India, con calculadora de dilución.",
+      keywords: ["fundamentos de la financiación", "curso de financiación de startups", "etapas de financiación", "capital frente a deuda", "ayudas para startups", "cómo funciona el capital riesgo", "valoración pre-money", "calculadora de dilución", "term sheet", "notas convertibles India", "educación financiera para fundadores", "finanzas de startups", "serie A", "rondas de inversión", "Foundura"],
+    },
+    de: {
+      focus: "Finanzierungsgrundlagen",
+      title: "Finanzierungsgrundlagen für Startups: Kurs | Foundura",
+      description: "Finanzierungsgrundlagen für Gründer in Indien: Phasen, Runden, Eigenkapital, Kredite, Förderung, Wagniskapital, Bewertung, Term Sheets und indische Regeln.",
+      excerpt: "Ein kostenloser Kurs in zehn Kapiteln über Startup-Geld: Phasen, Runden vom Bootstrapping bis zum Börsengang, Eigenkapital, Kredite und Förderung, Wagniskapital, Bewertung und Verwässerung, Term Sheets und indische Regeln, mit Verwässerungsrechner.",
+      keywords: ["Finanzierungsgrundlagen", "Startup-Finanzierung lernen", "Finanzierungsphasen", "Eigenkapital oder Kredit", "Förderung für Startups", "wie Wagniskapital funktioniert", "Pre-Money-Bewertung", "Verwässerungsrechner", "Term Sheet erklärt", "Wandeldarlehen Indien", "Finanzwissen für Gründer", "Startup-Finanzen", "Serie A", "Finanzierungsrunden", "Foundura"],
+    },
+    ar: {
+      focus: "أساسيات التمويل",
+      title: "أساسيات التمويل للشركات الناشئة: دورة مجانية | Foundura",
+      description: "أساسيات التمويل للمؤسسين في الهند: المراحل والجولات والملكية والدين والمنح ورأس المال الجريء والتقييم وورقة الشروط والقواعد الهندية، بلغة واضحة.",
+      excerpt: "دورة مجانية من عشرة فصول عن أموال الشركات الناشئة: المراحل، والجولات من التمويل الذاتي حتى الطرح العام، والملكية والدين والمنح، ورأس المال الجريء، والتقييم والتخفيف، وورقة الشروط، وقواعد الهند، مع حاسبة التخفيف.",
+      keywords: ["أساسيات التمويل", "دورة تمويل الشركات الناشئة", "مراحل التمويل", "الملكية مقابل الدين", "منح الشركات الناشئة", "كيف يعمل رأس المال الجريء", "التقييم قبل الاستثمار", "حاسبة التخفيف", "ورقة الشروط", "السندات القابلة للتحويل", "الثقافة المالية للمؤسسين", "مالية الشركات الناشئة", "السلسلة A", "جولات الاستثمار", "Foundura"],
+    },
+    he: {
+      focus: "יסודות המימון",
+      title: "יסודות המימון לסטארט־אפים: קורס חינמי | Foundura",
+      description: "יסודות המימון למייסדים בהודו: שלבים, סבבי גיוס, הון, חוב, מענקים, הון סיכון, הערכת שווי, דף תנאים והכללים בהודו, בשפה פשוטה וברורה.",
+      excerpt: "קורס חינמי בעשרה פרקים על הכסף של סטארט־אפ: שלבים, סבבים מבוטסטרפינג ועד הנפקה, הון, חוב ומענקים, הון סיכון, הערכת שווי ודילול, דף תנאים והכללים בהודו, עם מחשבון דילול.",
+      keywords: ["יסודות המימון", "קורס מימון לסטארט־אפים", "שלבי גיוס", "הון מול חוב", "מענקים לסטארט־אפים", "איך עובד הון סיכון", "שווי לפני הכסף", "מחשבון דילול", "דף תנאים", "הלוואות המירות בהודו", "אוריינות פיננסית למייסדים", "פיננסים לסטארט־אפים", "סבב A", "סבבי גיוס", "Foundura"],
+    },
+  },
   funding: {
     es: {
       focus: "financiación para startups",

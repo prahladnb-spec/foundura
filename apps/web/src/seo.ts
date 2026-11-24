@@ -30,6 +30,7 @@ export type PageKey =
   | "documents"
   | "glossary"
   | "funding"
+  | "basics"
   | "partners";
 
 const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
@@ -570,6 +571,60 @@ const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
         "शेयरधारक समझौता",
         "प्राइवेसी पॉलिसी टेम्पलेट",
         "मुफ़्त स्टार्टअप दस्तावेज़",
+      ],
+    },
+  },
+  basics: {
+    en: {
+      slug: "/basics",
+      focus: "startup funding basics",
+      title: "Startup funding basics: a free course | Foundura",
+      description:
+        "Startup funding basics for Indian founders: stages, funding rounds, equity, debt, grants, how VCs work, valuation, term sheets and Indian rules, in plain words.",
+      excerpt:
+        "A free ten-chapter course on startup money for Indian founders: the stages of a startup, funding rounds from bootstrapping to IPO, equity, debt and grants, how venture capital works, valuation and dilution, term sheets and the Indian rules, with a dilution calculator.",
+      keywords: [
+        "startup funding basics",
+        "startup funding course",
+        "funding stages explained",
+        "equity vs debt",
+        "startup grants explained",
+        "how venture capital works",
+        "pre-money post-money valuation",
+        "dilution calculator",
+        "term sheet explained",
+        "angel tax abolished",
+        "convertible note rules India",
+        "financial literacy for founders",
+        "startup finance India",
+        "Series A explained",
+        "Foundura",
+      ],
+    },
+    hi: {
+      slug: "/basics",
+      focus: "फ़ंडिंग की बुनियादी बातें",
+      title: "फ़ंडिंग की बुनियादी बातें: स्टार्टअप कोर्स | Foundura",
+      description:
+        "भारतीय संस्थापकों के लिए फ़ंडिंग की बुनियादी बातें: चरण, फ़ंडिंग राउंड, इक्विटी, कर्ज़, ग्रांट, वेंचर कैपिटल, वैल्यूएशन, टर्म शीट, भारत के नियम, आसान भाषा में।",
+      excerpt:
+        "भारतीय संस्थापकों के लिए स्टार्टअप के पैसे पर दस अध्याय का मुफ़्त कोर्स: स्टार्टअप के चरण, बूटस्ट्रैपिंग से IPO तक के राउंड, इक्विटी, कर्ज़ और ग्रांट, वेंचर कैपिटल, वैल्यूएशन और डाइल्यूशन, टर्म शीट और भारत के नियम, डाइल्यूशन कैलकुलेटर के साथ।",
+      keywords: [
+        "फ़ंडिंग की बुनियादी बातें",
+        "स्टार्टअप फ़ंडिंग कोर्स",
+        "फ़ंडिंग के चरण",
+        "इक्विटी बनाम कर्ज़",
+        "स्टार्टअप ग्रांट",
+        "वेंचर कैपिटल कैसे काम करता है",
+        "प्री-मनी पोस्ट-मनी वैल्यूएशन",
+        "डाइल्यूशन कैलकुलेटर",
+        "टर्म शीट",
+        "एंजेल टैक्स ख़त्म",
+        "कन्वर्टिबल नोट के नियम",
+        "संस्थापकों के लिए वित्तीय साक्षरता",
+        "स्टार्टअप फ़ाइनेंस",
+        "सीरीज़ A",
+        "Foundura",
       ],
     },
   },
