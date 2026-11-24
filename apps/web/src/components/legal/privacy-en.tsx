@@ -68,9 +68,9 @@ export function PrivacyEn({ legal, version }: { legal: LegalDetails; version: st
           profile to investors&rdquo;.
         </li>
         <li>
-          <strong>Service providers</strong> who work for us under contract: our hosting provider, whose servers are in India,
-          and our email delivery provider, which sends sign-in codes, intro updates and alerts and may process your email address
-          outside India.
+          <strong>Service providers</strong> who work for us under contract: DigitalOcean, which hosts the site and its database
+          on servers in Bengaluru, and Zoho (ZeptoMail), which sends sign-in codes, intro updates and alerts from its India data
+          centre.
         </li>
         <li>Authorities, only when Indian law requires it.</li>
       </ul>

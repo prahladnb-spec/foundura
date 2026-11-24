@@ -1,15 +1,16 @@
-# Production stack on one server: API, web and Caddy (HTTPS), using a managed Postgres database
-# (DATABASE_URL). Only Caddy is reachable from the internet.
-#   cp .env.production.example .env.production   # then fill it in
-#   docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
+# Production stack on one server: Postgres (docker-compose.selfdb.yml), API, web and Caddy (HTTPS).
+# Only Caddy is reachable from the internet. The server never builds anything: GitHub Actions builds the
+# images on every push to main and publishes them to GitHub's container registry; this file pulls them.
 #
-# To run Postgres on the same server instead, add the override (also what CI uses):
-#   docker compose -f docker-compose.prod.yml -f docker-compose.selfdb.yml --env-file .env.production up -d --build
+# Start or update everything (picks the database setup, pulls, restarts, warms the pages):
+#   ./deploy/up.sh
+#
+# Using a managed database instead (DATABASE_URL set in .env.production): up.sh leaves out the selfdb file.
+# To build the images yourself instead of pulling: add -f docker-compose.build.yml and --build.
 services:
   # Runs once per deploy: applies migrations, then adds any new seed items (never overwrites edits).
   migrate:
-    build: { context: ., dockerfile: apps/api/Dockerfile }
-    image: foundura-api
+    image: ${FOUNDURA_IMAGES:-ghcr.io/prahladnb-spec/foundura}-api:${FOUNDURA_TAG:-latest}
     env_file: .env.production
     environment:
       DATABASE_URL: ${DATABASE_URL:-}
@@ -19,7 +20,7 @@ services:
     restart: "no"
 
   api:
-    image: foundura-api
+    image: ${FOUNDURA_IMAGES:-ghcr.io/prahladnb-spec/foundura}-api:${FOUNDURA_TAG:-latest}
     restart: unless-stopped
     env_file: .env.production
     environment:
@@ -31,11 +32,7 @@ services:
       migrate: { condition: service_completed_successfully }
 
   web:
-    build:
-      context: .
-      dockerfile: apps/web/Dockerfile
-      args:
-        NEXT_PUBLIC_SITE_URL: https://${SITE_DOMAIN:?set SITE_DOMAIN}
+    image: ${FOUNDURA_IMAGES:-ghcr.io/prahladnb-spec/foundura}-web:${FOUNDURA_TAG:-latest}
     restart: unless-stopped
     env_file: .env.production # legal and grievance contact details shown on /privacy and /terms
     environment:

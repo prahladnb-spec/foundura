@@ -6,7 +6,8 @@
 # 2. Checks the dump can be read back.
 # 3. If BACKUP_REMOTE is set (an rclone remote and path, e.g. "foundura-offsite:"), copies it off
 #    the server and removes off-site copies older than KEEP_DAYS.
-# 4. Removes local dumps older than KEEP_DAYS (14), matching what the privacy notice promises.
+# 4. Removes local dumps older than KEEP_DAYS (default 14; 6 with daily server backups), matching what the
+#    privacy notice promises.
 # 5. Records the run, so the API emails an alert if backups stop (BACKUP_CHECK=true).
 # Works with a managed database or Postgres on this server; see deploy/lib.sh.
 set -eu
@@ -33,7 +34,7 @@ if [ -n "$BACKUP_REMOTE" ]; then
   rclone delete "$BACKUP_REMOTE" --min-age "$((KEEP_DAYS + 1))d" --include 'foundura-*.dump' || fail "pruning $BACKUP_REMOTE failed"
   log "copied to $BACKUP_REMOTE"
 else
-  log "warning: BACKUP_REMOTE isn't set, so this backup exists only on this server"
+  log "BACKUP_REMOTE isn't set: this dump leaves the server only through DigitalOcean's server backups"
 fi
 
 tools find "$DB_BACKUP_DIR" -name 'foundura-*.dump' -mtime +"$KEEP_DAYS" -delete

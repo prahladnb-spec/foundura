@@ -66,6 +66,8 @@ test.describe("Hindi", () => {
     ..."Foundura SaaS GeM MeitY iSAFE English India Startup MedTech Mission Google Apple Outlook".split(" "),
     // The Data Protection Board's English name next to the Hindi one.
     ..."Data Protection Board of".split(" "),
+    // Service providers named on the privacy page.
+    ..."DigitalOcean Zoho ZeptoMail".split(" "),
     // Values partners type into the embed code, shown on the partners page.
     ..."idea prototype early_revenue growth private_limited".split(" "),
     // Language codes, listed for partners on the widget page.

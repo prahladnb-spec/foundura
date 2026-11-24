@@ -13,7 +13,6 @@
 DB_NAME=${DB_NAME:-foundura}
 DB_USER=${DB_USER:-foundura}
 BACKUP_DIR=${BACKUP_DIR:-./backups}
-KEEP_DAYS=${KEEP_DAYS:-14}
 
 # A setting from .env.production, unless already set in the environment.
 setting() {
@@ -21,6 +20,11 @@ setting() {
   if [ -n "$current" ]; then printf '%s' "$current"; return; fi
   if [ -f .env.production ]; then sed -n "s/^$1=//p" .env.production | tail -1 | sed 's/^"\(.*\)"$/\1/'; fi
 }
+
+# Days of dumps to keep. The privacy notice promises deleted data leaves backups within 14 days, so with
+# DigitalOcean's daily server backups (kept 7 days, and each holds these dumps too) set KEEP_DAYS=6.
+KEEP_DAYS=$(setting KEEP_DAYS); KEEP_DAYS=${KEEP_DAYS:-14}
+case "$KEEP_DAYS" in ''|*[!0-9]*) echo "KEEP_DAYS must be a whole number of days" >&2; exit 1 ;; esac
 
 if [ "${FOUNDURA_LOCAL_DB:-}" = "1" ]; then
   DB_MODE=local

@@ -1,0 +1,12 @@
+# Override: build the images on this machine instead of pulling the published ones. CI builds this way.
+#   docker compose -f docker-compose.prod.yml -f docker-compose.build.yml --env-file .env.production build
+# The web image bakes in the site address (NEXT_PUBLIC_SITE_URL), so a build for another domain needs its own.
+services:
+  migrate:
+    build: { context: ., dockerfile: apps/api/Dockerfile }
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        NEXT_PUBLIC_SITE_URL: https://${SITE_DOMAIN:?set SITE_DOMAIN}

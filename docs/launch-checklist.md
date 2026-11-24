@@ -6,7 +6,8 @@ Everything between "the code works" and "open to the public". Tick items off in 
 
 - [ ] Register **foundura.org**. If foundura.in is free, register it too and redirect it to .org, so nobody else can take it.
 - [ ] Point the DNS records at the server (see [DEPLOY.md](../DEPLOY.md)).
-- [ ] Verify the domain in Resend (SPF, DKIM, DMARC), then send yourself a sign-in code to check it lands in the inbox, not spam.
+- [ ] Verify the domain in ZeptoMail and Zoho Mail (one SPF record, DKIM, DMARC), then send yourself a sign-in code to check it lands in the inbox, not spam. Ask Zoho to confirm the weekly scheme alerts are fine on ZeptoMail before turning on `SCHEDULED_EMAILS`.
+- [ ] Set both GitHub packages (`foundura-api`, `foundura-web`) to public after the first publish, and turn on DigitalOcean **daily** backups with `KEEP_DAYS=6`.
 - [ ] Decide on a support address (for example `help@foundura.org`) and make sure someone reads it.
 
 ## Server
@@ -24,7 +25,7 @@ The DPDP Act's main duties (notice, consent, security safeguards, breach notific
 
 - [ ] **Grievance officer and company details.** Fill in `LEGAL_ENTITY_NAME`, `LEGAL_ADDRESS`, `LEGAL_JURISDICTION_CITY`, `GRIEVANCE_OFFICER_NAME` and `GRIEVANCE_EMAIL` in `.env.production`. Until they're set, `/privacy` and `/terms` show "to be added before launch" and the web server logs a warning at start-up. The officer must acknowledge complaints within 24 hours and resolve them within 15 days (IT Rules 2021). That is stricter than the DPDP Rules' 90-day limit, so plan to meet the 24 hours and 15 days.
 - [ ] Make sure someone reads the grievance and support mailboxes every day.
-- [ ] **Name the processors** in the privacy notice. It currently says "our hosting provider" and "our email delivery provider"; add their names (for example the cloud provider and region, and Resend) once chosen.
+- [x] **Name the processors** in the privacy notice: DigitalOcean (Bengaluru) and Zoho ZeptoMail (India data centre). If either changes, update both privacy pages and `PRIVACY_NOTICE_VERSION`.
 - [x] Privacy notice covers what the DPDP notice must: data and purposes, withdrawing consent, rights (including nomination) and complaining to the Data Protection Board.
 - [x] Terms of use at `/terms`, including the content users must not post (IT Rules 2021), the 18+ rule, "not advice", "not a government site", "never handles money", and that Investor Connect isn't a SEBI-registered service.
 - [x] New accounts confirm they're 18 or older and accept the terms; the consent ledger records the version.
