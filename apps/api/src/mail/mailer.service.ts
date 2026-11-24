@@ -10,7 +10,8 @@ export interface Mail {
 
 /**
  * Transactional email. In dev mode nothing is sent: messages are logged and kept in
- * an in-memory outbox (used by tests). In email mode they go through Resend.
+ * an in-memory outbox (used by tests). In email mode they go through Zoho ZeptoMail
+ * (India data centre by default, ZEPTOMAIL_API_URL).
  */
 @Injectable()
 export class MailerService {
@@ -35,17 +36,23 @@ export class MailerService {
       this.log.log(`DEV email to ${mail.to}: ${mail.subject}`);
       return;
     }
-    if (!this.config.RESEND_API_KEY) throw new Error("RESEND_API_KEY is required when OTP_DELIVERY=email");
-    const res = await fetch("https://api.resend.com/emails", {
+    if (!this.config.ZEPTOMAIL_TOKEN) throw new Error("ZEPTOMAIL_TOKEN is required when OTP_DELIVERY=email");
+    const from = parseAddress(this.config.OTP_FROM_EMAIL);
+    const res = await fetch(this.config.ZEPTOMAIL_API_URL, {
       method: "POST",
-      headers: { Authorization: `Bearer ${this.config.RESEND_API_KEY}`, "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Zoho-enczapikey ${this.config.ZEPTOMAIL_TOKEN.replace(/^Zoho-enczapikey\s+/i, "")}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
-        from: this.config.OTP_FROM_EMAIL,
-        to: mail.to,
+        from,
+        to: [{ email_address: { address: mail.to } }],
         subject: mail.subject,
-        text: mail.text,
-        ...(mail.headers ? { headers: mail.headers } : {}),
+        textbody: mail.text,
+        ...(mail.headers ? { mime_headers: mail.headers } : {}),
       }),
+      signal: AbortSignal.timeout(15_000),
     });
     if (!res.ok) throw new Error(`Email send failed with status ${res.status}`);
   }
@@ -54,4 +61,12 @@ export class MailerService {
   notify(mail: Mail): void {
     this.send(mail).catch((e) => this.log.error(`Notification to ${mail.to} failed: ${(e as Error).message}`));
   }
+}
+
+/** "Foundura <login@foundura.org>" or "login@foundura.org" → ZeptoMail's { address, name }. */
+export function parseAddress(value: string): { address: string; name?: string } {
+  const m = value.match(/^\s*(.*?)\s*<([^>]+)>\s*$/);
+  if (!m) return { address: value.trim() };
+  const name = m[1].replace(/^"|"$/g, "").trim();
+  return name ? { address: m[2].trim(), name } : { address: m[2].trim() };
 }

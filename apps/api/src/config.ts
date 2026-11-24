@@ -35,7 +35,10 @@ const envSchema = z.object({
   /** Public site URL, used in notification emails. */
   SITE_URL: z.string().url().default("http://localhost:3000"),
   OTP_DELIVERY: z.enum(["dev", "email"]).default("dev"),
-  RESEND_API_KEY: z.string().optional(),
+  /** ZeptoMail "Send Mail" token (Mail Agents → SMTP/API → API). With or without the "Zoho-enczapikey" prefix. */
+  ZEPTOMAIL_TOKEN: z.string().optional(),
+  /** ZeptoMail send endpoint for your account's data centre (India by default). */
+  ZEPTOMAIL_API_URL: z.string().url().default("https://api.zeptomail.in/v1.1/email"),
   OTP_FROM_EMAIL: z.string().default("Foundura <login@example.com>"),
   NODE_ENV: z.string().default("development"),
   /**
@@ -66,7 +69,7 @@ export function productionProblems(c: AppConfig): string[] {
   const p: string[] = [];
   const placeholder = /change-me|example|test|secret/i;
   if (c.OTP_DELIVERY === "dev") p.push("OTP_DELIVERY=dev shows sign-in codes on screen; use email");
-  if (c.OTP_DELIVERY === "email" && !c.RESEND_API_KEY) p.push("RESEND_API_KEY is required to send email");
+  if (c.OTP_DELIVERY === "email" && !c.ZEPTOMAIL_TOKEN) p.push("ZEPTOMAIL_TOKEN is required to send email");
   if (/example\.com/i.test(c.OTP_FROM_EMAIL)) p.push("OTP_FROM_EMAIL still uses example.com; use your own verified domain");
   if (c.JWT_SECRET.length < 32 || placeholder.test(c.JWT_SECRET)) p.push("JWT_SECRET must be a random string of at least 32 characters");
   if (c.ADMIN_API_KEY.length < 24 || placeholder.test(c.ADMIN_API_KEY)) p.push("ADMIN_API_KEY must be a random string of at least 24 characters");

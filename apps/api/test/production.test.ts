@@ -12,7 +12,7 @@ const SAFE = {
   SITE_URL: "https://foundura.org",
   CORS_ORIGINS: "https://foundura.org",
   OTP_DELIVERY: "email",
-  RESEND_API_KEY: "re_live_key",
+  ZEPTOMAIL_TOKEN: "wSsVR61live-token",
   OTP_FROM_EMAIL: "Foundura <login@foundura.org>",
   TRUST_PROXY: "1",
 };
