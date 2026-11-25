@@ -2,7 +2,9 @@
 #   docker build -f apps/web/Dockerfile --build-arg NEXT_PUBLIC_SITE_URL=https://foundura.org -t foundura-web .
 FROM node:22-alpine AS base
 ENV PNPM_HOME=/pnpm PATH=/pnpm:$PATH NEXT_TELEMETRY_DISABLED=1
-RUN corepack enable
+# pnpm at the version in package.json "packageManager". Installed with npm because Node 25 and later no longer ship corepack.
+COPY package.json /tmp/package.json
+RUN npm install -g --no-fund --no-audit "$(node -p 'require("/tmp/package.json").packageManager')" && rm /tmp/package.json
 WORKDIR /repo
 
 FROM base AS build

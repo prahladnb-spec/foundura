@@ -8,7 +8,24 @@ updates:
     # Only propose versions at least a week old: pnpm refuses brand-new releases, and young releases are where hijacked packages show up.
     cooldown:
       default-days: 7
+    # Packages that must move together get one pull request each, majors included: updating
+    # @nestjs/common alone fails because @nestjs/testing has to match it.
     groups:
+      nestjs:
+        patterns: ["@nestjs/*"]
+      next-react:
+        patterns: ["next", "react", "react-dom", "@types/react", "@types/react-dom"]
+      tailwind:
+        patterns: ["tailwindcss", "@tailwindcss/*"]
+      vitest:
+        patterns: ["vitest", "@vitest/*", "unplugin-swc", "@swc/core"]
+      drizzle:
+        patterns: ["drizzle-orm", "drizzle-kit"]
+      playwright:
+        patterns: ["@playwright/test", "playwright", "@axe-core/playwright"]
+      # After merging, run apps/web/scripts/build-display-font.py to refresh the Hindi font copies.
+      fonts:
+        patterns: ["@fontsource/*", "@fontsource-variable/*"]
       minor-and-patch:
         update-types: [minor, patch]
   - package-ecosystem: github-actions

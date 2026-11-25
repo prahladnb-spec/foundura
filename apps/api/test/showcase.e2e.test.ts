@@ -62,9 +62,16 @@ describe("startup showcase", () => {
       sectors: ["medtech"],
     });
     const body = JSON.stringify([page, list]);
-    for (const secret of ["turnover", "raising", "deck", "promoter", "govtSupport", "incorporationDate", "ownerId", "email", "0.6", "150"]) {
+    for (const secret of ["turnover", "raising", "deck", "promoter", "govtSupport", "incorporationDate", "ownerId", "email"]) {
       expect(body, secret).not.toContain(secret);
     }
+    // The figures themselves, as values anywhere in the response (not as text: ids and timestamps can contain "0.6").
+    const numbers: unknown[] = [];
+    JSON.parse(body, (_key, value) => (typeof value === "number" && numbers.push(value), value));
+    expect(numbers).not.toContain(0.6);
+    expect(numbers).not.toContain(150);
+    expect(numbers).not.toContain(12);
+    expect(numbers).not.toContain(88);
   });
 
   it("filters by sector, stage, state and what the startup is looking for", async () => {
