@@ -26,8 +26,10 @@ updates:
       # After merging, run apps/web/scripts/build-display-font.py to refresh the Hindi font copies.
       fonts:
         patterns: ["@fontsource/*", "@fontsource-variable/*"]
+      # Dependabot treats this group as more specific than the pattern groups, so leave their packages out.
       minor-and-patch:
         update-types: [minor, patch]
+        exclude-patterns: ["@nestjs/*", "next", "react", "react-dom", "@types/react", "@types/react-dom", "tailwindcss", "@tailwindcss/*", "vitest", "@vitest/*", "unplugin-swc", "@swc/core", "drizzle-orm", "drizzle-kit", "@playwright/test", "playwright", "@axe-core/playwright", "@fontsource/*", "@fontsource-variable/*"]
   - package-ecosystem: github-actions
     directory: /
     schedule: { interval: monthly }

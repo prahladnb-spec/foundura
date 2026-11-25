@@ -5,6 +5,7 @@ import { FundingFilter } from "@/components/funding-filter";
 import { getDict } from "@/i18n";
 import { f, isLang, type Lang } from "@/i18n/config";
 import { fmtDate } from "@/lib/format";
+import { legalDetails } from "@/lib/legal";
 import { stateLabel } from "@/lib/labels";
 import { pageMetadata } from "@/seo";
 import {
@@ -48,6 +49,9 @@ export default async function FundingPage({ params }: { params: Params }) {
   const geoName = (g: FundingGeo) => (isState(g) ? stateLabel(g, lang) : d.regions[g]);
   const states = tiles.map(([c]) => c).filter((c) => count.get(c)).sort((a, b) => geoName(a).localeCompare(geoName(b), lang));
   const order: FundingGeo[] = ["IN", ...states, ...REGIONS.filter((r) => r !== "IN")];
+  const support = legalDetails().supportEmail ?? "support@foundura.org";
+  // Corrections come by email, so the site stores nothing about whoever reports one.
+  const reportHref = (e: FundingEntry) => `mailto:${support}?subject=${encodeURIComponent(`Funding directory: ${e.name}`)}`;
   const gaps = tiles.map(([c]) => c).filter((c) => !count.get(c)).map(geoName).sort((a, b) => a.localeCompare(b, lang));
 
   const [polA, polB] = d.policies.split("{link}");
@@ -65,6 +69,10 @@ export default async function FundingPage({ params }: { params: Params }) {
           )}
           <span className="mt-0.5 block text-[0.9rem] text-slate">{e.base}</span>
         </span>
+        <a href={reportHref(e)} className="mt-1 me-4 inline-block text-[0.85rem] text-slate underline">
+          {d.report}
+          <span className="sr-only" lang={en}>: {e.name}</span>
+        </a>
         {e.scheme && (
           <Link href={`/schemes/${e.scheme}`} className="mt-1 inline-block text-[0.9rem] text-neel-500 underline">{d.schemeLink}</Link>
         )}
@@ -204,8 +212,8 @@ export default async function FundingPage({ params }: { params: Params }) {
         })}
 
         <section aria-labelledby="gaps-h" className="mt-12 rounded-xl bg-slate-50 p-6">
-          <h2 id="gaps-h" className="display text-2xl">{d.gapsTitle}</h2>
-          <p className="mt-2">{f(d.gaps, { list: gaps.join(", ") })}</p>
+          <h2 id="gaps-h" className="display text-2xl">{gaps.length ? d.gapsTitle : d.moreTitle}</h2>
+          {gaps.length > 0 && <p className="mt-2">{f(d.gaps, { list: gaps.join(", ") })}</p>}
           <p className="mt-2">
             {polA}
             <a href="https://www.startupindia.gov.in/content/sih/en/state-startup-policies.html" target="_blank" rel="noopener noreferrer" className="text-neel-500 underline">{d.policiesLink}</a>

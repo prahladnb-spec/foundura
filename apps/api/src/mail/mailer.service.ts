@@ -1,17 +1,24 @@
 import { Inject, Injectable, Logger } from "@nestjs/common";
 import { CONFIG, type AppConfig } from "../config";
+import { emailHtml } from "./html";
+import { LOGO_CID, LOGO_PNG_BASE64 } from "./logo";
 
 export interface Mail {
   to: string;
   subject: string;
   text: string;
+  /** Shown large in the HTML version, e.g. a sign-in code. */
+  highlight?: string;
+  /** Filled in by send(): the branded HTML version of text. */
+  html?: string;
   headers?: Record<string, string>;
 }
 
 /**
  * Transactional email. In dev mode nothing is sent: messages are logged and kept in
  * an in-memory outbox (used by tests). In email mode they go through Zoho ZeptoMail
- * (India data centre by default, ZEPTOMAIL_API_URL).
+ * (India data centre by default, ZEPTOMAIL_API_URL). Every email goes as plain text plus a branded
+ * HTML version made from the same text (html.ts), with the logo attached inline.
  */
 @Injectable()
 export class MailerService {
@@ -29,7 +36,9 @@ export class MailerService {
   }
 
   /** Throws on failure; callers decide whether a failed email should fail the request. */
-  async send(mail: Mail): Promise<void> {
+  async send(input: Mail): Promise<void> {
+    const lang = /[\u0900-\u097f]/.test(input.subject + input.text) ? "hi" : "en";
+    const mail: Mail = { ...input, html: emailHtml({ subject: input.subject, text: input.text, highlight: input.highlight, lang, site: this.siteUrl }) };
     if (this.config.OTP_DELIVERY === "dev") {
       this.outbox.push(mail);
       if (this.outbox.length > 100) this.outbox.shift();
@@ -50,6 +59,8 @@ export class MailerService {
         to: [{ email_address: { address: mail.to } }],
         subject: mail.subject,
         textbody: mail.text,
+        htmlbody: mail.html,
+        inline_images: [{ mime_type: "image/png", content: LOGO_PNG_BASE64, cid: LOGO_CID }],
         ...(mail.headers ? { mime_headers: mail.headers } : {}),
       }),
       signal: AbortSignal.timeout(15_000),

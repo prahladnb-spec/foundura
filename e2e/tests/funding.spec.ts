@@ -1,5 +1,5 @@
 import { DICTS } from "../../apps/web/src/i18n/dicts";
-import { FUNDING } from "../../apps/web/src/funding/directory";
+import { FUNDING, fundingId, TILES } from "../../apps/web/src/funding/directory";
 import { expect, test } from "./fixtures";
 
 const en = DICTS.en.funding;
@@ -52,11 +52,20 @@ test.describe("funding directory", () => {
     await expect(visible).toHaveCount(FUNDING.length);
   });
 
-  test("states without entries are shown as not covered and can't be picked", async ({ page }) => {
+  test("states without entries can't be picked and are listed as not covered", async ({ page }) => {
     await page.goto("/funding");
-    const empty = page.locator("button.funding-tile:disabled");
-    expect(await empty.count()).toBeGreaterThan(0);
-    await expect(page.getByRole("heading", { name: en.gapsTitle })).toBeVisible();
+    const uncovered = Object.keys(TILES).filter((code) => !FUNDING.some((e) => e.geo === code));
+    await expect(page.locator("button.funding-tile:disabled")).toHaveCount(uncovered.length);
+    await expect(page.getByRole("heading", { name: uncovered.length ? en.gapsTitle : en.moreTitle })).toBeVisible();
+  });
+
+  test("every entry has a link to report a change by email", async ({ page }) => {
+    await page.goto("/funding");
+    const reports = page.locator("[data-entry] a[href^='mailto:']");
+    await expect(reports).toHaveCount(FUNDING.length);
+    const first = FUNDING[0]!;
+    const href = await page.locator(`#${fundingId(first)} a[href^='mailto:']`).getAttribute("href");
+    expect(href?.endsWith(`?subject=${encodeURIComponent(`Funding directory: ${first.name}`)}`)).toBe(true);
   });
 
   test("in Hindi the interface is translated and the entries are marked English", async ({ page }) => {

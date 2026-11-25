@@ -450,6 +450,8 @@ export const de: Dict = {
     orgsOnly: "Nur Organisationen und öffentliche Programme, nie einzelne Investoren.",
     gapsTitle: "Noch nicht erfasst",
     gaps: "Auch diese haben Startup-Richtlinien; sie kommen hinzu, sobald ihre offiziellen Seiten geprüft sind: {list}.",
+    moreTitle: "Weitere Quellen",
+    report: "Änderung melden",
     policies: "Die Startup-Richtlinie jedes Bundesstaats steht auf der {link} von Startup India.",
     policiesLink: "Seite der Landesrichtlinien",
     profiles: "Investoren, die von Gründern gefunden werden möchten, können auf der {link} ein Profil anlegen.",

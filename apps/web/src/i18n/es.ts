@@ -450,6 +450,8 @@ export const es: Dict = {
     orgsOnly: "Solo organizaciones y programas públicos, nunca inversores particulares.",
     gapsTitle: "Aún sin cubrir",
     gaps: "También tienen políticas para startups y se añadirán cuando se comprueben sus páginas oficiales: {list}.",
+    moreTitle: "Otros lugares donde buscar",
+    report: "Informar de un cambio",
     policies: "La política de cada estado está en la {link} de Startup India.",
     policiesLink: "página de políticas estatales",
     profiles: "Los inversores que quieran que los fundadores los encuentren pueden crear un perfil en la {link}.",

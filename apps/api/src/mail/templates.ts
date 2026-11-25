@@ -1,8 +1,10 @@
 import type { Locale } from "@foundura/shared";
 
 /**
- * Wording of every email Foundura sends, in each language. Hindi mirrors English; both are plain text.
- * Links go to the site in the reader's language (Hindi pages live under /hi).
+ * Wording of every email Foundura sends, in each language. Hindi mirrors English.
+ * Links go to the site in the reader's language (Hindi pages live under /hi). The mailer also sends an HTML
+ * version built from the same text (html.ts): blank lines make paragraphs, "- " lines make lists, "--" starts
+ * the small print.
  */
 
 export function siteLink(site: string, locale: Locale, path: string): string {
@@ -27,6 +29,7 @@ export const T = {
     signIn: (code: string) => ({
       subject: `${code} is your Foundura sign-in code`,
       text: `Your Foundura sign-in code is ${code}. It expires in 10 minutes. If you did not ask for it, ignore this email.`,
+      highlight: code,
     }),
     introRequest: (startup: string, score: number, link: string) => ({
       subject: `New intro request from ${startup} (${score}% match)`,
@@ -99,6 +102,7 @@ export const T = {
     signIn: (code: string) => ({
       subject: `${code} आपका Foundura साइन-इन कोड है`,
       text: `आपका Foundura साइन-इन कोड ${code} है। यह 10 मिनट में ख़त्म हो जाएगा। अगर आपने यह कोड नहीं माँगा, तो इस ईमेल को अनदेखा करें।`,
+      highlight: code,
     }),
     introRequest: (startup: string, score: number, link: string) => ({
       subject: `${startup} की ओर से नया परिचय अनुरोध (${score}% मिलान)`,

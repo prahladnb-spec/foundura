@@ -450,6 +450,8 @@ export const ja: Dict = {
     orgsOnly: "組織と公的プログラムのみで、個人の投資家は載せません。",
     gapsTitle: "未収録",
     gaps: "これらにもスタートアップ政策があり、公式ページを確認しだい追加します:{list}。",
+    moreTitle: "ほかの情報源",
+    report: "変更を報告",
     policies: "各州のスタートアップ政策は Startup India の{link}にあります。",
     policiesLink: "州政策のページ",
     profiles: "創業者に見つけてほしい投資家は、{link}でプロフィールを作れます。",

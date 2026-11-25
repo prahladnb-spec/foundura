@@ -455,6 +455,10 @@ export const en = {
     orgsOnly: "Organisations and public programmes only, never individual investors.",
     gapsTitle: "Not covered yet",
     gaps: "These have startup policies too, and will be added once their official pages are checked: {list}.",
+    /** Heading for the closing links once every state and UT has an entry. */
+    moreTitle: "Other places to look",
+    /** Link under each entry: opens an email to Foundura about that entry. */
+    report: "Report a change",
     policies: "Every state's startup policy is listed on Startup India's {link}.",
     policiesLink: "state policies page",
     profiles: "Investors who want founders to find them can create a profile on the {link}.",
