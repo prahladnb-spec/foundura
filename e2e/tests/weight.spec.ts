@@ -4,14 +4,14 @@ import { expect, test } from "./fixtures";
  * Page weight budget, measured as compressed bytes sent. Founders often open Foundura on a phone
  * over a patchy connection, so the main pages should stay light.
  */
-// Set a little above what the pages weigh today (Nov 2026), so growth gets noticed. Hindi pages
-// carry about 390 KB more because Devanagari fonts are bigger.
+// Set a little above what the pages weigh today (Nov 2026), so growth gets noticed. Hindi and Marathi
+// pages carry about 210 KB more for the Devanagari fonts (cut down by apps/web/scripts/build-display-font.py).
 // Arabic pages carry about 170 KB of Arabic font; Hebrew about 20 KB.
 // Languages in other scripts download their own font (Arabic about 170 KB, the Indian scripts 50 to 160 KB).
 const BUDGET_KB: Record<string, { script: number; total: number }> = {
   en: { script: 180, total: 400 },
-  hi: { script: 180, total: 760 },
-  mr: { script: 180, total: 760 },
+  hi: { script: 180, total: 620 },
+  mr: { script: 180, total: 620 },
   ar: { script: 180, total: 620 },
   he: { script: 180, total: 460 },
   kn: { script: 180, total: 600 },
