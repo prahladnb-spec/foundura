@@ -1,6 +1,6 @@
 # Foundura API. Build from the repo root:
 #   docker build -f apps/api/Dockerfile -t foundura-api .
-FROM node:22-alpine AS base
+FROM node:26-alpine AS base
 ENV PNPM_HOME=/pnpm PATH=/pnpm:$PATH
 # pnpm at the version in package.json "packageManager". Installed with npm because Node 25 and later no longer ship corepack.
 COPY package.json /tmp/package.json
@@ -18,7 +18,7 @@ RUN pnpm --filter @foundura/shared build && pnpm --filter @foundura/api build
 # Production-only node_modules plus the compiled server, migrate and seed scripts, and the SQL migrations.
 RUN pnpm --filter @foundura/api deploy --legacy --prod /out && rm -rf /out/src /out/test /out/db && cp -r apps/api/dist apps/api/drizzle /out/
 
-FROM node:22-alpine
+FROM node:26-alpine
 ENV NODE_ENV=production
 WORKDIR /app
 COPY --from=build --chown=node:node /out ./
