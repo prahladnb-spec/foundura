@@ -1,6 +1,6 @@
 # Foundura web. Build from the repo root:
 #   docker build -f apps/web/Dockerfile --build-arg NEXT_PUBLIC_SITE_URL=https://foundura.org -t foundura-web .
-FROM node:22-alpine AS base
+FROM node:26-alpine AS base
 ENV PNPM_HOME=/pnpm PATH=/pnpm:$PATH NEXT_TELEMETRY_DISABLED=1
 # pnpm at the version in package.json "packageManager". Installed with npm because Node 25 and later no longer ship corepack.
 COPY package.json /tmp/package.json
@@ -20,7 +20,7 @@ ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
 RUN test -n "$NEXT_PUBLIC_SITE_URL" || (echo "Pass --build-arg NEXT_PUBLIC_SITE_URL=https://foundura.org" && exit 1)
 RUN pnpm --filter @foundura/shared build && pnpm --filter @foundura/web build
 
-FROM node:22-alpine
+FROM node:26-alpine
 ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 PORT=3000 HOSTNAME=0.0.0.0
 WORKDIR /app
 COPY --from=build --chown=node:node /repo/apps/web/.next/standalone ./
