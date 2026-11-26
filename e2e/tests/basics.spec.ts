@@ -1,4 +1,5 @@
 import { CHAPTERS } from "../../apps/web/src/basics/chapters";
+import { QUIZ_EN, QUIZ_HI } from "../../apps/web/src/basics/quiz";
 import { DICTS } from "../../apps/web/src/i18n/dicts";
 import { expect, test } from "./fixtures";
 
@@ -34,6 +35,42 @@ test.describe("funding basics", () => {
       await expect(page.locator("h1")).toHaveText(c.en.title);
     }
     expect((await page.goto("/basics/no-such-chapter"))?.status()).toBe(404);
+  });
+
+  test("every chapter has three quiz questions in English and Hindi, each with a real answer", () => {
+    for (const c of CHAPTERS) {
+      for (const quiz of [QUIZ_EN, QUIZ_HI]) {
+        const q = quiz[c.slug];
+        expect(q, c.slug).toHaveLength(3);
+        for (const x of q) expect(x.options[x.answer], `${c.slug}: ${x.q}`).toBeTruthy();
+      }
+    }
+  });
+
+  test("the chapter quiz is checked in the page and says why", async ({ page }) => {
+    await page.goto("/basics/valuation");
+    const quiz = page.locator("section", { has: page.getByRole("heading", { name: d.quiz.title }) });
+    await quiz.getByRole("button", { name: d.quiz.check }).click();
+    await expect(quiz.getByRole("alert")).toHaveText(d.quiz.missing);
+    const qs = QUIZ_EN.valuation;
+    // Right answers to the first two questions, a wrong one to the third.
+    for (const [i, x] of qs.entries()) {
+      const pick = i < 2 ? x.answer : (x.answer + 1) % x.options.length;
+      await quiz.getByRole("group", { name: `${i + 1}. ${x.q}` }).getByRole("radio", { name: x.options[pick] }).check();
+    }
+    await quiz.getByRole("button", { name: d.quiz.check }).click();
+    await expect(quiz.getByRole("status")).toHaveText("2 of 3 right.");
+    await expect(quiz).toContainText(qs[2].why);
+    await quiz.getByRole("button", { name: d.quiz.retry }).click();
+    await expect(quiz.getByRole("radio", { checked: true })).toHaveCount(0);
+  });
+
+  test("the team chapter covers vesting and the Indian ESOP rules", async ({ page }) => {
+    await page.goto("/basics/team");
+    await expect(page.locator("h1")).toHaveText("Building the founding team");
+    await expect(page.getByText(/four years with a one-year cliff/).first()).toBeVisible();
+    await expect(page.getByText(/up to 10 years from incorporation/)).toBeVisible();
+    await expect(page.locator('a[href="/documents/esop-scheme"]')).toBeVisible();
   });
 
   test("the dilution calculator works out who owns what", async ({ page }) => {

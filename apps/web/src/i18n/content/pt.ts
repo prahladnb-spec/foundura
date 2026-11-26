@@ -77,7 +77,7 @@ export const pt: LangContent = {
       focus: "noções de financiamento",
       title: "Noções de financiamento para startups | Foundura",
       description: "Noções de financiamento para fundadores na Índia: fases, rodadas, participação, dívida, subsídios, capital de risco, valuation, term sheet e regras indianas.",
-      excerpt: "Um curso gratuito de dez capítulos sobre o dinheiro de uma startup: fases, rodadas do bootstrapping ao IPO, participação, dívida e subsídios, capital de risco, valuation e diluição, term sheet e regras da Índia, com calculadora de diluição.",
+      excerpt: "Um curso gratuito de onze capítulos sobre o dinheiro de uma startup: fases, rodadas do bootstrapping ao IPO, participação, dívida e subsídios, capital de risco, valuation e diluição, term sheet e regras da Índia, com calculadora de diluição.",
       keywords: ["noções de financiamento", "curso de financiamento de startups", "fases do financiamento", "participação ou dívida", "subsídios para startups", "como funciona o capital de risco", "valuation pré-money", "calculadora de diluição", "term sheet explicado", "notas conversíveis Índia", "educação financeira para fundadores", "finanças de startups", "série A", "rodadas de investimento", "Foundura"],
     },
     funding: {
@@ -114,6 +114,13 @@ export const pt: LangContent = {
       description: "Contato com a Foundura por e-mail: informe uma mudança em um programa, peça ajuda com seu perfil, pergunte sobre seus dados ou seja parceiro.",
       excerpt: "Escreva para a Foundura para informar algo desatualizado, pedir ajuda com o site, perguntar sobre seus dados ou propor parceria. A página também traz o responsável por reclamações e como identificar quem usa nosso nome indevidamente.",
       keywords: ["contato com a Foundura", "suporte da Foundura", "e-mail da Foundura", "informar uma mudança", "ajuda para startups", "responsável por reclamações", "pedido de privacidade", "apagar meus dados", "parceria com a Foundura", "divulgar um evento", "widget de verificação", "alerta de golpes", "contato de suporte", "ajuda da Foundura", "Foundura"],
+    },
+    states: {
+      focus: "apoio a startups por estado",
+      title: "Apoio a startups por estado: programas | Foundura",
+      description: "Apoio a startups por estado na Índia: programas, financiamento, incubadoras e startups de cada estado, e como o último ranking do DPIIT avaliou esse apoio.",
+      excerpt: "Uma página para cada estado e território da Índia: programas para startups, financiamento, incubadoras e startups na Foundura, e o resultado no ranking estadual do DPIIT.",
+      keywords: ["apoio a startups por estado", "política de startups Índia", "programas por estado", "ranking estadual de startups", "ranking do DPIIT", "incubadoras na Índia", "incubadoras por estado", "missões de startups", "startups de Karnataka", "startups de Gujarat", "Kerala Startup Mission", "T-Hub", "hubs de startups Índia", "Startup India", "Foundura"],
     },
   },
   docs: {

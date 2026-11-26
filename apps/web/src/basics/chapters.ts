@@ -4,15 +4,16 @@ import type { Chapter, ChapterText } from "./types";
 
 /**
  * Funding basics: a short course at /basics, in English and Hindi (other languages show the English).
- * The Indian rules in "india-rules", "equity" and "vc" were checked against official notices and
+ * The Indian rules in "india-rules", "equity", "vc" and "team" were checked against official notices and
  * law-firm summaries on CHECKED_ON; when any of them changes, update both languages and the date.
  * General information only: the pages say so and point to a CA or lawyer.
  */
-export const CHECKED_ON = "2026-11-24";
+export const CHECKED_ON = "2026-11-26";
 
 type Meta = Omit<Chapter, "en" | "hi">;
 const META: Meta[] = [
   { slug: "stages", terms: ["MVP", "Product-market fit", "Traction", "Bootstrapping", "DPIIT recognition", "Vesting"], docs: ["lean-canvas", "customer-interview-script", "incorporation-checklist", "founders-agreement", "go-to-market-plan"], links: ["scan", "funding"] },
+  { slug: "team", terms: ["Vesting", "Cliff", "ESOP", "Cap table", "Equity"], docs: ["founders-agreement", "esop-scheme", "ip-assignment", "cap-table"], links: ["funding", "investors"] },
   { slug: "rounds", terms: ["Seed round", "Angel investor", "Venture capital (VC)", "Runway", "Accelerator", "Incubator"], docs: ["pitch-deck", "investor-pipeline"], links: ["funding"] },
   { slug: "equity", terms: ["Equity", "CCPS", "Convertible note", "SAFE and iSAFE", "Valuation cap", "Cap table"], docs: ["convertible-note", "cap-table", "shareholders-agreement-terms"], links: ["funding", "investors"] },
   { slug: "debt", terms: ["Runway", "Burn rate", "Unit economics"], docs: ["financial-model", "budget-use-of-funds"], links: ["schemes", "funding"] },

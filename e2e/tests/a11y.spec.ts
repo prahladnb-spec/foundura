@@ -13,6 +13,9 @@ const PAGES = [
   "/investors",
   "/funding",
   "/about",
+  "/states",
+  "/states/ka",
+  "/basics/team",
   "/contact",
   "/newsletter/confirm?s=a&t=bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
   "/basics",
@@ -40,7 +43,7 @@ async function expectNoSeriousProblems(page: Page) {
 }
 
 // The other languages share the layouts; check the main ones in each, including right to left.
-const INTL_PAGES = ["/", "/about", "/contact", "/scan", "/schemes", "/documents/pitch-deck", "/glossary", "/funding", "/basics", "/basics/valuation", "/search?q=seed+fund"];
+const INTL_PAGES = ["/", "/about", "/states", "/states/tn", "/contact", "/scan", "/schemes", "/documents/pitch-deck", "/glossary", "/funding", "/basics", "/basics/valuation", "/search?q=seed+fund"];
 for (const lang of LANGS.filter((l) => l !== "en" && l !== "hi").map((l) => `/${l}`)) {
   for (const path of INTL_PAGES) {
     const url = `${lang}${path === "/" ? "" : path}`;

@@ -77,7 +77,7 @@ export const fr: LangContent = {
       focus: "bases du financement",
       title: "Les bases du financement des startups | Foundura",
       description: "Les bases du financement pour les fondateurs en Inde : étapes, tours, fonds propres, dette, subventions, capital-risque, valorisation, term sheet et règles.",
-      excerpt: "Un cours gratuit en dix chapitres sur l'argent des startups : étapes, tours du bootstrapping à l'introduction en bourse, fonds propres, dette et subventions, capital-risque, valorisation et dilution, term sheet et règles indiennes, avec un calculateur.",
+      excerpt: "Un cours gratuit en onze chapitres sur l'argent des startups : étapes, tours du bootstrapping à l'introduction en bourse, fonds propres, dette et subventions, capital-risque, valorisation et dilution, term sheet et règles indiennes, avec un calculateur.",
       keywords: ["bases du financement", "cours de financement de startups", "étapes du financement", "fonds propres ou dette", "subventions pour startups", "fonctionnement du capital-risque", "valorisation pré-money", "calculateur de dilution", "term sheet expliquée", "notes convertibles Inde", "culture financière des fondateurs", "finance des startups", "série A", "tours de financement", "Foundura"],
     },
     funding: {
@@ -114,6 +114,13 @@ export const fr: LangContent = {
       description: "Contacter Foundura par e-mail : signaler le changement d'une aide, obtenir de l'aide pour votre profil, poser une question sur vos données ou être partenaire.",
       excerpt: "Écrivez à Foundura pour signaler une information dépassée, obtenir de l'aide sur le site, poser une question sur vos données ou devenir partenaire. La page indique aussi le responsable des réclamations et comment repérer un usage abusif de notre nom.",
       keywords: ["contacter Foundura", "support Foundura", "e-mail Foundura", "signaler un changement", "aide aux startups", "responsable des réclamations", "demande de confidentialité", "supprimer mes données", "partenariat Foundura", "publier un événement", "widget de vérification", "alerte arnaques", "contact support", "aide Foundura", "Foundura"],
+    },
+    states: {
+      focus: "aide aux startups par État",
+      title: "Aide aux startups par État : aides et incubateurs | Foundura",
+      description: "Aide aux startups par État en Inde : aides, financements, incubateurs et startups de chaque État, et la note de son soutien au dernier classement du DPIIT.",
+      excerpt: "Une page par État et territoire indien : ses aides aux startups, programmes de financement, incubateurs et startups sur Foundura, et son résultat au classement des États du DPIIT.",
+      keywords: ["aide aux startups par État", "politique startup Inde", "aides aux startups par État", "classement des États", "classement DPIIT", "incubateurs en Inde", "incubateurs par État", "missions startup", "startups du Karnataka", "startups du Gujarat", "Kerala Startup Mission", "T-Hub", "hubs de startups Inde", "Startup India", "Foundura"],
     },
   },
   docs: {

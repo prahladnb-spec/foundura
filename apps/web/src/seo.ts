@@ -33,7 +33,8 @@ export type PageKey =
   | "basics"
   | "partners"
   | "about"
-  | "contact";
+  | "contact"
+  | "states";
 
 const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
   home: {
@@ -584,7 +585,7 @@ const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
       description:
         "Startup funding basics for Indian founders: stages, funding rounds, equity, debt, grants, how VCs work, valuation, term sheets and Indian rules, in plain words.",
       excerpt:
-        "A free ten-chapter course on startup money for Indian founders: the stages of a startup, funding rounds from bootstrapping to IPO, equity, debt and grants, how venture capital works, valuation and dilution, term sheets and the Indian rules, with a dilution calculator.",
+        "A free eleven-chapter course on startup money for Indian founders: the stages of a startup, funding rounds from bootstrapping to IPO, equity, debt and grants, how venture capital works, valuation and dilution, term sheets and the Indian rules, with a dilution calculator.",
       keywords: [
         "startup funding basics",
         "startup funding course",
@@ -610,7 +611,7 @@ const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
       description:
         "भारतीय संस्थापकों के लिए फ़ंडिंग की बुनियादी बातें: चरण, फ़ंडिंग राउंड, इक्विटी, कर्ज़, ग्रांट, वेंचर कैपिटल, वैल्यूएशन, टर्म शीट, भारत के नियम, आसान भाषा में।",
       excerpt:
-        "भारतीय संस्थापकों के लिए स्टार्टअप के पैसे पर दस अध्याय का मुफ़्त कोर्स: स्टार्टअप के चरण, बूटस्ट्रैपिंग से IPO तक के राउंड, इक्विटी, कर्ज़ और ग्रांट, वेंचर कैपिटल, वैल्यूएशन और डाइल्यूशन, टर्म शीट और भारत के नियम, डाइल्यूशन कैलकुलेटर के साथ।",
+        "भारतीय संस्थापकों के लिए स्टार्टअप के पैसे पर ग्यारह अध्याय का मुफ़्त कोर्स: स्टार्टअप के चरण, बूटस्ट्रैपिंग से IPO तक के राउंड, इक्विटी, कर्ज़ और ग्रांट, वेंचर कैपिटल, वैल्यूएशन और डाइल्यूशन, टर्म शीट और भारत के नियम, डाइल्यूशन कैलकुलेटर के साथ।",
       keywords: [
         "फ़ंडिंग की बुनियादी बातें",
         "स्टार्टअप फ़ंडिंग कोर्स",
@@ -826,6 +827,24 @@ const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
       description: "Foundura से संपर्क ईमेल से करें: योजना में बदलाव बताएँ, स्टार्टअप प्रोफ़ाइल में मदद लें, अपने डेटा के बारे में पूछें या साझेदारी करें। हम पैसे नहीं माँगते।",
       excerpt: "पुरानी जानकारी बताने, साइट पर मदद लेने, अपने डेटा के बारे में पूछने या साझेदारी के लिए Foundura को ईमेल करें। इस पेज पर शिकायत अधिकारी की जानकारी और हमारे नाम का ग़लत इस्तेमाल पहचानने का तरीक़ा भी है।",
       keywords: ["Foundura से संपर्क", "Foundura सहायता", "Foundura ईमेल", "योजना में बदलाव बताएँ", "स्टार्टअप मदद", "शिकायत अधिकारी", "डेटा गोपनीयता अनुरोध", "मेरा डेटा मिटाएँ", "Foundura के साथ साझेदारी", "स्टार्टअप कार्यक्रम जोड़ें", "योजना जाँच विजेट", "योजना धोखाधड़ी से सावधान", "स्टार्टअप सहायता संपर्क", "Foundura मदद", "Foundura"],
+    },
+  },
+  states: {
+    en: {
+      slug: "/states",
+      focus: "startup support by state",
+      title: "Startup support by state: schemes and incubators | Foundura",
+      description: "Startup support by state in India: each state's startup schemes, funding, incubators and startups, with how DPIIT's latest ranking rated its support.",
+      excerpt: "A page for every Indian state and union territory: its startup schemes, funding programmes, incubators and startups on Foundura, and its result in DPIIT's States' Startup Ranking.",
+      keywords: ["startup support by state", "state startup policy India", "startup schemes by state", "state startup ranking", "DPIIT states startup ranking", "incubators in India", "startup incubators by state", "state startup missions", "Karnataka startups", "Gujarat startups", "Kerala Startup Mission", "T-Hub", "startup hubs India", "Startup India", "Foundura"],
+    },
+    hi: {
+      slug: "/states",
+      focus: "राज्यवार स्टार्टअप सहायता",
+      title: "राज्यवार स्टार्टअप सहायता: योजनाएँ और इनक्यूबेटर | Foundura",
+      description: "भारत में राज्यवार स्टार्टअप सहायता: हर राज्य की स्टार्टअप योजनाएँ, फ़ंडिंग, इनक्यूबेटर और स्टार्टअप, और DPIIT की ताज़ा रैंकिंग में उसका स्थान।",
+      excerpt: "भारत के हर राज्य और केंद्र शासित प्रदेश का पेज: उसकी स्टार्टअप योजनाएँ, फ़ंडिंग कार्यक्रम, इनक्यूबेटर और Foundura पर उसके स्टार्टअप, और DPIIT की राज्य स्टार्टअप रैंकिंग में उसका नतीजा।",
+      keywords: ["राज्यवार स्टार्टअप सहायता", "राज्य स्टार्टअप नीति", "राज्यवार स्टार्टअप योजनाएँ", "राज्य स्टार्टअप रैंकिंग", "DPIIT राज्य स्टार्टअप रैंकिंग", "भारत में इनक्यूबेटर", "राज्यवार स्टार्टअप इनक्यूबेटर", "राज्य स्टार्टअप मिशन", "कर्नाटक के स्टार्टअप", "गुजरात के स्टार्टअप", "केरल स्टार्टअप मिशन", "T-Hub", "स्टार्टअप हब", "Startup India", "Foundura"],
     },
   },
 };

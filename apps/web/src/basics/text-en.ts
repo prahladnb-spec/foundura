@@ -61,6 +61,75 @@ export const EN: Record<string, ChapterText> = {
       },
     ],
   },
+  team: {
+    title: "Building the founding team",
+    summary: "Co-founders, splitting the shares, vesting, advisors, first hires and the ESOP pool, with the Indian rules that apply.",
+    keywords: ["founding team", "co-founder equity split", "founder vesting", "ESOP pool India", "sweat equity startup India", "startup advisors", "first hires startup"],
+    sections: [
+      {
+        h: "Investors back teams",
+        blocks: [
+          { t: "p", x: "Early investors and grant panels look at the team as closely as the idea, because the idea will change and the team has to change it. A strong founding team between them can build the product and sell it, and has worked together long enough to know how they disagree." },
+          { t: "ul", x: [
+            "Will each of you work on this full time, and from when?",
+            "How long can each of you live without a salary?",
+            "Who decides what, and how do you settle a deadlock?",
+            "What happens to someone's shares if they leave?",
+          ] },
+          { t: "tip", x: "Talk these through before you register the company. They are much harder questions once shares have been issued." },
+        ],
+      },
+      {
+        h: "Splitting the shares",
+        blocks: [
+          { t: "p", x: "An equal split is common and avoids arguments, but it fits only when founders commit the same time and take similar risks. Decide early, before the company is worth much, and write it down in a founders' agreement." },
+          {
+            t: "table",
+            head: ["What to weigh", "Why it matters"],
+            rows: [
+              ["Commitment", "Full time now counts for more than part time or later"],
+              ["Role from here on", "Shares pay for years of work ahead, not for having had the idea"],
+              ["Money put in", "Often better treated as a loan or as separately priced shares"],
+              ["When someone joined", "A co-founder who joins after the first customers carries less early risk"],
+            ],
+          },
+        ],
+      },
+      {
+        h: "Vesting protects everyone",
+        blocks: [
+          { t: "p", x: "Founders' shares should be earned over time, usually four years with a one-year cliff: leave in the first year and you keep none; after that you keep what has vested. In India, shares are issued up front, so this is done through the founders' and shareholders' agreements, which let the company or the other founders buy back unvested shares at a nominal price." },
+          { t: "p", x: "Investors usually ask for founder vesting in the term sheet. Agreeing it among yourselves first means the terms are yours." },
+        ],
+      },
+      {
+        h: "Advisors",
+        blocks: [
+          { t: "p", x: "Good advisors open doors or fill a gap the founders can't. Give shares only for a written, specific commitment, earned monthly over one or two years, and keep each stake small. In India, ESOPs can go only to employees and directors, so outside advisors usually get shares directly or a fee; ask your CA how to do it." },
+        ],
+      },
+      {
+        h: "First hires and the ESOP pool",
+        blocks: [
+          { t: "p", x: "Early employees often take a lower salary in return for options. Investors usually ask for an ESOP pool, often around 10% of the company, to be created before or at the seed round." },
+          { t: "ul", x: [
+            "An ESOP scheme needs shareholders' approval and must follow Rule 12 of the Companies (Share Capital and Debentures) Rules, 2014.",
+            "There must be at least one year between granting options and their vesting.",
+            "ESOPs normally can't go to promoters or to directors holding more than 10% of the shares, but DPIIT-recognised startups may grant them to these people for up to 10 years from incorporation.",
+            "Startups may also issue sweat equity, shares given for know-how or work, up to 50% of paid-up capital within 10 years of incorporation; other companies are limited to 25%.",
+            "Employees of startups certified for the tax holiday can defer the tax on their ESOP shares (see the chapter on Indian rules).",
+          ] },
+        ],
+      },
+      {
+        h: "When co-founders fall out",
+        blocks: [
+          { t: "p", x: "Most founder disputes come from things nobody wrote down. A founders' agreement covers roles, how decisions are made, vesting, what happens when someone leaves, and that the company owns the code, designs and brand. In India, a ban on working for a competitor after leaving is generally not enforceable, so agreements rely on confidentiality and non-solicitation instead." },
+          { t: "tip", x: "Have a lawyer review your founders' agreement and ESOP scheme. Foundura's templates are a starting point, not legal advice." },
+        ],
+      },
+    ],
+  },
   rounds: {
     title: "Funding stages, from bootstrapping to IPO",
     summary: "Pre-seed, seed, Series A, B and beyond: what each round is for, who invests and what they expect to see.",

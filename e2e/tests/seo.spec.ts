@@ -94,7 +94,7 @@ test.describe("search engine details", () => {
     }
   });
 
-  for (const path of ["/schemes/startup-india-seed-fund", "/hi/schemes/startup-india-seed-fund", "/documents/pitch-deck", "/hi/documents/founders-agreement", "/learn/dpiit-recognition-2026-rules", "/es/documents/cap-table", "/de/schemes/startup-india-seed-fund", "/ar/documents/pitch-deck", "/he/investors", ...CHAPTERS.flatMap((c) => [`/basics/${c.slug}`, `/hi/basics/${c.slug}`]), "/ta/basics/valuation"]) {
+  for (const path of ["/schemes/startup-india-seed-fund", "/hi/schemes/startup-india-seed-fund", "/documents/pitch-deck", "/hi/documents/founders-agreement", "/learn/dpiit-recognition-2026-rules", "/es/documents/cap-table", "/de/schemes/startup-india-seed-fund", "/ar/documents/pitch-deck", "/he/investors", ...CHAPTERS.flatMap((c) => [`/basics/${c.slug}`, `/hi/basics/${c.slug}`]), "/ta/basics/valuation", "/states/ka", "/hi/states/dh", "/ar/states/tn"]) {
     test(`detail page ${path} gets generated SEO details within the limits`, async ({ page }) => {
       await page.goto(path);
       const h = await head(page);

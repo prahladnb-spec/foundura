@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import Link from "@/components/locale-link";
 import { Blocks } from "@/components/basics-blocks";
 import { DilutionCalc } from "@/components/dilution-calc";
+import { ChapterQuiz } from "@/components/chapter-quiz";
+import { QUIZ_EN, QUIZ_HI } from "@/basics/quiz";
 import { CHAPTERS, CHECKED_ON, chapterBySlug } from "@/basics/chapters";
 import { docBySlug } from "@/documents";
 import { docText } from "@/documents/text";
@@ -70,6 +72,8 @@ export default async function ChapterPage({ params }: { params: Params }) {
       </article>
 
       {c.calculator && <DilutionCalc />}
+
+      <ChapterQuiz questions={(cl === "hi" ? QUIZ_HI : QUIZ_EN)[c.slug] ?? []} contentLang={en} />
 
       <div className="mt-12 grid gap-6 md:grid-cols-3">
         {terms.length > 0 && (

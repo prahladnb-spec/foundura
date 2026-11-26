@@ -1,3 +1,4 @@
+import { TILES } from "@/funding/directory";
 import { CHAPTERS } from "@/basics/chapters";
 import type { MetadataRoute } from "next";
 import { LANGS } from "@/i18n/config";
@@ -45,6 +46,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...CHAPTERS.map((c) => page(`/basics/${c.slug}`, "monthly", 0.7)),
     page("/sectors/medtech", "monthly", 0.8),
     page("/partners", "monthly", 0.4),
+    page("/states", "monthly", 0.7),
+    ...Object.keys(TILES).map((c) => page(`/states/${c.toLowerCase()}`, "monthly", 0.6)),
     page("/about", "yearly", 0.5),
     page("/contact", "yearly", 0.4),
     page("/privacy", "yearly", 0.3),
