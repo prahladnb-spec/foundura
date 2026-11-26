@@ -24,7 +24,7 @@ export const ml: Dict = {
   },
   money: { lakh: "₹{n} ലക്ഷം", crore: "₹{n} കോടി", range: "{min} മുതൽ {max} വരെ" },
   chrome: {
-    nav: { scan: "പരിശോധന", schemes: "പദ്ധതികൾ", startups: "സ്റ്റാർട്ടപ്പുകൾ", investors: "നിക്ഷേപകർ", events: "പരിപാടികൾ", policy: "നയം", learn: "പഠിക്കാം", documents: "ടെംപ്ലേറ്റുകൾ" },
+    nav: { scan: "പരിശോധന", schemes: "പദ്ധതി", startups: "സ്റ്റാർട്ടപ്പ്", investors: "നിക്ഷേപം", events: "പരിപാടി", policy: "നയം", learn: "പഠനം", documents: "ടെംപ്ലേറ്റ്" },
     homeLabel: "Foundura ഹോം",
     tagline: "ആശയം മുതൽ വിപണി വരെ, ലോകമെങ്ങുമുള്ള സ്റ്റാർട്ടപ്പുകൾക്കായി",
     search: "തിരയുക",
