@@ -67,10 +67,10 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
 
         {/* Two ways in: Indian founders go straight to the Scheme Scan, everyone else to what works anywhere. */}
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
-          <section aria-labelledby="india-h" className="rounded-xl border-2 border-neel-900 bg-white p-6 shadow-[6px_6px_0_var(--color-neel-900)]">
+          <section aria-labelledby="india-h" className="flex flex-col rounded-xl border-2 border-neel-900 bg-white p-6 shadow-[6px_6px_0_var(--color-neel-900)]">
             <h2 id="india-h" className="display flex items-center gap-3 text-3xl"><Icon icon={MapPin} className="h-7 w-7 text-tape" />{h.india.title}</h2>
             <p className="mt-2 text-neel-700">{h.india.d}</p>
-              <form action={lp(lang, "/scan")} method="get" className="mt-5 grid items-end gap-3 sm:grid-cols-3">
+              <form action={lp(lang, "/scan")} method="get" className="mt-5 mb-6 grid items-end gap-3 sm:grid-cols-3">
                 <label className="block">
                   <span className="block text-[0.9rem] font-semibold mb-1">{h.state}</span>
                   <select name="state" className={select} defaultValue="">
@@ -104,6 +104,15 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
                   </button>
                 </div>
               </form>
+            {/* The three steps of the scan, in short; the full version is further down the page. */}
+            <ol className="mt-auto grid gap-3 border-t border-rule pt-5 sm:grid-cols-3">
+              {h.how.steps.map((st, i) => (
+                <li key={st.t} className="flex gap-3 text-[0.95rem] font-semibold leading-snug sm:block">
+                  <span aria-hidden="true" className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-marigold-50 font-bold text-marigold-ink sm:mb-2">{i + 1}</span>
+                  {st.t}
+                </li>
+              ))}
+            </ol>
           </section>
           <section aria-labelledby="world-h" className="rounded-xl border-2 border-neel-900 bg-neel-50 p-6 shadow-[6px_6px_0_var(--color-neel-900)]">
             <h2 id="world-h" className="display flex items-center gap-3 text-3xl"><Icon icon={Globe2} className="h-7 w-7 text-neel-500" />{h.world.title}</h2>
