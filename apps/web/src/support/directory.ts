@@ -1,4 +1,4 @@
-import type { StateTile } from "@/funding/directory";
+import type { StateTile } from "../funding/directory";
 
 /**
  * Support for founders beyond money: incubators, government startup hubs and mentoring programmes,

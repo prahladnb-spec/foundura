@@ -1,4 +1,4 @@
-import type { StateTile } from "@/funding/directory";
+import type { StateTile } from "../funding/directory";
 
 /**
  * DPIIT's States' Startup Ranking 5.0, announced on 16 January 2026, covering 34 states and union territories.
