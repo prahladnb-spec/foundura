@@ -96,6 +96,10 @@ test.describe("Hindi", () => {
     "/hi/documents/quotation-and-invoice",
     "/hi/investors",
     "/hi/funding",
+    "/hi/about",
+    "/hi/contact",
+    "/hi/newsletter/confirm?s=a&t=bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "/hi/unsubscribe?s=a&t=bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
     "/hi/basics",
     "/hi/basics/stages",
     "/hi/basics/equity",
@@ -119,7 +123,7 @@ test.describe("Hindi", () => {
     for (const path of PAGES) {
       await page.goto(path);
       if (path === "/hi/scan") {
-        await page.locator('button[type="submit"]').click();
+        await page.getByRole("main").locator('button[type="submit"]').click();
         await expect(page.locator("#results-h")).toBeVisible();
       }
       // Text outside elements marked lang="en" (scheme names kept in English, quoted sources and so on).

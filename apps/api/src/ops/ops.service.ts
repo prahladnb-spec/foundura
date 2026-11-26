@@ -12,6 +12,7 @@ const QUIET_MS = 30 * 60_000;
 /** Scheduled jobs and the longest they may go without a successful run before someone is told. */
 export const JOBS = {
   weekly_digest: { maxAgeHours: 8 * 24, needs: "SCHEDULED_EMAILS" },
+  weekly_newsletter: { maxAgeHours: 8 * 24, needs: "SCHEDULED_EMAILS" },
   terms_reminder: { maxAgeHours: 2 * 24, needs: "SCHEDULED_EMAILS" },
   event_sync: { maxAgeHours: 2 * 24, needs: "EVENT_SYNC" },
   /** Recorded by deploy/backup.sh (daily) and deploy/restore-drill.sh (monthly), which run on the server. */

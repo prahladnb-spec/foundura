@@ -31,7 +31,9 @@ export type PageKey =
   | "glossary"
   | "funding"
   | "basics"
-  | "partners";
+  | "partners"
+  | "about"
+  | "contact";
 
 const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
   home: {
@@ -788,6 +790,42 @@ const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
         "एम्बेड कोड",
         "Foundura पार्टनर",
       ],
+    },
+  },
+  about: {
+    en: {
+      slug: "/about",
+      focus: "about Foundura",
+      title: "About Foundura: free help for Indian startups | Foundura",
+      description: "About Foundura: a free website that helps Indian founders find government schemes, funding and investors, with templates and guides. It never handles money.",
+      excerpt: "Foundura is a free website for Indian founders: a scheme eligibility check, a funding directory, document templates, events and investor introductions. It never handles money, links every scheme to its official source and keeps your data yours.",
+      keywords: ["about Foundura", "Foundura", "free startup help India", "startup platform India", "government schemes for startups", "startup funding India", "startup document templates", "DPIIT recognition", "Indian founders", "startup support website", "scheme eligibility check", "startup events India", "investor introductions", "startup data privacy", "who runs Foundura"],
+    },
+    hi: {
+      slug: "/about",
+      focus: "Foundura के बारे में",
+      title: "Foundura के बारे में: स्टार्टअप के लिए मुफ़्त मदद | Foundura",
+      description: "Foundura के बारे में: एक मुफ़्त वेबसाइट जो भारतीय संस्थापकों को सरकारी योजनाएँ, फ़ंडिंग और निवेशक खोजने में मदद करती है। यह कभी पैसों का लेन-देन नहीं करती।",
+      excerpt: "Foundura भारतीय संस्थापकों के लिए एक मुफ़्त वेबसाइट है: योजना जाँच, फ़ंडिंग डायरेक्टरी, दस्तावेज़ टेम्पलेट, कार्यक्रम और निवेशकों से परिचय। यह कभी पैसों का लेन-देन नहीं करती, हर योजना को उसके आधिकारिक स्रोत से जोड़ती है और आपका डेटा आपका रहता है।",
+      keywords: ["Foundura के बारे में", "Foundura", "स्टार्टअप के लिए मुफ़्त मदद", "भारतीय स्टार्टअप प्लेटफ़ॉर्म", "स्टार्टअप के लिए सरकारी योजनाएँ", "स्टार्टअप फ़ंडिंग", "स्टार्टअप दस्तावेज़ टेम्पलेट", "DPIIT मान्यता", "भारतीय संस्थापक", "स्टार्टअप सहायता वेबसाइट", "योजना जाँच", "स्टार्टअप कार्यक्रम", "निवेशकों से परिचय", "स्टार्टअप डेटा की गोपनीयता", "Foundura कौन चलाता है"],
+    },
+  },
+  contact: {
+    en: {
+      slug: "/contact",
+      focus: "contact Foundura",
+      title: "Contact Foundura: corrections, help and privacy | Foundura",
+      description: "Contact Foundura by email to report a scheme change, get help with your startup profile, ask about your data or partner with us. We never ask for money.",
+      excerpt: "Write to Foundura by email to report something out of date, get help with the site, ask about your data or partner with us. The page also lists our grievance officer and how to spot anyone misusing our name.",
+      keywords: ["contact Foundura", "Foundura support", "Foundura email", "report a scheme change", "startup help India", "grievance officer", "data privacy request", "delete my data", "partner with Foundura", "list a startup event", "Scheme Scan widget", "scheme scam warning", "startup support contact", "Foundura help", "Foundura"],
+    },
+    hi: {
+      slug: "/contact",
+      focus: "Foundura से संपर्क",
+      title: "Foundura से संपर्क: सुधार, मदद और गोपनीयता | Foundura",
+      description: "Foundura से संपर्क ईमेल से करें: योजना में बदलाव बताएँ, स्टार्टअप प्रोफ़ाइल में मदद लें, अपने डेटा के बारे में पूछें या साझेदारी करें। हम पैसे नहीं माँगते।",
+      excerpt: "पुरानी जानकारी बताने, साइट पर मदद लेने, अपने डेटा के बारे में पूछने या साझेदारी के लिए Foundura को ईमेल करें। इस पेज पर शिकायत अधिकारी की जानकारी और हमारे नाम का ग़लत इस्तेमाल पहचानने का तरीक़ा भी है।",
+      keywords: ["Foundura से संपर्क", "Foundura सहायता", "Foundura ईमेल", "योजना में बदलाव बताएँ", "स्टार्टअप मदद", "शिकायत अधिकारी", "डेटा गोपनीयता अनुरोध", "मेरा डेटा मिटाएँ", "Foundura के साथ साझेदारी", "स्टार्टअप कार्यक्रम जोड़ें", "योजना जाँच विजेट", "योजना धोखाधड़ी से सावधान", "स्टार्टअप सहायता संपर्क", "Foundura मदद", "Foundura"],
     },
   },
 };

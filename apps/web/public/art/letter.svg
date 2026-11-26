@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 280" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <!-- an envelope, tied with red tape and sealed with a stamp -->
+  <path d="M60 80 h240 v150 H60z" fill="#d9c07c" transform="translate(7 7)"/>
+  <path d="M60 80 h240 v150 H60z" fill="#e8cf8f" stroke="#141b47" stroke-width="3"/>
+  <path d="M60 80 l120 82 l120 -82" fill="#f3e2b3" stroke="#141b47" stroke-width="3"/>
+  <path d="M60 230 l92 -88 M300 230 l-92 -88" stroke="#141b47" stroke-width="3" opacity=".45"/>
+  <!-- red tape across, with a bow -->
+  <path d="M60 196 h240" stroke="#c94a36" stroke-width="7"/>
+  <path d="M232 196 c -18 -22 -40 -10 -26 6 c -16 14 4 28 26 -6 M232 196 c 18 -22 40 -10 26 6 c 16 14 -4 28 -26 -6" fill="#c94a36" stroke="#141b47" stroke-width="2.5"/>
+  <!-- a postage stamp -->
+  <path d="M248 96 h36 v42 h-36z" fill="#fff" stroke="#141b47" stroke-width="3" stroke-dasharray="4 3"/>
+  <path d="M256 124 l8 -14 l6 8 l4 -5 l6 11z" fill="#f2a900" stroke="#141b47" stroke-width="2"/>
+  <!-- a round seal over the flap -->
+  <circle cx="180" cy="162" r="18" fill="#1e7a4e" opacity=".9" transform="translate(3 3)"/>
+  <circle cx="180" cy="162" r="18" stroke="#141b47" stroke-width="3" fill="#2f9a66"/>
+  <path d="M172 162 l6 6 l11 -12" stroke="#fff" stroke-width="3.5"/>
+  <!-- a little motion: it's on its way -->
+  <path d="M28 120 h20 M18 150 h26 M30 180 h16" stroke="#5b6478" stroke-width="3" opacity=".6"/>
+</svg>

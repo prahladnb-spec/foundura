@@ -40,12 +40,13 @@ test.describe("illustrations and infographics", () => {
     await expect(intro.getByRole("listitem")).toHaveCount(4);
     await expect(intro).toContainText("Reach a score of 50");
     await page.goto("/learn");
-    const journey = page.getByRole("list", { name: "From idea to market" });
-    await expect(journey.getByRole("listitem").filter({ has: page.locator("h3") })).toHaveCount(6);
+    const journey = page.getByRole("list", { name: "The 8 stages of the startup life cycle" });
+    await expect(journey.getByRole("listitem").filter({ has: page.locator("h3") })).toHaveCount(8);
+    await expect(page.getByRole("link", { name: "Read the full chapter on the 8 stages" })).toHaveAttribute("href", "/basics/stages");
     await journey.getByRole("link", { name: "DPIIT recognition" }).click();
     await expect(page).toHaveURL(/\/schemes\/dpiit-startup-recognition$/);
     await page.goto("/hi/learn");
-    await expect(page.getByRole("list", { name: "आइडिया से बाज़ार तक" }).getByRole("link", { name: "लीन कैनवस" })).toHaveAttribute("href", "/hi/documents/lean-canvas");
+    await expect(page.getByRole("list", { name: "स्टार्टअप जीवन चक्र के 8 चरण" }).getByRole("link", { name: "लीन कैनवस" })).toHaveAttribute("href", "/hi/documents/lean-canvas");
   });
 
   test("template covers: a shelf of the essentials, the cover on each covered template, and on its share image", async ({ page, request }) => {

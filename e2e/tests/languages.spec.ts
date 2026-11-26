@@ -81,7 +81,7 @@ test.describe("languages", () => {
   test("the scan works in Arabic and the map keeps west on the left", async ({ page }) => {
     await page.goto("/ar/scan");
     await page.locator("#state").selectOption("KA");
-    await page.locator('button[type="submit"]').click();
+    await page.getByRole("main").locator('button[type="submit"]').click();
     await expect(page.locator("#results-h")).toBeVisible();
     await expect(page.locator("#results-h ~ ol a").first()).toHaveAttribute("href", /^\/ar\/schemes\//);
     await page.goto("/ar/schemes");
@@ -112,6 +112,8 @@ test.describe("languages", () => {
         "Europe|Guides|Guide|Prototype / MVP|Slide {n}",
         // Funding directory regions spelled the same in Spanish, German and Portuguese.
         "Israel|Global",
+        // Footer and life-cycle words spelled the same in French or Portuguese.
+        "Contact|Validation|Product-market fit",
         "Pitch deck|Lean canvas|Business angel|Deep tech|Startup India Seed Fund|Seed Fund|MedTech|EdTech|HealthTech|AgriTech|CleanTech|SaaS|Cap table|Term sheet|Due diligence|Vesting|Cliff|Runway|Churn|Bootstrapping|Equity|Exit|Traction|Data room",
       ]
         .join("|")
@@ -135,7 +137,7 @@ test.describe("languages", () => {
       ...LANGS.filter((l) => l.length === 2),
     ]);
     const isAcronym = (w: string) => /^[A-Z0-9&-]+$/.test(w) || /^[A-Z][A-Z0-9]*[a-z][A-Z0-9]+$/.test(w);
-    const PAGES = ["/", "/scan", "/schemes", "/documents", "/documents/pitch-deck", "/glossary", "/search?q=pitch", "/events?view=list", "/investors", "/funding", "/basics", "/basics/valuation", "/partners", "/signin", "/no-such-page"];
+    const PAGES = ["/", "/scan", "/schemes", "/documents", "/documents/pitch-deck", "/glossary", "/search?q=pitch", "/events?view=list", "/investors", "/funding", "/basics", "/basics/valuation", "/about", "/contact", "/partners", "/signin", "/no-such-page"];
     const report: Record<string, string[]> = {};
     const scripted = OTHERS.filter((l) => LANG_INFO[l].script) as Lang[];
     for (const code of scripted) {
@@ -143,7 +145,7 @@ test.describe("languages", () => {
         const path = p === "/" ? `/${code}` : `/${code}${p}`;
         await page.goto(path);
         if (p === "/scan") {
-          await page.locator('button[type="submit"]').click();
+          await page.getByRole("main").locator('button[type="submit"]').click();
           await expect(page.locator("#results-h")).toBeVisible();
         }
         const tag = LANG_INFO[code].tag;

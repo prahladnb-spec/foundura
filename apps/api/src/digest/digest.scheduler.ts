@@ -3,10 +3,11 @@ import { CONFIG, type AppConfig } from "../config";
 import { TermsReminderService } from "../legal/terms-reminder.service";
 import { OpsService } from "../ops/ops.service";
 import { DigestService, weekOf } from "./digest.service";
+import { NewsletterService } from "./newsletter.service";
 
 /**
  * Scheduled emails, when SCHEDULED_EMAILS=true. Checks every 15 minutes:
- * - weekly scheme alerts on Mondays from 8:00 India time;
+ * - weekly scheme alerts, and the weekly email for subscribers without an account, on Mondays from 8:00 India time;
  * - yearly terms reminders, checked daily from 10:00 India time.
  * Both jobs are safe to run again, so restarts and multiple API instances are fine.
  */
@@ -23,6 +24,7 @@ export class DigestScheduler implements OnModuleInit, OnModuleDestroy {
     @Inject(DigestService) private readonly digest: DigestService,
     @Inject(TermsReminderService) private readonly reminders: TermsReminderService,
     @Inject(OpsService) private readonly ops: OpsService,
+    @Inject(NewsletterService) private readonly newsletter: NewsletterService,
   ) {}
 
   onModuleInit() {
@@ -45,7 +47,8 @@ export class DigestScheduler implements OnModuleInit, OnModuleDestroy {
     try {
       if (ist.getUTCDay() === 1 && hour >= 8 && this.doneWeek !== weekOf(today)) {
         const r = await this.ops.track("weekly_digest", () => this.digest.run(today), (x) => (x.failed ? `${x.failed} digest emails failed to send` : null));
-        if (r && r.failed === 0) this.doneWeek = weekOf(today);
+        const n = await this.ops.track("weekly_newsletter", () => this.newsletter.run(today), (x) => (x.failed ? `${x.failed} weekly emails to subscribers failed to send` : null));
+        if (r && r.failed === 0 && n && n.failed === 0) this.doneWeek = weekOf(today);
       }
       if (hour >= 10 && this.doneReminderDay !== today) {
         const r = await this.ops.track("terms_reminder", () => this.reminders.run(now), (x) => (x.failed ? `${x.failed} terms reminders failed to send` : null));

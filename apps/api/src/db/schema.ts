@@ -354,6 +354,27 @@ export const digestSends = pgTable(
   (t) => [uniqueIndex("digest_user_week_idx").on(t.userId, t.weekOf)],
 );
 
+// ---------- Weekly email for people without an account ----------
+
+/**
+ * Anyone can ask for the weekly email with just an address. Double opt-in: a row is "pending" until
+ * the link in the confirmation email is used, and pending rows are deleted after 7 days. Unsubscribing
+ * deletes the row, so only current subscribers are kept. Holds the address, language and dates only.
+ */
+export const newsletterSubscribers = pgTable("newsletter_subscribers", {
+  id: id(),
+  email: text("email").notNull().unique(),
+  locale: text("locale").$type<"en" | "hi">().notNull().default("en"),
+  createdAt: createdAt(),
+  /** When the last confirmation email went out, so repeated sign-ups don't flood someone's inbox. */
+  confirmSentAt: timestamp("confirm_sent_at", { withTimezone: true }),
+  confirmedAt: timestamp("confirmed_at", { withTimezone: true }),
+  /** The privacy notice version shown when they confirmed. */
+  noticeVersion: text("notice_version"),
+  /** Monday of the last week the email went out (India time), so each week sends at most once. */
+  lastSentWeek: date("last_sent_week"),
+});
+
 // ---------- Admin audit log ----------
 
 /** Every admin change, for accountability. Actor is nulled (not deleted) if the admin account is erased. */

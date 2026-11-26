@@ -606,6 +606,8 @@ a.tile:hover {
     border-top: 3px dashed var(--color-tape);
   }
   .steps-6 .step:nth-child(3)::before { display: none; }
+  /* Eight steps sit in two rows of four: no tape off the end of the first row. */
+  .steps-8 .step:nth-child(4)::before { display: none; }
 }
 @media (min-width: 1024px) {
   .steps-6 .step:nth-child(3)::before { display: block; }

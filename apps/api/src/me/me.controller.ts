@@ -1,5 +1,6 @@
 import { AdminGuard } from "../admin/admin.guard";
 import { DigestService } from "../digest/digest.service";
+import { NewsletterService } from "../digest/newsletter.service";
 import { Body, Controller, Delete, Get, HttpCode, Inject, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
 import {
   introRequestSchema,
@@ -35,6 +36,7 @@ export class MeController {
     @Inject(IntrosService) private readonly intros: IntrosService,
     @Inject(AdminGuard) private readonly adminGuard: AdminGuard,
     @Inject(DigestService) private readonly digest: DigestService,
+    @Inject(NewsletterService) private readonly newsletter: NewsletterService,
   ) {}
 
   @Get()
@@ -173,13 +175,18 @@ export class MeController {
       introRequests: await this.intros.exportFor(user.id, investor),
       consentHistory: await this.consents.history(user.id),
       schemeAlertsSent: await this.digest.exportFor(user.id),
+      weeklyEmailSubscription: await this.newsletter.exportFor(user.email),
     };
   }
 
-  /** Right to erasure: deletes the account; startups, investor profile, intros, consent rows and digest history cascade. */
+  /**
+   * Right to erasure: deletes the account; startups, investor profile, intros, consent rows and digest history
+   * cascade. A weekly-email subscription for the same address (made without signing in) goes too.
+   */
   @Delete()
   @HttpCode(204)
   async deleteAccount(@CurrentUser() user: SessionUser) {
+    await this.newsletter.deleteFor(user.email);
     await this.db.delete(users).where(eq(users.id, user.id));
   }
 }

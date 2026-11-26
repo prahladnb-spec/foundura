@@ -3,9 +3,9 @@ import type { ChapterText } from "./types";
 /** Funding basics in English. Keep each fact in step with text-hi.ts; rules last checked on CHECKED_ON. */
 export const EN: Record<string, ChapterText> = {
   stages: {
-    title: "Startup stages, from idea to scale",
-    summary: "Every startup moves through the same stages. Knowing yours tells you what to prove next and which money fits.",
-    keywords: ["startup stages", "stages of a startup", "idea stage startup", "product-market fit", "startup growth stage"],
+    title: "The 8 stages of the startup life cycle",
+    summary: "Every startup moves through the same eight stages, from idea to exit. Knowing yours tells you what to prove next, what to set up and which money fits.",
+    keywords: ["startup life cycle", "8 stages of a startup", "startup life cycle stages", "stages of a startup", "idea stage startup", "product-market fit", "startup growth stage"],
     sections: [
       {
         h: "Each stage has one question to answer",
@@ -15,15 +15,28 @@ export const EN: Record<string, ChapterText> = {
             t: "table",
             head: ["Stage", "The question", "What counts as proof"],
             rows: [
-              ["Idea", "Is the problem real and painful?", "Interviews with 20 to 50 likely customers who describe the problem in their own words"],
-              ["Validation", "Will people pay for a solution?", "Pre-orders, letters of intent, a paid pilot, a waitlist that converts"],
-              ["Prototype or MVP", "Can we build something that works?", "A working product used by real users, even if rough"],
-              ["Product-market fit", "Do customers keep coming back?", "Repeat use, low churn, customers who would be very disappointed without you"],
-              ["Growth", "Can we find customers profitably and repeatedly?", "A channel where cost to acquire a customer is well below what they pay you over time"],
-              ["Scale", "Can we grow across cities, segments or countries?", "Teams and systems that work without the founders doing everything"],
-              ["Maturity or exit", "What happens to the company and its owners?", "Steady profits, a sale to another company, or a stock market listing"],
+              ["1. Idea", "Is the problem real and painful?", "Interviews with 20 to 50 likely customers who describe the problem in their own words"],
+              ["2. Validation", "Will people pay for a solution?", "Pre-orders, letters of intent, a paid pilot, a waitlist that converts"],
+              ["3. Setting up", "Is the company ready to sign, hire and take money?", "A registered company, a founders' agreement with vesting, a bank account, and DPIIT recognition if you're eligible"],
+              ["4. Building the MVP", "Can we build something that works?", "A working product used by real users, even if rough"],
+              ["5. Launch", "Will strangers pay, not just friends?", "First paying customers found through a channel you can repeat"],
+              ["6. Product-market fit", "Do customers keep coming back?", "Repeat use, low churn, customers who would be very disappointed without you"],
+              ["7. Growth and scale", "Can we find customers profitably and grow into new cities or countries?", "A channel where the cost to win a customer is well below what they pay you over time, and teams that work without the founders doing everything"],
+              ["8. Maturity or exit", "What happens to the company and its owners?", "Steady profits, a sale to another company, or a stock market listing"],
             ],
           },
+        ],
+      },
+      {
+        h: "Setting up: when to register",
+        blocks: [
+          { t: "p", x: "You don't need a company to talk to customers. You need one before you take investment, sign large contracts, hire, or apply for most schemes. Most investor-backed startups in India are private limited companies; an LLP or a partnership can suit a business that won't raise equity." },
+          { t: "ul", x: [
+            "Register the company and open a bank account in its name.",
+            "Sign a founders' agreement with vesting before any money comes in.",
+            "Make sure the company, not a founder, owns the code, designs and brand.",
+            "Apply for DPIIT recognition: many of the schemes on Foundura require it.",
+          ] },
         ],
       },
       {
@@ -38,9 +51,10 @@ export const EN: Record<string, ChapterText> = {
         blocks: [
           { t: "ul", x: [
             "Idea and validation: your own savings, friends and family, small grants, incubators.",
-            "Prototype: idea and prototype grants, angel investors, pre-seed funds.",
-            "Product-market fit: seed rounds from angels, angel funds and early-stage VCs.",
+            "Setting up and the MVP: idea and prototype grants, angel investors, pre-seed funds.",
+            "Launch and product-market fit: seed rounds from angels, angel funds and early-stage VCs.",
             "Growth and scale: Series A and later VC rounds, venture debt, bank loans once revenue is steady.",
+            "Maturity or exit: profits, or a sale or listing that pays founders and investors back.",
           ] },
           { t: "p", x: "The next chapter walks through each funding round in turn." },
         ],

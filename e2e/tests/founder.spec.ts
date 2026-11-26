@@ -21,7 +21,7 @@ test.describe("founder journey", () => {
     await page.locator('label:has(input[name="deep"])', { hasText: /^Yes$/ }).click();
     await page.locator('label:has(input[name="women"])', { hasText: /^No$/ }).click();
     await expect(page.locator('input[name="dpiit"]').first()).toBeChecked();
-    await page.locator('button[type="submit"]').click();
+    await page.getByRole("main").locator('button[type="submit"]').click();
 
     const results = page.locator("#results-h");
     await expect(results).toBeVisible();
@@ -42,7 +42,7 @@ test.describe("founder journey", () => {
     await page.locator("#turnover").fill("0.5");
     await page.getByRole("button", { name: "MedTech / Medical devices", exact: true }).click();
     await page.locator('label:has(input[name="dpiit"])', { hasText: /^Yes$/ }).click();
-    await page.locator('button[type="submit"]').click();
+    await page.getByRole("main").locator('button[type="submit"]').click();
     await expect(page.locator("#results-h")).toBeVisible();
 
     // The answers live in the link's #fragment, which browsers never send to a server.
@@ -76,7 +76,7 @@ test.describe("founder journey", () => {
 
     // The printout leaves out the form and the share box.
     await other.emulateMedia({ media: "print" });
-    await expect(other.locator("form")).toBeHidden();
+    await expect(other.getByRole("main").locator("form")).toBeHidden();
     await expect(other.getByRole("button", { name: "Copy link" })).toBeHidden();
     await expect(other.locator(".print-only").first()).toBeVisible();
   });
@@ -86,7 +86,7 @@ test.describe("founder journey", () => {
     await page.locator("#state").selectOption("KA");
     await page.locator("#entityType").selectOption("private_limited");
     await page.locator("#stage").selectOption("prototype");
-    await page.locator('button[type="submit"]').click();
+    await page.getByRole("main").locator('button[type="submit"]').click();
     await expect(page.locator("#results-h")).toBeVisible();
     await expect(page.getByRole("button", { name: "Copy link" })).toHaveCount(0);
     expect(page.url()).not.toContain("#");
@@ -182,7 +182,7 @@ test.describe("founder journey", () => {
 
   test("sign-in form shows the terms and the age line", async ({ page }) => {
     await page.goto("/signin");
-    await page.locator('input[type="email"]').fill(uniqueEmail("check"));
+    await page.getByRole("main").locator('input[type="email"]').fill(uniqueEmail("check"));
     await page.locator("form button").first().click();
     await expect(page.locator("fieldset")).toContainText("18 or older");
     await expect(page.locator("fieldset a", { hasText: /terms/i })).toHaveAttribute("href", "/terms");

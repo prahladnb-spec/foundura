@@ -1,6 +1,6 @@
 import { BadRequestException, Body, Controller, Get, HttpCode, Inject, Post, Query, UseGuards } from "@nestjs/common";
 import { Throttle } from "@nestjs/throttler";
-import { unsubscribeSchema } from "@foundura/shared";
+import { newsletterLinkSchema, newsletterSubscribeSchema, unsubscribeSchema } from "@foundura/shared";
 import { eq } from "drizzle-orm";
 import { Admin, type AdminActor, AdminGuard } from "../admin/admin.guard";
 import { AuditService } from "../admin/audit.service";
@@ -9,6 +9,7 @@ import type { Db } from "../db/client";
 import { DB } from "../db/db.module";
 import { type Startup, startups } from "../db/schema";
 import { DigestService } from "./digest.service";
+import { NewsletterService } from "./newsletter.service";
 
 @Controller("digest")
 export class DigestController {
@@ -29,6 +30,40 @@ export class DigestController {
   }
 }
 
+/** The weekly email for people without an account (double opt-in). */
+@Controller("newsletter")
+export class NewsletterController {
+  constructor(@Inject(NewsletterService) private readonly newsletter: NewsletterService) {}
+
+  @Post("subscribe")
+  @HttpCode(202)
+  @Throttle({ default: { limit: 5, ttl: 60_000 } })
+  subscribe(@Body() body: unknown) {
+    const { email, locale } = parseBody(newsletterSubscribeSchema, body);
+    return this.newsletter.subscribe(email, locale === "hi" ? "hi" : "en");
+  }
+
+  @Post("confirm")
+  @HttpCode(200)
+  @Throttle({ default: { limit: 20, ttl: 60_000 } })
+  async confirm(@Body() body: unknown) {
+    const { s, t } = parseBody(newsletterLinkSchema, body);
+    if (!(await this.newsletter.confirm(s, t))) throw new BadRequestException("This confirmation link isn't valid any more.");
+    return { confirmed: true };
+  }
+
+  /** Stop link: body from the confirmation page, or query string from mail apps' one-click unsubscribe. */
+  @Post("unsubscribe")
+  @HttpCode(200)
+  @Throttle({ default: { limit: 20, ttl: 60_000 } })
+  async unsubscribe(@Body() body: unknown, @Query() query: Record<string, string>) {
+    const src = body && typeof body === "object" && "s" in body ? body : query;
+    const { s, t } = parseBody(newsletterLinkSchema, src);
+    if (!(await this.newsletter.unsubscribe(s, t))) throw new BadRequestException("This unsubscribe link isn't valid.");
+    return { unsubscribed: true };
+  }
+}
+
 @Controller("admin/digest")
 @UseGuards(AdminGuard)
 export class AdminDigestController {
@@ -36,6 +71,7 @@ export class AdminDigestController {
     @Inject(DB) private readonly db: Db,
     @Inject(DigestService) private readonly digest: DigestService,
     @Inject(AuditService) private readonly audit: AuditService,
+    @Inject(NewsletterService) private readonly newsletter: NewsletterService,
   ) {}
 
   /**
@@ -62,8 +98,9 @@ export class AdminDigestController {
   @HttpCode(200)
   async send(@Admin() actor: AdminActor) {
     const r = await this.digest.run();
-    await this.audit.record(actor, "digest.send", "digest", r.weekOf, { sent: r.sent, failed: r.failed });
-    return r;
+    const n = await this.newsletter.run();
+    await this.audit.record(actor, "digest.send", "digest", r.weekOf, { sent: r.sent, failed: r.failed, newsletterSent: n.sent, newsletterFailed: n.failed });
+    return { ...r, newsletter: n };
   }
 }
 

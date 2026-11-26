@@ -42,8 +42,8 @@ export const uniqueEmail = (name: string) => `${name}-${Date.now()}-${Math.floor
  */
 export async function signIn(page: Page, email: string, opts: { path?: string; consents?: RegExp[] } = {}) {
   await page.goto(opts.path ?? "/signin");
-  await page.locator('input[type="email"]').fill(email);
-  await page.locator("form button").first().click();
+  await page.getByRole("main").locator('input[type="email"]').fill(email);
+  await page.getByRole("main").locator("form button").first().click();
   const codeInput = page.locator('input[autocomplete="one-time-code"]');
   await expect(codeInput).toBeVisible();
   const code = (await page.locator("strong.tracking-widest").textContent())!.trim();
@@ -51,7 +51,7 @@ export async function signIn(page: Page, email: string, opts: { path?: string; c
   const boxes = page.locator('fieldset input[type="checkbox"]');
   await boxes.first().check();
   for (const label of opts.consents ?? []) await page.locator("fieldset label", { hasText: label }).locator("input").check();
-  await Promise.all([page.waitForURL((u) => !u.pathname.endsWith("/signin")), page.locator("form button").last().click()]);
+  await Promise.all([page.waitForURL((u) => !u.pathname.endsWith("/signin")), page.getByRole("main").locator("form button").last().click()]);
 }
 
 /** Reads one value straight from the e2e database (for things only an email would carry). */

@@ -101,6 +101,20 @@ export const fr: LangContent = {
       excerpt: "Collez une ligne sur votre site : vos fondateurs vérifient leur éligibilité aux dispositifs centraux et régionaux, sans inscription, sans cookies et sans enregistrement des réponses.",
       keywords: ["widget de vérification des dispositifs", "vérification intégrable", "widget gratuit", "incubateurs", "missions startup des États", "universités", "banques", "cabinets comptables", "dispositifs pour startups", "intégrer à votre site", "sans cookies", "Startup India", "dispositifs régionaux", "partenaires Foundura", "Foundura"],
     },
+    about: {
+      focus: "à propos de Foundura",
+      title: "À propos de Foundura : aide gratuite aux startups | Foundura",
+      description: "À propos de Foundura : un site gratuit qui aide les fondateurs indiens à trouver aides publiques, financements et investisseurs, avec modèles et guides.",
+      excerpt: "Foundura est un site gratuit pour les fondateurs en Inde : vérification des aides publiques, annuaire du financement, modèles de documents, événements et mises en relation avec des investisseurs. Il ne gère jamais d'argent, renvoie chaque aide à sa source officielle et vos données restent les vôtres.",
+      keywords: ["à propos de Foundura", "Foundura", "aide gratuite aux startups", "plateforme startups Inde", "aides publiques pour startups", "financement des startups en Inde", "modèles pour startups", "reconnaissance DPIIT", "fondateurs indiens", "site d'aide aux startups", "vérification d'éligibilité", "événements startups Inde", "mise en relation investisseurs", "confidentialité des données", "qui gère Foundura"],
+    },
+    contact: {
+      focus: "contacter Foundura",
+      title: "Contacter Foundura : corrections et aide | Foundura",
+      description: "Contacter Foundura par e-mail : signaler le changement d'une aide, obtenir de l'aide pour votre profil, poser une question sur vos données ou être partenaire.",
+      excerpt: "Écrivez à Foundura pour signaler une information dépassée, obtenir de l'aide sur le site, poser une question sur vos données ou devenir partenaire. La page indique aussi le responsable des réclamations et comment repérer un usage abusif de notre nom.",
+      keywords: ["contacter Foundura", "support Foundura", "e-mail Foundura", "signaler un changement", "aide aux startups", "responsable des réclamations", "demande de confidentialité", "supprimer mes données", "partenariat Foundura", "publier un événement", "widget de vérification", "alerte arnaques", "contact support", "aide Foundura", "Foundura"],
+    },
   },
   docs: {
     "lean-canvas": { t: "Lean canvas", s: "Toute votre idée d'entreprise sur une page : client, problème, solution, canaux, revenus et coûts." },

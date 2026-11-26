@@ -12,7 +12,7 @@ export const CHECKED_ON = "2026-11-24";
 
 type Meta = Omit<Chapter, "en" | "hi">;
 const META: Meta[] = [
-  { slug: "stages", terms: ["MVP", "Product-market fit", "Traction", "Bootstrapping"], docs: ["lean-canvas", "customer-interview-script"], links: ["scan"] },
+  { slug: "stages", terms: ["MVP", "Product-market fit", "Traction", "Bootstrapping", "DPIIT recognition", "Vesting"], docs: ["lean-canvas", "customer-interview-script", "incorporation-checklist", "founders-agreement", "go-to-market-plan"], links: ["scan", "funding"] },
   { slug: "rounds", terms: ["Seed round", "Angel investor", "Venture capital (VC)", "Runway", "Accelerator", "Incubator"], docs: ["pitch-deck", "investor-pipeline"], links: ["funding"] },
   { slug: "equity", terms: ["Equity", "CCPS", "Convertible note", "SAFE and iSAFE", "Valuation cap", "Cap table"], docs: ["convertible-note", "cap-table", "shareholders-agreement-terms"], links: ["funding", "investors"] },
   { slug: "debt", terms: ["Runway", "Burn rate", "Unit economics"], docs: ["financial-model", "budget-use-of-funds"], links: ["schemes", "funding"] },

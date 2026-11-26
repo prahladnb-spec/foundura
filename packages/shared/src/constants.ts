@@ -146,4 +146,4 @@ export const CONSENT_PURPOSES = [
 export type ConsentPurpose = (typeof CONSENT_PURPOSES)[number]["value"];
 
 /** Version of the privacy notice the consent texts above belong to. Bump when they change. */
-export const PRIVACY_NOTICE_VERSION = "2026-11-24";
+export const PRIVACY_NOTICE_VERSION = "2026-11-26";

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "@/components/locale-link";
+import { NewsletterAction } from "@/components/newsletter-action";
 import { UnsubscribeButton } from "@/components/unsubscribe-button";
+import { legalDetails } from "@/lib/legal";
 import { getDict } from "@/i18n";
 import { isLang } from "@/i18n/config";
 
@@ -16,7 +18,17 @@ export default async function UnsubscribePage({ params, searchParams }: { params
   const d = getDict(isLang(p.lang) ? p.lang : "en");
   const [before, after] = d.unsub.incomplete.split("{link}");
   const u = typeof sp.u === "string" ? sp.u : "";
+  const s = typeof sp.s === "string" ? sp.s : "";
   const t = typeof sp.t === "string" ? sp.t : "";
+  // Subscribers without an account (s=…): stopping deletes their address.
+  if (s && t)
+    return (
+      <div className="mx-auto max-w-lg px-5 py-14">
+        <h1 className="display text-[2.8rem] leading-none">{d.newsletter.stopTitle}</h1>
+        <p className="mt-4 text-lg text-neel-700">{d.newsletter.stopLead}</p>
+        <NewsletterAction action="stop" s={s} t={t} support={legalDetails().supportEmail ?? "support@foundura.org"} />
+      </div>
+    );
   return (
     <div className="mx-auto max-w-lg px-5 py-14">
       <h1 className="display text-[2.8rem] leading-none">{d.unsub.title}</h1>

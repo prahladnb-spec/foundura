@@ -73,6 +73,27 @@ export const T = {
       stop: (link: string) => `Stop these emails: ${link}`,
       money: "Foundura never handles money and will never ask you to pay to apply for a scheme.",
     },
+    newsletter: {
+      confirm: (link: string) => ({
+        subject: "Confirm your Foundura weekly email",
+        text: [
+          "Hi,",
+          "",
+          "Someone, probably you, asked for Foundura's weekly email at this address: new government schemes, deadlines coming up and policy news for Indian startups.",
+          "",
+          `Confirm here: ${link}`,
+          "",
+          "If it wasn't you, ignore this email. Nothing more will be sent, and the address is deleted in 7 days.",
+          "",
+          "--",
+          "Foundura is free and never handles money.",
+        ].join("\n"),
+      }),
+      intro: "Here's what's new on Foundura this week.",
+      newSchemes: "New schemes on Foundura",
+      scan: "See which ones fit your startup with the free Scheme Scan, no account needed:",
+      why: "You get this because you asked for Foundura's weekly email.",
+    },
     reminder: (site: (p: string) => string, version: string) => ({
       subject: "Your yearly reminder of Foundura's terms and privacy notice",
       text: [
@@ -145,6 +166,27 @@ export const T = {
       why: "यह ईमेल आपको इसलिए मिल रहा है क्योंकि आपने योजना और अंतिम तिथि अलर्ट चालू किए हैं।",
       stop: (link: string) => `ये ईमेल बंद करें: ${link}`,
       money: "Foundura कभी पैसों का लेन-देन नहीं करता और योजना में आवेदन के लिए आपसे कभी पैसे नहीं माँगेगा।",
+    },
+    newsletter: {
+      confirm: (link: string) => ({
+        subject: "Foundura का साप्ताहिक ईमेल पक्का करें",
+        text: [
+          "नमस्ते,",
+          "",
+          "किसी ने, शायद आपने, इस पते पर Foundura का साप्ताहिक ईमेल माँगा है: भारतीय स्टार्टअप के लिए नई सरकारी योजनाएँ, आने वाली आख़िरी तारीख़ें और नीति से जुड़ी ख़बरें।",
+          "",
+          `यहाँ पक्का करें: ${link}`,
+          "",
+          "अगर यह आपने नहीं माँगा, तो इस ईमेल को अनदेखा करें। आगे कुछ नहीं भेजा जाएगा, और यह पता 7 दिन में मिटा दिया जाएगा।",
+          "",
+          "--",
+          "Foundura मुफ़्त है और कभी पैसों का लेन-देन नहीं करता।",
+        ].join("\n"),
+      }),
+      intro: "इस हफ़्ते Foundura पर क्या नया है।",
+      newSchemes: "Foundura पर नई योजनाएँ",
+      scan: "मुफ़्त योजना जाँच से देखें कि इनमें से कौन-सी आपके स्टार्टअप पर लागू होती हैं, खाते की ज़रूरत नहीं:",
+      why: "आपको यह इसलिए मिला क्योंकि आपने Foundura का साप्ताहिक ईमेल माँगा था।",
     },
     reminder: (site: (p: string) => string, version: string) => ({
       subject: "Foundura की शर्तों और गोपनीयता सूचना की सालाना याद",

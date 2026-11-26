@@ -39,6 +39,10 @@ export function PrivacyEn({ legal, version }: { legal: LegalDetails; version: st
           shows only what&apos;s new.
         </li>
         <li>
+          <strong>Weekly email without an account:</strong> if you sign up at the bottom of a page, your email address, the language
+          you chose and the dates you signed up, confirmed and were last sent the email, so we can send it. Nothing else is kept.
+        </li>
+        <li>
           <strong>Your consent choices:</strong> a dated record of each choice and the notice version you saw, so you can see your
           history and we can show what you agreed to.
         </li>
@@ -87,11 +91,11 @@ export function PrivacyEn({ legal, version }: { legal: LegalDetails; version: st
         </li>
         <li>
           <strong>Withdraw consent:</strong> switch alerts or investor visibility off on your dashboard, as easily as you switched
-          them on, or use the unsubscribe link in any alert email.
+          them on, or use the unsubscribe link in any alert email. The link in the weekly email deletes your address straight away.
         </li>
         <li>
           <strong>Erase it:</strong> delete your account from your dashboard. This removes your account, startup and investor
-          profiles, intro requests, alert history and consent records straight away. Backups roll over within 14 days.
+          profiles, intro requests, alert history, consent records and any weekly-email sign-up for your address straight away. Backups roll over within 14 days.
         </li>
         <li>
           <strong>Nominate someone</strong> to use these rights for you if you die or can no longer act yourself: email the
@@ -110,7 +114,8 @@ export function PrivacyEn({ legal, version }: { legal: LegalDetails; version: st
       <h2>How long we keep it</h2>
       <p>
         Until you delete your account, apart from sign-in codes, which are stored only as a one-way hash and expire after 10 minutes,
-        and server logs, which are kept for 180 days.
+        and server logs, which are kept for 180 days. A weekly-email address is kept until you unsubscribe; if you never confirm
+        the sign-up, it is deleted after 7 days.
       </p>
 
       <h2>Age</h2>

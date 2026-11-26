@@ -2,18 +2,18 @@ import { ArrowUpRight, BadgeCheck, CalendarDays, Users } from "lucide-react";
 import Link from "@/components/locale-link";
 import { Icon, KindIcon } from "@/components/icons";
 
-export type StepLink = { href: string; label: string; kind: "doc" | "deck" | "sheet" | "scheme" | "investors" | "events"; lang?: string };
+export type StepLink = { href: string; label: string; kind: "doc" | "deck" | "sheet" | "scheme" | "investors" | "events" | "page"; lang?: string };
 export type Step = { t: string; d: string; links?: StepLink[] };
 
-const LINK_ICON = { scheme: BadgeCheck, investors: Users, events: CalendarDays } as const;
+const LINK_ICON = { scheme: BadgeCheck, investors: Users, events: CalendarDays, page: ArrowUpRight } as const;
 
 /**
  * A numbered sequence drawn as rubber-stamp rings joined by a dashed red-tape line: across the
  * page on wide screens, down the left on narrow ones. It's an ordered list, so the order and
  * numbers come through to screen readers too.
  */
-export function Steps({ steps, label, cols }: { steps: Step[]; label: string; cols: 3 | 4 | 6 }) {
-  const grid = cols === 6 ? "lg:grid-cols-6 md:grid-cols-3" : cols === 4 ? "md:grid-cols-4" : "md:grid-cols-3";
+export function Steps({ steps, label, cols }: { steps: Step[]; label: string; cols: 3 | 4 | 6 | 8 }) {
+  const grid = cols === 6 ? "lg:grid-cols-6 md:grid-cols-3" : cols === 4 || cols === 8 ? "md:grid-cols-4" : "md:grid-cols-3";
   return (
     <ol aria-label={label} className={`steps steps-${cols} grid gap-x-6 gap-y-8 ${grid}`}>
       {steps.map((s, i) => (

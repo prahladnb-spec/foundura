@@ -139,6 +139,14 @@ export const setConsentSchema = z.object({
 });
 
 /** One-click unsubscribe link parameters (user id and HMAC token). */
+/** Weekly email for people without an account. */
+export const newsletterSubscribeSchema = z.object({ email: z.string().email().max(254), locale: localeSchema.optional() });
+/** The links in newsletter emails: subscriber id and a signed token. */
+export const newsletterLinkSchema = z.object({
+  s: z.string().min(1).max(64),
+  t: z.string().min(20).max(100),
+});
+
 export const unsubscribeSchema = z.object({
   u: z.string().min(1).max(64),
   t: z.string().min(20).max(100),

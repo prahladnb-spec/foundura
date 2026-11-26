@@ -8,6 +8,7 @@ import { LANG_INFO, type Lang } from "@/i18n/config";
 import { BookOpen, CalendarDays, ClipboardCheck, FolderOpen, Handshake, Landmark, Newspaper, Store, Search } from "lucide-react";
 import { Icon } from "./icons";
 import { LangSwitch } from "./lang-switch";
+import { NewsletterForm } from "./newsletter-form";
 
 const nav = (t: Dict) => [
   { href: "/scan", label: t.chrome.nav.scan, icon: ClipboardCheck },
@@ -97,12 +98,15 @@ export function SiteFooter({ lang }: { lang: Lang }) {
           <img src="/brand/foundura-logo-white.svg" alt="Foundura" width={Math.round(44 * LOGO_RATIO)} height={44} className="h-11 w-auto" loading="lazy" />
           <p className="mt-3 text-paper font-semibold">{t.chrome.tagline}</p>
           <p className="mt-2 max-w-md text-neel-100/80">{t.chrome.footerBlurb}</p>
+          <NewsletterForm />
         </div>
         <ul className="space-y-1.5">
           <li><Link href="/scan" className="hover:text-paper">{ft.scan}</Link></li>
           <li><Link href="/schemes" className="hover:text-paper">{ft.allSchemes}</Link></li>
           <li><Link href="/events" className="hover:text-paper">{ft.events}</Link></li>
           <li><Link href="/policy" className="hover:text-paper">{ft.policy}</Link></li>
+          <li className="pt-3"><Link href="/about" className="hover:text-paper">{ft.about}</Link></li>
+          <li><Link href="/contact" className="hover:text-paper">{ft.contact}</Link></li>
         </ul>
         <ul className="space-y-1.5">
           <li><Link href="/learn" className="hover:text-paper">{ft.guides}</Link></li>

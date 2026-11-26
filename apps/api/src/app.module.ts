@@ -13,9 +13,10 @@ import { OpsController } from "./ops/ops.controller";
 import { OpsScheduler } from "./ops/ops.scheduler";
 import { OpsService } from "./ops/ops.service";
 import { HealthController } from "./health/health.controller";
-import { AdminDigestController, DigestController } from "./digest/digest.controller";
+import { AdminDigestController, DigestController, NewsletterController } from "./digest/digest.controller";
 import { DigestScheduler } from "./digest/digest.scheduler";
 import { DigestService } from "./digest/digest.service";
+import { NewsletterService } from "./digest/newsletter.service";
 import { AdminEventsController } from "./events/admin-events.controller";
 import { EventsController } from "./events/events.controller";
 import { EventSyncScheduler } from "./events/event-sync.scheduler";
@@ -44,7 +45,7 @@ export function buildAppModule(config: AppConfig) {
       JwtModule.register({ global: true, secret: config.JWT_SECRET, signOptions: { expiresIn: "30d" } }),
       ThrottlerModule.forRoot([{ ttl: 60_000, limit: 120 }]),
     ],
-    controllers: [AuthController, MeController, ScanController, ContentController, InvestorsController, AdminController, AdminConsoleController, DigestController, AdminDigestController, HealthController, EventsController, AdminEventsController, OpsController, MetricsController],
+    controllers: [AuthController, MeController, ScanController, ContentController, InvestorsController, AdminController, AdminConsoleController, DigestController, NewsletterController, AdminDigestController, HealthController, EventsController, AdminEventsController, OpsController, MetricsController],
     providers: [
       AuthService,
       AdminGuard,
@@ -54,6 +55,7 @@ export function buildAppModule(config: AppConfig) {
       MetricsService,
       OpsScheduler,
       DigestService,
+      NewsletterService,
       DigestScheduler,
       EventSyncService,
       EventSyncScheduler,
