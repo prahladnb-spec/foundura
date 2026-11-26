@@ -138,6 +138,23 @@ test.describe("search engines and monitoring", () => {
 });
 
 test.describe("home chooser", () => {
+  test("two ways in: the Scheme Scan for India, links for founders elsewhere", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("h1")).toHaveText("Everything your startup needs, from idea to investors");
+    const india = page.getByRole("region", { name: "Building in India" });
+    await expect(india.locator('form[action="/scan"] select[name="state"]')).toBeVisible();
+    const world = page.getByRole("region", { name: "Building elsewhere" });
+    for (const [name, href] of [["Startup events worldwide", "/events"], ["Show your startup", "/startups"], ["Find investors", "/investors"], ["Learn how funding works", "/basics"], ["Coming to India?", "/states"]]) {
+      await expect(world.getByRole("link", { name: new RegExp(name.replace("?", "\\?")) })).toHaveAttribute("href", href);
+    }
+    // Events are no longer India-only, with an India filter beside them.
+    await expect(page.getByRole("link", { name: "Events in India" })).toHaveAttribute("href", "/events?region=India");
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /worldwide/);
+
+    await page.goto("/de");
+    await expect(page.getByRole("region", { name: "Gründen anderswo" }).getByRole("link").first()).toHaveAttribute("href", "/de/events");
+  });
+
   test("four ways in, in both languages", async ({ page }) => {
     await page.goto("/");
     const chooser = page.getByRole("region", { name: "What do you need today?" });

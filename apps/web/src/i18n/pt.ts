@@ -6,7 +6,7 @@ export const pt: Dict = {
   meta: {
     defaultTitle: "Foundura: programas públicos, investidores e eventos para sua startup",
     description:
-      "Verificação gratuita de programas para startups na Índia: veja de quais programas do governo central e dos estados você pode participar, e por quê. Além de investidores, eventos, notícias de políticas públicas e guias para fundadores.",
+      "Ajuda gratuita para startups, da ideia aos investidores: um verificador de programas públicos da Índia, eventos de startups no mundo todo, investidores, uma vitrine, guias e modelos.",
     ogLocale: "pt_BR",
   },
   common: {
@@ -33,7 +33,7 @@ export const pt: Dict = {
     language: "Idioma",
     unreviewed: "Tradução feita pela Foundura, ainda não revisada por um falante nativo. Viu um erro? Escreva para {email}",
     footerBlurb:
-      "Ajuda gratuita para fundadores na Índia: de quais programas você pode participar, quem pode investir e onde aparecer. Nunca lidamos com o seu dinheiro.",
+      "Ajuda gratuita para fundadores, na Índia e fora dela: para quais programas você se qualifica, quem pode investir e aonde ir. Nunca lidamos com seu dinheiro.",
     footer: {
       scan: "Verificação de programas",
       allSchemes: "Todos os programas",
@@ -94,8 +94,22 @@ export const pt: Dict = {
         { t: "Inscreva-se na fonte oficial", d: "Cada programa leva à página do governo onde se faz a inscrição. A Foundura nunca lida com dinheiro." },
       ],
     },
-    h1: "De quais programas do governo sua startup pode participar?",
-    lead: "Responda a algumas perguntas. A Foundura verifica os programas do governo central e dos estados e mostra exatamente quais condições você cumpre. É gratuito, e nada do que você informa é guardado.",
+    india: { title: "Empreendendo na Índia", d: "Veja para quais programas centrais e estaduais sua startup se qualifica, e por quê. Nada do que você digita é salvo." },
+    world: {
+      title: "Empreendendo em outro país",
+      d: "Comece pelas partes da Foundura que funcionam onde quer que você esteja.",
+      links: [
+        { t: "Eventos de startups no mundo todo", d: "Feiras, cúpulas, competições de pitch e desafios abertos, por região." },
+        { t: "Mostre sua startup", d: "Um perfil público gratuito na vitrine de startups." },
+        { t: "Encontre investidores", d: "Fundos e redes de investidores-anjo por setor e estágio." },
+        { t: "Aprenda como funciona o financiamento", d: "Um curso de onze capítulos, do primeiro cheque ao term sheet." },
+        { t: "Vindo para a Índia?", d: "A política para startups, as incubadoras e o apoio de cada estado." },
+      ],
+    },
+    indiaEvents: "Eventos na Índia",
+    scanFor: "Para startups registradas na Índia.",
+    h1: "Tudo de que sua startup precisa, da ideia aos investidores",
+    lead: "Ajuda gratuita para fundadores: programas públicos na Índia, eventos de startups no mundo todo, investidores, uma vitrine para seu produto, além de guias e modelos. A Foundura nunca lida com dinheiro.",
     state: "Estado ou território",
     registeredAs: "Tipo de registro",
     stage: "Estágio",
@@ -112,7 +126,7 @@ export const pt: Dict = {
     allPolicy: "Todas as notícias",
     highImpact: "Alto impacto",
     policyEmpty: "As notícias de políticas aparecerão aqui.",
-    comingUp: "Em breve na Índia",
+    comingUp: "Em breve",
     allEvents: "Todos os eventos",
     deadline: "Prazo: {date}",
     eventsEmpty: "Os próximos eventos aparecerão aqui.",

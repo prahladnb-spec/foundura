@@ -54,29 +54,11 @@ const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
   home: {
     en: {
       slug: "/",
-      focus: "government schemes for startups",
-      title: "Government schemes for startups in India | Foundura",
-      description:
-        "Find the government schemes for startups you qualify for: a free scan of central and state schemes, plus investors, events, guides and templates.",
-      excerpt:
-        "Foundura helps Indian founders find the central and state government schemes they qualify for, see why, and apply at the official source. It also lists investors, startup events and policy news, with free guides and templates.",
-      keywords: [
-        "government schemes for startups",
-        "startup schemes India",
-        "Startup India schemes",
-        "DPIIT recognition",
-        "startup grants India",
-        "seed funding India",
-        "startup loans India",
-        "state startup policy",
-        "angel investors India",
-        "startup events India",
-        "startup templates",
-        "pitch deck template",
-        "founder guides India",
-        "startup eligibility check",
-        "Foundura",
-      ],
+      focus: "free help for startups",
+      title: "Free help for startups, in India and worldwide | Foundura",
+      description: "Free help for startups from idea to investors: a scan of Indian government schemes, startup events worldwide, investors, a showcase, guides and templates.",
+      excerpt: "Foundura gives founders free help from idea to investors. Indian startups can check which central and state schemes they qualify for; founders anywhere can find startup events and challenges worldwide, investors, a showcase for their product, a funding course, guides and templates.",
+      keywords: ["free help for startups", "startup platform", "government schemes for startups", "startup schemes India", "startup events worldwide", "open innovation challenges", "startup showcase", "find investors", "angel investors", "startup funding course", "startup templates", "pitch deck template", "DPIIT recognition", "entering India startups", "Foundura"],
     },
     hi: {
       slug: "/",

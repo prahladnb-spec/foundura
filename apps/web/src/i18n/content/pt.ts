@@ -4,11 +4,11 @@ import type { LangContent } from "./types";
 export const pt: LangContent = {
   seo: {
     home: {
-      focus: "programas do governo para startups",
-      title: "Programas do governo para startups na Índia | Foundura",
-      description: "Programas do governo para startups na Índia: verifique grátis de quais você pode participar, com os motivos, e encontre investidores, eventos e modelos.",
-      excerpt: "A Foundura reúne os programas do governo central e dos estados indianos para startups e verifica grátis de quais você pode participar, sem guardar suas respostas. Além de investidores, eventos e modelos.",
-      keywords: ["programas do governo para startups", "startups indianas", "apoio a startups", "subsídio para startup", "Startup India", "reconhecimento DPIIT", "verificação de programas", "investidores na Índia", "eventos de startups", "modelos para startups", "financiamento de startups", "programas estaduais", "seed fund", "expandir para a Índia", "Foundura"],
+      focus: "ajuda gratuita para startups",
+      title: "Ajuda gratuita para startups, na Índia e no mundo | Foundura",
+      description: "Ajuda gratuita para startups, da ideia aos investidores: programas públicos da Índia, eventos de startups no mundo todo, investidores, guias e modelos.",
+      excerpt: "A Foundura oferece aos fundadores ajuda gratuita da ideia aos investidores. Startups indianas verificam para quais programas se qualificam; de qualquer país, há eventos e desafios de startups, investidores, uma vitrine, um curso de financiamento, guias e modelos.",
+      keywords: ["ajuda gratuita para startups", "plataforma para startups", "programas públicos para startups", "startups na Índia", "eventos de startups", "desafios de inovação aberta", "vitrine de startups", "encontrar investidores", "investidores-anjo", "curso de financiamento", "modelos para startups", "modelo de pitch deck", "reconhecimento DPIIT", "empreender na Índia", "Foundura"],
     },
     scan: {
       focus: "verificação de elegibilidade",

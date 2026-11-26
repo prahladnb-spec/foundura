@@ -4,11 +4,11 @@ import type { LangContent } from "./types";
 export const fr: LangContent = {
   seo: {
     home: {
-      focus: "aides publiques aux startups en Inde",
-      title: "Aides publiques aux startups en Inde | Foundura",
-      description: "Les aides publiques aux startups en Inde : vérifiez gratuitement celles auxquelles vous avez droit, raisons à l'appui, et trouvez investisseurs et modèles.",
-      excerpt: "Foundura rassemble les dispositifs du gouvernement central et des États indiens pour les startups et vérifie gratuitement ceux auxquels vous avez droit, sans enregistrer vos réponses. Avec des investisseurs, des événements et des modèles.",
-      keywords: ["aides publiques aux startups en Inde", "startups indiennes", "aide aux startups", "subvention startup", "Startup India", "reconnaissance DPIIT", "vérification des dispositifs", "investisseurs en Inde", "événements startups", "modèles pour startups", "financement de startup", "dispositifs régionaux", "seed fund", "s'implanter en Inde", "Foundura"],
+      focus: "aide gratuite aux startups",
+      title: "Aide gratuite aux startups, en Inde et ailleurs | Foundura",
+      description: "Aide gratuite aux startups, de l’idée aux investisseurs : aides publiques indiennes, événements startups dans le monde, investisseurs, guides et modèles.",
+      excerpt: "Foundura offre aux fondateurs une aide gratuite de l’idée aux investisseurs. Les startups indiennes vérifient les dispositifs auxquels elles ont droit ; partout ailleurs, on trouve des événements et défis startups, des investisseurs, une vitrine, un cours sur le financement, des guides et des modèles.",
+      keywords: ["aide gratuite aux startups", "plateforme pour startups", "aides publiques aux startups", "startups en Inde", "événements startups", "défis d’innovation ouverte", "vitrine de startups", "trouver des investisseurs", "business angels", "cours sur le financement", "modèles pour startups", "modèle de pitch deck", "reconnaissance DPIIT", "s’implanter en Inde", "Foundura"],
     },
     scan: {
       focus: "vérification d'éligibilité",

@@ -6,7 +6,7 @@ export const fr: Dict = {
   meta: {
     defaultTitle: "Foundura : dispositifs publics, investisseurs et événements pour votre startup",
     description:
-      "Vérification gratuite des dispositifs pour les startups indiennes : découvrez à quels programmes du gouvernement central et des États vous êtes éligible, et pourquoi. Avec des investisseurs, des événements, l'actualité des politiques publiques et des guides pour fondateurs.",
+      "Aide gratuite aux startups, de l’idée aux investisseurs : un vérificateur des aides publiques indiennes, des événements startups dans le monde, des investisseurs, une vitrine, des guides et des modèles.",
     ogLocale: "fr_FR",
   },
   common: {
@@ -33,7 +33,7 @@ export const fr: Dict = {
     language: "Langue",
     unreviewed: "Traduction réalisée par Foundura, pas encore relue par un locuteur natif. Une erreur ? Écrivez à {email}",
     footerBlurb:
-      "Une aide gratuite pour les fondateurs en Inde : les dispositifs auxquels vous avez droit, qui pourrait investir, où vous présenter. Nous ne manipulons jamais votre argent.",
+      "Aide gratuite aux fondateurs, en Inde et ailleurs : les dispositifs auxquels vous avez droit, qui pourrait investir et où aller. Nous ne manipulons jamais votre argent.",
     footer: {
       scan: "Vérification des dispositifs",
       allSchemes: "Tous les dispositifs",
@@ -94,8 +94,22 @@ export const fr: Dict = {
         { t: "Déposez votre demande à la source", d: "Chaque dispositif renvoie vers la page officielle où l'on postule. Foundura ne manipule jamais d'argent." },
       ],
     },
-    h1: "À quelles aides publiques votre startup a-t-elle droit ?",
-    lead: "Répondez à quelques questions. Foundura vérifie les dispositifs du gouvernement central et des États et vous montre précisément les conditions que vous remplissez. C'est gratuit, et rien n'est enregistré.",
+    india: { title: "Vous créez en Inde", d: "Vérifiez les dispositifs centraux et régionaux auxquels votre startup a droit, et pourquoi. Rien de ce que vous saisissez n’est enregistré." },
+    world: {
+      title: "Vous créez ailleurs",
+      d: "Commencez par les parties de Foundura qui servent où que vous soyez.",
+      links: [
+        { t: "Événements startups dans le monde", d: "Salons, sommets, concours de pitch et défis d’innovation ouverte, par région." },
+        { t: "Présentez votre startup", d: "Un profil public gratuit dans la vitrine des startups." },
+        { t: "Trouvez des investisseurs", d: "Fonds et réseaux de business angels par secteur et stade." },
+        { t: "Comprendre le financement", d: "Un cours en onze chapitres, du premier chèque à la term sheet." },
+        { t: "Vous venez en Inde ?", d: "La politique startups, les incubateurs et le soutien de chaque État." },
+      ],
+    },
+    indiaEvents: "Événements en Inde",
+    scanFor: "Pour les startups immatriculées en Inde.",
+    h1: "Tout ce dont votre startup a besoin, de l’idée aux investisseurs",
+    lead: "Une aide gratuite pour les fondateurs : aides publiques en Inde, événements startups dans le monde entier, investisseurs, une vitrine pour votre produit, et des guides et modèles. Foundura ne manipule jamais d’argent.",
     state: "État ou territoire",
     registeredAs: "Forme juridique",
     stage: "Stade",
@@ -112,7 +126,7 @@ export const fr: Dict = {
     allPolicy: "Toute l'actualité",
     highImpact: "Fort impact",
     policyEmpty: "L'actualité des politiques s'affichera ici.",
-    comingUp: "Prochainement en Inde",
+    comingUp: "À venir",
     allEvents: "Tous les événements",
     deadline: "Date limite : {date}",
     eventsEmpty: "Les prochains événements s'afficheront ici.",

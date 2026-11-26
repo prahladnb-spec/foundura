@@ -1,7 +1,7 @@
 import { NeedChooser } from "@/components/need-chooser";
 import type { Metadata } from "next";
 import { pageMetadata } from "@/seo";
-import { BookOpen, CalendarDays, Newspaper } from "lucide-react";
+import { BookOpen, CalendarDays, Globe2, GraduationCap, HandCoins, MapPin, Map as MapIcon, Newspaper, Store, type LucideIcon } from "lucide-react";
 import { Icon } from "@/components/icons";
 import { Steps } from "@/components/infographics/steps";
 import { JsonLd } from "@/components/json-ld";
@@ -17,6 +17,15 @@ import type { ArticleSummary, EventItem, PolicyItem } from "@/lib/types";
 
 const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
 
+/** Where each "Building elsewhere" link leads, in the order of `home.world.links`. */
+const WORLD: { href: string; icon: LucideIcon }[] = [
+  { href: "/events", icon: CalendarDays },
+  { href: "/startups", icon: Store },
+  { href: "/investors", icon: HandCoins },
+  { href: "/basics", icon: GraduationCap },
+  { href: "/states", icon: MapIcon },
+];
+
 const select = "w-full rounded-md border border-rule bg-white px-3 py-2.5 text-[1rem]";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
@@ -31,7 +40,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
   const h = t.home;
   const [policy, events, articles] = await Promise.all([
     apiOr<PolicyItem[]>("/policy", []),
-    apiOr<EventItem[]>("/events?scope=India", []),
+    apiOr<EventItem[]>("/events", []),
     apiOr<ArticleSummary[]>("/articles", []),
   ]);
 
@@ -45,81 +54,110 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
             name: "Foundura",
             url: SITE,
             logo: `${SITE}/icon.svg`,
-            description: "Free help for Indian founders: government schemes, investors, events and guides. Foundura never handles money.",
+            description: "Free help for startup founders: government schemes in India, startup events worldwide, investors, a startup showcase, guides and templates. Foundura never handles money.",
           },
           { "@context": "https://schema.org", "@type": "WebSite", name: "Foundura", url: `${SITE}${lp(lang, "/") === "/" ? "" : lp(lang, "/")}`, inLanguage: INTL_LOCALE[lang] },
         ]}
       />
-      <section className="mx-auto max-w-6xl px-5 pt-12 pb-16 grid gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-end max-sm:overflow-x-clip">
-        <div>
-          <h1 className="display text-[3.4rem] sm:text-[4.6rem] lg:text-[5.4rem] text-neel-950">
-            {h.h1}
-          </h1>
-          <p className="mt-5 max-w-[52ch] text-lg text-neel-700">{h.lead}</p>
+      <section className="mx-auto max-w-6xl px-5 pt-12 pb-16">
+        <h1 className="display max-w-[22ch] text-[2.9rem] sm:text-[4.4rem] lg:text-[5rem] text-neel-950">
+          {h.h1}
+        </h1>
+        <p className="mt-5 max-w-[60ch] text-lg text-neel-700">{h.lead}</p>
 
-          <form action={lp(lang, "/scan")} method="get" className="mt-8 grid items-end gap-3 sm:grid-cols-3 max-w-2xl">
-            <label className="block">
-              <span className="block text-[0.9rem] font-semibold mb-1">{h.state}</span>
-              <select name="state" className={select} defaultValue="">
-                <option value="">{t.common.choose}</option>
-                {INDIAN_STATES.map((s) => (
-                  <option key={s.value} value={s.value}>{lab(t.labels.state, s.value)}</option>
-                ))}
-              </select>
-            </label>
-            <label className="block">
-              <span className="block text-[0.9rem] font-semibold mb-1">{h.registeredAs}</span>
-              <select name="entityType" className={select} defaultValue="">
-                <option value="">{t.common.choose}</option>
-                {ENTITY_TYPES.map((s) => (
-                  <option key={s.value} value={s.value}>{lab(t.labels.entity, s.value)}</option>
-                ))}
-              </select>
-            </label>
-            <label className="block">
-              <span className="block text-[0.9rem] font-semibold mb-1">{h.stage}</span>
-              <select name="stage" className={select} defaultValue="">
-                <option value="">{t.common.choose}</option>
-                {STAGES.map((s) => (
-                  <option key={s.value} value={s.value}>{lab(t.labels.stage, s.value)}</option>
-                ))}
-              </select>
-            </label>
-            <div className="sm:col-span-3">
-              <button className="rounded-md bg-marigold px-6 py-3 text-lg font-semibold text-neel-950 hover:brightness-95">
-                {h.start}
-              </button>
-            </div>
-          </form>
+        {/* Two ways in: Indian founders go straight to the Scheme Scan, everyone else to what works anywhere. */}
+        <div className="mt-10 grid gap-6 lg:grid-cols-2">
+          <section aria-labelledby="india-h" className="rounded-xl border-2 border-neel-900 bg-white p-6 shadow-[6px_6px_0_var(--color-neel-900)]">
+            <h2 id="india-h" className="display flex items-center gap-3 text-3xl"><Icon icon={MapPin} className="h-7 w-7 text-tape" />{h.india.title}</h2>
+            <p className="mt-2 text-neel-700">{h.india.d}</p>
+              <form action={lp(lang, "/scan")} method="get" className="mt-5 grid items-end gap-3 sm:grid-cols-3">
+                <label className="block">
+                  <span className="block text-[0.9rem] font-semibold mb-1">{h.state}</span>
+                  <select name="state" className={select} defaultValue="">
+                    <option value="">{t.common.choose}</option>
+                    {INDIAN_STATES.map((s) => (
+                      <option key={s.value} value={s.value}>{lab(t.labels.state, s.value)}</option>
+                    ))}
+                  </select>
+                </label>
+                <label className="block">
+                  <span className="block text-[0.9rem] font-semibold mb-1">{h.registeredAs}</span>
+                  <select name="entityType" className={select} defaultValue="">
+                    <option value="">{t.common.choose}</option>
+                    {ENTITY_TYPES.map((s) => (
+                      <option key={s.value} value={s.value}>{lab(t.labels.entity, s.value)}</option>
+                    ))}
+                  </select>
+                </label>
+                <label className="block">
+                  <span className="block text-[0.9rem] font-semibold mb-1">{h.stage}</span>
+                  <select name="stage" className={select} defaultValue="">
+                    <option value="">{t.common.choose}</option>
+                    {STAGES.map((s) => (
+                      <option key={s.value} value={s.value}>{lab(t.labels.stage, s.value)}</option>
+                    ))}
+                  </select>
+                </label>
+                <div className="sm:col-span-3">
+                  <button className="rounded-md bg-marigold px-6 py-3 text-lg font-semibold text-neel-950 hover:brightness-95">
+                    {h.start}
+                  </button>
+                </div>
+              </form>
+          </section>
+          <section aria-labelledby="world-h" className="rounded-xl border-2 border-neel-900 bg-neel-50 p-6 shadow-[6px_6px_0_var(--color-neel-900)]">
+            <h2 id="world-h" className="display flex items-center gap-3 text-3xl"><Icon icon={Globe2} className="h-7 w-7 text-neel-500" />{h.world.title}</h2>
+            <p className="mt-2 text-neel-700">{h.world.d}</p>
+            <ul className="mt-4 divide-y divide-rule border-y border-rule">
+              {h.world.links.map((l, i) => (
+                <li key={WORLD[i].href}>
+                  <Link href={WORLD[i].href} className="group flex items-start gap-3 py-3 no-underline">
+                    <Icon icon={WORLD[i].icon} className="mt-1 h-5 w-5 shrink-0 text-neel-500" />
+                    <span>
+                      <span className="block font-semibold group-hover:underline">{l.t}</span>
+                      <span className="block text-[0.92rem] text-slate">{l.d}</span>
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
         </div>
-
-        <HeroFile>
-        <figure aria-label={h.exampleLabel} className="rotate-[1deg] rounded-xl border-2 border-neel-900 bg-white p-6 shadow-[6px_6px_0_var(--color-neel-900)]">
-          <figcaption className="text-[0.92rem] text-slate">
-            {h.exampleCaption}
-          </figcaption>
-          <ul className="mt-3 divide-y divide-rule">
-            {h.example.map((r, i) => ({ ...r, s: i < 3 ? ("eligible" as const) : ("maybe" as const) })).map((r, i) => (
-              <li key={r.n} className="flex items-center gap-4 py-3.5">
-                <span className="w-28 shrink-0">
-                  <Stamp status={r.s} label={t.stamp[r.s]} animate delayMs={300 + i * 120} />
-                </span>
-                <span>
-                  <span lang="en" className="block font-semibold leading-snug">{r.n}</span>
-                  <span className="block text-[0.9rem] text-slate">{r.d}</span>
-                </span>
-              </li>
-            ))}
-          </ul>
-        </figure>
-        </HeroFile>
       </section>
 
       <NeedChooser t={t} />
 
       <section aria-labelledby="how-h" className="mx-auto max-w-6xl px-5 pb-16">
-        <h2 id="how-h" className="display mb-8 text-4xl">{h.how.title}</h2>
-        <Steps cols={3} label={h.how.title} steps={h.how.steps} />
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center max-sm:overflow-x-clip">
+          <div>
+            <h2 id="how-h" className="display text-4xl">{h.how.title}</h2>
+            <p className="mt-2 text-lg text-neel-700">{h.scanFor}</p>
+            <Link href="/scan" className="mt-5 inline-block rounded-md border-2 border-neel-900 px-5 py-2 font-semibold no-underline hover:bg-neel-50">{h.start}</Link>
+          </div>
+          <HeroFile>
+          <figure aria-label={h.exampleLabel} className="rotate-[1deg] rounded-xl border-2 border-neel-900 bg-white p-6 shadow-[6px_6px_0_var(--color-neel-900)]">
+            <figcaption className="text-[0.92rem] text-slate">
+              {h.exampleCaption}
+            </figcaption>
+            <ul className="mt-3 divide-y divide-rule">
+              {h.example.map((r, i) => ({ ...r, s: i < 3 ? ("eligible" as const) : ("maybe" as const) })).map((r, i) => (
+                <li key={r.n} className="flex items-center gap-4 py-3.5">
+                  <span className="w-28 shrink-0">
+                    <Stamp status={r.s} label={t.stamp[r.s]} animate delayMs={300 + i * 120} />
+                  </span>
+                  <span>
+                    <span lang="en" className="block font-semibold leading-snug">{r.n}</span>
+                    <span className="block text-[0.9rem] text-slate">{r.d}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </figure>
+          </HeroFile>
+        </div>
+        <div className="mt-12">
+          <Steps cols={3} label={h.how.title} steps={h.how.steps} />
+        </div>
       </section>
 
       <section className="bg-neel-900 text-paper">
@@ -148,7 +186,10 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         <div>
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
             <h2 className="display flex items-center gap-3 text-4xl"><Icon icon={CalendarDays} className="h-8 w-8 text-tape" />{h.comingUp}</h2>
-            <Link href="/events" className="text-neel-500 underline">{h.allEvents}</Link>
+            <span className="flex gap-4">
+              <Link href="/events?region=India" className="text-neel-500 underline">{h.indiaEvents}</Link>
+              <Link href="/events" className="text-neel-500 underline">{h.allEvents}</Link>
+            </span>
           </div>
           <ul className="mt-5 border-t-2 border-neel-900">
             {events.slice(0, 6).map((e) => (
@@ -158,7 +199,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
                 </span>
                 <span>
                   <span lang="en" className="block font-semibold leading-snug">{e.name}</span>
-                  <span lang="en" className="block text-[0.9rem] text-slate">{[e.city, e.type].filter(Boolean).join(", ")}</span>
+                  <span lang="en" className="block text-[0.9rem] text-slate">{[e.city, e.country, e.type].filter(Boolean).join(", ")}</span>
                 </span>
               </li>
             ))}

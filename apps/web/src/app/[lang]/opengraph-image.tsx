@@ -5,5 +5,5 @@ export const size = OG_SIZE;
 export const contentType = "image/png";
 
 export default function Image() {
-  return ogImage({ eyebrow: "Scheme Scan for Indian startups", title: "Which government schemes does your startup qualify for?", stamp: "Free" });
+  return ogImage({ eyebrow: "Free help for founders", title: "Everything your startup needs, from idea to investors", stamp: "Free" });
 }

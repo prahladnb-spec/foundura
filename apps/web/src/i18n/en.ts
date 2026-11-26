@@ -7,7 +7,7 @@ export const en = {
   meta: {
     defaultTitle: "Foundura — find the schemes, investors and events your startup qualifies for",
     description:
-      "Free Scheme Scan for Indian startups: see which central and state government schemes you qualify for, with reasons. Plus investors, events, policy news and founder guides.",
+      "Free help for startups from idea to investors: a Scheme Scan for Indian government schemes, startup events worldwide, investors, a showcase, guides and templates.",
     ogLocale: "en_IN",
   },
   common: {
@@ -36,7 +36,7 @@ export const en = {
     /** Shown on languages whose translation hasn't had a native speaker's check. */
     unreviewed: "",
     footerBlurb:
-      "Free help for Indian founders: which schemes you qualify for, who might invest, and where to show up. We never handle your money.",
+      "Free help for founders, in India and beyond: which schemes you qualify for, who might invest, and where to show up. We never handle your money.",
     footer: {
       scan: "Scheme Scan",
       allSchemes: "All schemes",
@@ -97,8 +97,22 @@ export const en = {
         { t: "Apply at the official source", d: "Each scheme links to the government page where you apply. Foundura never handles money." },
       ],
     },
-    h1: "Which government schemes does your startup qualify for?",
-    lead: "Answer a few questions. Foundura checks central and state schemes and shows exactly which conditions you meet. Free, and nothing you enter is saved.",
+    india: { title: "Building in India", d: "Check which central and state schemes your startup qualifies for, and why. Nothing you enter is saved." },
+    world: {
+      title: "Building elsewhere",
+      d: "Start with the parts of Foundura that work wherever you are.",
+      links: [
+        { t: "Startup events worldwide", d: "Expos, summits, pitch competitions and open challenges, by region." },
+        { t: "Show your startup", d: "A free public profile in the startup showcase." },
+        { t: "Find investors", d: "Funds and angel networks by sector and stage." },
+        { t: "Learn how funding works", d: "An eleven-chapter course, from the first cheque to the term sheet." },
+        { t: "Coming to India?", d: "Each state's startup policy, incubators and support." },
+      ],
+    },
+    indiaEvents: "Events in India",
+    scanFor: "For startups registered in India.",
+    h1: "Everything your startup needs, from idea to investors",
+    lead: "Free help for founders: government schemes in India, startup events around the world, investors, a showcase for your product, and guides and templates. Foundura never handles money.",
     state: "State or UT",
     registeredAs: "Registered as",
     stage: "Stage",
@@ -115,7 +129,7 @@ export const en = {
     allPolicy: "All policy news",
     highImpact: "High impact",
     policyEmpty: "Policy news will appear here.",
-    comingUp: "Coming up in India",
+    comingUp: "Coming up",
     allEvents: "All events",
     deadline: "Deadline {date}",
     eventsEmpty: "Upcoming events will appear here.",

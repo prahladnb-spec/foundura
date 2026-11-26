@@ -38,7 +38,7 @@ export async function ogImage({ eyebrow, title, stamp, cover }: { eyebrow: strin
             <div style={{ fontSize: 30, color: "#5b6478" }}>{eyebrow}</div>
             <div style={{ fontFamily: "Anek", fontSize: size, lineHeight: 1.02, color: "#0f1538", marginTop: 12, maxWidth: coverUri ? 600 : stamp ? 760 : 1000 }}>{title}</div>
           </div>
-          <div style={{ fontSize: 26, color: "#1f2a6b" }}>Free help for Indian founders. We never handle your money.</div>
+          <div style={{ fontSize: 26, color: "#1f2a6b" }}>Free help for founders, in India and beyond. We never handle your money.</div>
         </div>
         {coverUri && (
           <div
