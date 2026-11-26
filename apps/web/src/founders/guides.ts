@@ -1,4 +1,4 @@
-import { SUPPORT, type SupportEntry } from "@/support/directory";
+import { SUPPORT, type SupportEntry } from "../support/directory";
 
 /**
  * Five short founder guides built around the support directory: finding a mentor (/mentors),
