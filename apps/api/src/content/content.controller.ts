@@ -1,11 +1,11 @@
 import { SkipThrottle } from "@nestjs/throttler";
 import { Controller, Get, Inject, NotFoundException, Param, Query } from "@nestjs/common";
-import { and, asc, desc, eq, gte, isNotNull, isNull, or, type SQL } from "drizzle-orm";
+import { and, asc, desc, eq, gte, inArray, isNotNull, isNull, or, sql, type SQL } from "drizzle-orm";
 import { startupDirectoryQuerySchema } from "@foundura/shared";
 import { parseBody, todayInIndia } from "../common/zod";
 import type { Db } from "../db/client";
 import { DB } from "../db/db.module";
-import { articles, events, policyItems, schemes } from "../db/schema";
+import { articles, dailyCounts, events, policyItems, schemes } from "../db/schema";
 import { StartupsService } from "../startups/startups.service";
 import { localizeScheme } from "../schemes/localize";
 
@@ -69,17 +69,48 @@ export class ContentController {
         excerpt: articles.excerpt,
         readMinutes: articles.readMinutes,
         publishedAt: articles.publishedAt,
+        topic: articles.topic,
+        authorName: articles.authorName,
       })
       .from(articles)
       .where(isNotNull(articles.publishedAt))
       .orderBy(desc(articles.publishedAt));
   }
 
+  /**
+   * The most-read guides over the last 30 days, from the anonymous daily page-view totals (every
+   * language counts towards the same guide). Nothing about any reader is involved.
+   */
+  @Get("articles/popular")
+  async popularArticles() {
+    const since = new Date(Date.now() - 30 * 86_400_000).toISOString().slice(0, 10);
+    const rows = await this.db
+      .select({ key: dailyCounts.key, n: sql<number>`sum(${dailyCounts.count})::int` })
+      .from(dailyCounts)
+      .where(and(eq(dailyCounts.metric, "page_view"), gte(dailyCounts.day, since), sql`${dailyCounts.key} ~ '^(/[a-z]{2})?/learn/[a-z0-9-]+$'`))
+      .groupBy(dailyCounts.key);
+    const views = new Map<string, number>();
+    for (const r of rows) {
+      const slug = r.key.split("/").pop()!;
+      views.set(slug, (views.get(slug) ?? 0) + r.n);
+    }
+    if (!views.size) return [];
+    const published = await this.db
+      .select({ slug: articles.slug, title: articles.title, readMinutes: articles.readMinutes })
+      .from(articles)
+      .where(and(isNotNull(articles.publishedAt), inArray(articles.slug, [...views.keys()])));
+    return published
+      .map((a) => ({ ...a, views: views.get(a.slug) ?? 0 }))
+      .sort((a, b) => b.views - a.views || a.title.localeCompare(b.title))
+      .slice(0, 5);
+  }
+
   @Get("articles/:slug")
   async getArticle(@Param("slug") slug: string) {
     const [a] = await this.db.select().from(articles).where(eq(articles.slug, slug)).limit(1);
     if (!a || !a.publishedAt) throw new NotFoundException("Article not found.");
-    return a;
+    const { authorConsentAt: _consent, ...pub } = a;
+    return pub;
   }
 
   /** The public startup showcase: only founders who chose a public profile, minus any an editor hid. */

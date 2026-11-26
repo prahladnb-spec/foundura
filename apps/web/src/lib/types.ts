@@ -93,9 +93,13 @@ export interface ArticleSummary {
   excerpt: string;
   readMinutes: number;
   publishedAt: string | null;
+  topic: string;
+  authorName: string | null;
 }
 
 export interface Article extends ArticleSummary {
+  authorRole: string | null;
+  authorUrl: string | null;
   body: string;
   focusKeyphrase: string;
   seoTitle: string;

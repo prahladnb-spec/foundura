@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { f } from "@/i18n/util";
 import { useT } from "@/i18n/client";
 import { INTL_LOCALE } from "@/i18n/config";
@@ -40,6 +40,10 @@ export function InvestorUpdateBuilder() {
     asks: "",
   });
   const [copied, setCopied] = useState<string | null>(null);
+  // Dates and number formats come from the browser's own locale data, which can differ from the
+  // server's, so the preview is filled in after the page loads.
+  const [ready, setReady] = useState(false);
+  useEffect(() => setReady(true), []);
   const set = (k: keyof typeof v) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setV({ ...v, [k]: e.target.value });
 
   const { subject, body, runway } = useMemo(() => {
@@ -126,7 +130,7 @@ export function InvestorUpdateBuilder() {
               </div>
             ))}
           </div>
-          {runway && <p className="mt-3 font-semibold text-neel-700">{o.runway}: {runway}</p>}
+          {ready && runway && <p className="mt-3 font-semibold text-neel-700">{o.runway}: {runway}</p>}
           <p className="mt-1 text-[0.9rem] text-slate">{u.runwayNote}</p>
         </fieldset>
         <div>
@@ -140,11 +144,11 @@ export function InvestorUpdateBuilder() {
         <h2 id="u-preview-h" className="display text-3xl">{u.preview}</h2>
         <label htmlFor="u-subject" className={`${label} mt-4`}>{u.subject}</label>
         <div className="flex gap-2">
-          <input id="u-subject" readOnly value={subject} className={`${field} min-w-0`} />
+          <input id="u-subject" readOnly value={ready ? subject : ""} className={`${field} min-w-0`} />
           <button type="button" onClick={() => copy("subject")} className="shrink-0 rounded-md border-2 border-neel-900 px-4 font-semibold">{u.copy}<span className="sr-only">: {u.subject}</span></button>
         </div>
         <label htmlFor="u-body" className={`${label} mt-4`}>{u.body}</label>
-        <textarea id="u-body" readOnly rows={22} value={body} className={`${field} font-[inherit] leading-relaxed`} />
+        <textarea id="u-body" readOnly rows={22} value={ready ? body : ""} className={`${field} font-[inherit] leading-relaxed`} />
         <p className="mt-3 flex flex-wrap items-center gap-4">
           <button type="button" onClick={() => copy("body")} className="rounded-md bg-neel-900 px-5 py-2.5 font-semibold text-paper">{u.copy}<span className="sr-only">: {u.body}</span></button>
           <span role="status" className="text-leaf">{copied ? u.copied : ""}</span>

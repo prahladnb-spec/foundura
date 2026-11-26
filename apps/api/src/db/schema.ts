@@ -333,6 +333,14 @@ export const articles = pgTable("articles", {
   body: text("body").notNull(),
   readMinutes: integer("read_minutes").notNull(),
   publishedAt: date("published_at"),
+  /** GUIDE_TOPICS value, for browsing by topic on /learn. */
+  topic: text("topic").notNull().default("start"),
+  /** A named guest author; null means the Foundura editors wrote it. */
+  authorName: text("author_name"),
+  authorRole: text("author_role"),
+  authorUrl: text("author_url"),
+  /** When an editor confirmed the named author agreed to be named and published. */
+  authorConsentAt: timestamp("author_consent_at", { withTimezone: true }),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });

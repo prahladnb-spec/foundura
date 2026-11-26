@@ -2,7 +2,6 @@ import { awaitingReview } from "@/i18n/reviews";
 import { legalDetails } from "@/lib/legal";
 import Link from "@/components/locale-link";
 import { cookies } from "next/headers";
-import { Suspense } from "react";
 import { type Dict, getDict } from "@/i18n";
 import { LANG_INFO, type Lang } from "@/i18n/config";
 import { BookOpen, CalendarDays, ClipboardCheck, FolderOpen, Handshake, Landmark, Newspaper, Store, Search } from "lucide-react";
@@ -55,9 +54,7 @@ export async function SiteHeader({ lang }: { lang: Lang }) {
             <Icon icon={Search} className="h-[1.1rem] w-[1.1rem]" />
             <span className="sr-only sm:not-sr-only">{t.chrome.search}</span>
           </Link>
-          <Suspense>
-            <LangSwitch className="text-[0.95rem] font-semibold text-neel-700 hover:text-neel-950 no-underline" />
-          </Suspense>
+          <LangSwitch className="text-[0.95rem] font-semibold text-neel-700 hover:text-neel-950 no-underline" />
           <Link
             href={signedIn ? "/dashboard" : "/signin"}
             className="inline-block whitespace-nowrap rounded-md border-2 border-neel-900 px-3.5 py-1.5 text-[0.95rem] font-semibold text-neel-900 hover:bg-neel-900 hover:text-paper no-underline"
@@ -120,6 +117,7 @@ export function SiteFooter({ lang }: { lang: Lang }) {
           <li><Link href="/states" className="hover:text-paper">{ft.states}</Link></li>
           <li><Link href="/basics" className="hover:text-paper">{ft.basics}</Link></li>
           <li><Link href="/sectors/medtech" className="hover:text-paper">{ft.medtech}</Link></li>
+          <li><Link href="/sectors/software" className="hover:text-paper">{ft.software}</Link></li>
           <li><Link href="/partners" className="hover:text-paper">{ft.partners}</Link></li>
           <li><Link href="/privacy" className="hover:text-paper">{ft.privacy}</Link></li>
           <li><Link href="/terms" className="hover:text-paper">{ft.terms}</Link></li>

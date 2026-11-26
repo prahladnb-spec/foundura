@@ -129,7 +129,7 @@ test.describe("languages", () => {
   });
 
   test("no untranslated English on pages in other scripts", async ({ page }) => {
-    test.slow();
+    test.setTimeout(420_000);
     const ALLOW = new Set([
       ..."Foundura SaaS GeM MeitY iSAFE English India Startup MedTech Mission Google Apple Outlook".split(" "),
       // Values partners type into the embed code, shown on the partners page, and language codes.
@@ -137,13 +137,16 @@ test.describe("languages", () => {
       ...LANGS.filter((l) => l.length === 2),
     ]);
     const isAcronym = (w: string) => /^[A-Z0-9&-]+$/.test(w) || /^[A-Z][A-Z0-9]*[a-z][A-Z0-9]+$/.test(w);
-    const PAGES = ["/", "/scan", "/schemes", "/documents", "/documents/pitch-deck", "/glossary", "/search?q=pitch", "/events?view=list", "/investors", "/funding", "/basics", "/basics/valuation", "/about", "/contact", "/perks", "/investor-update", "/states", "/states/ka", "/partners", "/signin", "/no-such-page"];
+    const PAGES = ["/", "/scan", "/schemes", "/documents", "/documents/pitch-deck", "/glossary", "/search?q=pitch", "/events?view=list", "/investors", "/funding", "/basics", "/basics/valuation", "/about", "/contact", "/perks", "/investor-update", "/sectors/software", "/learn", "/states", "/states/ka", "/partners", "/signin", "/no-such-page"];
     const report: Record<string, string[]> = {};
     const scripted = OTHERS.filter((l) => LANG_INFO[l].script) as Lang[];
     for (const code of scripted) {
       for (const p of PAGES) {
         const path = p === "/" ? `/${code}` : `/${code}${p}`;
         await page.goto(path);
+        // Let the page finish hydrating before reading it and moving on: leaving mid-hydration makes
+        // React report a mismatch that no visitor would ever see.
+        await page.waitForLoadState("networkidle");
         if (p === "/scan") {
           await page.getByRole("main").locator('button[type="submit"]').click();
           await expect(page.locator("#results-h")).toBeVisible();

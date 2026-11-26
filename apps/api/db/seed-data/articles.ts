@@ -14,13 +14,18 @@ export interface ArticleSeed {
   body: string;
   readMinutes: number;
   publishedAt: string;
+  topic: "start" | "product" | "selling" | "funding" | "team" | "legal";
+  authorName?: null;
 }
 
-export const ARTICLES: ArticleSeed[] = [
+import { GUIDES_2026_11 } from "./guides-2026-11";
+
+const STARTER: ArticleSeed[] = [
   {
     slug: "dpiit-recognition-2026-rules",
     title: "DPIIT recognition under the 2026 rules: who qualifies now",
     theme: "Funding Thursday",
+    topic: "legal",
     excerpt:
       "The startup definition changed on 4 February 2026. Here is what the new limits mean for your company, in plain words.",
     focusKeyphrase: "DPIIT recognition",
@@ -77,6 +82,7 @@ Run the free [Scheme Scan](/scan). It checks the new limits against your answers
     slug: "startup-idea-problem-first",
     title: "Finding a startup idea worth solving: the problem-first method",
     theme: "Idea Tuesday",
+    topic: "start",
     excerpt:
       "Most failed ideas start with a solution. Start with a painful, frequent problem that someone already pays to fix.",
     focusKeyphrase: "startup idea",
@@ -137,3 +143,5 @@ Start your problem journal now: one note in your phone, three lines per problem.
 **Next:** when you have a shortlist, test demand with a simple landing page before you build.`,
   },
 ];
+
+export const ARTICLES: ArticleSeed[] = [...STARTER, ...GUIDES_2026_11];

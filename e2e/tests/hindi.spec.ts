@@ -120,6 +120,7 @@ test.describe("Hindi", () => {
     "/hi/privacy",
     "/hi/terms",
     "/hi/sectors/medtech",
+    "/hi/sectors/software",
     "/hi/unsubscribe?u=x&t=yyyyyyyyyyyyyyyyyyyyyyyy",
     "/hi/embed/scan",
     "/hi/no-such-page",

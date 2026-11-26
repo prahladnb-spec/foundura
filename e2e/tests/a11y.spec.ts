@@ -18,6 +18,8 @@ const PAGES = [
   "/basics/team",
   "/contact",
   "/perks",
+  "/sectors/software",
+  "/learn/gst-registration-for-startups",
   "/investor-update",
   "/shared/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
   "/newsletter/confirm?s=a&t=bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",

@@ -304,12 +304,12 @@ export class AdminConsoleController {
 
   @Post("articles")
   async createArticle(@Admin() actor: AdminActor, @Body() body: unknown) {
-    const input = parseBody(articleSchema, body);
+    const { authorConsent: _c, ...input } = parseBody(articleSchema, body);
     const [exists] = await this.db.select({ slug: articles.slug }).from(articles).where(eq(articles.slug, input.slug));
     if (exists) throw new ConflictException("An article with that slug already exists.");
     const [row] = await this.db
       .insert(articles)
-      .values({ ...input, readMinutes: readMinutes(input.body) })
+      .values({ ...input, readMinutes: readMinutes(input.body), authorConsentAt: input.authorName ? new Date() : null })
       .returning();
     await this.audit.record(actor, input.publishedAt ? "article.publish" : "article.draft", "article", input.slug);
     return row;
@@ -317,14 +317,17 @@ export class AdminConsoleController {
 
   @Put("articles/:slug")
   async saveArticle(@Admin() actor: AdminActor, @Param("slug") slug: string, @Body() body: unknown) {
-    const input = parseBody(articleSchema, body);
+    const { authorConsent: _c, ...input } = parseBody(articleSchema, body);
+    const [before] = await this.db.select({ authorName: articles.authorName, authorConsentAt: articles.authorConsentAt }).from(articles).where(eq(articles.slug, slug));
+    // Consent belongs to a named person: keep its date while the name stays the same.
+    const authorConsentAt = !input.authorName ? null : before?.authorName === input.authorName && before.authorConsentAt ? before.authorConsentAt : new Date();
     if (input.slug !== slug) {
       const [taken] = await this.db.select({ slug: articles.slug }).from(articles).where(eq(articles.slug, input.slug));
       if (taken) throw new ConflictException("An article with that slug already exists.");
     }
     const [row] = await this.db
       .update(articles)
-      .set({ ...input, readMinutes: readMinutes(input.body) })
+      .set({ ...input, readMinutes: readMinutes(input.body), authorConsentAt })
       .where(eq(articles.slug, slug))
       .returning();
     if (!row) throw new NotFoundException();

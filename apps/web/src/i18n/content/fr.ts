@@ -62,8 +62,8 @@ export const fr: LangContent = {
     learn: {
       focus: "guides pour startups",
       title: "Guides pour startups, pour fondateurs en Inde | Foundura",
-      description: "Des guides pour startups sur l'idée, la construction, le financement, la croissance et le développement, de l'idée au marché. Un nouveau guide chaque jour.",
-      excerpt: "Des guides pratiques pour les fondateurs en Inde : de l'idée au marché en six étapes, avec les modèles et dispositifs utiles à chacune. Les guides sont en anglais.",
+      description: "Des guides pour startups sur l'idée, la construction, le financement, la croissance et le développement, de l'idée au marché. Classés par thème.",
+      excerpt: "Des guides pratiques pour les fondateurs en Inde : de l'idée au marché en huit étapes, avec les modèles et dispositifs utiles à chacune. Les guides sont en anglais.",
       keywords: ["guides pour startups", "guides pour fondateurs", "de l'idée au marché", "validation d'idée", "création de société", "levée de fonds", "croissance", "développement", "mise sur le marché", "entrepreneuriat en Inde", "pitch", "clients", "équipe fondatrice", "apprentissage", "Foundura"],
     },
     documents: {
@@ -135,6 +135,13 @@ export const fr: LangContent = {
       description: "Rédigez votre point investisseurs mensuel en quelques minutes : nouvelles et chiffres, durée de trésorerie calculée, e-mail prêt à copier. Gratuit et privé.",
       excerpt: "Un formulaire gratuit qui transforme les temps forts du mois, les difficultés, le chiffre d’affaires, les dépenses, la trésorerie et vos demandes en un court e-mail aux investisseurs, avec la durée de trésorerie calculée. Tout reste dans votre navigateur.",
       keywords: ["point investisseurs", "point mensuel aux investisseurs", "modèle de point investisseurs", "e-mail aux investisseurs", "reporting investisseurs", "nouvelles de la startup", "calcul de durée de trésorerie", "burn rate", "indicateurs de startup", "relations investisseurs", "informer ses investisseurs", "reporting de startup", "business angels", "capital-risque", "Foundura"],
+    },
+    software: {
+      focus: "startup SaaS",
+      title: "Startup SaaS en Inde : fiscalité, export, données | Foundura",
+      description: "Guide pour une startup SaaS en Inde : immatriculation, GST et export détaxé, paiements de l’étranger, TDS, loi DPDP, indicateurs clés et dispositifs à vérifier.",
+      excerpt: "Tout ce qu’un fondateur de logiciel ou de SaaS en Inde doit savoir : immatriculation et DPIIT, propriété du code, GST et export avec LUT, paiements de l’étranger, TDS, protection des données, contrats, vente au secteur public, indicateurs et dispositifs.",
+      keywords: ["startup SaaS", "startup logicielle Inde", "GST pour SaaS", "exportation de services", "lettre d’engagement LUT", "paiements de l’étranger", "formulaire SOFTEX", "TDS sur logiciel", "loi DPDP", "indicateurs SaaS", "MRR et churn", "reconnaissance DPIIT", "cession de propriété intellectuelle", "vendre au secteur public", "Foundura"],
     },
   },
   docs: {

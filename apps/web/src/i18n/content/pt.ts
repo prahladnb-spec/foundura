@@ -62,8 +62,8 @@ export const pt: LangContent = {
     learn: {
       focus: "guias para startups",
       title: "Guias para startups, para fundadores na Índia | Foundura",
-      description: "Guias para startups sobre ideia, construção, captação, crescimento e expansão, com o caminho da ideia ao mercado. Um guia novo publicado a cada dia.",
-      excerpt: "Guias práticos para fundadores na Índia: da ideia ao mercado em seis etapas, com os modelos e programas que ajudam em cada uma. Os guias estão em inglês.",
+      description: "Guias para startups sobre ideia, construção, captação, crescimento e expansão, com o caminho da ideia ao mercado. Organizados por tema, para ler na ordem.",
+      excerpt: "Guias práticos para fundadores na Índia: da ideia ao mercado em oito etapas, com os modelos e programas que ajudam em cada uma. Os guias estão em inglês.",
       keywords: ["guias para startups", "guias para fundadores", "da ideia ao mercado", "validação de ideia", "abertura de empresa", "captação de recursos", "crescimento", "expansão", "entrada no mercado", "empreendedorismo na Índia", "pitch", "clientes", "equipe fundadora", "aprendizado", "Foundura"],
     },
     documents: {
@@ -135,6 +135,13 @@ export const pt: LangContent = {
       description: "Escreva sua atualização para investidores mensal em minutos: novidades e números, runway calculado e um e-mail pronto para copiar. Grátis e privado.",
       excerpt: "Um formulário gratuito que transforma os destaques do mês, desafios, receita, gastos, caixa e pedidos num e-mail curto para investidores, com o runway calculado. Funciona no seu navegador: nada é salvo nem enviado.",
       keywords: ["atualização para investidores", "atualização mensal para investidores", "modelo de atualização para investidores", "e-mail para investidores", "relatório para investidores", "novidades da startup", "calculadora de runway", "taxa de queima", "métricas de startups", "relação com investidores", "informar investidores", "relatórios de startups", "investidores-anjo", "capital de risco", "Foundura"],
+    },
+    software: {
+      focus: "startup SaaS",
+      title: "Startup SaaS na Índia: impostos, exportação | Foundura",
+      description: "Guia para uma startup SaaS na Índia: registro, GST e exportação sem imposto, pagamentos do exterior, TDS, a lei DPDP, métricas e programas.",
+      excerpt: "Tudo o que um fundador de software ou SaaS na Índia precisa: registro e DPIIT, propriedade do código, GST e exportação com LUT, pagamentos do exterior, TDS, proteção de dados, contratos, vendas ao governo, métricas e programas.",
+      keywords: ["startup SaaS", "startup de software Índia", "GST para SaaS", "exportação de serviços", "carta de compromisso LUT", "pagamentos do exterior", "formulário SOFTEX", "TDS sobre software", "lei DPDP", "métricas SaaS", "MRR e churn", "reconhecimento DPIIT", "cessão de propriedade intelectual", "vender software ao governo", "Foundura"],
     },
   },
   docs: {

@@ -5,11 +5,11 @@ import { JsonLd } from "@/components/json-ld";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { api, ApiError } from "@/lib/api";
+import { api, ApiError, apiOr } from "@/lib/api";
 import { f, getDict } from "@/i18n";
 import { isLang } from "@/i18n/config";
 import { fmtDate } from "@/lib/format";
-import type { Article } from "@/lib/types";
+import type { Article, ArticleSummary } from "@/lib/types";
 
 const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
 
@@ -46,6 +46,8 @@ export default async function ArticlePage({ params }: { params: Params }) {
   const t = getDict(lang);
   const cond = lang === "en" ? undefined : "en";
   const a = await load(p.slug);
+  const l = t.learn;
+  const related = (await apiOr<ArticleSummary[]>("/articles", [])).filter((x) => x.topic === a.topic && x.slug !== a.slug).slice(0, 3);
   return (
     <article className="mx-auto max-w-3xl px-5 pt-10">
       <JsonLd
@@ -58,7 +60,9 @@ export default async function ArticlePage({ params }: { params: Params }) {
           ...(a.keywords.length ? { keywords: a.keywords.join(", ") } : {}),
           inLanguage: "en-IN",
           ...(a.publishedAt ? { datePublished: a.publishedAt } : {}),
-          author: { "@type": "Organization", name: "Foundura" },
+          author: a.authorName
+            ? { "@type": "Person", name: a.authorName, ...(a.authorRole ? { jobTitle: a.authorRole } : {}), ...(a.authorUrl ? { url: a.authorUrl } : {}) }
+            : { "@type": "Organization", name: "Foundura" },
           publisher: { "@type": "Organization", name: "Foundura" },
           mainEntityOfPage: `${SITE}/learn/${a.slug}`,
         }}
@@ -67,12 +71,41 @@ export default async function ArticlePage({ params }: { params: Params }) {
         <Link href="/learn" className="underline">{t.learn.title}</Link>, <span lang={cond}>{a.theme}</span>
       </p>
       <h1 lang={cond} className="display mt-2 text-5xl md:text-6xl">{a.title}</h1>
-      <p className="mt-3 text-slate">{fmtDate(a.publishedAt, true, lang)}, {f(t.common.minRead, { n: a.readMinutes })}</p>
+      <p className="mt-3 text-slate">
+        {a.authorName ? (
+          <span lang={cond}>
+            {f(l.byAuthor, { name: "" })}
+            {a.authorUrl ? (
+              <a href={a.authorUrl} rel="author noopener noreferrer" target="_blank" className="font-semibold text-neel-900 underline">{a.authorName}</a>
+            ) : (
+              <span className="font-semibold text-neel-900">{a.authorName}</span>
+            )}
+            {a.authorRole && <>, {a.authorRole}</>}
+          </span>
+        ) : (
+          l.byEditors
+        )}
+        <span className="block">{fmtDate(a.publishedAt, true, lang)}, {f(t.common.minRead, { n: a.readMinutes })}</span>
+      </p>
       {t.common.contentInEnglish && <p className="mt-3 text-[0.92rem] text-slate">{t.common.contentInEnglish}</p>}
       <div lang={cond} className="prose-f mt-8 text-[1.05rem]">
         {/* Markdown is editor-written; raw HTML is not rendered. */}
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{a.body}</ReactMarkdown>
       </div>
+      <p className="mt-10 border-t border-rule pt-4 text-[0.93rem] text-slate">{l.disclaimer}</p>
+      {related.length > 0 && (
+        <section aria-labelledby="more-h" className="mt-10">
+          <h2 id="more-h" className="display text-3xl">{l.more}</h2>
+          <ul className="mt-3 border-t-2 border-neel-900">
+            {related.map((r) => (
+              <li key={r.slug} className="border-b border-rule py-3">
+                <Link href={`/learn/${r.slug}`} lang={cond} className="text-lg font-semibold hover:underline">{r.title}</Link>
+                <span className="text-[0.9rem] text-slate">, {f(t.common.minRead, { n: r.readMinutes })}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </article>
   );
 }

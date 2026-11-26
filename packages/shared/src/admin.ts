@@ -85,6 +85,10 @@ export type SchemeEditInput = z.infer<typeof schemeEditSchema>;
 
 import { wordCount } from "./seo";
 
+/** Topics guides are grouped by on /learn. Labels are `learn.topics` in each dictionary. */
+export const GUIDE_TOPICS = ["start", "product", "selling", "funding", "team", "legal"] as const;
+export type GuideTopic = (typeof GUIDE_TOPICS)[number];
+
 export const articleSchema = z.object({
   title: z.string().min(5).max(200),
   slug: z
@@ -108,7 +112,19 @@ export const articleSchema = z.object({
     .string()
     .regex(/^\d{4}-\d{2}-\d{2}$/)
     .nullable(),
-});
+  topic: z.enum(GUIDE_TOPICS).default("start"),
+  /** A named author (a founder or investor writing for Foundura). Null means the Foundura editors. */
+  authorName: z.string().trim().min(2).max(80).nullable().default(null),
+  authorRole: z.string().trim().max(120).nullable().default(null),
+  authorUrl: z
+    .string()
+    .url()
+    .refine((u) => u.startsWith("https://"), "Use an https:// link")
+    .nullable()
+    .default(null),
+  /** The editor confirms the author agreed to be named and to the guide being published. */
+  authorConsent: z.boolean().default(false),
+}).refine((a) => !a.authorName || a.authorConsent, { message: "Confirm the author agreed to be named", path: ["authorConsent"] });
 export type ArticleInput = z.infer<typeof articleSchema>;
 
 export const ARTICLE_THEMES = [

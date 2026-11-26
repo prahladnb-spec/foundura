@@ -90,6 +90,13 @@ test.describe("editor console", () => {
       .fill("## Start with people you can name\n\n" + "Write down twenty people who have the problem today and call them one by one. ".repeat(30));
     await page.getByRole("tab", { name: "Preview" }).click();
     await expect(page.locator(".prose-f h2")).toHaveText("Start with people you can name");
+    await page.locator("#topic").selectOption("selling");
+    // A guest author is named only once the editor confirms they agreed.
+    await page.locator("#author-name").fill("Asha Rao");
+    await page.locator("#author-role").fill("Founder, Kisan Ledger");
+    await page.getByRole("button", { name: "Publish today" }).click();
+    await expect(page.getByText(/Confirm the author agreed to be named/)).toBeVisible();
+    await page.getByLabel("The author agreed in writing to be named and to this text being published.").check();
     await page.getByRole("button", { name: "Publish today" }).click();
     await expect(page).not.toHaveURL(/\/admin\/articles\/new$/);
 
@@ -97,8 +104,10 @@ test.describe("editor console", () => {
     const res = await reader.goto(`/learn/${slug}`);
     expect(res?.status()).toBe(200);
     await expect(reader.locator("h1")).toHaveText(title);
+    await expect(reader.getByRole("main")).toContainText("By Asha Rao, Founder, Kisan Ledger");
     await reader.goto("/learn");
-    await expect(reader.locator("main")).toContainText(title);
+    await expect(reader.locator("#topic-selling")).toContainText(title);
+    await expect(reader.locator("#topic-selling")).toContainText("By Asha Rao");
   });
 
   test("import events from a CSV and they appear on the events page", async ({ page, browser }) => {

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { ARTICLE_THEMES, charCount, readMinutes, SEO_LIMITS, seoChecks, wordCount } from "@foundura/shared";
+import { ARTICLE_THEMES, charCount, GUIDE_TOPICS, readMinutes, SEO_LIMITS, seoChecks, wordCount } from "@foundura/shared";
 import { CircleCheck, CircleX } from "lucide-react";
 import { Icon } from "@/components/icons";
 import { adminCall, btn, btnQuiet, field, fieldLabel } from "@/lib/admin-client";
@@ -19,9 +19,15 @@ export interface AdminArticle {
   seoTitle: string;
   metaDescription: string;
   keywords: string[];
+  topic: string;
+  authorName: string | null;
+  authorRole: string | null;
+  authorUrl: string | null;
+  authorConsentAt?: string | null;
 }
 
-const EMPTY_SEO = { focusKeyphrase: "", seoTitle: "", metaDescription: "", keywords: [] as string[] };
+const EMPTY_SEO = { focusKeyphrase: "", seoTitle: "", metaDescription: "", keywords: [] as string[], topic: "start", authorName: null, authorRole: null, authorUrl: null };
+const TOPIC_NAMES: Record<string, string> = { start: "Starting up", product: "Product and customers", selling: "Selling", funding: "Funding", team: "Team", legal: "Registration, tax and law" };
 
 const slugify = (s: string) =>
   s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 100);
@@ -37,6 +43,7 @@ export function AdminArticleEditor({ article }: { article: AdminArticle | null }
   // Keywords are typed as one comma-separated line.
   const [kwText, setKwText] = useState((article?.keywords ?? []).join(", "));
   const [slugTouched, setSlugTouched] = useState(!!article);
+  const [consent, setConsent] = useState(!!article?.authorConsentAt);
   const [tab, setTab] = useState<"write" | "preview">("write");
   const [msg, setMsg] = useState<{ kind: "ok" | "err"; text: string } | null>(null);
   const [busy, setBusy] = useState(false);
@@ -49,7 +56,9 @@ export function AdminArticleEditor({ article }: { article: AdminArticle | null }
     setMsg(null);
     try {
       const keywords = [...new Set(kwText.split(",").map((k) => k.trim()).filter(Boolean))];
-      const body = { ...a, keywords, publishedAt };
+      const blank = (v: string | null) => (v && v.trim() ? v.trim() : null);
+      const { authorConsentAt: _c, ...rest } = a;
+      const body = { ...rest, keywords, publishedAt, authorName: blank(a.authorName), authorRole: blank(a.authorRole), authorUrl: blank(a.authorUrl), authorConsent: consent };
       const saved = await adminCall<AdminArticle>(storedSlug ? `articles/${storedSlug}` : "articles", storedSlug ? "PUT" : "POST", body);
       setA(saved);
       setStoredSlug(saved.slug);
@@ -77,7 +86,7 @@ export function AdminArticleEditor({ article }: { article: AdminArticle | null }
           }}
         />
       </div>
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-5 sm:grid-cols-3">
         <div>
           <label className={fieldLabel} htmlFor="slug">Web address</label>
           <div className="flex items-center rounded-md border border-rule bg-white ps-3">
@@ -102,7 +111,37 @@ export function AdminArticleEditor({ article }: { article: AdminArticle | null }
             {!ARTICLE_THEMES.includes(a.theme as (typeof ARTICLE_THEMES)[number]) && <option>{a.theme}</option>}
           </select>
         </div>
+        <div>
+          <label className={fieldLabel} htmlFor="topic">Topic</label>
+          <select id="topic" className={field} value={a.topic} onChange={(e) => set("topic", e.target.value)}>
+            {GUIDE_TOPICS.map((t) => (
+              <option key={t} value={t}>{TOPIC_NAMES[t]}</option>
+            ))}
+          </select>
+        </div>
       </div>
+      <fieldset className="rounded-lg border border-rule bg-white p-4">
+        <legend className="px-1 font-semibold">Guest author</legend>
+        <p className="text-[0.9rem] text-slate">Leave the name empty for guides by the Foundura editors. A founder or investor is named only with their agreement.</p>
+        <div className="mt-3 grid gap-4 sm:grid-cols-3">
+          <div>
+            <label className={fieldLabel} htmlFor="author-name">Name</label>
+            <input id="author-name" className={field} value={a.authorName ?? ""} onChange={(e) => set("authorName", e.target.value)} />
+          </div>
+          <div>
+            <label className={fieldLabel} htmlFor="author-role">Role</label>
+            <input id="author-role" className={field} placeholder="Founder, Shruti Hearing" value={a.authorRole ?? ""} onChange={(e) => set("authorRole", e.target.value)} />
+          </div>
+          <div>
+            <label className={fieldLabel} htmlFor="author-url">Their page (https)</label>
+            <input id="author-url" className={field} value={a.authorUrl ?? ""} onChange={(e) => set("authorUrl", e.target.value)} />
+          </div>
+        </div>
+        <label className="mt-3 flex items-start gap-2">
+          <input type="checkbox" className="mt-1.5" checked={consent} onChange={(e) => setConsent(e.target.checked)} />
+          <span>The author agreed in writing to be named and to this text being published.</span>
+        </label>
+      </fieldset>
       <div>
         <label className={fieldLabel} htmlFor="excerpt">Short description</label>
         <p className="mb-1 text-[0.9rem] text-slate">The excerpt: shown on the Guides page and when the article is shared. {wordCount(a.excerpt)}/{SEO_LIMITS.excerptWords} words</p>

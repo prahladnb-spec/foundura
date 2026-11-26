@@ -36,7 +36,8 @@ export type PageKey =
   | "contact"
   | "states"
   | "perks"
-  | "investorUpdate";
+  | "investorUpdate"
+  | "software";
 
 const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
   home: {
@@ -477,9 +478,9 @@ const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
       focus: "startup guides",
       title: "Startup guides for Indian founders | Foundura",
       description:
-        "Practical startup guides for Indian founders, from finding an idea to registering, funding and growth. A new guide every day, plus a map from idea to market.",
+        "Practical startup guides for Indian founders, from finding an idea to registering, funding and growth. Grouped by topic, with a map from idea to market.",
       excerpt:
-        "Practical guides for Indian founders on every stage from idea to market: validating an idea, registering the company, building, raising money and growing. A new guide every day, and a six-stage map linking the templates and schemes that help at each step.",
+        "Practical guides for Indian founders on every stage from idea to market: validating an idea, registering the company, building, raising money and growing. Grouped by topic, with an eight-stage map linking the templates and schemes that help at each step.",
       keywords: [
         "startup guides",
         "how to start a startup in India",
@@ -503,9 +504,9 @@ const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
       focus: "स्टार्टअप गाइड",
       title: "स्टार्टअप गाइड, आइडिया से बाज़ार तक | Foundura",
       description:
-        "भारतीय संस्थापकों के लिए व्यावहारिक स्टार्टअप गाइड, आइडिया खोजने से रजिस्ट्रेशन, फ़ंडिंग और ग्रोथ तक। हर दिन एक नई गाइड, और आइडिया से बाज़ार तक का नक्शा।",
+        "भारतीय संस्थापकों के लिए व्यावहारिक स्टार्टअप गाइड, आइडिया खोजने से रजिस्ट्रेशन, फ़ंडिंग और ग्रोथ तक। विषय के हिसाब से, और आइडिया से बाज़ार तक का नक्शा।",
       excerpt:
-        "आइडिया से बाज़ार तक हर चरण पर भारतीय संस्थापकों के लिए व्यावहारिक गाइड: आइडिया परखना, कंपनी रजिस्टर करना, निर्माण, पैसा जुटाना और बढ़ना। हर दिन नई गाइड, और हर चरण के टेम्पलेट और योजनाओं से जुड़ा छह चरणों का नक्शा।",
+        "आइडिया से बाज़ार तक हर चरण पर भारतीय संस्थापकों के लिए व्यावहारिक गाइड: आइडिया परखना, कंपनी रजिस्टर करना, निर्माण, पैसा जुटाना और बढ़ना। विषय के हिसाब से, और हर चरण के टेम्पलेट और योजनाओं से जुड़ा आठ चरणों का नक्शा।",
       keywords: [
         "स्टार्टअप गाइड",
         "भारत में स्टार्टअप कैसे शुरू करें",
@@ -883,6 +884,24 @@ const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
       description: "कुछ ही मिनटों में हर महीने का निवेशक अपडेट लिखें: ख़बरें और आँकड़े भरें, रनवे का हिसाब पाएँ और साफ़ ईमेल कॉपी करें। मुफ़्त, निजी, कुछ भी सेव नहीं होता।",
       excerpt: "एक मुफ़्त फ़ॉर्म जो इस महीने की ख़ास बातें, चुनौतियाँ, आय, ख़र्च, नकदी और माँगें एक छोटे निवेशक अपडेट ईमेल में बदल देता है, रनवे के हिसाब के साथ। यह आपके ब्राउज़र में चलता है: कुछ भी सेव या भेजा नहीं जाता।",
       keywords: ["निवेशक अपडेट", "मासिक निवेशक अपडेट", "निवेशक अपडेट टेम्पलेट", "निवेशक अपडेट ईमेल", "स्टार्टअप निवेशक अपडेट", "संस्थापक अपडेट", "रनवे कैलकुलेटर", "बर्न रेट", "स्टार्टअप मेट्रिक्स", "निवेशक संबंध", "निवेशकों को अपडेट", "स्टार्टअप रिपोर्टिंग", "एंजेल निवेशक", "वेंचर कैपिटल", "Foundura"],
+    },
+  },
+  software: {
+    en: {
+      slug: "/sectors/software",
+      focus: "SaaS startup",
+      title: "SaaS startup guide for India: tax, exports, data | Foundura",
+      description: "A SaaS startup guide for India: registration, GST and zero-rated exports, foreign payments, TDS, the DPDP Act, key metrics and schemes to check.",
+      excerpt: "Everything a software or SaaS founder in India needs in one place: company and DPIIT registration, owning your code, GST and exports under a LUT, foreign payments, TDS, data protection, contracts, selling to government, key metrics and schemes.",
+      keywords: ["SaaS startup India", "software startup India", "SaaS GST", "export of services GST", "letter of undertaking", "foreign payments for SaaS", "SOFTEX form", "TDS on software", "DPDP Act for SaaS", "SaaS metrics", "MRR and churn", "DPIIT recognition", "software IP assignment", "selling software to government", "Foundura"],
+    },
+    hi: {
+      slug: "/sectors/software",
+      focus: "SaaS स्टार्टअप",
+      title: "SaaS स्टार्टअप गाइड: टैक्स, निर्यात और डेटा | Foundura",
+      description: "भारत में SaaS स्टार्टअप गाइड: रजिस्ट्रेशन, GST और ज़ीरो-रेटेड निर्यात, विदेशी भुगतान, TDS, DPDP अधिनियम, निवेशकों के पसंदीदा आँकड़े और जाँचने लायक़ योजनाएँ।",
+      excerpt: "भारत के सॉफ़्टवेयर या SaaS संस्थापकों के लिए सब कुछ एक जगह: कंपनी और DPIIT रजिस्ट्रेशन, कोड का स्वामित्व, GST और LUT के साथ निर्यात, विदेशी भुगतान, TDS, डेटा सुरक्षा, अनुबंध, सरकार को बिक्री, अहम आँकड़े और योजनाएँ।",
+      keywords: ["SaaS स्टार्टअप", "सॉफ़्टवेयर स्टार्टअप", "SaaS पर GST", "सेवाओं का निर्यात GST", "लेटर ऑफ़ अंडरटेकिंग", "विदेशी भुगतान", "SOFTEX फ़ॉर्म", "सॉफ़्टवेयर पर TDS", "DPDP अधिनियम", "SaaS मेट्रिक्स", "MRR और चर्न", "DPIIT मान्यता", "IP असाइनमेंट", "सरकार को सॉफ़्टवेयर बेचना", "Foundura"],
     },
   },
 };
