@@ -16,9 +16,10 @@ export const CHECKED_ON: string | null = null;
  * corporate: programmes large companies run for startups (accelerators, challenges, pilots).
  * coworking: workspace schemes that aren't part of a hub or incubator listed here.
  * campus: programmes for students and colleges (innovation councils, hackathons, student policies).
+ * lab: public labs, testing and certification centres and prototyping facilities startups can use (listed on /labs).
  */
-export type SupportKind = "incubator" | "hub" | "mentoring" | "corporate" | "coworking" | "campus";
-export const SUPPORT_KINDS: SupportKind[] = ["incubator", "hub", "mentoring", "corporate", "coworking", "campus"];
+export type SupportKind = "incubator" | "hub" | "mentoring" | "corporate" | "coworking" | "campus" | "lab";
+export const SUPPORT_KINDS: SupportKind[] = ["incubator", "hub", "mentoring", "corporate", "coworking", "campus", "lab"];
 
 /** Groups a programme is especially for; drives the women founders and students pages. */
 export type SupportFor = "women" | "students" | "global";
@@ -54,8 +55,26 @@ export const SUPPORT: SupportEntry[] = [
   { name: "Startup India Investor Connect", kind: "hub", geo: "IN", base: "DPIIT and SIDBI, online", offer: "The government's matchmaking platform, launched in 2023 and built with SIDBI: DPIIT-recognised startups are matched with investors and can pitch to several through one application." },
   { name: "BHASKAR (Bharat Startup Knowledge Access Registry)", kind: "hub", geo: "IN", base: "DPIIT, online", offer: "A free registry on the Startup India portal that gives startups, investors, mentors, incubators and government bodies a BHASKAR ID and a profile, so they can find and contact each other." },
   { name: "Startup India international bridges", kind: "hub", geo: "IN", base: "DPIIT, with partner countries", offer: "Startup India's partnerships with around 20 countries, with exchange programmes, mentoring and market access for Indian startups looking abroad.", url: "https://www.startupindia.gov.in/content/sih/en/international.html", for: ["global"] },
+  { name: "MeitY Startup Hub Global Startup Bridge", kind: "hub", geo: "IN", base: "MeitY Startup Hub, with partner cities abroad (first chapter in Brussels)", offer: "MeitY Startup Hub's programme for taking Indian deep-tech startups abroad, with delegations, partner ecosystems and introductions to markets and investors.", url: "https://msh.meity.gov.in", for: ["global"] },
   { name: "SCO Startup Forum", kind: "hub", geo: "IN", base: "Shanghai Cooperation Organisation, India chairs its startup working group", offer: "Meetings and programmes for startups from the Shanghai Cooperation Organisation's member countries, a route to markets in Central Asia and beyond.", for: ["global"] },
   { name: "TiE (The Indus Entrepreneurs)", kind: "mentoring", geo: "IN", base: "Chapters in many Indian cities", offer: "A non-profit network of entrepreneurs offering mentoring, events and investor connections.", url: "https://tie.org" },
+
+  // ---- Labs, testing and certification centres (listed on /labs) ----
+  { name: "STQC test and calibration labs", kind: "lab", geo: "IN", base: "Standardisation Testing and Quality Certification, MeitY, labs in many cities", offer: "Government labs that test and certify electronics, IT products and software, including safety, EMC, calibration and IT security testing.", url: "https://stqc.gov.in" },
+  { name: "NABL accredited labs directory", kind: "lab", geo: "IN", base: "National Accreditation Board for Testing and Calibration Laboratories, Quality Council of India", offer: "The national list of accredited testing, calibration and medical labs, searchable by field and city. Buyers and regulators often ask for reports from an accredited lab.", url: "https://nabl-india.org" },
+  { name: "Bureau of Indian Standards labs and product certification", kind: "lab", geo: "IN", base: "BIS, labs and regional offices across India", offer: "Indian Standards, the BIS mark and compulsory registration for products such as electronics and IT goods, with BIS and BIS-recognised labs doing the testing.", url: "https://www.bis.gov.in" },
+  { name: "CSIR laboratories", kind: "lab", geo: "IN", base: "Council of Scientific and Industrial Research, a network of national labs", offer: "National research labs in materials, chemicals, electronics, food, biology and more, many of which offer testing, analysis, pilot plants and technology licences to companies.", url: "https://www.csir.res.in" },
+  { name: "C-DAC", kind: "lab", geo: "IN", base: "Centre for Development of Advanced Computing, MeitY, centres in several cities", offer: "MeitY's computing research centre, with high-performance computing, electronics design and software technologies that startups can use or license.", url: "https://www.cdac.in" },
+  { name: "Telecommunication Engineering Centre (MTCTE testing)", kind: "lab", geo: "IN", base: "Department of Telecommunications, New Delhi", offer: "Mandatory testing and certification of telecom and connected equipment before it's sold in India, through labs designated by TEC.", url: "https://www.tec.gov.in" },
+  { name: "BioNEST bio-incubators", kind: "lab", geo: "IN", base: "BIRAC, at universities and institutes across India", offer: "Bio-incubators with shared wet labs and equipment for biotech, medtech and agri-biotech startups that can't yet afford their own.", url: "https://birac.nic.in" },
+  { name: "Central medical device testing labs", kind: "lab", geo: "IN", base: "Central Drugs Standard Control Organisation, with notified labs across India", offer: "Government and notified labs that test medical devices and in-vitro diagnostics for licensing under the Medical Devices Rules.", url: "https://cdsco.gov.in" },
+  { name: "Drone certification scheme", kind: "lab", geo: "IN", base: "Quality Council of India, with accredited certification bodies", offer: "Type certification for drones under the Drone Rules, through certification bodies accredited by QCI.", url: "https://qcin.org" },
+  { name: "Automotive Research Association of India (ARAI)", kind: "lab", geo: "MH", base: "Pune", offer: "Vehicle and component testing, homologation and certification, including for electric vehicles and batteries.", url: "https://www.araiindia.com" },
+  { name: "International Centre for Automotive Technology (ICAT)", kind: "lab", geo: "HR", base: "Manesar", offer: "Vehicle and component testing and homologation, with an incubation centre for mobility startups.", url: "https://www.icat.in" },
+  { name: "Andhra Pradesh MedTech Zone (AMTZ)", kind: "lab", geo: "AP", base: "Visakhapatnam", offer: "A medical device manufacturing park with shared testing labs, prototyping and sterilisation facilities for medtech companies and startups.", url: "https://amtz.in" },
+  { name: "T-Works", kind: "lab", geo: "TG", base: "Government of Telangana, Hyderabad", offer: "A large public prototyping centre where hardware startups and makers can use machines for electronics, metal, wood and plastics." },
+  { name: "Kerala Startup Mission Fab Labs", kind: "lab", geo: "KL", base: "Kerala Startup Mission, Kochi and Thiruvananthapuram", offer: "Fab labs for hardware prototyping, including a larger lab in Kochi with machines for electronics and manufacturing.", url: "https://startupmission.kerala.gov.in" },
+  { name: "TiMed, Sree Chitra Tirunal Institute", kind: "lab", geo: "KL", base: "Thiruvananthapuram", offer: "A medical technology incubator at a national institute that develops and tests medical devices, with labs and clinical expertise.", url: "https://www.sctimst.ac.in" },
 
   // ---- Corporate programmes, open across India ----
   { name: "Google for Startups Accelerator: India", kind: "corporate", geo: "IN", base: "Google, Bengaluru", offer: "A three-month programme for Indian startups building with AI and cloud, with mentoring from Google teams. Applications open once a year." },

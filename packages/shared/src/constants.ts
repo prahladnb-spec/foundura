@@ -184,5 +184,12 @@ export const CITIES = [
   { value: "chennai", state: "TN" },
   { value: "ahmedabad", state: "GJ" },
   { value: "kolkata", state: "WB" },
+  { value: "kochi", state: "KL" },
+  { value: "thiruvananthapuram", state: "KL" },
+  { value: "jaipur", state: "RJ" },
+  { value: "indore", state: "MP" },
+  { value: "coimbatore", state: "TN" },
+  { value: "bhubaneswar", state: "OR" },
+  { value: "chandigarh", state: "CH" },
 ] as const;
 export type City = (typeof CITIES)[number]["value"];

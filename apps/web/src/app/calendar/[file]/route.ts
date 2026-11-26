@@ -2,7 +2,7 @@ import { API_URL } from "@/lib/api";
 
 /**
  * Calendar files on the site's own address, so people can subscribe:
- * /calendar/foundura-events.ics?region=Europe&format=Online is the feed of upcoming events,
+ * /calendar/foundura-events.ics?region=Europe&format=Online&type=Challenge is the feed of upcoming events,
  * /calendar/<event-slug>.ics is one event.
  */
 export async function GET(req: Request, { params }: { params: Promise<{ file: string }> }) {
@@ -11,7 +11,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ file: st
   if (!m) return new Response("Not found", { status: 404 });
   const incoming = new URL(req.url).searchParams;
   const q = new URLSearchParams();
-  for (const k of ["region", "format", "scope"]) {
+  for (const k of ["region", "format", "scope", "type"]) {
     const v = incoming.get(k);
     if (v) q.set(k, v);
   }

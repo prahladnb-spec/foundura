@@ -64,6 +64,48 @@ export const CITY_INFO: CityInfo[] = [
     match: /\b(kolkata|calcutta)\b/i,
     names: { en: "Kolkata", hi: "कोलकाता", mr: "कोलकाता", kn: "ಕೋಲ್ಕತ್ತಾ", ta: "கொல்கத்தா", te: "కోల్‌కతా", gu: "કોલકાતા", bn: "কলকাতা", ml: "കൊൽക്കത്ത", es: "Calcuta", de: "Kolkata", fr: "Calcutta", pt: "Calcutá", ar: "كولكاتا", he: "קולקטה", ja: "コルカタ" },
   },
+  {
+    id: "kochi",
+    state: "KL",
+    match: /\b(kochi|cochin|ernakulam|kalamassery)\b/i,
+    names: { en: "Kochi", hi: "कोच्चि", mr: "कोची", kn: "ಕೊಚ್ಚಿ", ta: "கொச்சி", te: "కొచ్చి", gu: "કોચી", bn: "কোচি", ml: "കൊച്ചി", es: "Kochi", de: "Kochi", fr: "Kochi", pt: "Kochi", ar: "كوتشي", he: "קוצ'י", ja: "コーチ" },
+  },
+  {
+    id: "thiruvananthapuram",
+    state: "KL",
+    match: /\b(thiruvananthapuram|trivandrum)\b/i,
+    names: { en: "Thiruvananthapuram", hi: "तिरुवनंतपुरम", mr: "तिरुवनंतपुरम", kn: "ತಿರುವನಂತಪುರಂ", ta: "திருவனந்தபுரம்", te: "తిరువనంతపురం", gu: "તિરુવનંતપુરમ", bn: "তিরুবনন্তপুরম", ml: "തിരുവനന്തപുരം", es: "Thiruvananthapuram", de: "Thiruvananthapuram", fr: "Thiruvananthapuram", pt: "Thiruvananthapuram", ar: "ثيروفانانثابورام", he: "טירובנאנתפורם", ja: "ティルヴァナンタプラム" },
+  },
+  {
+    id: "jaipur",
+    state: "RJ",
+    match: /\bjaipur\b/i,
+    names: { en: "Jaipur", hi: "जयपुर", mr: "जयपूर", kn: "ಜೈಪುರ", ta: "ஜெய்ப்பூர்", te: "జైపూర్", gu: "જયપુર", bn: "জয়পুর", ml: "ജയ്പൂർ", es: "Jaipur", de: "Jaipur", fr: "Jaipur", pt: "Jaipur", ar: "جايبور", he: "ג'איפור", ja: "ジャイプル" },
+  },
+  {
+    id: "indore",
+    state: "MP",
+    match: /\bindore\b/i,
+    names: { en: "Indore", hi: "इंदौर", mr: "इंदूर", kn: "ಇಂದೋರ್", ta: "இந்தூர்", te: "ఇండోర్", gu: "ઇન્દોર", bn: "ইন্দোর", ml: "ഇൻഡോർ", es: "Indore", de: "Indore", fr: "Indore", pt: "Indore", ar: "إندور", he: "אינדור", ja: "インドール" },
+  },
+  {
+    id: "coimbatore",
+    state: "TN",
+    match: /\b(coimbatore|kovai)\b/i,
+    names: { en: "Coimbatore", hi: "कोयंबटूर", mr: "कोईम्बतूर", kn: "ಕೊಯಮತ್ತೂರು", ta: "கோயம்புத்தூர்", te: "కోయంబత్తూరు", gu: "કોઈમ્બતુર", bn: "কোয়েম্বাটুর", ml: "കോയമ്പത്തൂർ", es: "Coimbatore", de: "Coimbatore", fr: "Coimbatore", pt: "Coimbatore", ar: "كويمباتور", he: "קוימבטור", ja: "コインバトール" },
+  },
+  {
+    id: "bhubaneswar",
+    state: "OR",
+    match: /\b(bhubaneswar|bhubaneshwar)\b/i,
+    names: { en: "Bhubaneswar", hi: "भुवनेश्वर", mr: "भुवनेश्वर", kn: "ಭುವನೇಶ್ವರ", ta: "புவனேஸ்வர்", te: "భువనేశ్వర్", gu: "ભુવનેશ્વર", bn: "ভুবনেশ্বর", ml: "ഭുവനേശ്വർ", es: "Bhubaneswar", de: "Bhubaneswar", fr: "Bhubaneswar", pt: "Bhubaneswar", ar: "بوبانسوار", he: "בובנשוואר", ja: "ブバネーシュワル" },
+  },
+  {
+    id: "chandigarh",
+    state: "CH",
+    match: /\b(chandigarh|mohali|panchkula)\b/i,
+    names: { en: "Chandigarh", hi: "चंडीगढ़", mr: "चंदीगड", kn: "ಚಂಡೀಗಢ", ta: "சண்டிகர்", te: "చండీగఢ్", gu: "ચંડીગઢ", bn: "চণ্ডীগড়", ml: "ചണ്ഡീഗഢ്", es: "Chandigarh", de: "Chandigarh", fr: "Chandigarh", pt: "Chandigarh", ar: "شانديغار", he: "צ'נדיגאר", ja: "チャンディーガル" },
+  },
 ];
 
 export const cityById = (id: string) => CITY_INFO.find((c) => c.id === id);

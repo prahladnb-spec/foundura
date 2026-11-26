@@ -25,7 +25,7 @@ export function EventCard({ e, t, lang, site, compactDate = false }: { e: EventI
           <FormatIcon format={e.format} className="me-1 inline h-4 w-4 -translate-y-px" />
           <span lang={cond}>{place}</span>
           {place && ", "}
-          <span lang={cond}>{e.type}</span>
+          {e.type in ev.kinds ? lab(ev.kinds, e.type) : <span lang={cond}>{e.type}</span>}
           {e.format === "Hybrid" && <>, {lab(ev.formats, "Hybrid")}</>}
         </p>
         {e.bestFor && <p className="mt-1">{ev.bestFor.split("{v}")[0]}<span lang={cond}>{e.bestFor}</span>{ev.bestFor.split("{v}")[1]}</p>}

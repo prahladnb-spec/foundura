@@ -47,7 +47,8 @@ export type PageKey =
   | "women"
   | "selling"
   | "global"
-  | "closing";
+  | "closing"
+  | "labs";
 
 const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
   home: {
@@ -1092,6 +1093,24 @@ const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
       description: "भारत में स्टार्टअप बंद करना सही तरीक़े से: निवेशकों और टीम को बताएँ, बकाया चुकाएँ, GST रद्द करें, STK-2 से नाम हटवाएँ या फ़ास्ट-ट्रैक दिवाला अपनाएँ।",
       excerpt: "भारतीय स्टार्टअप को ठीक से बंद करने की क़दम-दर-क़दम गाइड: निष्क्रिय कंपनी या बंद करने में चुनाव, निवेशकों और टीम को बताना, वेतन, सप्लायर और टैक्स चुकाना, GST रद्द करना, फ़ॉर्म STK-2 से स्वैच्छिक नाम हटवाना, स्टार्टअप के लिए फ़ास्ट-ट्रैक दिवाला और बाद में रखे जाने वाले रिकॉर्ड।",
       keywords: ["स्टार्टअप बंद करना", "कंपनी बंद करना", "कंपनी का नाम हटवाना", "फ़ॉर्म STK-2", "स्वैच्छिक स्ट्राइक ऑफ़", "निष्क्रिय कंपनी", "स्टार्टअप का समापन", "फ़ास्ट-ट्रैक दिवाला", "IBC स्टार्टअप", "GST रजिस्ट्रेशन रद्द करना", "LLP बंद करना", "कंपनी बंद करने की प्रक्रिया", "स्टार्टअप की विफलता", "निदेशक की ज़िम्मेदारी", "Foundura"],
+    },
+  },
+  labs: {
+    en: {
+      slug: "/labs",
+      focus: "startup testing labs India",
+      title: "Startup testing labs India: prototype and certify | Foundura",
+      description: "Startup testing labs India guide: where to prototype, which certificates you need (BIS, MTCTE, CDSCO), NABL accredited labs and STQC, CSIR and state centres.",
+      excerpt: "Where Indian startups can build prototypes, test products and get certified: shared prototyping centres and fab labs, BIS, MTCTE, CDSCO and drone certification, NABL accredited labs, STQC and CSIR labs, pre-compliance testing, protecting your design and schemes that pay for testing.",
+      keywords: ["startup testing labs India", "prototyping centre", "fab lab", "NABL accredited lab", "STQC testing", "BIS certification", "MTCTE certification", "CDSCO medical device testing", "drone type certification", "CSIR labs", "product certification India", "pre-compliance testing", "hardware startup India", "T-Works Hyderabad", "Foundura"],
+    },
+    hi: {
+      slug: "/labs",
+      focus: "स्टार्टअप टेस्टिंग लैब",
+      title: "स्टार्टअप टेस्टिंग लैब: प्रोटोटाइप और प्रमाणन | Foundura",
+      description: "स्टार्टअप टेस्टिंग लैब की गाइड: प्रोटोटाइप कहाँ बनाएँ, कौन-से प्रमाणपत्र चाहिए (BIS, MTCTE, CDSCO), NABL मान्यता प्राप्त लैब और STQC व CSIR केंद्र।",
+      excerpt: "भारतीय स्टार्टअप प्रोटोटाइप कहाँ बनाएँ, उत्पाद की जाँच कहाँ कराएँ और प्रमाणपत्र कैसे पाएँ: साझा प्रोटोटाइपिंग केंद्र और फ़ैब लैब, BIS, MTCTE, CDSCO और ड्रोन प्रमाणन, NABL मान्यता प्राप्त लैब, STQC और CSIR लैब, शुरुआती जाँच, डिज़ाइन की सुरक्षा और जाँच का ख़र्च उठाने वाली योजनाएँ।",
+      keywords: ["स्टार्टअप टेस्टिंग लैब", "प्रोटोटाइपिंग केंद्र", "फ़ैब लैब", "NABL मान्यता प्राप्त लैब", "STQC जाँच", "BIS प्रमाणन", "MTCTE प्रमाणन", "चिकित्सा उपकरण जाँच", "ड्रोन प्रमाणन", "CSIR लैब", "उत्पाद प्रमाणन", "शुरुआती जाँच", "हार्डवेयर स्टार्टअप", "T-Works हैदराबाद", "Foundura"],
     },
   },
 };

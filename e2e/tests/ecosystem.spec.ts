@@ -1,3 +1,4 @@
+import { CITY_INFO } from "../../apps/web/src/cities/directory";
 import { expect, newVisitor, signIn, test, uniqueEmail } from "./fixtures";
 import { SUPPORT } from "../../apps/web/src/support/directory";
 
@@ -49,8 +50,11 @@ test.describe("open data, numbers, cities and list widgets", () => {
 
   test("city pages gather support, funders and events", async ({ page }) => {
     await page.goto("/cities");
-    const cards = page.getByRole("main").getByRole("link", { name: /Bengaluru|Delhi NCR|Mumbai|Hyderabad|Pune|Chennai|Ahmedabad|Kolkata/ });
-    await expect(cards).toHaveCount(8);
+    for (const c of CITY_INFO) await expect(page.getByRole("main").getByRole("link", { name: new RegExp(c.names.en) }).first()).toBeVisible();
+    // Smaller cities: Kochi gathers Kerala Startup Mission, matched on its base text.
+    await page.goto("/cities/kochi");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Startups in Kochi");
+    await expect(page.locator("section", { has: page.locator("#support-h") })).toContainText("Kerala Startup Mission");
     await page.goto("/cities/bengaluru");
     const support = page.locator("section", { has: page.locator("#support-h") });
     for (const e of SUPPORT.filter((s) => /Bengaluru|Bangalore/.test(s.base))) await expect(support).toContainText(e.name);

@@ -213,6 +213,13 @@ export const pt: LangContent = {
       excerpt: "Um guia passo a passo para encerrar bem uma startup indiana: escolher entre empresa inativa e encerramento, avisar investidores e equipe, pagar salários, fornecedores e impostos, cancelar o GST, baixa voluntária com o formulário STK-2, insolvência rápida para startups e os registros a guardar depois.",
       keywords: ["encerrar uma startup", "fechar uma empresa", "baixa de empresa", "formulário STK-2", "baixa voluntária", "empresa inativa", "liquidar uma startup", "insolvência rápida", "IBC startups", "cancelar o GST", "encerrar uma LLP", "processo de encerramento", "fracasso de uma startup", "responsabilidade dos diretores", "Foundura"],
     },
+    labs: {
+      focus: "laboratórios de testes para startups",
+      title: "Laboratórios de testes para startups na Índia | Foundura",
+      description: "Laboratórios de testes para startups na Índia: onde prototipar, quais certificados tirar (BIS, MTCTE, CDSCO), laboratórios acreditados NABL, STQC e CSIR.",
+      excerpt: "Onde startups indianas podem prototipar, testar produtos e obter certificação: centros de prototipagem e fab labs, certificação BIS, MTCTE, CDSCO e de drones, laboratórios acreditados pelo NABL, STQC e CSIR, testes prévios, proteção do design e programas que pagam os testes.",
+      keywords: ["laboratórios de testes para startups", "centro de prototipagem", "fab lab", "laboratório acreditado NABL", "testes STQC", "certificação BIS", "certificação MTCTE", "teste de dispositivos médicos", "certificação de drones", "laboratórios CSIR", "certificação de produtos na Índia", "testes de pré-conformidade", "startup de hardware", "T-Works Hyderabad", "Foundura"],
+    },
   },
   docs: {
     "lean-canvas": { t: "Lean canvas", s: "Toda a sua ideia de negócio em uma página: cliente, problema, solução, canais, receitas e custos." },

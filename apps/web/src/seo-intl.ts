@@ -906,4 +906,34 @@ export const SEO_INTL: Record<PageKey, Record<"es" | "de" | "ar" | "he", Entry>>
       keywords: ["סגירת סטארט־אפ", "סגירת חברה", "מחיקת חברה", "טופס STK-2", "מחיקה מרצון", "חברה רדומה", "פירוק סטארט־אפ", "חדלות פירעון מהירה", "חוק IBC", "ביטול רישום GST", "סגירת LLP", "תהליך הסגירה", "כישלון של סטארט־אפ", "אחריות הדירקטורים", "Foundura"],
     },
   },
+  labs: {
+    es: {
+      focus: "laboratorios de ensayo para startups",
+      title: "Laboratorios de ensayo para startups en la India | Foundura",
+      description: "Laboratorios de ensayo para startups en la India: dónde prototipar, qué certificados hacen falta (BIS, MTCTE, CDSCO), laboratorios NABL y centros STQC y CSIR.",
+      excerpt: "Dónde pueden las startups indias prototipar, ensayar productos y certificarlos: centros de prototipado y fab labs, certificación BIS, MTCTE, CDSCO y de drones, laboratorios acreditados por NABL, STQC y CSIR, ensayos previos, protección del diseño y programas que pagan los ensayos.",
+      keywords: ["laboratorios de ensayo para startups", "centro de prototipado", "fab lab", "laboratorio acreditado NABL", "ensayos STQC", "certificación BIS", "certificación MTCTE", "ensayo de dispositivos médicos", "certificación de drones", "laboratorios CSIR", "certificación de productos India", "ensayo de precumplimiento", "startup de hardware", "T-Works Hyderabad", "Foundura"],
+    },
+    de: {
+      focus: "Prüflabore für Startups",
+      title: "Prüflabore für Startups in Indien: Prototyp | Foundura",
+      description: "Prüflabore für Startups in Indien: wo Sie Prototypen bauen, welche Zertifikate nötig sind (BIS, MTCTE, CDSCO), NABL-akkreditierte Labore, STQC und CSIR.",
+      excerpt: "Wo indische Startups Prototypen bauen, Produkte prüfen und zertifizieren lassen: Prototyping-Zentren und Fab Labs, BIS-, MTCTE-, CDSCO- und Drohnen-Zertifizierung, NABL-akkreditierte Labore, STQC und CSIR, frühe Vorprüfungen, Schutz des Designs und Programme, die Prüfkosten tragen.",
+      keywords: ["Prüflabore für Startups", "Prototyping-Zentrum", "Fab Lab", "NABL-akkreditiertes Labor", "STQC-Prüfung", "BIS-Zertifizierung", "MTCTE-Zertifizierung", "Prüfung von Medizinprodukten", "Drohnen-Typzertifizierung", "CSIR-Labore", "Produktzertifizierung Indien", "Vorprüfung", "Hardware-Startup", "T-Works Hyderabad", "Foundura"],
+    },
+    ar: {
+      focus: "مختبرات اختبار للشركات الناشئة",
+      title: "مختبرات اختبار للشركات الناشئة في الهند | Foundura",
+      description: "مختبرات اختبار للشركات الناشئة في الهند: أين تبني النموذج الأولي، والشهادات المطلوبة (BIS وMTCTE وCDSCO)، ومختبرات NABL، ومراكز STQC وCSIR.",
+      excerpt: "أين تبني الشركات الناشئة الهندية نماذجها الأولية وتختبر منتجاتها وتحصل على الشهادات: مراكز النماذج الأولية ومختبرات التصنيع، وشهادات BIS وMTCTE وCDSCO والطائرات المسيّرة، ومختبرات NABL المعتمدة، ومختبرات STQC وCSIR، والاختبار المبكر، وحماية التصميم، والبرامج التي تموّل الاختبار.",
+      keywords: ["مختبرات اختبار للشركات الناشئة", "مركز النماذج الأولية", "مختبر تصنيع", "مختبر معتمد من NABL", "اختبارات STQC", "شهادة BIS", "شهادة MTCTE", "اختبار الأجهزة الطبية", "شهادة الطائرات المسيّرة", "مختبرات CSIR", "شهادات المنتجات في الهند", "الاختبار المسبق للمطابقة", "شركة ناشئة للأجهزة", "T-Works حيدر أباد", "Foundura"],
+    },
+    he: {
+      focus: "מעבדות בדיקה לסטארט־אפים",
+      title: "מעבדות בדיקה לסטארט־אפים בהודו: אב־טיפוס | Foundura",
+      description: "מעבדות בדיקה לסטארט־אפים בהודו: איפה לבנות אב־טיפוס, אילו אישורים נדרשים (BIS, MTCTE, CDSCO), מעבדות מוסמכות NABL ומרכזי STQC ו־CSIR.",
+      excerpt: "איפה סטארט־אפים הודיים בונים אב־טיפוס, בודקים מוצרים ומקבלים אישורים: מרכזי אב־טיפוס ומעבדות ייצור, אישורי BIS, MTCTE, CDSCO ורחפנים, מעבדות מוסמכות NABL, מעבדות STQC ו־CSIR, בדיקות מוקדמות, הגנה על העיצוב ותוכניות שמממנות בדיקות.",
+      keywords: ["מעבדות בדיקה לסטארט־אפים", "מרכז אב־טיפוס", "מעבדת ייצור", "מעבדה מוסמכת NABL", "בדיקות STQC", "אישור BIS", "אישור MTCTE", "בדיקת מכשור רפואי", "אישור דגם לרחפנים", "מעבדות CSIR", "אישור מוצרים בהודו", "בדיקה מקדימה", "סטארט־אפ חומרה", "T-Works חיידראבאד", "Foundura"],
+    },
+  },
 };

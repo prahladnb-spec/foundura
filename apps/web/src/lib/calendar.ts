@@ -59,9 +59,10 @@ export function googleAddLink(e: EventItem, site: string): string | null {
 }
 
 /** The calendar feed address for a set of filters, on this site. */
-export function feedPath(filters: { region?: string; format?: string }): string {
+export function feedPath(filters: { region?: string; format?: string; type?: string }): string {
   const q = new URLSearchParams();
   if (filters.region) q.set("region", filters.region);
   if (filters.format) q.set("format", filters.format);
+  if (filters.type) q.set("type", filters.type);
   return `/calendar/foundura-events.ics${q.size ? `?${q}` : ""}`;
 }

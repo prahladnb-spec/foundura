@@ -3,6 +3,10 @@ import { z } from "zod";
 export const EVENT_FORMATS = ["In person", "Online", "Hybrid"] as const;
 export type EventFormat = (typeof EVENT_FORMATS)[number];
 
+/** The kinds of event the calendar can be filtered by (the `type` an editor gives each event). "Challenge" is an open innovation challenge: problem statements startups answer by a deadline. */
+export const EVENT_KINDS = ["Conference", "Summit", "Expo", "Pitch competition", "Challenge", "Award / ranking", "Ecosystem day"] as const;
+export type EventKind = (typeof EVENT_KINDS)[number];
+
 export const EVENT_REGIONS = ["India", "Asia-Pacific", "Middle East and Africa", "Europe", "Americas"] as const;
 export type EventRegion = (typeof EVENT_REGIONS)[number];
 

@@ -48,6 +48,20 @@ test.describe("events calendar", () => {
     await expect(page.locator('select[name="region"]')).toHaveValue("India");
   });
 
+  test("filter by kind: open innovation challenges", async ({ page, request }) => {
+    await page.goto("/events?view=list");
+    await page.locator('select[name="type"]').selectOption("Challenge");
+    await page.getByRole("button", { name: "Show" }).click();
+    await expect(page).toHaveURL(/type=Challenge/);
+    const list = page.locator("main ul").first();
+    await expect(list).toContainText("The Liveability Challenge 2027");
+    await expect(list).toContainText("Open innovation challenge");
+    await expect(list).not.toContainText("CES 2027");
+    const feed = await (await request.get("/calendar/foundura-events.ics?type=Challenge")).text();
+    expect(feed).toContain("Liveability Challenge");
+    expect(feed).not.toContain("CES 2027");
+  });
+
   test("calendar feeds: subscribe links and the .ics files", async ({ page, request }) => {
     await page.goto("/events?region=Americas");
     const apple = page.getByRole("link", { name: "Apple Calendar or Outlook" });

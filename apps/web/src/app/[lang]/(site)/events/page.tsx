@@ -1,7 +1,7 @@
 import { pageMetadata } from "@/seo";
 import { PageIntro } from "@/components/art";
 import type { Metadata } from "next";
-import { EVENT_FORMATS, EVENT_REGIONS } from "@foundura/shared";
+import { EVENT_FORMATS, EVENT_KINDS, EVENT_REGIONS } from "@foundura/shared";
 import { EventCard } from "@/components/event-card";
 import { EventsCalendar } from "@/components/events-calendar";
 import { JsonLd } from "@/components/json-ld";
@@ -16,7 +16,7 @@ import type { EventItem } from "@/lib/types";
 const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
 
 type Params = Promise<{ lang: string }>;
-type Search = Promise<{ view?: string; month?: string; region?: string; format?: string; scope?: string }>;
+type Search = Promise<{ view?: string; month?: string; region?: string; format?: string; type?: string; scope?: string }>;
 const langOf = async (params: Params) => {
   const { lang } = await params;
   return isLang(lang) ? lang : "en";
@@ -36,12 +36,14 @@ export default async function EventsPage({ params, searchParams }: { params: Par
   // Old links used ?scope=India / ?scope=Global.
   const region = (EVENT_REGIONS as readonly string[]).includes(sp.region ?? "") ? sp.region : sp.scope === "India" ? "India" : undefined;
   const format = (EVENT_FORMATS as readonly string[]).includes(sp.format ?? "") ? sp.format : undefined;
+  const kind = (EVENT_KINDS as readonly string[]).includes(sp.type ?? "") ? sp.type : undefined;
   const today = new Date(Date.now() + 5.5 * 3_600_000).toISOString().slice(0, 10);
   let month = parseMonth(sp.month);
 
   const filters = new URLSearchParams();
   if (region) filters.set("region", region);
   if (format) filters.set("format", format);
+  if (kind) filters.set("type", kind);
   const load = (m: string | null) => {
     const q = new URLSearchParams(filters);
     if (m) {
@@ -127,6 +129,13 @@ export default async function EventsPage({ params, searchParams }: { params: Par
               {EVENT_FORMATS.map((x) => <option key={x} value={x}>{lab(ev.formats, x)}</option>)}
             </select>
           </label>
+          <label>
+            <span className="mb-1 block text-[0.9rem] font-semibold">{ev.kind}</span>
+            <select name="type" defaultValue={kind ?? ""} className={select}>
+              <option value="">{ev.anyKind}</option>
+              {EVENT_KINDS.map((x) => <option key={x} value={x}>{lab(ev.kinds, x)}</option>)}
+            </select>
+          </label>
           <button className="rounded-md border-2 border-neel-900 px-4 py-1.5 font-semibold">{ev.filter}</button>
         </form>
       </div>
@@ -147,7 +156,7 @@ export default async function EventsPage({ params, searchParams }: { params: Par
               </Link>
             </nav>
           </div>
-          <EventsCalendar key={`${month}-${region}-${format}`} month={month} events={events} today={today} site={SITE} />
+          <EventsCalendar key={`${month}-${region}-${format}-${kind}`} month={month} events={events} today={today} site={SITE} />
         </div>
       ) : (
         <ul className="mt-6 border-t-2 border-neel-900">
@@ -160,7 +169,7 @@ export default async function EventsPage({ params, searchParams }: { params: Par
         </ul>
       )}
 
-      <SubscribeBox site={SITE} path={feedPath({ region, format })} />
+      <SubscribeBox site={SITE} path={feedPath({ region, format, type: kind })} />
     </div>
   );
 }

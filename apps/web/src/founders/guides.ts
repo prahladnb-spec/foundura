@@ -1,15 +1,16 @@
 import { SUPPORT, type SupportEntry } from "../support/directory";
 
 /**
- * Five short founder guides built around the support directory: finding a mentor (/mentors),
- * a desk (/coworking), help for student founders (/students) and women founders (/women), and
- * selling to government and large companies (/selling). Written from official sources on CHECKED_ON;
+ * Founder guides built around the support directory: finding a mentor (/mentors), a desk
+ * (/coworking), help for student founders (/students) and women founders (/women), selling to
+ * government and large companies (/selling), going abroad (/global), labs and testing (/labs)
+ * and closing a startup (/closing). Written from official sources on CHECKED_ON;
  * English and Hindi only, other languages show the English. When a rule changes, update both
  * languages and CHECKED_ON. General information, never advice.
  */
 export const CHECKED_ON = "2026-11-26";
 
-export const FOUNDER_GUIDES = ["mentors", "coworking", "students", "women", "selling", "global", "closing"] as const;
+export const FOUNDER_GUIDES = ["mentors", "coworking", "students", "women", "selling", "global", "labs", "closing"] as const;
 export type FounderGuide = (typeof FOUNDER_GUIDES)[number];
 
 export const GUIDE_PATH: Record<FounderGuide, string> = {
@@ -19,6 +20,7 @@ export const GUIDE_PATH: Record<FounderGuide, string> = {
   women: "/women",
   selling: "/selling",
   global: "/global",
+  labs: "/labs",
   closing: "/closing",
 };
 
@@ -30,6 +32,7 @@ export const GUIDE_ENTRIES: Record<FounderGuide, (e: SupportEntry) => boolean> =
   women: (e) => !!e.for?.includes("women"),
   selling: (e) => e.kind === "corporate",
   global: (e) => !!e.for?.includes("global"),
+  labs: (e) => e.kind === "lab",
   closing: () => false,
 };
 
@@ -43,6 +46,7 @@ export const GUIDE_LINKS: Record<FounderGuide, { schemes: string[]; docs: string
   women: { schemes: ["stand-up-india", "dpiit-startup-recognition", "startup-india-seed-fund", "credit-guarantee-scheme-startups"], docs: ["founders-agreement", "cap-table", "pitch-deck", "financial-model"], guides: ["bootstrapping-or-raising-money", "pitch-deck-guide-investors"] },
   selling: { schemes: ["public-procurement-relaxations", "dpiit-startup-recognition"], docs: ["letter-of-intent", "nda", "customer-agreement", "quotation-and-invoice", "case-study", "one-pager"], guides: ["first-customers-startup-sales", "gst-registration-for-startups", "startup-pricing-first-product"] },
   global: { schemes: ["startup-ipr-fee-benefits"], docs: ["customer-agreement", "data-processing-agreement", "privacy-policy", "nda", "trademark-checklist"], guides: ["gst-registration-for-startups", "dpdp-act-for-startups", "startup-intellectual-property-india"] },
+  labs: { schemes: ["stpi-ngis", "birac-bipp", "drdo-tdf"], docs: ["nda", "vendor-agreement", "ip-assignment"], guides: ["startup-intellectual-property-india"] },
   closing: { schemes: [], docs: ["resolutions-pack", "financial-records-checklist", "relieving-letter", "investor-update"], guides: ["company-compliance-calendar-india", "investor-update-email-guide"] },
 };
 
@@ -79,6 +83,14 @@ export const GUIDE_SOURCES: Record<FounderGuide, { name: string; url: string }[]
     { name: "Reserve Bank of India: overseas investment rules and directions", url: "https://www.rbi.org.in" },
     { name: "GST portal: letter of undertaking for exports", url: "https://www.gst.gov.in" },
     { name: "Intellectual Property India: international trademark and patent filings", url: "https://ipindia.gov.in" },
+  ],
+  labs: [
+    { name: "STQC, Ministry of Electronics and IT", url: "https://stqc.gov.in" },
+    { name: "NABL: accredited laboratories", url: "https://nabl-india.org" },
+    { name: "Bureau of Indian Standards: product certification", url: "https://www.bis.gov.in" },
+    { name: "Telecommunication Engineering Centre: MTCTE", url: "https://www.tec.gov.in" },
+    { name: "CDSCO: medical devices", url: "https://cdsco.gov.in" },
+    { name: "MeitY Startup Hub", url: "https://msh.meity.gov.in" },
   ],
   closing: [
     { name: "Ministry of Corporate Affairs: strike-off (Form STK-2)", url: "https://www.mca.gov.in" },
@@ -245,6 +257,23 @@ const en: Record<FounderGuide, GuideText> = {
     listNational: "Across India",
     listStates: "By state",
   },
+  labs: {
+    title: "Labs, testing and certification",
+    lead: "Where to build a prototype, test it and get the certificates buyers and regulators ask for, using public labs instead of buying equipment you'll use a few times.",
+    stepsTitle: "From prototype to certified product",
+    steps: [
+      { title: "Prototype in a shared lab", body: "Public prototyping centres, fab labs, STPI centres and many incubators let you use machines, electronics benches and wet labs by the hour or as part of incubation. Ask your incubator first: many have agreements with nearby labs." },
+      { title: "Find out which certificates you need", body: "It depends on the product and who buys it. Telecom and connected devices need MTCTE certification from the Telecommunication Engineering Centre, many electronics and IT goods need BIS registration, medical devices need a CDSCO licence with test reports, and drones need type certification. Check the rule for your product category before you finalise the design." },
+      { title: "Use an accredited lab", body: "Regulators and large buyers usually accept reports only from labs accredited by NABL or designated by the regulator. The NABL directory lets you search by test and city. Ask for a quote and timeline up front, and book early: queues for some tests run to weeks." },
+      { title: "Test early, not only at the end", body: "Pre-compliance testing on a prototype costs far less than failing a formal test after tooling. Government labs such as STQC and many CSIR labs offer test and design support to startups." },
+      { title: "Protect your design before you share it", body: "Sign a confidentiality agreement with any outside lab or contract manufacturer, and consider filing a patent or design application before detailed drawings leave your team." },
+      { title: "Ask about startup rates and grants", body: "Some labs give recognised startups lower rates, and schemes such as TIDE 2.0, NGIS, BIRAC's grants and the Technology Development Fund can pay for testing as part of a project. Keep invoices and reports: grant reviewers ask for them." },
+    ],
+    listTitle: "Public labs and testing centres",
+    listLead: "Government labs, testing and certification bodies and prototyping centres. Many incubators also have labs: see the states pages.",
+    listNational: "Across India",
+    listStates: "By state",
+  },
   closing: {
     title: "Closing a startup properly",
     lead: "If the startup isn't working, closing it cleanly protects you, your team and your investors, and leaves you free to start again.",
@@ -383,6 +412,23 @@ const hi: Record<FounderGuide, GuideText> = {
     ],
     listTitle: "अंतरराष्ट्रीय कार्यक्रम",
     listLead: "विदेश में भारतीय स्टार्टअप की मदद करने वाले सरकारी कार्यक्रम। विदेशी फ़ंड देने वाले और एक्सेलरेटर फ़ंडिंग निर्देशिका में हैं।",
+    listNational: "पूरे भारत में",
+    listStates: "राज्य के हिसाब से",
+  },
+  labs: {
+    title: "लैब, टेस्टिंग और सर्टिफ़िकेशन",
+    lead: "प्रोटोटाइप कहाँ बनाएँ, उसकी जाँच कहाँ कराएँ और ख़रीदारों व नियामकों को चाहिए प्रमाणपत्र कैसे पाएँ, ऐसे उपकरण ख़रीदे बिना जिन्हें आप कुछ ही बार इस्तेमाल करेंगे।",
+    stepsTitle: "प्रोटोटाइप से प्रमाणित उत्पाद तक",
+    steps: [
+      { title: "साझा लैब में प्रोटोटाइप बनाएँ", body: "सरकारी प्रोटोटाइपिंग केंद्र, फ़ैब लैब, STPI केंद्र और कई इनक्यूबेटर आपको मशीनें, इलेक्ट्रॉनिक्स बेंच और वेट लैब घंटे के हिसाब से या इनक्यूबेशन के हिस्से के रूप में इस्तेमाल करने देते हैं। पहले अपने इनक्यूबेटर से पूछें: कई के पास की लैब से समझौते होते हैं।" },
+      { title: "पता करें कि कौन-से प्रमाणपत्र चाहिए", body: "यह उत्पाद और ख़रीदार पर निर्भर करता है। टेलीकॉम और कनेक्टेड उपकरणों को टेलीकम्युनिकेशन इंजीनियरिंग सेंटर से MTCTE प्रमाणन चाहिए, कई इलेक्ट्रॉनिक्स और IT सामानों को BIS पंजीकरण चाहिए, चिकित्सा उपकरणों को जाँच रिपोर्ट के साथ CDSCO लाइसेंस चाहिए, और ड्रोन को टाइप सर्टिफ़िकेशन चाहिए। डिज़ाइन तय करने से पहले अपनी उत्पाद श्रेणी का नियम देखें।" },
+      { title: "मान्यता प्राप्त लैब का इस्तेमाल करें", body: "नियामक और बड़े ख़रीदार आम तौर पर सिर्फ़ NABL से मान्यता प्राप्त या नियामक की तय की गई लैब की रिपोर्ट मानते हैं। NABL निर्देशिका में जाँच और शहर के हिसाब से खोज सकते हैं। पहले ही क़ीमत और समय पूछें, और जल्दी बुकिंग करें: कुछ जाँचों के लिए हफ़्तों की कतार होती है।" },
+      { title: "सिर्फ़ आख़िर में नहीं, शुरू में ही जाँच कराएँ", body: "प्रोटोटाइप पर प्री-कंप्लायंस जाँच, टूलिंग के बाद औपचारिक जाँच में फ़ेल होने से कहीं सस्ती पड़ती है। STQC और कई CSIR लैब जैसी सरकारी लैब स्टार्टअप को जाँच और डिज़ाइन में मदद देती हैं।" },
+      { title: "डिज़ाइन साझा करने से पहले उसे सुरक्षित करें", body: "किसी भी बाहरी लैब या कॉन्ट्रैक्ट निर्माता के साथ गोपनीयता समझौता करें, और विस्तृत ड्रॉइंग टीम से बाहर जाने से पहले पेटेंट या डिज़ाइन आवेदन पर विचार करें।" },
+      { title: "स्टार्टअप दरों और अनुदानों के बारे में पूछें", body: "कुछ लैब मान्यता प्राप्त स्टार्टअप से कम शुल्क लेती हैं, और TIDE 2.0, NGIS, BIRAC के अनुदान और टेक्नोलॉजी डेवलपमेंट फ़ंड जैसी योजनाएँ किसी परियोजना के हिस्से के रूप में जाँच का ख़र्च उठा सकती हैं। बिल और रिपोर्ट संभाल कर रखें: अनुदान की समीक्षा में ये माँगे जाते हैं।" },
+    ],
+    listTitle: "सरकारी लैब और टेस्टिंग केंद्र",
+    listLead: "सरकारी लैब, जाँच और प्रमाणन संस्थाएँ और प्रोटोटाइपिंग केंद्र। कई इनक्यूबेटरों के पास भी लैब हैं: राज्यों वाले पेज देखें।",
     listNational: "पूरे भारत में",
     listStates: "राज्य के हिसाब से",
   },

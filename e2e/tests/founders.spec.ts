@@ -2,7 +2,7 @@ import { FOUNDER_GUIDES, GUIDE_PATH, guideEntries, guideText } from "../../apps/
 import { SUPPORT } from "../../apps/web/src/support/directory";
 import { expect, test } from "./fixtures";
 
-test.describe("founder guides: mentors, co-working, students, women and selling", () => {
+test.describe("founder guides", () => {
   for (const g of FOUNDER_GUIDES) {
     test(`${g} lists its steps and every matching organisation`, async ({ page }) => {
       await page.goto(GUIDE_PATH[g]);
@@ -46,6 +46,14 @@ test.describe("founder guides: mentors, co-working, students, women and selling"
     await page.goto("/closing");
     await expect(page.getByRole("heading", { name: "Strike off a company with no liabilities" })).toBeVisible();
     await expect(page.getByText(/fast-track process, which aims to finish in 90 days/)).toBeVisible();
+  });
+
+  test("labs lists testing and certification centres, with lab kinds on state pages", async ({ page }) => {
+    await page.goto("/labs");
+    await expect(page.getByRole("heading", { name: "Find out which certificates you need" })).toBeVisible();
+    await expect(page.getByText("STQC test and calibration labs", { exact: true })).toBeVisible();
+    await page.goto("/states/kl");
+    await expect(page.getByText("Lab or testing centre").first()).toBeVisible();
   });
 
   test("site search finds the guides and the support directory", async ({ page }) => {

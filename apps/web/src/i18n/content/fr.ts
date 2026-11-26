@@ -213,6 +213,13 @@ export const fr: LangContent = {
       excerpt: "Un guide étape par étape pour fermer proprement une startup indienne : choisir entre société dormante et fermeture, prévenir investisseurs et équipe, payer salaires, fournisseurs et impôts, annuler le GST, radiation volontaire par le formulaire STK-2, procédure d’insolvabilité rapide et documents à conserver.",
       keywords: ["fermer une startup", "fermer une société", "radiation d’une société", "formulaire STK-2", "radiation volontaire", "société dormante", "liquider une startup", "insolvabilité rapide", "IBC startups", "annuler le GST", "fermer une LLP", "étapes de la fermeture", "échec d’une startup", "responsabilité des dirigeants", "Foundura"],
     },
+    labs: {
+      focus: "laboratoires d’essais pour startups",
+      title: "Laboratoires d’essais pour startups en Inde | Foundura",
+      description: "Laboratoires d’essais pour startups en Inde : où prototyper, quels certificats obtenir (BIS, MTCTE, CDSCO), laboratoires accrédités NABL, STQC et CSIR.",
+      excerpt: "Où les startups indiennes peuvent prototyper, tester leurs produits et les faire certifier : centres de prototypage et fab labs, certification BIS, MTCTE, CDSCO et drones, laboratoires accrédités NABL, STQC et CSIR, essais préalables, protection du design et programmes qui financent les essais.",
+      keywords: ["laboratoires d’essais pour startups", "centre de prototypage", "fab lab", "laboratoire accrédité NABL", "essais STQC", "certification BIS", "certification MTCTE", "essais de dispositifs médicaux", "certification de drones", "laboratoires CSIR", "certification de produits en Inde", "essais de pré-conformité", "startup matérielle", "T-Works Hyderabad", "Foundura"],
+    },
   },
   docs: {
     "lean-canvas": { t: "Lean canvas", s: "Toute votre idée d'entreprise sur une page : client, problème, solution, canaux, revenus et coûts." },
