@@ -12,6 +12,8 @@ import { fmtRange } from "@/lib/format";
 import { FUNDING, fundingId, isState } from "@/funding/directory";
 import { CHAPTERS } from "@/basics/chapters";
 import { PERKS } from "@/perks/directory";
+import { SUPPORT } from "@/support/directory";
+import { FOUNDER_GUIDES, GUIDE_PATH, guideText } from "@/founders/guides";
 
 /** What a result shows: a link, a title and a line or two, plus whether the text is in English. */
 export interface ResultView {
@@ -172,6 +174,35 @@ export async function catalogue(lang: Lang): Promise<SearchIndex<ResultView>> {
       tags: [p.by, ...LANGS.map((l) => getDict(l).perks.groups[p.group])],
       body: [p.offer, p.who],
       data: { href: `/perks#perk-${p.id}`, title: p.name, summary: p.offer, meta: [{ text: getDict(lang).perks.groups[p.group], en: false }], en: foreign },
+    });
+  }
+
+  // The support directory: entries are English; kind and place labels in every language.
+  for (const e of SUPPORT) {
+    const place = isState(e.geo) ? both((d) => d.labels.state, e.geo) : [];
+    const id = `support-${e.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`;
+    add("support", id, {
+      title: [e.name],
+      tags: [e.base, ...LANGS.map((l) => getDict(l).states.supportKinds[e.kind]), ...place],
+      body: [e.offer, e.desks ?? ""],
+      data: {
+        href: isState(e.geo) ? `/states/${e.geo.toLowerCase()}` : "/states",
+        title: e.name,
+        summary: e.offer,
+        meta: [{ text: getDict(lang).states.supportKinds[e.kind], en: false }],
+        en: foreign,
+      },
+    });
+  }
+
+  // Founder guides (mentors, co-working, students, women, selling), in English and Hindi.
+  for (const g of FOUNDER_GUIDES) {
+    const shown = guideText[isHi ? "hi" : "en"][g];
+    add("guide", `founders-${g}`, {
+      title: [guideText.en[g].title, guideText.hi[g].title, ...LANGS.map((l) => getDict(l).chrome.footer[g])],
+      tags: [guideText.en[g].listTitle, guideText.hi[g].listTitle],
+      body: [guideText.en[g].lead, guideText.hi[g].lead, ...guideText.en[g].steps.map((x) => x.title), ...guideText.hi[g].steps.map((x) => x.title)],
+      data: { href: GUIDE_PATH[g], title: shown.title, summary: shown.lead, en: foreign && !isHi },
     });
   }
 

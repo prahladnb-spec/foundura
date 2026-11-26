@@ -15,7 +15,7 @@ test.describe("open data, numbers, cities and list widgets", () => {
     expect(csv.headers()["access-control-allow-origin"]).toBe("*");
     const text = await csv.text();
     expect(text.charCodeAt(0)).toBe(0xfeff);
-    expect(text.split("\r\n")[0]).toBe("﻿name,kind,area,based,offer,url");
+    expect(text.split("\r\n")[0]).toBe("﻿name,kind,area,based,offer,workspace,especially_for,url");
     expect(text).toContain("Shell E4,corporate,IN");
 
     const json = await (await request.get("/data/schemes.json")).json();

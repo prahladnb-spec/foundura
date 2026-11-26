@@ -5,7 +5,7 @@
  * in either language finds the item whichever language the page is in.
  */
 
-export const SEARCH_KINDS = ["scheme", "template", "guide", "term", "event", "startup", "investor", "funding", "perk"] as const;
+export const SEARCH_KINDS = ["scheme", "template", "guide", "term", "event", "startup", "investor", "funding", "support", "perk"] as const;
 export type SearchKind = (typeof SEARCH_KINDS)[number];
 
 export interface SearchEntry<T = unknown> {

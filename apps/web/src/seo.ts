@@ -40,7 +40,12 @@ export type PageKey =
   | "software"
   | "data"
   | "numbers"
-  | "cities";
+  | "cities"
+  | "mentors"
+  | "coworking"
+  | "students"
+  | "women"
+  | "selling";
 
 const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
   home: {
@@ -959,6 +964,96 @@ const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
       description: "भारत के स्टार्टअप शहर: बेंगलुरु, दिल्ली एनसीआर, मुंबई, हैदराबाद, पुणे, चेन्नई, अहमदाबाद और कोलकाता, हर एक के इनक्यूबेटर, फ़ंड, कार्यक्रम और स्टार्टअप।",
       excerpt: "भारत के हर मुख्य स्टार्टअप शहर का पेज: वहाँ के इनक्यूबेटर, स्टार्टअप हब और फ़ंड देने वाले, शहर के आने वाले स्टार्टअप कार्यक्रम, Foundura पर उस शहर को चुनने वाले स्टार्टअप, और राज्य की योजनाएँ।",
       keywords: ["भारत के स्टार्टअप शहर", "बेंगलुरु के स्टार्टअप", "दिल्ली एनसीआर के स्टार्टअप", "मुंबई के स्टार्टअप", "हैदराबाद के स्टार्टअप", "पुणे के स्टार्टअप", "चेन्नई के स्टार्टअप", "अहमदाबाद के स्टार्टअप", "कोलकाता के स्टार्टअप", "शहरवार इनक्यूबेटर", "शहरवार स्टार्टअप कार्यक्रम", "स्टार्टअप इकोसिस्टम", "स्टार्टअप हब", "T-Hub", "Foundura"],
+    },
+  },
+  mentors: {
+    en: {
+      slug: "/mentors",
+      focus: "startup mentors India",
+      title: "Startup mentors India: free mentoring programmes | Foundura",
+      description: "Find startup mentors India-wide: MAARG, the government portal, plus free programmes from foundations, TiE and incubators, and how to work with a mentor.",
+      excerpt: "Free mentoring for Indian founders: MAARG, Startup India's national mentorship portal, foundation programmes, TiE chapters and incubator mentors, with practical advice on choosing a mentor, agreeing how you'll work together, putting advisor equity in writing and avoiding paid introductions.",
+      keywords: ["startup mentors India", "find a mentor", "startup mentorship", "MAARG portal", "free mentoring for startups", "Startup India mentorship", "TiE mentoring", "Wadhwani Liftoff", "startup advisor", "advisor agreement", "advisor equity", "mentoring programme", "founder mentoring", "NASSCOM 10000 Startups", "Foundura"],
+    },
+    hi: {
+      slug: "/mentors",
+      focus: "स्टार्टअप मेंटर",
+      title: "स्टार्टअप मेंटर: मुफ़्त मेंटरिंग कार्यक्रम | Foundura",
+      description: "स्टार्टअप मेंटर खोजें: सरकारी पोर्टल MAARG, फ़ाउंडेशन, TiE और इनक्यूबेटर के मुफ़्त कार्यक्रम, और मेंटर के साथ काम करने के आसान तरीक़े।",
+      excerpt: "भारतीय संस्थापकों के लिए मुफ़्त मेंटरिंग: Startup India का राष्ट्रीय मेंटरशिप पोर्टल MAARG, फ़ाउंडेशन के कार्यक्रम, TiE चैप्टर और इनक्यूबेटर के मेंटर, साथ में मेंटर चुनने, साथ काम करने का तरीक़ा तय करने, सलाहकार इक्विटी लिखित में रखने और पैसे लेकर परिचय कराने वालों से बचने की व्यावहारिक सलाह।",
+      keywords: ["स्टार्टअप मेंटर", "मेंटर कैसे खोजें", "स्टार्टअप मेंटरशिप", "MAARG पोर्टल", "मुफ़्त मेंटरिंग", "Startup India मेंटरशिप", "TiE मेंटरिंग", "Wadhwani Liftoff", "स्टार्टअप सलाहकार", "सलाहकार समझौता", "सलाहकार इक्विटी", "मेंटरिंग कार्यक्रम", "संस्थापकों के लिए मार्गदर्शन", "NASSCOM 10000 Startups", "Foundura"],
+    },
+  },
+  coworking: {
+    en: {
+      slug: "/coworking",
+      focus: "co-working space for startups",
+      title: "Co-working space for startups in India | Foundura",
+      description: "Co-working space for startups at government hubs and incubators across India, state seat subsidies, and what to check before you sign for a desk.",
+      excerpt: "Desks, cabins and labs for Indian startups at government-run hubs and incubators such as T-Hub, O-Hub, i-Hub Gujarat and Kerala Startup Mission, state schemes that repay part of the seat cost, and a checklist for internet, meeting rooms, the registered office address and the agreement.",
+      keywords: ["co-working space for startups", "startup co-working India", "government co-working space", "incubator desk", "plug and play office", "T-Hub co-working", "O-Hub Bhubaneswar", "i-Hub Gujarat", "Kerala Startup Mission space", "co-working subsidy", "startup office space", "registered office address", "shared office India", "STPI incubation", "Foundura"],
+    },
+    hi: {
+      slug: "/coworking",
+      focus: "स्टार्टअप के लिए को-वर्किंग",
+      title: "स्टार्टअप के लिए को-वर्किंग जगह | Foundura",
+      description: "स्टार्टअप के लिए को-वर्किंग जगह: पूरे भारत के सरकारी हब और इनक्यूबेटर में डेस्क, राज्यों की सीट सब्सिडी, और डेस्क लेने से पहले क्या देखें।",
+      excerpt: "T-Hub, O-Hub, i-Hub गुजरात और केरल स्टार्टअप मिशन जैसे सरकारी हब और इनक्यूबेटर में भारतीय स्टार्टअप के लिए डेस्क, केबिन और लैब, सीट की लागत का हिस्सा लौटाने वाली राज्य योजनाएँ, और इंटरनेट, मीटिंग रूम, रजिस्टर्ड दफ़्तर के पते और समझौते की जाँच-सूची।",
+      keywords: ["स्टार्टअप के लिए को-वर्किंग", "को-वर्किंग जगह", "सरकारी को-वर्किंग", "इनक्यूबेटर में डेस्क", "प्लग एंड प्ले दफ़्तर", "T-Hub को-वर्किंग", "O-Hub भुवनेश्वर", "i-Hub गुजरात", "केरल स्टार्टअप मिशन", "को-वर्किंग सब्सिडी", "स्टार्टअप दफ़्तर", "रजिस्टर्ड दफ़्तर का पता", "साझा दफ़्तर", "STPI इनक्यूबेशन", "Foundura"],
+    },
+  },
+  students: {
+    en: {
+      slug: "/students",
+      focus: "student startups India",
+      title: "Student startups India: campus help, hackathons | Foundura",
+      description: "Student startups India guide: campus innovation councils, Smart India Hackathon, state student policies, who owns your idea and what under-18s should know.",
+      excerpt: "Help for student founders in India: Institution's Innovation Councils and incubators on campus, the Smart India Hackathon, Atal Tinkering Labs, Gujarat's student startup policy and Kerala's IEDCs, plus who owns ideas built with college resources and how founders under 18 handle the paperwork.",
+      keywords: ["student startups India", "student entrepreneurship", "startup for students", "Institution's Innovation Council", "Smart India Hackathon", "Atal Tinkering Labs", "SSIP Gujarat", "IEDC Kerala", "campus incubator", "college startup", "E-cell", "student founder", "startup under 18", "idea ownership", "Foundura"],
+    },
+    hi: {
+      slug: "/students",
+      focus: "छात्र स्टार्टअप",
+      title: "छात्र स्टार्टअप: कैंपस सहायता और हैकाथॉन | Foundura",
+      description: "छात्र स्टार्टअप गाइड: कैंपस इनोवेशन काउंसिल, स्मार्ट इंडिया हैकाथॉन, राज्यों की छात्र नीतियाँ, आइडिया का मालिक कौन, और 18 से कम उम्र वाले क्या जानें।",
+      excerpt: "भारत के छात्र संस्थापकों के लिए मदद: कैंपस की इंस्टिट्यूशन इनोवेशन काउंसिल और इनक्यूबेटर, स्मार्ट इंडिया हैकाथॉन, अटल टिंकरिंग लैब, गुजरात की छात्र स्टार्टअप नीति और केरल के IEDC, साथ में कॉलेज के संसाधनों से बने आइडिया का मालिक कौन और 18 से कम उम्र के संस्थापक काग़ज़ संभालना।",
+      keywords: ["छात्र स्टार्टअप", "छात्र उद्यमिता", "छात्रों के लिए स्टार्टअप", "इंस्टिट्यूशन इनोवेशन काउंसिल", "स्मार्ट इंडिया हैकाथॉन", "अटल टिंकरिंग लैब", "SSIP गुजरात", "IEDC केरल", "कैंपस इनक्यूबेटर", "कॉलेज स्टार्टअप", "उद्यमिता सेल", "छात्र संस्थापक", "18 से कम उम्र में स्टार्टअप", "आइडिया का स्वामित्व", "Foundura"],
+    },
+  },
+  women: {
+    en: {
+      slug: "/women",
+      focus: "women entrepreneurs India",
+      title: "Women entrepreneurs India: schemes and support | Foundura",
+      description: "Support for women entrepreneurs India-wide: Stand-Up India, WE Hub, NITI Aayog's Women Entrepreneurship Platform, TiE Women and what women-led means.",
+      excerpt: "Schemes, programmes and networks for women-led startups in India: Stand-Up India loans, Telangana's WE Hub, NITI Aayog's Women Entrepreneurship Platform and TiE Women, extra support in state startup policies, and how schemes usually define a woman-led enterprise.",
+      keywords: ["women entrepreneurs India", "women founders", "women-led startups", "schemes for women entrepreneurs", "Stand-Up India", "WE Hub", "Women Entrepreneurship Platform", "WEP NITI Aayog", "TiE Women", "women startup funding", "female founders India", "women entrepreneurship", "state startup policy women", "woman-led enterprise", "Foundura"],
+    },
+    hi: {
+      slug: "/women",
+      focus: "महिला उद्यमी",
+      title: "महिला उद्यमी: योजनाएँ और सहायता | Foundura",
+      description: "महिला उद्यमी और संस्थापकों के लिए सहायता: स्टैंड-अप इंडिया, WE Hub, नीति आयोग का वुमन एंटरप्रेन्योरशिप प्लेटफ़ॉर्म, TiE Women और महिला-नेतृत्व का मतलब।",
+      excerpt: "भारत में महिला-नेतृत्व वाले स्टार्टअप के लिए योजनाएँ, कार्यक्रम और नेटवर्क: स्टैंड-अप इंडिया लोन, तेलंगाना का WE Hub, नीति आयोग का वुमन एंटरप्रेन्योरशिप प्लेटफ़ॉर्म और TiE Women, राज्य स्टार्टअप नीतियों में अतिरिक्त सहायता, और योजनाएँ आम तौर पर महिला-नेतृत्व वाले उद्यम को कैसे परिभाषित करती हैं।",
+      keywords: ["महिला उद्यमी", "महिला संस्थापक", "महिला-नेतृत्व वाले स्टार्टअप", "महिलाओं के लिए योजनाएँ", "स्टैंड-अप इंडिया", "WE Hub", "वुमन एंटरप्रेन्योरशिप प्लेटफ़ॉर्म", "नीति आयोग WEP", "TiE Women", "महिला स्टार्टअप फ़ंडिंग", "महिला उद्यमिता", "राज्य स्टार्टअप नीति", "महिला-नेतृत्व वाला उद्यम", "महिलाओं के लिए लोन", "Foundura"],
+    },
+  },
+  selling: {
+    en: {
+      slug: "/selling",
+      focus: "sell to government",
+      title: "Sell to government: GeM, tenders and pilots | Foundura",
+      description: "How startups sell to government in India: GeM seller registration, Startup Runway, tender relaxations for DPIIT startups, and winning pilots with big companies.",
+      excerpt: "A plain guide to public procurement for Indian startups: registering on GeM, listing new products through Startup Runway, exemptions from prior turnover, experience and earnest money, state rules and grievances, then paid pilots, NDAs, vendor onboarding and on-time payment for MSMEs.",
+      keywords: ["sell to government", "GeM registration", "GeM Startup Runway", "government tenders for startups", "public procurement India", "prior turnover exemption", "EMD exemption", "CPPP tenders", "DPIIT procurement benefits", "corporate pilot", "enterprise sales India", "vendor onboarding", "Udyam registration", "MSME payment 45 days", "Foundura"],
+    },
+    hi: {
+      slug: "/selling",
+      focus: "सरकार को बेचना",
+      title: "सरकार को बेचना: GeM, टेंडर और पायलट | Foundura",
+      description: "स्टार्टअप सरकार को बेचना कैसे शुरू करें: GeM पर विक्रेता रजिस्ट्रेशन, स्टार्टअप रनवे, DPIIT स्टार्टअप के लिए टेंडर छूट, और बड़ी कंपनियों के साथ पायलट।",
+      excerpt: "भारतीय स्टार्टअप के लिए सरकारी ख़रीद की आसान गाइड: GeM पर रजिस्ट्रेशन, स्टार्टअप रनवे से नए प्रोडक्ट लिस्ट करना, पिछले टर्नओवर, अनुभव और बयाना राशि से छूट, राज्यों के नियम और शिकायत, फिर पेड पायलट, NDA, वेंडर ऑनबोर्डिंग और MSME को समय पर भुगतान।",
+      keywords: ["सरकार को बेचना", "GeM रजिस्ट्रेशन", "GeM स्टार्टअप रनवे", "स्टार्टअप के लिए सरकारी टेंडर", "सरकारी ख़रीद", "पिछले टर्नओवर से छूट", "बयाना राशि से छूट", "CPPP टेंडर", "DPIIT ख़रीद लाभ", "कॉर्पोरेट पायलट", "बड़ी कंपनियों को बिक्री", "वेंडर ऑनबोर्डिंग", "उद्यम रजिस्ट्रेशन", "MSME भुगतान 45 दिन", "Foundura"],
     },
   },
 };

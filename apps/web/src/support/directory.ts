@@ -12,9 +12,16 @@ import type { StateTile } from "../funding/directory";
 export const GATHERED_ON = "2026-11-26";
 export const CHECKED_ON: string | null = null;
 
-/** corporate: programmes large companies run for startups (accelerators, challenges, pilots). */
-export type SupportKind = "incubator" | "hub" | "mentoring" | "corporate";
-export const SUPPORT_KINDS: SupportKind[] = ["incubator", "hub", "mentoring", "corporate"];
+/**
+ * corporate: programmes large companies run for startups (accelerators, challenges, pilots).
+ * coworking: workspace schemes that aren't part of a hub or incubator listed here.
+ * campus: programmes for students and colleges (innovation councils, hackathons, student policies).
+ */
+export type SupportKind = "incubator" | "hub" | "mentoring" | "corporate" | "coworking" | "campus";
+export const SUPPORT_KINDS: SupportKind[] = ["incubator", "hub", "mentoring", "corporate", "coworking", "campus"];
+
+/** Groups a programme is especially for; drives the women founders and students pages. */
+export type SupportFor = "women" | "students";
 
 export type SupportEntry = {
   name: string;
@@ -25,15 +32,25 @@ export type SupportEntry = {
   base: string;
   offer: string;
   url?: string;
+  /** What workspace it offers startups (desks, cabins, labs); set means it's listed on /coworking. */
+  desks?: string;
+  for?: SupportFor[];
 };
 
 export const SUPPORT: SupportEntry[] = [
   // ---- Across India ----
   { name: "Startup India", kind: "hub", geo: "IN", base: "DPIIT, New Delhi", offer: "The national portal: DPIIT recognition, the list of recognised incubators, scheme information and a mentorship network.", url: "https://www.startupindia.gov.in" },
   { name: "Atal Innovation Mission incubation centres", kind: "incubator", geo: "IN", base: "NITI Aayog, across India", offer: "Atal Incubation Centres and Established Incubation Centres at universities, institutes and companies in most states.", url: "https://aim.gov.in" },
-  { name: "STPI Centres of Entrepreneurship", kind: "incubator", geo: "IN", base: "Software Technology Parks of India, many cities", offer: "Sector-focused incubation centres for technology startups, with space, mentoring and links to industry." },
+  { name: "STPI Centres of Entrepreneurship", kind: "incubator", geo: "IN", base: "Software Technology Parks of India, many cities", offer: "Sector-focused incubation centres for technology startups, with space, mentoring and links to industry.", desks: "Plug-and-play office space for technology startups at STPI centres, many of them in smaller cities." },
   { name: "MeitY Startup Hub", kind: "hub", geo: "IN", base: "Ministry of Electronics and IT, New Delhi", offer: "Brings together MeitY's incubators and programmes for technology startups, including SAMRIDH and TIDE 2.0." },
   { name: "NASSCOM 10000 Startups", kind: "mentoring", geo: "IN", base: "NASSCOM, several cities", offer: "Programmes, mentoring and corporate connections for technology startups.", url: "https://10000startups.com" },
+  { name: "MAARG, Startup India's mentorship portal", kind: "mentoring", geo: "IN", base: "DPIIT, online", offer: "The government's national mentorship platform. A startup registered on Startup India is matched with mentors by sector, stage and skill, and sets goals with each one. Free.", url: "https://maarg.startupindia.gov.in" },
+  { name: "Wadhwani Foundation Liftoff", kind: "mentoring", geo: "IN", base: "Wadhwani Foundation, online and with partner incubators", offer: "Free programmes for early-stage startups, with expert sessions, one-to-one mentoring and help getting ready for investors. No fee and no equity taken.", url: "https://wadhwanifoundation.org" },
+  { name: "TiE Women", kind: "mentoring", geo: "IN", base: "TiE chapters in many Indian cities", offer: "TiE's programme for women-led startups: learning sessions, mentoring and a global pitch competition, mostly for startups past the idea stage.", url: "https://women.tie.org", for: ["women"] },
+  { name: "Women Entrepreneurship Platform (WEP)", kind: "hub", geo: "IN", base: "NITI Aayog, online, with state chapters", offer: "The national platform for women entrepreneurs: scheme information, programmes run with partner organisations, and state chapters.", url: "https://wep.gov.in", for: ["women"] },
+  { name: "Smart India Hackathon", kind: "campus", geo: "IN", base: "Ministry of Education's Innovation Cell and AICTE", offer: "A national hackathon where student teams solve problems set by ministries and companies. Teams enter through their college's internal hackathon.", url: "https://sih.gov.in", for: ["students"] },
+  { name: "Institution's Innovation Councils (IIC)", kind: "campus", geo: "IN", base: "Ministry of Education's Innovation Cell, in colleges across India", offer: "Innovation councils of faculty and students in thousands of colleges, running ideation, design-thinking, IP and pre-incubation activities through the year.", for: ["students"] },
+  { name: "Atal Tinkering Labs", kind: "campus", geo: "IN", base: "Atal Innovation Mission, in schools across India", offer: "Making and electronics labs in schools, set up with Atal Innovation Mission support, where school students build and test their ideas.", for: ["students"] },
   { name: "TiE (The Indus Entrepreneurs)", kind: "mentoring", geo: "IN", base: "Chapters in many Indian cities", offer: "A non-profit network of entrepreneurs offering mentoring, events and investor connections.", url: "https://tie.org" },
 
   // ---- Corporate programmes, open across India ----
@@ -57,26 +74,29 @@ export const SUPPORT: SupportEntry[] = [
   { name: "Center for Incubation and Business Acceleration (CIBA)", kind: "incubator", geo: "GA", base: "Agnel Technical Education Complex, Verna", offer: "Goa's long-running technology incubator, also a DST and AIM partner." },
   { name: "CIIE.CO", kind: "incubator", geo: "GJ", base: "IIM Ahmedabad", offer: "Incubation, accelerator programmes and early-stage funds for Indian startups.", url: "https://ciie.co" },
   { name: "iCreate", kind: "incubator", geo: "GJ", base: "Ahmedabad", offer: "An independent centre backed by the Government of Gujarat for technology and deep-tech startups." },
-  { name: "i-Hub Gujarat", kind: "hub", geo: "GJ", base: "Government of Gujarat, Ahmedabad", offer: "The state's student startup and innovation hub." },
+  { name: "i-Hub Gujarat", kind: "hub", geo: "GJ", base: "Government of Gujarat, Ahmedabad", offer: "The state's student startup and innovation hub.", desks: "Co-working desks for early-stage startups, for up to two years, with meeting rooms and internet. Preference goes to startups backed by a state scheme or an incubator.", for: ["students"] },
+  { name: "Student Start-up and Innovation Policy (SSIP 2.0)", kind: "campus", geo: "GJ", base: "Education Department, Government of Gujarat", offer: "Gujarat's student startup policy, running to March 2027: grants for students' proofs of concept and prototypes through their school, college or university, plus help filing IP. Open to students, alumni and dropouts up to 35.", url: "https://ssipgujarat.in", for: ["students"] },
+  { name: "Goa co-working subsidy", kind: "coworking", geo: "GA", base: "Goa Start-up Policy 2025", offer: "Repays part of the seat cost for startups certified by the state, at co-working spaces, incubators and accelerators on the state's list.", desks: "Part of the seat cost repaid at listed co-working spaces, incubators and accelerators in Goa, for startups certified by the state." },
   { name: "IIT Mandi Catalyst", kind: "incubator", geo: "HP", base: "IIT Mandi", offer: "Himachal Pradesh's technology business incubator." },
   { name: "JKEDI", kind: "hub", geo: "JK", base: "J&K Entrepreneurship Development Institute, Srinagar and Jammu", offer: "Training, incubation and loan programmes for entrepreneurs in Jammu and Kashmir." },
   { name: "NSRCEL", kind: "incubator", geo: "KA", base: "IIM Bangalore", offer: "Incubation and programmes for early-stage founders, including women founders and social enterprises.", url: "https://www.nsrcel.org" },
   { name: "Society for Innovation and Development (SID)", kind: "incubator", geo: "KA", base: "Indian Institute of Science, Bengaluru", offer: "Incubation for science and engineering startups." },
   { name: "Karnataka Startup Cell and K-tech Innovation Hubs", kind: "hub", geo: "KA", base: "Government of Karnataka, Bengaluru and other cities", offer: "Runs ELEVATE and the state's innovation hubs and incubators." },
-  { name: "Kerala Startup Mission", kind: "hub", geo: "KL", base: "Government of Kerala, Kochi and Thiruvananthapuram", offer: "The state's startup agency: incubation, grants, events and the Integrated Startup Complex.", url: "https://startupmission.kerala.gov.in" },
+  { name: "Kerala Startup Mission", kind: "hub", geo: "KL", base: "Government of Kerala, Kochi and Thiruvananthapuram", offer: "The state's startup agency: incubation, grants, events and the Integrated Startup Complex.", url: "https://startupmission.kerala.gov.in", desks: "Co-working seats, charged per seat, at the Integrated Startup Complex in the Technology Innovation Zone, Kalamassery, Kochi, for startups with a KSUM unique ID." },
+  { name: "Innovation and Entrepreneurship Development Centres (IEDC)", kind: "campus", geo: "KL", base: "Kerala Startup Mission, in colleges across Kerala", offer: "Student innovation centres in hundreds of Kerala colleges, polytechnics and universities, where students learn, build prototypes and can move on to KSUM's incubators.", url: "https://iedc.startupmission.in", for: ["students"] },
   { name: "Technopark Technology Business Incubator", kind: "incubator", geo: "KL", base: "Technopark, Thiruvananthapuram", offer: "Incubation for technology startups in Kerala's largest IT park." },
   { name: "SINE, IIT Bombay", kind: "incubator", geo: "MH", base: "IIT Bombay, Mumbai", offer: "Society for Innovation and Entrepreneurship: incubation for technology startups." },
   { name: "Venture Center", kind: "incubator", geo: "MH", base: "CSIR-NCL, Pune", offer: "Incubation for science and engineering startups, with labs and equipment." },
   { name: "Maharashtra State Innovation Society", kind: "hub", geo: "MH", base: "Government of Maharashtra, Mumbai", offer: "Runs the state's startup policy, Startup Week and incubator network." },
   { name: "PRIME Meghalaya", kind: "hub", geo: "ML", base: "Government of Meghalaya, Shillong", offer: "Promotion and Incubation of Market-driven Enterprises: incubation and support across the state." },
-  { name: "O-Hub", kind: "hub", geo: "OR", base: "Startup Odisha, Bhubaneswar", offer: "Odisha's startup hub, with space, programmes and the state's startup support." },
+  { name: "O-Hub", kind: "hub", geo: "OR", base: "Startup Odisha, Bhubaneswar", offer: "Odisha's startup hub, with space, programmes and the state's startup support.", desks: "Subsidised plug-and-play co-working, cabins and modular manufacturing space in the government-run O-Hub towers." },
   { name: "KIIT Technology Business Incubator", kind: "incubator", geo: "OR", base: "KIIT, Bhubaneswar", offer: "Incubation for technology and biotechnology startups." },
   { name: "Punjab Biotechnology Incubator", kind: "incubator", geo: "PB", base: "Mohali", offer: "Incubation and testing facilities for agri, food and biotech startups." },
-  { name: "Bhamashah Techno Hub", kind: "hub", geo: "RJ", base: "iStart Rajasthan, Jaipur", offer: "Rajasthan's startup hub, home of the iStart programme." },
+  { name: "Bhamashah Techno Hub", kind: "hub", geo: "RJ", base: "iStart Rajasthan, Jaipur", offer: "Rajasthan's startup hub, home of the iStart programme.", desks: "Co-working space for startups registered with iStart, in one of the largest government-owned startup buildings in India." },
   { name: "IIT Madras Incubation Cell", kind: "incubator", geo: "TN", base: "IIT Madras Research Park, Chennai", offer: "Incubation for deep-tech startups, among the largest in India." },
   { name: "StartupTN", kind: "hub", geo: "TN", base: "Government of Tamil Nadu, Chennai", offer: "Tamil Nadu's startup agency: TANSEED grants, regional hubs and programmes.", url: "https://startuptn.in" },
-  { name: "T-Hub", kind: "hub", geo: "TG", base: "Hyderabad", offer: "A large innovation hub backed by the Government of Telangana, with programmes for startups and corporate innovation.", url: "https://t-hub.co" },
-  { name: "WE Hub", kind: "hub", geo: "TG", base: "Government of Telangana, Hyderabad", offer: "The state-led incubator for women entrepreneurs." },
+  { name: "T-Hub", kind: "hub", geo: "TG", base: "Hyderabad", offer: "A large innovation hub backed by the Government of Telangana, with programmes for startups and corporate innovation.", url: "https://t-hub.co", desks: "Plug-and-play workspace in the T-Hub building, from a single seat to small teams, with cabins and meeting rooms." },
+  { name: "WE Hub", kind: "hub", geo: "TG", base: "Government of Telangana, Hyderabad", offer: "The state-led incubator for women entrepreneurs.", for: ["women"] },
   { name: "CIE, IIIT Hyderabad", kind: "incubator", geo: "TG", base: "IIIT Hyderabad", offer: "Center for Innovation and Entrepreneurship: incubation for technology startups." },
   { name: "SIIC, IIT Kanpur", kind: "incubator", geo: "UP", base: "IIT Kanpur", offer: "Startup Innovation and Incubation Centre for technology startups." },
   { name: "TIDES, IIT Roorkee", kind: "incubator", geo: "UT", base: "IIT Roorkee", offer: "Incubation for technology startups in Uttarakhand." },

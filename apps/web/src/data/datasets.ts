@@ -41,7 +41,7 @@ export async function loadDataset(id: DatasetId): Promise<{ rows: Row[]; asOf: s
       };
     case "support":
       return {
-        rows: SUPPORT.map((e) => ({ name: e.name, kind: e.kind, area: e.geo, based: e.base, offer: e.offer, url: e.url ?? null })),
+        rows: SUPPORT.map((e) => ({ name: e.name, kind: e.kind, area: e.geo, based: e.base, offer: e.offer, workspace: e.desks ?? null, especially_for: (e.for ?? []).join(" ") || null, url: e.url ?? null })),
         asOf: SUPPORT_CHECKED ?? SUPPORT_GATHERED,
         checked: !!SUPPORT_CHECKED,
       };

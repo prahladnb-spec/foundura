@@ -3,8 +3,13 @@ import type { Lang } from "@/i18n/config";
 import { legalDetails } from "@/lib/legal";
 import type { SupportEntry } from "@/support/directory";
 
-/** Support organisations as a list: name, kind, host, what they offer, and a way to report a change. */
-export function SupportList({ entries, lang, en }: { entries: SupportEntry[]; lang: Lang; en?: string }) {
+/**
+ * Support organisations as a list: name, kind, host, what they offer, and a way to report a change.
+ * `desks` shows the workspace an entry offers instead of its general offer (the co-working page);
+ * `level` is the heading level of each name, 4 when the list sits under a state heading.
+ */
+export function SupportList({ entries, lang, en, desks, level = 3 }: { entries: SupportEntry[]; lang: Lang; en?: string; desks?: boolean; level?: 3 | 4 }) {
+  const H = level === 4 ? "h4" : "h3";
   const t = getDict(lang);
   const support = legalDetails().supportEmail ?? "support@foundura.org";
   return (
@@ -12,11 +17,11 @@ export function SupportList({ entries, lang, en }: { entries: SupportEntry[]; la
       {entries.map((e) => (
         <li key={e.name} className="border-t-2 border-neel-900 pt-3">
           <p className="text-[0.85rem] font-semibold text-slate">{t.states.supportKinds[e.kind]}</p>
-          <h3 className="text-lg font-semibold" lang={en}>
+          <H className="text-lg font-semibold" lang={en}>
             {e.url ? <a href={e.url} className="underline">{e.name}</a> : e.name}
-          </h3>
+          </H>
           <p className="text-[0.9rem] text-slate" lang={en}>{e.base}</p>
-          <p className="mt-1 text-neel-700" lang={en}>{e.offer}</p>
+          <p className="mt-1 text-neel-700" lang={en}>{desks && e.desks ? e.desks : e.offer}</p>
           <a href={`mailto:${support}?subject=${encodeURIComponent(`Support directory: ${e.name}`)}`} className="mt-1 inline-block text-[0.85rem] text-slate underline">
             {t.funding.report}
             <span className="sr-only" lang={en}>: {e.name}</span>
