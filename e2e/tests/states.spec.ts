@@ -16,7 +16,7 @@ test.describe("states", () => {
     await expect(page).toHaveURL("/states/ka");
     // India-wide support programmes are on the index page.
     await page.goto("/states");
-    await expect(page.locator("section[aria-labelledby=national-h] h3")).toHaveCount(SUPPORT.filter((s) => s.geo === "IN").length);
+    await expect(page.locator("section[aria-labelledby=national-h] h3")).toHaveCount(SUPPORT.filter((s) => s.geo === "IN" && s.kind !== "corporate").length);
   });
 
   test("a state page shows its ranking, schemes, funding, incubators and a scan for that state", async ({ page }) => {

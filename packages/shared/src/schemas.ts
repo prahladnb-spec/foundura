@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CONSENT_PURPOSES, ENTITY_TYPES, INDIAN_STATES, INVESTOR_DOCS, INVESTOR_TYPES, JOURNEY_STAGES, JOURNEY_STEPS, LOOKING_FOR, SECTORS, SHARE_DAYS, STAGES } from "./constants";
+import { CITIES, CONSENT_PURPOSES, ENTITY_TYPES, INDIAN_STATES, INVESTOR_DOCS, INVESTOR_TYPES, JOURNEY_STAGES, JOURNEY_STEPS, LOOKING_FOR, SECTORS, SHARE_DAYS, STAGES } from "./constants";
 
 const values = <T extends readonly { value: string }[]>(list: T) =>
   list.map((x) => x.value) as unknown as [T[number]["value"], ...T[number]["value"][]];
@@ -73,6 +73,8 @@ export const startupProfileSchema = scanInputSchema.extend({
   deckUrl: httpsUrl.optional().or(z.literal("")),
   /** Amount the startup is raising now, in ₹ lakh. Private; used for matching and shown only in intro requests. */
   raisingInrLakh: z.number().min(0).max(1_000_000).optional(),
+  /** One of CITIES, shown on the public page and the city page. Empty string clears it. */
+  city: z.enum(values(CITIES)).optional().or(z.literal("")),
 });
 
 /** Filters for the public startup directory. */
@@ -81,6 +83,7 @@ export const startupDirectoryQuerySchema = z.object({
   stage: stageSchema.optional(),
   state: stateSchema.optional(),
   lookingFor: z.enum(values(LOOKING_FOR)).optional(),
+  city: z.enum(values(CITIES)).optional(),
 });
 export type StartupDirectoryQuery = z.infer<typeof startupDirectoryQuerySchema>;
 

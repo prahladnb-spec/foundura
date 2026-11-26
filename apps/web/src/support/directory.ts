@@ -12,8 +12,9 @@ import type { StateTile } from "../funding/directory";
 export const GATHERED_ON = "2026-11-26";
 export const CHECKED_ON: string | null = null;
 
-export type SupportKind = "incubator" | "hub" | "mentoring";
-export const SUPPORT_KINDS: SupportKind[] = ["incubator", "hub", "mentoring"];
+/** corporate: programmes large companies run for startups (accelerators, challenges, pilots). */
+export type SupportKind = "incubator" | "hub" | "mentoring" | "corporate";
+export const SUPPORT_KINDS: SupportKind[] = ["incubator", "hub", "mentoring", "corporate"];
 
 export type SupportEntry = {
   name: string;
@@ -34,6 +35,18 @@ export const SUPPORT: SupportEntry[] = [
   { name: "MeitY Startup Hub", kind: "hub", geo: "IN", base: "Ministry of Electronics and IT, New Delhi", offer: "Brings together MeitY's incubators and programmes for technology startups, including SAMRIDH and TIDE 2.0." },
   { name: "NASSCOM 10000 Startups", kind: "mentoring", geo: "IN", base: "NASSCOM, several cities", offer: "Programmes, mentoring and corporate connections for technology startups.", url: "https://10000startups.com" },
   { name: "TiE (The Indus Entrepreneurs)", kind: "mentoring", geo: "IN", base: "Chapters in many Indian cities", offer: "A non-profit network of entrepreneurs offering mentoring, events and investor connections.", url: "https://tie.org" },
+
+  // ---- Corporate programmes, open across India ----
+  { name: "Google for Startups Accelerator: India", kind: "corporate", geo: "IN", base: "Google, Bengaluru", offer: "A three-month programme for Indian startups building with AI and cloud, with mentoring from Google teams. Applications open once a year." },
+  { name: "Qualcomm Design in India Challenge", kind: "corporate", geo: "IN", base: "Qualcomm India, Bengaluru", offer: "A yearly challenge for hardware and deep-tech startups, with cash awards, mentoring, lab access and help with patents." },
+  { name: "Cisco LaunchPad", kind: "corporate", geo: "IN", base: "Cisco India, Bengaluru", offer: "An accelerator for enterprise technology startups, with mentoring, Cisco product access and introductions to Cisco customers." },
+  { name: "Flipkart Leap", kind: "corporate", geo: "IN", base: "Flipkart, Bengaluru", offer: "Flipkart's startup programmes for commerce and supply-chain technology, with mentoring, pilots and, for some, investment." },
+  { name: "JioGenNext", kind: "corporate", geo: "IN", base: "Reliance Jio, Mumbai", offer: "Reliance's accelerator for early-stage startups, with mentoring and access to Reliance businesses for pilots." },
+  { name: "HDFC Bank SmartUp", kind: "corporate", geo: "IN", base: "HDFC Bank, Mumbai", offer: "Banking and advisory services for startups, and SmartUp grants for social-impact startups." },
+  { name: "Shell E4", kind: "corporate", geo: "IN", base: "Shell, Bengaluru", offer: "An accelerator for energy and clean-technology startups, with technical mentoring and access to Shell's labs and businesses." },
+  { name: "BPCL Project Ankur", kind: "corporate", geo: "IN", base: "Bharat Petroleum, Mumbai", offer: "Bharat Petroleum's programme for startups in energy and related fields, with funding and mentoring." },
+  { name: "IndianOil Startup Scheme", kind: "corporate", geo: "IN", base: "Indian Oil Corporation, New Delhi", offer: "Funding and mentoring from IndianOil for startups working on energy and related technology." },
+  { name: "ONGC Startup Fund", kind: "corporate", geo: "IN", base: "ONGC, New Delhi", offer: "ONGC's fund for startups in energy and oil and gas technology." },
 
   // ---- States and union territories (alphabetical by state) ----
   { name: "Ratan Tata Innovation Hub", kind: "hub", geo: "AP", base: "Government of Andhra Pradesh, Amaravati", offer: "The state's innovation hub, with spokes in other cities, under the Andhra Pradesh startup policy." },

@@ -10,6 +10,7 @@ import { api, ApiError } from "@/lib/api";
 import { userTextLang } from "@/lib/format";
 import { lookingForLabel, sectorLabel, stageLabel, stateLabel } from "@/lib/labels";
 import { legalDetails } from "@/lib/legal";
+import { cityName } from "@/cities/directory";
 import type { StartupPublic } from "@/lib/types";
 
 type Params = Promise<{ slug: string; lang: string }>;
@@ -61,7 +62,7 @@ export default async function StartupPage({ params }: { params: Params }) {
   const rows: [string, string][] = [];
   if (s.sectors.length) rows.push([d.sectors, s.sectors.map((x) => sectorLabel(x, lang)).join(", ")]);
   if (s.stage) rows.push([d.stage, stageLabel(s.stage, lang)]);
-  if (s.state) rows.push([d.basedIn, stateLabel(s.state, lang)]);
+  if (s.state) rows.push([d.basedIn, [cityName(s.city, lang), stateLabel(s.state, lang)].filter(Boolean).join(", ")]);
   if (s.foundedYear) rows.push([d.founded, String(s.foundedYear)]);
   const badges = [s.dpiitRecognised && d.dpiit, s.isDeepTech && d.deepTech].filter(Boolean) as string[];
 

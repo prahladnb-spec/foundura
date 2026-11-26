@@ -113,6 +113,13 @@
       "when": 1795674803338,
       "tag": "0015_guide_topics_authors",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1795685271627,
+      "tag": "0016_startup_city",
+      "breakpoints": true
     }
   ]
 }

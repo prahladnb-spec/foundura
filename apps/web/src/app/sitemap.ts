@@ -1,3 +1,4 @@
+import { CITY_INFO } from "@/cities/directory";
 import { TILES } from "@/funding/directory";
 import { CHAPTERS } from "@/basics/chapters";
 import type { MetadataRoute } from "next";
@@ -50,6 +51,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     page("/sectors/software", "monthly", 0.8),
     page("/partners", "monthly", 0.4),
     page("/states", "monthly", 0.7),
+    page("/cities", "monthly", 0.7),
+    ...CITY_INFO.map((c) => page(`/cities/${c.id}`, "weekly", 0.6)),
+    page("/data", "weekly", 0.5),
+    page("/numbers", "weekly", 0.5),
     ...Object.keys(TILES).map((c) => page(`/states/${c.toLowerCase()}`, "monthly", 0.6)),
     page("/about", "yearly", 0.5),
     page("/contact", "yearly", 0.4),

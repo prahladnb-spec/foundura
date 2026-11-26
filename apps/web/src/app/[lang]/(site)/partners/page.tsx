@@ -15,6 +15,10 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   return pageMetadata("partners", isLang(lang) ? lang : "en");
 }
 
+/** Widget names stay in English (they're typed into the code), marked so. */
+const codes = (text: string) =>
+  text.split(/\b(scan|schemes|events|support)\b/).map((part, i) => (i % 2 ? <code key={i} lang="en">{part}</code> : part));
+
 export default async function PartnersPage({ params }: { params: Params }) {
   const lang = await langOf(params);
   const t = getDict(lang);
@@ -33,19 +37,32 @@ export default async function PartnersPage({ params }: { params: Params }) {
         {pt.where}
       </p>
       <dl className="mt-3 border-t-2 border-neel-900">
-        {[
+        {([
           ["data-state", f(pt.attrs.state, { codes: INDIAN_STATES.slice(0, 6).map((s) => s.value).join(", ") })],
           ["data-stage", pt.attrs.stage],
           ["data-entity-type", pt.attrs.entity],
+          ["data-widget", codes(pt.attrs.widget)],
           ["data-lang", pt.attrs.lang],
           ["data-max-width", pt.attrs.width],
-        ].map(([k, v]) => (
+        ] as [string, React.ReactNode][]).map(([k, v]) => (
           <div key={k} className="grid gap-2 border-b border-rule py-3 md:grid-cols-[12rem_1fr]">
             <dt className="font-semibold"><code lang="en">{k}</code></dt>
             <dd>{v}</dd>
           </div>
         ))}
       </dl>
+
+      <h2 className="display mt-10 text-4xl">{pt.listsTitle}</h2>
+      <p className="mt-2 max-w-[62ch] text-neel-700">{pt.listsLead}</p>
+      <pre className="mt-3 overflow-x-auto rounded-lg bg-neel-900 p-4 text-[0.95rem] text-paper">
+        <code>{["schemes", "events", "support"].map((w) => `<script src="${host}/embed.js" data-widget="${w}" data-state="KA"${lang === "en" ? "" : ` data-lang="${lang}"`} async></script>`).join("\n")}</code>
+      </pre>
+      <iframe
+        src={`${lp(lang, "/embed/support")}?state=KA`}
+        title={pt.listsPreview}
+        className="mt-4 h-[420px] w-full rounded-xl border-2 border-neel-900 bg-paper"
+        loading="lazy"
+      />
 
       <h2 className="display mt-10 text-4xl">{pt.get}</h2>
       <ul className="mt-3 list-disc ps-5 space-y-1.5 max-w-[65ch]">

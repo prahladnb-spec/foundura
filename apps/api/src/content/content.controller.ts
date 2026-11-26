@@ -105,6 +105,22 @@ export class ContentController {
       .slice(0, 5);
   }
 
+  /**
+   * Public totals for "Foundura in numbers": a few anonymous usage counts over the last 30 days.
+   * Daily totals only; nothing here can identify anyone.
+   */
+  @Get("stats/usage")
+  async usageStats() {
+    const since = new Date(Date.now() - 30 * 86_400_000).toISOString().slice(0, 10);
+    const shown = ["scan_run", "template_download", "calendar_add", "signup"] as const;
+    const rows = await this.db
+      .select({ metric: dailyCounts.metric, n: sql<number>`sum(${dailyCounts.count})::int` })
+      .from(dailyCounts)
+      .where(and(gte(dailyCounts.day, since), inArray(dailyCounts.metric, [...shown])))
+      .groupBy(dailyCounts.metric);
+    return { since, totals: Object.fromEntries(shown.map((m) => [m, rows.find((r) => r.metric === m)?.n ?? 0])) };
+  }
+
   @Get("articles/:slug")
   async getArticle(@Param("slug") slug: string) {
     const [a] = await this.db.select().from(articles).where(eq(articles.slug, slug)).limit(1);
@@ -116,8 +132,8 @@ export class ContentController {
   /** The public startup showcase: only founders who chose a public profile, minus any an editor hid. */
   @Get("startups")
   listStartups(@Query() query: Record<string, string>) {
-    const { sector, stage, state, lookingFor } = query;
-    return this.startups.listPublic(parseBody(startupDirectoryQuerySchema, { sector, stage, state, lookingFor }));
+    const { sector, stage, state, lookingFor, city } = query;
+    return this.startups.listPublic(parseBody(startupDirectoryQuerySchema, { sector, stage, state, lookingFor, city }));
   }
 
   @Get("startups/:slug")

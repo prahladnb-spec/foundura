@@ -8,6 +8,7 @@ import { useT } from "@/i18n/client";
 import { lp } from "@/i18n/config";
 import Link from "@/components/locale-link";
 import type { ConsentState, ScanResult, Startup } from "@/lib/types";
+import { CITY_INFO } from "@/cities/directory";
 import { FounderInvestors } from "./founder-investors";
 import { JourneyTracker } from "./journey-tracker";
 import { ShareLink } from "./share-link";
@@ -27,6 +28,7 @@ type Form = {
   entityType: string;
   incorporationDate: string;
   state: string;
+  city: string;
   stage: string;
   sectors: string[];
   turnoverInrCr: string;
@@ -51,6 +53,7 @@ const fromStartup = (s: Startup | null): Form => ({
   entityType: s?.entityType ?? "",
   incorporationDate: s?.incorporationDate ?? "",
   state: s?.state ?? "",
+  city: s?.city ?? "",
   stage: s?.stage ?? "",
   sectors: s?.sectors ?? [],
   turnoverInrCr: s?.turnoverInrCr?.toString() ?? "",
@@ -79,6 +82,7 @@ function toBody(f: Form) {
     entityType: s(f.entityType),
     incorporationDate: s(f.incorporationDate),
     state: s(f.state),
+    city: f.city,
     stage: s(f.stage),
     sectors: f.sectors,
     turnoverInrCr: n(f.turnoverInrCr),
@@ -306,6 +310,14 @@ export function Dashboard({
               <option value="">{t.common.choose}</option>
               {INDIAN_STATES.map((x) => <option key={x.value} value={x.value}>{lab(t.labels.state, x.value)}</option>)}
             </select>
+          </div>
+          <div>
+            <label htmlFor="city" className={label}>{d.city}</label>
+            <select id="city" className={field} value={f.city} onChange={(e) => set("city", e.target.value)} aria-describedby="city-hint">
+              <option value="">{d.cityNone}</option>
+              {CITY_INFO.map((c) => <option key={c.id} value={c.id}>{c.names[lang]}</option>)}
+            </select>
+            <p id="city-hint" className="mt-1 text-[0.85rem] text-slate">{d.cityHint}</p>
           </div>
           <div>
             <label htmlFor="stage" className={label}>{d.stage}</label>

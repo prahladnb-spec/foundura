@@ -2,8 +2,8 @@
  * Foundura Scheme Scan embed.
  * Usage:
  *   <script src="https://YOUR-FOUNDURA-HOST/embed.js" data-state="KA" async></script>
- * Optional attributes: data-state (state code), data-stage, data-entity-type, data-lang (hi, es, de, ar or he; English by default),
- * data-max-width (px).
+ * Optional attributes: data-widget (scan, schemes, events or support; scan by default), data-state (state code),
+ * data-stage, data-entity-type, data-lang (any Foundura language code; English by default), data-max-width (px).
  * The widget sets no cookies and stores no answers.
  */
 (function () {
@@ -34,11 +34,12 @@
     pt: "Verificação de programas Foundura",
   };
   var lang = Object.prototype.hasOwnProperty.call(titles, script.dataset.lang) ? script.dataset.lang : "en";
-  frame.src = origin + (lang === "en" ? "" : "/" + lang) + "/embed/scan" + (params.toString() ? "?" + params : "");
-  frame.title = titles[lang];
+  var widget = ["schemes", "events", "support"].indexOf(script.dataset.widget) >= 0 ? script.dataset.widget : "scan";
+  frame.src = origin + (lang === "en" ? "" : "/" + lang) + "/embed/" + widget + (params.toString() ? "?" + params : "");
+  frame.title = widget === "scan" ? titles[lang] : "Foundura";
   frame.loading = "lazy";
   frame.style.cssText =
-    "width:100%;max-width:" + (script.dataset.maxWidth || "960") + "px;height:900px;border:0;display:block;";
+    "width:100%;max-width:" + (script.dataset.maxWidth || "960") + "px;height:" + (widget === "scan" ? 900 : 480) + "px;border:0;display:block;";
   script.parentNode.insertBefore(frame, script.nextSibling);
 
   window.addEventListener("message", function (e) {

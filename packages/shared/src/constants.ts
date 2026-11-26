@@ -170,3 +170,19 @@ export const JOURNEY_STEPS = JOURNEY_STAGES.flatMap((s) => JOURNEY[s].map((x) =>
 
 /** How long a private profile link may work, in days. */
 export const SHARE_DAYS = [7, 30, 90] as const;
+
+/**
+ * Cities with their own page on /cities, and the city a founder can pick on their profile. Each sits
+ * in one state (site state codes). Names in every language live in apps/web/src/cities/directory.ts.
+ */
+export const CITIES = [
+  { value: "bengaluru", state: "KA" },
+  { value: "delhi-ncr", state: "DL" },
+  { value: "mumbai", state: "MH" },
+  { value: "hyderabad", state: "TG" },
+  { value: "pune", state: "MH" },
+  { value: "chennai", state: "TN" },
+  { value: "ahmedabad", state: "GJ" },
+  { value: "kolkata", state: "WB" },
+] as const;
+export type City = (typeof CITIES)[number]["value"];

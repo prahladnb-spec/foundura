@@ -88,7 +88,13 @@ export default async function StatesPage({ params }: { params: Params }) {
         <section aria-labelledby="national-h" className="mt-12">
           <h2 id="national-h" className="display text-4xl">{d.nationalTitle}</h2>
           <p className="mt-2 rounded-md bg-marigold-50 px-4 py-2.5 text-[0.95rem] text-neel-900">{f(d.unchecked, { date: fmtDate(CHECKED_ON ?? GATHERED_ON, true, lang) })}</p>
-          <SupportList entries={SUPPORT.filter((s) => s.geo === "IN")} lang={lang} en={en} />
+          <SupportList entries={SUPPORT.filter((s) => s.geo === "IN" && s.kind !== "corporate")} lang={lang} en={en} />
+        </section>
+
+        <section aria-labelledby="corporate-h" className="mt-12">
+          <h2 id="corporate-h" className="display text-4xl">{d.corporateTitle}</h2>
+          <p className="mt-2 max-w-[62ch] text-neel-700">{d.corporateLead}</p>
+          <SupportList entries={SUPPORT.filter((s) => s.kind === "corporate")} lang={lang} en={en} />
         </section>
       </div>
     </div>

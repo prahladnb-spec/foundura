@@ -21,6 +21,7 @@ export function publicView(s: Startup) {
     productUrl: s.productUrl,
     lookingFor: s.lookingFor,
     state: s.state,
+    city: s.city,
     sectors: s.sectors,
     stage: s.stage,
     foundedYear: s.incorporationDate ? Number(s.incorporationDate.slice(0, 4)) : null,
@@ -52,9 +53,10 @@ export function toScanInput(s: Startup): ScanInput {
 }
 
 function toColumns(input: Partial<StartupProfileInput>) {
-  const { website, productUrl, sectors, lookingFor, investorDocs, ...rest } = input;
+  const { website, productUrl, sectors, lookingFor, investorDocs, city, ...rest } = input;
   return {
     ...rest,
+    ...(city !== undefined ? { city: city || null } : {}),
     ...(website !== undefined ? { website: website || null } : {}),
     ...(productUrl !== undefined ? { productUrl: productUrl || null } : {}),
     ...(sectors !== undefined ? { sectors } : {}),
@@ -126,6 +128,7 @@ export class StartupsService {
     if (filter.lookingFor) where.push(arrayOverlaps(startups.lookingFor, [filter.lookingFor]));
     if (filter.stage) where.push(eq(startups.stage, filter.stage));
     if (filter.state) where.push(eq(startups.state, filter.state));
+    if (filter.city) where.push(eq(startups.city, filter.city));
     const rows = await this.db.select().from(startups).where(and(...where)).orderBy(desc(startups.updatedAt)).limit(500);
     return rows.map(publicView);
   }

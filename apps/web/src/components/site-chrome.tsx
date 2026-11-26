@@ -106,6 +106,8 @@ export function SiteFooter({ lang }: { lang: Lang }) {
           <li><Link href="/investor-update" className="hover:text-paper">{ft.investorUpdate}</Link></li>
           <li className="pt-3"><Link href="/about" className="hover:text-paper">{ft.about}</Link></li>
           <li><Link href="/contact" className="hover:text-paper">{ft.contact}</Link></li>
+          <li className="pt-3"><Link href="/numbers" className="hover:text-paper">{ft.numbers}</Link></li>
+          <li><Link href="/data" className="hover:text-paper">{ft.data}</Link></li>
         </ul>
         <ul className="space-y-1.5">
           <li><Link href="/learn" className="hover:text-paper">{ft.guides}</Link></li>
@@ -115,6 +117,7 @@ export function SiteFooter({ lang }: { lang: Lang }) {
           <li><Link href="/investors" className="hover:text-paper">{ft.investors}</Link></li>
           <li><Link href="/funding" className="hover:text-paper">{ft.funding}</Link></li>
           <li><Link href="/states" className="hover:text-paper">{ft.states}</Link></li>
+          <li><Link href="/cities" className="hover:text-paper">{ft.cities}</Link></li>
           <li><Link href="/basics" className="hover:text-paper">{ft.basics}</Link></li>
           <li><Link href="/sectors/medtech" className="hover:text-paper">{ft.medtech}</Link></li>
           <li><Link href="/sectors/software" className="hover:text-paper">{ft.software}</Link></li>

@@ -28,7 +28,7 @@ export function PrivacyEn({ legal, version }: { legal: LegalDetails; version: st
         </li>
         <li>
           <strong>Your startup profile</strong> (only what you fill in): to run scans for you, to score readiness, and, if you choose,
-          to show a public profile and to appear in investor matches. It includes your stage and the steps you tick off in the
+          to show a public profile and to appear in investor matches. A public profile's name, place, sector, stage, founding year and DPIIT status also appear on the city pages and in Foundura's open data downloads; switching the profile off removes them. It includes your stage and the steps you tick off in the
           progress tracker.
         </li>
         <li>

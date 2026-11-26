@@ -143,6 +143,27 @@ export const pt: LangContent = {
       excerpt: "Tudo o que um fundador de software ou SaaS na Índia precisa: registro e DPIIT, propriedade do código, GST e exportação com LUT, pagamentos do exterior, TDS, proteção de dados, contratos, vendas ao governo, métricas e programas.",
       keywords: ["startup SaaS", "startup de software Índia", "GST para SaaS", "exportação de serviços", "carta de compromisso LUT", "pagamentos do exterior", "formulário SOFTEX", "TDS sobre software", "lei DPDP", "métricas SaaS", "MRR e churn", "reconhecimento DPIIT", "cessão de propriedade intelectual", "vender software ao governo", "Foundura"],
     },
+    data: {
+      focus: "dados de startups",
+      title: "Dados de startups na Índia: listas abertas | Foundura",
+      description: "Dados de startups na Índia: baixe grátis as listas da Foundura de programas, financiadores, incubadoras, vantagens, eventos e startups em CSV ou JSON.",
+      excerpt: "Dados abertos e gratuitos sobre o apoio a startups na Índia: programas do governo, diretórios de financiamento e apoio, vantagens, próximos eventos e perfis públicos de startups, em CSV ou JSON, sob a licença CC BY 4.0. Nada pessoal.",
+      keywords: ["dados de startups", "dados abertos startups", "programas do governo Índia", "lista de programas CSV", "diretório de financiamento", "incubadoras na Índia", "eventos de startups", "perfis públicos de startups", "CC BY 4.0", "ecossistema de startups", "baixar lista de startups", "dados JSON", "programas DPIIT", "Startup India", "Foundura"],
+    },
+    numbers: {
+      focus: "estatísticas de startups",
+      title: "Estatísticas de startups: Foundura em números | Foundura",
+      description: "Estatísticas de startups na Índia pela Foundura: programas, financiadores, incubadoras e eventos listados, startups públicas por setor e estado, e uso mensal.",
+      excerpt: "A Foundura em números: programas, financiadores, organizações de apoio, vantagens e eventos cobertos, startups públicas por setor e estado, próximos eventos por mês e totais anônimos de verificações, downloads e contas novas em 30 dias.",
+      keywords: ["estatísticas de startups", "startups na Índia", "número de programas", "startups por setor", "startups por estado", "eventos de startups", "Foundura em números", "ecossistema de startups", "programas DPIIT", "dados de apoio a startups", "dados abertos", "verificação de programas", "modelos", "Startup India", "Foundura"],
+    },
+    cities: {
+      focus: "cidades de startups",
+      title: "Cidades de startups na Índia: Bangalore e mais | Foundura",
+      description: "Cidades de startups na Índia: Bangalore, Délhi NCR, Mumbai, Hyderabad, Pune, Chennai, Ahmedabad e Calcutá, com incubadoras, financiadores e eventos de cada uma.",
+      excerpt: "Uma página para cada grande cidade de startups da Índia: as incubadoras, polos e financiadores de lá, os próximos eventos na cidade, as startups que a escolheram na Foundura e os programas do estado.",
+      keywords: ["cidades de startups", "startups em Bangalore", "startups em Délhi", "startups em Mumbai", "startups em Hyderabad", "startups em Pune", "startups em Chennai", "startups em Ahmedabad", "startups em Calcutá", "incubadoras por cidade", "eventos por cidade", "ecossistema de startups", "polos de startups", "T-Hub", "Foundura"],
+    },
   },
   docs: {
     "lean-canvas": { t: "Lean canvas", s: "Toda a sua ideia de negócio em uma página: cliente, problema, solução, canais, receitas e custos." },

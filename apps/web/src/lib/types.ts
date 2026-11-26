@@ -132,6 +132,7 @@ export interface Startup {
   indianPromoterSharePct: number | null;
   deckUrl: string | null;
   raisingInrLakh: number | null;
+  city: string | null;
   journeyStage: string | null;
   journeyDone: string[];
 }
@@ -154,6 +155,7 @@ export interface StartupPublic {
   productUrl: string | null;
   lookingFor: string[];
   state: string | null;
+  city: string | null;
   sectors: string[];
   stage: string | null;
   foundedYear: number | null;

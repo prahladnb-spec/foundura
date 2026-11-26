@@ -107,6 +107,8 @@ export const startups = pgTable(
     turnoverInrCr: doublePrecision("turnover_inr_cr"),
     dpiitRecognised: boolean("dpiit_recognised"),
     state: text("state"),
+    /** A CITIES value, shown on the public page and the city page. */
+    city: text("city"),
     sectors: text("sectors").array().notNull().default([]),
     stage: text("stage"),
     isDeepTech: boolean("is_deep_tech"),

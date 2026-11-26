@@ -37,7 +37,10 @@ export type PageKey =
   | "states"
   | "perks"
   | "investorUpdate"
-  | "software";
+  | "software"
+  | "data"
+  | "numbers"
+  | "cities";
 
 const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
   home: {
@@ -902,6 +905,60 @@ const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
       description: "भारत में SaaS स्टार्टअप गाइड: रजिस्ट्रेशन, GST और ज़ीरो-रेटेड निर्यात, विदेशी भुगतान, TDS, DPDP अधिनियम, निवेशकों के पसंदीदा आँकड़े और जाँचने लायक़ योजनाएँ।",
       excerpt: "भारत के सॉफ़्टवेयर या SaaS संस्थापकों के लिए सब कुछ एक जगह: कंपनी और DPIIT रजिस्ट्रेशन, कोड का स्वामित्व, GST और LUT के साथ निर्यात, विदेशी भुगतान, TDS, डेटा सुरक्षा, अनुबंध, सरकार को बिक्री, अहम आँकड़े और योजनाएँ।",
       keywords: ["SaaS स्टार्टअप", "सॉफ़्टवेयर स्टार्टअप", "SaaS पर GST", "सेवाओं का निर्यात GST", "लेटर ऑफ़ अंडरटेकिंग", "विदेशी भुगतान", "SOFTEX फ़ॉर्म", "सॉफ़्टवेयर पर TDS", "DPDP अधिनियम", "SaaS मेट्रिक्स", "MRR और चर्न", "DPIIT मान्यता", "IP असाइनमेंट", "सरकार को सॉफ़्टवेयर बेचना", "Foundura"],
+    },
+  },
+  data: {
+    en: {
+      slug: "/data",
+      focus: "startup data India",
+      title: "Startup data India: open lists to download | Foundura",
+      description: "Startup data India: download Foundura's lists of government schemes, funders, incubators, perks, events and public startups as CSV or JSON, free under CC BY.",
+      excerpt: "Free open data on Indian startup support: government schemes, the funding and support directories, perks, upcoming events and public startup profiles, as CSV for spreadsheets or JSON for code, under the CC BY 4.0 licence. Nothing personal is ever included.",
+      keywords: ["startup data India", "open data startups", "government schemes dataset", "startup schemes CSV", "funding directory data", "incubators list India", "startup events data", "public startup profiles", "CC BY 4.0", "startup ecosystem data", "download startup list", "JSON API startups", "DPIIT schemes list", "Startup India data", "Foundura"],
+    },
+    hi: {
+      slug: "/data",
+      focus: "स्टार्टअप डेटा",
+      title: "स्टार्टअप डेटा: डाउनलोड के लिए ओपन सूचियाँ | Foundura",
+      description: "स्टार्टअप डेटा मुफ़्त: सरकारी योजनाओं, फ़ंड देने वालों, इनक्यूबेटर, फ़ायदों, कार्यक्रमों और सार्वजनिक स्टार्टअप की Foundura सूचियाँ CSV या JSON में।",
+      excerpt: "भारतीय स्टार्टअप सहायता पर मुफ़्त ओपन डेटा: सरकारी योजनाएँ, फ़ंडिंग और सहायता डायरेक्टरी, फ़ायदे, आने वाले कार्यक्रम और सार्वजनिक स्टार्टअप प्रोफ़ाइल, स्प्रेडशीट के लिए CSV या कोड के लिए JSON में, CC BY 4.0 लाइसेंस पर। कोई निजी जानकारी कभी नहीं।",
+      keywords: ["स्टार्टअप डेटा", "ओपन डेटा", "सरकारी योजनाओं का डेटा", "योजनाओं की CSV", "फ़ंडिंग डायरेक्टरी डेटा", "इनक्यूबेटर की सूची", "स्टार्टअप कार्यक्रम डेटा", "सार्वजनिक स्टार्टअप प्रोफ़ाइल", "CC BY 4.0", "स्टार्टअप इकोसिस्टम डेटा", "स्टार्टअप सूची डाउनलोड", "JSON डेटा", "DPIIT योजनाएँ", "Startup India डेटा", "Foundura"],
+    },
+  },
+  numbers: {
+    en: {
+      slug: "/numbers",
+      focus: "Indian startup statistics",
+      title: "Indian startup statistics: Foundura in numbers | Foundura",
+      description: "Indian startup statistics from Foundura: how many schemes, funders, incubators and events we list, startups by sector and state, and monthly usage totals.",
+      excerpt: "Foundura in numbers: the schemes, funders, support organisations, perks and events it covers, public startups by sector and state, upcoming events by month, and anonymous totals of scans, downloads and new accounts over the last 30 days.",
+      keywords: ["Indian startup statistics", "startup numbers India", "startup schemes count", "startups by sector India", "startups by state", "startup events India", "Foundura in numbers", "startup ecosystem India", "DPIIT schemes", "startup support data", "open data", "Scheme Scan", "startup templates", "Startup India", "Foundura"],
+    },
+    hi: {
+      slug: "/numbers",
+      focus: "स्टार्टअप आँकड़े",
+      title: "स्टार्टअप आँकड़े: आँकड़ों में Foundura | Foundura",
+      description: "भारतीय स्टार्टअप आँकड़े Foundura से: कितनी योजनाएँ, फ़ंड देने वाले, इनक्यूबेटर और कार्यक्रम सूची में हैं, सेक्टर और राज्य के हिसाब से स्टार्टअप, मासिक इस्तेमाल।",
+      excerpt: "आँकड़ों में Foundura: इसकी योजनाएँ, फ़ंड देने वाले, सहायता संस्थाएँ, फ़ायदे और कार्यक्रम, सेक्टर और राज्य के हिसाब से सार्वजनिक स्टार्टअप, महीने के हिसाब से आने वाले कार्यक्रम, और पिछले 30 दिनों की जाँचों, डाउनलोड और नए खातों की गुमनाम कुल संख्या।",
+      keywords: ["स्टार्टअप आँकड़े", "भारत के स्टार्टअप", "योजनाओं की संख्या", "सेक्टर के हिसाब से स्टार्टअप", "राज्य के हिसाब से स्टार्टअप", "स्टार्टअप कार्यक्रम", "आँकड़ों में Foundura", "स्टार्टअप इकोसिस्टम", "DPIIT योजनाएँ", "स्टार्टअप सहायता डेटा", "ओपन डेटा", "योजना जाँच", "स्टार्टअप टेम्पलेट", "Startup India", "Foundura"],
+    },
+  },
+  cities: {
+    en: {
+      slug: "/cities",
+      focus: "startup cities in India",
+      title: "Startup cities in India: Bengaluru, Delhi, more | Foundura",
+      description: "Startup cities in India: Bengaluru, Delhi NCR, Mumbai, Hyderabad, Pune, Chennai, Ahmedabad and Kolkata, each with its incubators, funders, events and startups.",
+      excerpt: "A page for each of India's main startup cities: the incubators, startup hubs and funders based there, upcoming startup events in the city, the startups that chose it on Foundura, and the state's schemes.",
+      keywords: ["startup cities in India", "Bengaluru startups", "Delhi NCR startups", "Mumbai startups", "Hyderabad startups", "Pune startups", "Chennai startups", "Ahmedabad startups", "Kolkata startups", "incubators by city", "startup events by city", "startup ecosystem India", "startup hubs", "T-Hub", "Foundura"],
+    },
+    hi: {
+      slug: "/cities",
+      focus: "भारत के स्टार्टअप शहर",
+      title: "भारत के स्टार्टअप शहर: बेंगलुरु, दिल्ली और अन्य | Foundura",
+      description: "भारत के स्टार्टअप शहर: बेंगलुरु, दिल्ली एनसीआर, मुंबई, हैदराबाद, पुणे, चेन्नई, अहमदाबाद और कोलकाता, हर एक के इनक्यूबेटर, फ़ंड, कार्यक्रम और स्टार्टअप।",
+      excerpt: "भारत के हर मुख्य स्टार्टअप शहर का पेज: वहाँ के इनक्यूबेटर, स्टार्टअप हब और फ़ंड देने वाले, शहर के आने वाले स्टार्टअप कार्यक्रम, Foundura पर उस शहर को चुनने वाले स्टार्टअप, और राज्य की योजनाएँ।",
+      keywords: ["भारत के स्टार्टअप शहर", "बेंगलुरु के स्टार्टअप", "दिल्ली एनसीआर के स्टार्टअप", "मुंबई के स्टार्टअप", "हैदराबाद के स्टार्टअप", "पुणे के स्टार्टअप", "चेन्नई के स्टार्टअप", "अहमदाबाद के स्टार्टअप", "कोलकाता के स्टार्टअप", "शहरवार इनक्यूबेटर", "शहरवार स्टार्टअप कार्यक्रम", "स्टार्टअप इकोसिस्टम", "स्टार्टअप हब", "T-Hub", "Foundura"],
     },
   },
 };
