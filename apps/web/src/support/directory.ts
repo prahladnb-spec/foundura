@@ -21,7 +21,7 @@ export type SupportKind = "incubator" | "hub" | "mentoring" | "corporate" | "cow
 export const SUPPORT_KINDS: SupportKind[] = ["incubator", "hub", "mentoring", "corporate", "coworking", "campus"];
 
 /** Groups a programme is especially for; drives the women founders and students pages. */
-export type SupportFor = "women" | "students";
+export type SupportFor = "women" | "students" | "global";
 
 export type SupportEntry = {
   name: string;
@@ -51,6 +51,10 @@ export const SUPPORT: SupportEntry[] = [
   { name: "Smart India Hackathon", kind: "campus", geo: "IN", base: "Ministry of Education's Innovation Cell and AICTE", offer: "A national hackathon where student teams solve problems set by ministries and companies. Teams enter through their college's internal hackathon.", url: "https://sih.gov.in", for: ["students"] },
   { name: "Institution's Innovation Councils (IIC)", kind: "campus", geo: "IN", base: "Ministry of Education's Innovation Cell, in colleges across India", offer: "Innovation councils of faculty and students in thousands of colleges, running ideation, design-thinking, IP and pre-incubation activities through the year.", for: ["students"] },
   { name: "Atal Tinkering Labs", kind: "campus", geo: "IN", base: "Atal Innovation Mission, in schools across India", offer: "Making and electronics labs in schools, set up with Atal Innovation Mission support, where school students build and test their ideas.", for: ["students"] },
+  { name: "Startup India Investor Connect", kind: "hub", geo: "IN", base: "DPIIT and SIDBI, online", offer: "The government's matchmaking platform, launched in 2023 and built with SIDBI: DPIIT-recognised startups are matched with investors and can pitch to several through one application." },
+  { name: "BHASKAR (Bharat Startup Knowledge Access Registry)", kind: "hub", geo: "IN", base: "DPIIT, online", offer: "A free registry on the Startup India portal that gives startups, investors, mentors, incubators and government bodies a BHASKAR ID and a profile, so they can find and contact each other." },
+  { name: "Startup India international bridges", kind: "hub", geo: "IN", base: "DPIIT, with partner countries", offer: "Startup India's partnerships with around 20 countries, with exchange programmes, mentoring and market access for Indian startups looking abroad.", url: "https://www.startupindia.gov.in/content/sih/en/international.html", for: ["global"] },
+  { name: "SCO Startup Forum", kind: "hub", geo: "IN", base: "Shanghai Cooperation Organisation, India chairs its startup working group", offer: "Meetings and programmes for startups from the Shanghai Cooperation Organisation's member countries, a route to markets in Central Asia and beyond.", for: ["global"] },
   { name: "TiE (The Indus Entrepreneurs)", kind: "mentoring", geo: "IN", base: "Chapters in many Indian cities", offer: "A non-profit network of entrepreneurs offering mentoring, events and investor connections.", url: "https://tie.org" },
 
   // ---- Corporate programmes, open across India ----

@@ -199,6 +199,20 @@ export const fr: LangContent = {
       excerpt: "Un guide simple de la commande publique pour les startups indiennes : inscription sur GeM, nouveaux produits via Startup Runway, exemptions de chiffre d’affaires, d’expérience et de garantie de soumission, règles des États et réclamations, puis pilotes payants, accords de confidentialité, référencement fournisseur et paiement à temps des TPE.",
       keywords: ["vendre à l’État", "inscription GeM", "GeM Startup Runway", "appels d’offres pour startups", "commande publique Inde", "exemption de chiffre d’affaires", "exemption de garantie", "appels d’offres CPPP", "avantages DPIIT", "pilote avec un grand groupe", "vente aux grands comptes", "référencement fournisseur", "inscription Udyam", "paiement des TPE sous 45 jours", "Foundura"],
     },
+    global: {
+      focus: "développer sa startup à l’étranger",
+      title: "Développer sa startup à l’étranger depuis l’Inde | Foundura",
+      description: "Comment développer sa startup à l’étranger : exporter sans GST, protéger sa marque, utiliser les ponts de Startup India et créer une filiale en règle.",
+      excerpt: "Un guide simple pour les fondateurs indiens qui visent l’international : vendre à l’étranger depuis la société indienne, exportations à taux zéro avec une lettre d’engagement, marques et brevets internationaux, ponts de Startup India, règles d’investissement direct pour une filiale et prudence avant de déplacer la société mère.",
+      keywords: ["développer sa startup à l’étranger", "internationalisation", "expansion internationale", "export de services", "lettre d’engagement GST", "investissement direct à l’étranger", "règles ODI 2022", "filiale à l’étranger", "flip d’une startup", "reverse flip", "marque par le système de Madrid", "brevet PCT", "ponts de Startup India", "Forum des startups de l’OCS", "Foundura"],
+    },
+    closing: {
+      focus: "fermer une startup",
+      title: "Fermer une startup en Inde : radiation | Foundura",
+      description: "Comment fermer une startup en Inde : prévenir investisseurs et équipe, régler les dettes, annuler le GST, radier la société (STK-2) ou déposer le bilan.",
+      excerpt: "Un guide étape par étape pour fermer proprement une startup indienne : choisir entre société dormante et fermeture, prévenir investisseurs et équipe, payer salaires, fournisseurs et impôts, annuler le GST, radiation volontaire par le formulaire STK-2, procédure d’insolvabilité rapide et documents à conserver.",
+      keywords: ["fermer une startup", "fermer une société", "radiation d’une société", "formulaire STK-2", "radiation volontaire", "société dormante", "liquider une startup", "insolvabilité rapide", "IBC startups", "annuler le GST", "fermer une LLP", "étapes de la fermeture", "échec d’une startup", "responsabilité des dirigeants", "Foundura"],
+    },
   },
   docs: {
     "lean-canvas": { t: "Lean canvas", s: "Toute votre idée d'entreprise sur une page : client, problème, solution, canaux, revenus et coûts." },

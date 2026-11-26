@@ -9,6 +9,7 @@ test.describe("founder guides: mentors, co-working, students, women and selling"
       await expect(page.getByRole("heading", { level: 1 })).toHaveText(guideText.en[g].title);
       await expect(page.locator("section[aria-labelledby=steps-h] ol > li")).toHaveCount(guideText.en[g].steps.length);
       const list = page.locator("section[aria-labelledby=list-h]");
+      if (!guideEntries(g).length) await expect(list).toHaveCount(0);
       for (const e of guideEntries(g)) await expect(list.getByText(e.name, { exact: true })).toBeVisible();
       // Links to the other four guides, and every guide is in the footer.
       await expect(page.locator("section[aria-labelledby=related-h] li")).toHaveCount(FOUNDER_GUIDES.length - 1);
@@ -39,6 +40,12 @@ test.describe("founder guides: mentors, co-working, students, women and selling"
     await expect(page.getByText("Ce guide est en anglais.")).toBeVisible();
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(guideText.en.students.title);
     await expect(page.locator("main h1").locator("xpath=ancestor::*[@lang][1]")).toHaveAttribute("lang", "en");
+  });
+
+  test("closing explains strike-off and the fast-track route", async ({ page }) => {
+    await page.goto("/closing");
+    await expect(page.getByRole("heading", { name: "Strike off a company with no liabilities" })).toBeVisible();
+    await expect(page.getByText(/fast-track process, which aims to finish in 90 days/)).toBeVisible();
   });
 
   test("site search finds the guides and the support directory", async ({ page }) => {

@@ -64,6 +64,8 @@ export const es: Dict = {
       students: "Fundadores estudiantes",
       women: "Mujeres fundadoras",
       selling: "Vender al Gobierno",
+      global: "Expandirse al exterior",
+      closing: "Cerrar una startup",
     },
     footerNote: "Los detalles de cada programa son resúmenes. Confírmalos siempre en la fuente oficial enlazada antes de solicitar.",
   },

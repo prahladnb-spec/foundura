@@ -25,6 +25,8 @@ const PAGES = [
   "/students",
   "/women",
   "/selling",
+  "/global",
+  "/closing",
   "/cities",
   "/cities/bengaluru",
   "/embed/support?state=KA",

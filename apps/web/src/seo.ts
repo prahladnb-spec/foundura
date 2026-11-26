@@ -45,7 +45,9 @@ export type PageKey =
   | "coworking"
   | "students"
   | "women"
-  | "selling";
+  | "selling"
+  | "global"
+  | "closing";
 
 const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
   home: {
@@ -1054,6 +1056,42 @@ const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
       description: "स्टार्टअप सरकार को बेचना कैसे शुरू करें: GeM पर विक्रेता रजिस्ट्रेशन, स्टार्टअप रनवे, DPIIT स्टार्टअप के लिए टेंडर छूट, और बड़ी कंपनियों के साथ पायलट।",
       excerpt: "भारतीय स्टार्टअप के लिए सरकारी ख़रीद की आसान गाइड: GeM पर रजिस्ट्रेशन, स्टार्टअप रनवे से नए प्रोडक्ट लिस्ट करना, पिछले टर्नओवर, अनुभव और बयाना राशि से छूट, राज्यों के नियम और शिकायत, फिर पेड पायलट, NDA, वेंडर ऑनबोर्डिंग और MSME को समय पर भुगतान।",
       keywords: ["सरकार को बेचना", "GeM रजिस्ट्रेशन", "GeM स्टार्टअप रनवे", "स्टार्टअप के लिए सरकारी टेंडर", "सरकारी ख़रीद", "पिछले टर्नओवर से छूट", "बयाना राशि से छूट", "CPPP टेंडर", "DPIIT ख़रीद लाभ", "कॉर्पोरेट पायलट", "बड़ी कंपनियों को बिक्री", "वेंडर ऑनबोर्डिंग", "उद्यम रजिस्ट्रेशन", "MSME भुगतान 45 दिन", "Foundura"],
+    },
+  },
+  global: {
+    en: {
+      slug: "/global",
+      focus: "expand your startup abroad",
+      title: "Expand your startup abroad from India | Foundura",
+      description: "How to expand your startup abroad from India: export services without GST, protect your brand, use Startup India's bridges and set up a subsidiary legally.",
+      excerpt: "A plain guide for Indian founders going global: selling abroad from your Indian company, zero-rated exports with a letter of undertaking, international trademarks and patents, Startup India's international bridges, overseas direct investment rules for a foreign subsidiary and why moving the parent company abroad needs care.",
+      keywords: ["expand your startup abroad", "going global India", "startup international expansion", "export of services GST", "letter of undertaking", "overseas direct investment", "ODI rules 2022", "foreign subsidiary", "flipping a startup", "reverse flip India", "Madrid Protocol trademark", "PCT patent", "Startup India international bridges", "SCO Startup Forum", "Foundura"],
+    },
+    hi: {
+      slug: "/global",
+      focus: "स्टार्टअप का विदेश में विस्तार",
+      title: "स्टार्टअप का विदेश में विस्तार: पूरी गाइड | Foundura",
+      description: "भारत से स्टार्टअप का विदेश में विस्तार कैसे करें: बिना GST सेवाओं का निर्यात, विदेश में ब्रांड सुरक्षा, Startup India ब्रिज और विदेशी सहायक कंपनी के नियम।",
+      excerpt: "विदेश जाने वाले संस्थापकों के लिए आसान गाइड: भारतीय कंपनी से विदेश में बेचना, लेटर ऑफ़ अंडरटेकिंग के साथ शून्य दर पर निर्यात, अंतरराष्ट्रीय ट्रेडमार्क और पेटेंट, Startup India के अंतरराष्ट्रीय ब्रिज, विदेशी सहायक कंपनी के लिए ओवरसीज़ डायरेक्ट इन्वेस्टमेंट नियम, और मूल कंपनी विदेश ले जाने की सावधानी।",
+      keywords: ["स्टार्टअप का विदेश में विस्तार", "विदेश में कारोबार", "अंतरराष्ट्रीय विस्तार", "सेवाओं का निर्यात", "लेटर ऑफ़ अंडरटेकिंग", "ओवरसीज़ डायरेक्ट इन्वेस्टमेंट", "ODI नियम 2022", "विदेशी सहायक कंपनी", "स्टार्टअप फ़्लिप", "रिवर्स फ़्लिप", "मैड्रिड ट्रेडमार्क", "PCT पेटेंट", "Startup India अंतरराष्ट्रीय ब्रिज", "SCO स्टार्टअप फ़ोरम", "Foundura"],
+    },
+  },
+  closing: {
+    en: {
+      slug: "/closing",
+      focus: "close a startup in India",
+      title: "Close a startup in India: strike-off, insolvency | Foundura",
+      description: "How to close a startup in India properly: tell investors and staff, settle dues, cancel GST, strike off with Form STK-2 or use the fast-track insolvency route.",
+      excerpt: "A step-by-step guide to shutting down an Indian startup cleanly: choosing between dormant status and closure, telling investors and the team, settling salaries, suppliers and taxes, cancelling GST, voluntary strike-off with Form STK-2, fast-track insolvency for startups and the records to keep afterwards.",
+      keywords: ["close a startup in India", "shut down a company", "strike off company", "Form STK-2", "voluntary strike off", "dormant company", "winding up a startup", "fast-track insolvency", "IBC startups", "cancel GST registration", "close an LLP", "company closure process", "startup failure", "director liability", "Foundura"],
+    },
+    hi: {
+      slug: "/closing",
+      focus: "स्टार्टअप बंद करना",
+      title: "स्टार्टअप बंद करना: नाम हटवाना और दिवाला | Foundura",
+      description: "भारत में स्टार्टअप बंद करना सही तरीक़े से: निवेशकों और टीम को बताएँ, बकाया चुकाएँ, GST रद्द करें, STK-2 से नाम हटवाएँ या फ़ास्ट-ट्रैक दिवाला अपनाएँ।",
+      excerpt: "भारतीय स्टार्टअप को ठीक से बंद करने की क़दम-दर-क़दम गाइड: निष्क्रिय कंपनी या बंद करने में चुनाव, निवेशकों और टीम को बताना, वेतन, सप्लायर और टैक्स चुकाना, GST रद्द करना, फ़ॉर्म STK-2 से स्वैच्छिक नाम हटवाना, स्टार्टअप के लिए फ़ास्ट-ट्रैक दिवाला और बाद में रखे जाने वाले रिकॉर्ड।",
+      keywords: ["स्टार्टअप बंद करना", "कंपनी बंद करना", "कंपनी का नाम हटवाना", "फ़ॉर्म STK-2", "स्वैच्छिक स्ट्राइक ऑफ़", "निष्क्रिय कंपनी", "स्टार्टअप का समापन", "फ़ास्ट-ट्रैक दिवाला", "IBC स्टार्टअप", "GST रजिस्ट्रेशन रद्द करना", "LLP बंद करना", "कंपनी बंद करने की प्रक्रिया", "स्टार्टअप की विफलता", "निदेशक की ज़िम्मेदारी", "Foundura"],
     },
   },
 };

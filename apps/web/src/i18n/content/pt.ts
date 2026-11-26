@@ -199,6 +199,20 @@ export const pt: LangContent = {
       excerpt: "Um guia simples de compras públicas para startups indianas: cadastro no GeM, novos produtos pelo Startup Runway, isenções de faturamento anterior, experiência e garantia de proposta, regras estaduais e reclamações, e depois pilotos pagos, acordos de confidencialidade, cadastro de fornecedor e pagamento em dia para micro e pequenas empresas.",
       keywords: ["vender ao governo", "cadastro no GeM", "GeM Startup Runway", "licitações para startups", "compras públicas na Índia", "isenção de faturamento", "isenção de garantia", "licitações CPPP", "vantagens DPIIT", "piloto com grandes empresas", "vendas corporativas", "cadastro de fornecedor", "registro Udyam", "pagamento em 45 dias", "Foundura"],
     },
+    global: {
+      focus: "expandir sua startup",
+      title: "Expandir sua startup da Índia para o exterior | Foundura",
+      description: "Como expandir sua startup para o exterior: exportar serviços sem GST, proteger a marca, usar as pontes da Startup India e abrir uma subsidiária.",
+      excerpt: "Um guia simples para fundadores indianos que vão para fora: vender a partir da empresa indiana, exportações com alíquota zero com carta de compromisso, marcas e patentes internacionais, as pontes internacionais da Startup India, as regras de investimento direto para uma subsidiária e cuidado ao mudar a controladora.",
+      keywords: ["expandir sua startup", "internacionalização", "expansão internacional", "exportação de serviços", "carta de compromisso GST", "investimento direto no exterior", "regras ODI 2022", "subsidiária no exterior", "flip de startup", "reverse flip", "marca pelo Protocolo de Madri", "patente PCT", "pontes da Startup India", "Fórum de Startups da OCX", "Foundura"],
+    },
+    closing: {
+      focus: "encerrar uma startup",
+      title: "Encerrar uma startup na Índia: baixa, insolvência | Foundura",
+      description: "Como encerrar uma startup na Índia: avisar investidores e equipe, quitar dívidas, cancelar o GST, dar baixa com o formulário STK-2 ou usar a insolvência rápida.",
+      excerpt: "Um guia passo a passo para encerrar bem uma startup indiana: escolher entre empresa inativa e encerramento, avisar investidores e equipe, pagar salários, fornecedores e impostos, cancelar o GST, baixa voluntária com o formulário STK-2, insolvência rápida para startups e os registros a guardar depois.",
+      keywords: ["encerrar uma startup", "fechar uma empresa", "baixa de empresa", "formulário STK-2", "baixa voluntária", "empresa inativa", "liquidar uma startup", "insolvência rápida", "IBC startups", "cancelar o GST", "encerrar uma LLP", "processo de encerramento", "fracasso de uma startup", "responsabilidade dos diretores", "Foundura"],
+    },
   },
   docs: {
     "lean-canvas": { t: "Lean canvas", s: "Toda a sua ideia de negócio em uma página: cliente, problema, solução, canais, receitas e custos." },

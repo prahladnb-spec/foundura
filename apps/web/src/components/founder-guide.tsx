@@ -69,6 +69,7 @@ export async function FounderGuidePage({ guide, lang }: { guide: FounderGuide; l
         <Steps id="steps-h" title={t.stepsTitle} steps={t.steps} />
         {corp && <Steps id="corp-steps-h" title={corp.title} steps={corp.steps} />}
 
+        {entries.length > 0 && (
         <section aria-labelledby="list-h" className="mt-14">
           <h2 id="list-h" className="display text-4xl">{t.listTitle}</h2>
           <p className="mt-2 max-w-[62ch] text-neel-700">{t.listLead}</p>
@@ -98,6 +99,7 @@ export async function FounderGuidePage({ guide, lang }: { guide: FounderGuide; l
             <a href={`mailto:${support}?subject=${encodeURIComponent(`Support directory: ${GUIDE_PATH[guide]}`)}`} className="underline">{s.missing}</a>
           </p>
         </section>
+        )}
 
         <div className="mt-14 grid gap-12 md:grid-cols-2">
           {schemeList.length > 0 && (

@@ -75,6 +75,15 @@ export const PERKS: Perk[] = [
     scheme: "credit-guarantee-scheme-startups",
   },
   {
+    id: "self-certification",
+    name: "Self-certify labour and environment rules",
+    by: "Department for Promotion of Industry and Internal Trade",
+    group: "government",
+    offer: "Recognised startups can self-certify compliance with listed labour and environmental laws online, with no labour inspections for a period after recognition unless there's a credible complaint. India's new labour codes replaced many older labour laws, so check the current list on Startup India.",
+    who: "DPIIT-recognised startups",
+    url: "https://www.startupindia.gov.in",
+  },
+  {
     id: "winding-up",
     name: "Faster closure if things don't work out",
     by: "Insolvency and Bankruptcy Board of India",

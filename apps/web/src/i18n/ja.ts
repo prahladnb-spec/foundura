@@ -64,6 +64,8 @@ export const ja: Dict = {
       students: "学生起業家",
       women: "女性起業家",
       selling: "政府への販売",
+      global: "海外展開",
+      closing: "スタートアップをたたむ",
     },
     footerNote: "制度の内容は要約です。申請前に、各制度に記載された公式情報源で必ず確認してください。",
   },

@@ -67,6 +67,8 @@ export const en = {
       students: "Student founders",
       women: "Women founders",
       selling: "Selling to government",
+      global: "Going global",
+      closing: "Closing a startup",
     },
     footerNote: "Scheme details are summaries. Always confirm on the official source linked on each scheme before you apply.",
   },

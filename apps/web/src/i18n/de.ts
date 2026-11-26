@@ -64,6 +64,8 @@ export const de: Dict = {
       students: "Gründen im Studium",
       women: "Gründerinnen",
       selling: "An den Staat verkaufen",
+      global: "Ins Ausland wachsen",
+      closing: "Ein Startup schließen",
     },
     footerNote: "Programmdetails sind Zusammenfassungen. Prüfen Sie vor dem Antrag immer die verlinkte offizielle Quelle.",
   },

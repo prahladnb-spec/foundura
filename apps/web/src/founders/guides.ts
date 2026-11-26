@@ -9,7 +9,7 @@ import { SUPPORT, type SupportEntry } from "../support/directory";
  */
 export const CHECKED_ON = "2026-11-26";
 
-export const FOUNDER_GUIDES = ["mentors", "coworking", "students", "women", "selling"] as const;
+export const FOUNDER_GUIDES = ["mentors", "coworking", "students", "women", "selling", "global", "closing"] as const;
 export type FounderGuide = (typeof FOUNDER_GUIDES)[number];
 
 export const GUIDE_PATH: Record<FounderGuide, string> = {
@@ -18,6 +18,8 @@ export const GUIDE_PATH: Record<FounderGuide, string> = {
   students: "/students",
   women: "/women",
   selling: "/selling",
+  global: "/global",
+  closing: "/closing",
 };
 
 /** Which support directory entries each guide lists. */
@@ -27,6 +29,8 @@ export const GUIDE_ENTRIES: Record<FounderGuide, (e: SupportEntry) => boolean> =
   students: (e) => e.kind === "campus" || !!e.for?.includes("students"),
   women: (e) => !!e.for?.includes("women"),
   selling: (e) => e.kind === "corporate",
+  global: (e) => !!e.for?.includes("global"),
+  closing: () => false,
 };
 
 export const guideEntries = (g: FounderGuide) => SUPPORT.filter(GUIDE_ENTRIES[g]);
@@ -38,6 +42,8 @@ export const GUIDE_LINKS: Record<FounderGuide, { schemes: string[]; docs: string
   students: { schemes: ["dpiit-startup-recognition", "nidhi-prayas", "startup-india-seed-fund"], docs: ["lean-canvas", "customer-interview-script", "founders-agreement", "ip-assignment", "pitch-deck"], guides: ["startup-idea-problem-first", "customer-interviews-startup-guide", "founders-agreement-vesting-guide"] },
   women: { schemes: ["stand-up-india", "dpiit-startup-recognition", "startup-india-seed-fund", "credit-guarantee-scheme-startups"], docs: ["founders-agreement", "cap-table", "pitch-deck", "financial-model"], guides: ["bootstrapping-or-raising-money", "pitch-deck-guide-investors"] },
   selling: { schemes: ["public-procurement-relaxations", "dpiit-startup-recognition"], docs: ["letter-of-intent", "nda", "customer-agreement", "quotation-and-invoice", "case-study", "one-pager"], guides: ["first-customers-startup-sales", "gst-registration-for-startups", "startup-pricing-first-product"] },
+  global: { schemes: ["startup-ipr-fee-benefits"], docs: ["customer-agreement", "data-processing-agreement", "privacy-policy", "nda", "trademark-checklist"], guides: ["gst-registration-for-startups", "dpdp-act-for-startups", "startup-intellectual-property-india"] },
+  closing: { schemes: [], docs: ["resolutions-pack", "financial-records-checklist", "relieving-letter", "investor-update"], guides: ["company-compliance-calendar-india", "investor-update-email-guide"] },
 };
 
 export const GUIDE_SOURCES: Record<FounderGuide, { name: string; url: string }[]> = {
@@ -54,6 +60,7 @@ export const GUIDE_SOURCES: Record<FounderGuide, { name: string; url: string }[]
     { name: "Student Start-up and Innovation Policy, Gujarat", url: "https://ssipgujarat.in" },
     { name: "Kerala Startup Mission: IEDCs", url: "https://iedc.startupmission.in" },
     { name: "Atal Innovation Mission", url: "https://aim.gov.in" },
+    { name: "Startup India: Startup Idea Bank of problem statements", url: "https://www.startupindia.gov.in" },
   ],
   women: [
     { name: "Women Entrepreneurship Platform, NITI Aayog", url: "https://wep.gov.in" },
@@ -65,6 +72,19 @@ export const GUIDE_SOURCES: Record<FounderGuide, { name: string; url: string }[]
     { name: "Government e-Marketplace (GeM)", url: "https://gem.gov.in" },
     { name: "Central Public Procurement Portal", url: "https://eprocure.gov.in" },
     { name: "Udyam registration for MSMEs", url: "https://udyamregistration.gov.in" },
+  ],
+  global: [
+    { name: "Startup India: international engagement", url: "https://www.startupindia.gov.in/content/sih/en/international.html" },
+    { name: "Startup India: market research reports", url: "https://www.startupindia.gov.in" },
+    { name: "Reserve Bank of India: overseas investment rules and directions", url: "https://www.rbi.org.in" },
+    { name: "GST portal: letter of undertaking for exports", url: "https://www.gst.gov.in" },
+    { name: "Intellectual Property India: international trademark and patent filings", url: "https://ipindia.gov.in" },
+  ],
+  closing: [
+    { name: "Ministry of Corporate Affairs: strike-off (Form STK-2)", url: "https://www.mca.gov.in" },
+    { name: "Insolvency and Bankruptcy Board of India", url: "https://ibbi.gov.in" },
+    { name: "GST portal: cancelling a registration", url: "https://www.gst.gov.in" },
+    { name: "Startup India: regulatory support", url: "https://www.startupindia.gov.in" },
   ],
 };
 
@@ -208,6 +228,40 @@ const en: Record<FounderGuide, GuideText> = {
     listNational: "Across India",
     listStates: "By state",
   },
+  global: {
+    title: "Taking your startup abroad",
+    lead: "Selling to customers in other countries, protecting your brand there and, when you're ready, setting up a company abroad, within India's foreign exchange rules.",
+    stepsTitle: "Going global, step by step",
+    steps: [
+      { title: "Sell abroad from India first", body: "Most startups can serve foreign customers from their Indian company. Services paid for in foreign currency can count as exports, which are zero-rated for GST once you file a letter of undertaking each year. Get paid through your bank or an RBI-licensed payment provider and keep the bank's remittance advice." },
+      { title: "Test the market before you move", body: "Use Startup India's international bridges, trade fairs and the commercial wings of Indian missions to meet buyers and partners. The events page lists startup events abroad." },
+      { title: "Protect your name and inventions abroad", body: "An Indian trademark or patent only works in India. You can file in many countries at once through the Madrid system for trademarks and the PCT for patents, both through the Indian IP office." },
+      { title: "Setting up abroad is an overseas investment", body: "Putting money into a foreign subsidiary is an overseas direct investment under the Foreign Exchange Management (Overseas Investment) Rules, 2022. It's made and reported through your bank, within limits linked to your company's net worth, so plan it with your bank and a CA before you send any money." },
+      { title: "Think hard before moving the parent abroad", body: "Moving your holding company abroad (a 'flip') changes your tax position, can end DPIIT recognition and Indian scheme benefits, and is costly to undo. Several Indian startups have recently moved back to list in India. Take tax and legal advice first." },
+      { title: "Follow the other country's rules", body: "Each market has its own rules on data protection, consumer law, tax and employment. Once you have staff or an office abroad, you may owe tax there, and dealings between your Indian and foreign companies must be priced at arm's length." },
+    ],
+    listTitle: "International programmes",
+    listLead: "Government programmes that help Indian startups abroad. Foreign funders and accelerators are on the funding directory.",
+    listNational: "Across India",
+    listStates: "By state",
+  },
+  closing: {
+    title: "Closing a startup properly",
+    lead: "If the startup isn't working, closing it cleanly protects you, your team and your investors, and leaves you free to start again.",
+    stepsTitle: "Closing down, step by step",
+    steps: [
+      { title: "Decide whether to pause or close", body: "If you may come back to the idea, a company that isn't trading can apply to become a dormant company, with fewer filings. If you're done, plan to close it." },
+      { title: "Tell investors and the team early", body: "Check your shareholders' agreement for decisions that need investor consent, and give employees as much notice as you can. A clear, honest update keeps relationships for the next venture." },
+      { title: "Settle what the company owes", body: "Pay final salaries and dues, refund or hand over customers, pay suppliers and taxes, cancel your GST registration on the GST portal and close bank accounts last." },
+      { title: "Strike off a company with no liabilities", body: "Once every liability is cleared, a company that hasn't carried on business for the last two financial years (or never started within a year of incorporation) can apply to remove its name from the register by filing Form STK-2 with the Registrar, with a special resolution or the consent of shareholders holding 75% of the paid-up capital. An LLP applies with its own form." },
+      { title: "Use insolvency if debts can't be paid", body: "If the company can't pay its debts, closure goes through the Insolvency and Bankruptcy Code. Startups with simple debt structures, or that meet set criteria, can use the fast-track process, which aims to finish in 90 days." },
+      { title: "Keep the records", body: "Keep the company's books, tax filings and closure papers for at least eight years. Directors can still be held responsible for liabilities that come to light after closure." },
+    ],
+    listTitle: "",
+    listLead: "",
+    listNational: "",
+    listStates: "",
+  },
 };
 
 /** Extra steps for the selling page: large companies. */
@@ -314,6 +368,40 @@ const hi: Record<FounderGuide, GuideText> = {
     listLead: "एक्सेलरेटर, चुनौतियाँ और पायलट कार्यक्रम: अक्सर पहला बड़ा ग्राहक पाने का सबसे तेज़ रास्ता।",
     listNational: "पूरे भारत में",
     listStates: "राज्य के हिसाब से",
+  },
+  global: {
+    title: "अपना स्टार्टअप विदेश ले जाना",
+    lead: "दूसरे देशों के ग्राहकों को बेचना, वहाँ अपना ब्रांड सुरक्षित रखना और, तैयार होने पर, भारत के विदेशी मुद्रा नियमों के भीतर विदेश में कंपनी बनाना।",
+    stepsTitle: "विदेश में विस्तार, क़दम-दर-क़दम",
+    steps: [
+      { title: "पहले भारत से ही विदेश में बेचें", body: "ज़्यादातर स्टार्टअप अपनी भारतीय कंपनी से ही विदेशी ग्राहकों को सेवा दे सकते हैं। विदेशी मुद्रा में भुगतान वाली सेवाएँ निर्यात गिनी जा सकती हैं, जिन पर हर साल लेटर ऑफ़ अंडरटेकिंग दाख़िल करने के बाद GST शून्य दर पर लगता है। भुगतान अपने बैंक या RBI से लाइसेंस पाए भुगतान प्रदाता से लें और बैंक की रेमिटेंस सूचना रखें।" },
+      { title: "जाने से पहले बाज़ार परखें", body: "ख़रीदारों और साझेदारों से मिलने के लिए Startup India के अंतरराष्ट्रीय ब्रिज, व्यापार मेलों और भारतीय दूतावासों के वाणिज्य विभागों का इस्तेमाल करें। कार्यक्रमों वाले पेज पर विदेश के स्टार्टअप कार्यक्रम हैं।" },
+      { title: "विदेश में नाम और आविष्कार सुरक्षित करें", body: "भारतीय ट्रेडमार्क या पेटेंट सिर्फ़ भारत में काम करता है। ट्रेडमार्क के लिए मैड्रिड प्रणाली और पेटेंट के लिए PCT से, दोनों भारतीय IP कार्यालय के ज़रिए, एक साथ कई देशों में आवेदन किया जा सकता है।" },
+      { title: "विदेश में कंपनी बनाना विदेशी निवेश है", body: "किसी विदेशी सहायक कंपनी में पैसा लगाना विदेशी मुद्रा प्रबंधन (विदेशी निवेश) नियम, 2022 के तहत ओवरसीज़ डायरेक्ट इन्वेस्टमेंट है। यह आपके बैंक के ज़रिए किया और बताया जाता है, कंपनी की नेट वर्थ से जुड़ी सीमाओं के भीतर, इसलिए कोई भी पैसा भेजने से पहले बैंक और CA के साथ योजना बनाएँ।" },
+      { title: "मूल कंपनी विदेश ले जाने से पहले अच्छी तरह सोचें", body: "होल्डिंग कंपनी विदेश ले जाना (फ़्लिप) आपकी टैक्स स्थिति बदल देता है, DPIIT मान्यता और भारतीय योजनाओं के फ़ायदे ख़त्म कर सकता है, और इसे पलटना महँगा है। हाल में कई भारतीय स्टार्टअप भारत में लिस्ट होने के लिए वापस आए हैं। पहले टैक्स और क़ानूनी सलाह लें।" },
+      { title: "दूसरे देश के नियम मानें", body: "हर बाज़ार के डेटा सुरक्षा, उपभोक्ता क़ानून, टैक्स और रोज़गार के अपने नियम हैं। विदेश में कर्मचारी या दफ़्तर होने पर वहाँ टैक्स देना पड़ सकता है, और भारतीय व विदेशी कंपनी के बीच लेन-देन बाज़ार भाव पर होना चाहिए।" },
+    ],
+    listTitle: "अंतरराष्ट्रीय कार्यक्रम",
+    listLead: "विदेश में भारतीय स्टार्टअप की मदद करने वाले सरकारी कार्यक्रम। विदेशी फ़ंड देने वाले और एक्सेलरेटर फ़ंडिंग निर्देशिका में हैं।",
+    listNational: "पूरे भारत में",
+    listStates: "राज्य के हिसाब से",
+  },
+  closing: {
+    title: "स्टार्टअप को सही तरीक़े से बंद करना",
+    lead: "अगर स्टार्टअप नहीं चल रहा, तो उसे ठीक से बंद करना आपको, आपकी टीम और निवेशकों को सुरक्षित रखता है, और आप फिर से शुरुआत करने के लिए आज़ाद रहते हैं।",
+    stepsTitle: "बंद करना, क़दम-दर-क़दम",
+    steps: [
+      { title: "तय करें कि रोकना है या बंद करना", body: "अगर आप इस आइडिया पर लौट सकते हैं, तो कारोबार न कर रही कंपनी कम फ़ाइलिंग वाली निष्क्रिय (डॉरमेंट) कंपनी बनने के लिए आवेदन कर सकती है। अगर काम पूरा हो चुका है, तो बंद करने की योजना बनाएँ।" },
+      { title: "निवेशकों और टीम को जल्दी बताएँ", body: "शेयरधारक समझौते में देखें कि किन फ़ैसलों के लिए निवेशकों की सहमति चाहिए, और कर्मचारियों को जितना हो सके पहले बताएँ। साफ़ और ईमानदार जानकारी अगली शुरुआत के लिए रिश्ते बचाए रखती है।" },
+      { title: "कंपनी का बकाया चुकाएँ", body: "आख़िरी वेतन और बकाया दें, ग्राहकों को पैसे लौटाएँ या दूसरी जगह भेजें, सप्लायरों और टैक्स का भुगतान करें, GST पोर्टल पर GST रजिस्ट्रेशन रद्द करें और बैंक खाते सबसे आख़िर में बंद करें।" },
+      { title: "बिना देनदारी वाली कंपनी का नाम हटवाएँ", body: "सारी देनदारियाँ चुकाने के बाद, पिछले दो वित्त वर्षों से कारोबार न कर रही (या निगमन के एक साल के भीतर शुरू न हुई) कंपनी रजिस्ट्रार के पास फ़ॉर्म STK-2 दाख़िल करके रजिस्टर से अपना नाम हटवाने का आवेदन कर सकती है, इसके लिए विशेष प्रस्ताव या चुकता पूँजी के 75% वाले शेयरधारकों की सहमति चाहिए। LLP अपने अलग फ़ॉर्म से आवेदन करती है।" },
+      { title: "क़र्ज़ न चुक सके तो दिवाला प्रक्रिया अपनाएँ", body: "अगर कंपनी अपने क़र्ज़ नहीं चुका सकती, तो बंद करना दिवाला और शोधन अक्षमता संहिता (IBC) के तहत होता है। सरल क़र्ज़ ढाँचे वाले या तय शर्तें पूरी करने वाले स्टार्टअप फ़ास्ट-ट्रैक प्रक्रिया अपना सकते हैं, जिसका लक्ष्य 90 दिनों में पूरा होना है।" },
+      { title: "रिकॉर्ड संभाल कर रखें", body: "कंपनी के खाते, टैक्स फ़ाइलिंग और बंद करने के काग़ज़ कम से कम आठ साल रखें। बंद होने के बाद सामने आई देनदारियों के लिए निदेशक तब भी ज़िम्मेदार ठहराए जा सकते हैं।" },
+    ],
+    listTitle: "",
+    listLead: "",
+    listNational: "",
+    listStates: "",
   },
 };
 

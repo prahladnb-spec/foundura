@@ -64,6 +64,8 @@ export const fr: Dict = {
       students: "Étudiants fondateurs",
       women: "Femmes fondatrices",
       selling: "Vendre à l’État",
+      global: "Se développer à l’étranger",
+      closing: "Fermer une startup",
     },
     footerNote: "Les fiches des dispositifs sont des résumés. Vérifiez toujours la source officielle indiquée sur chaque fiche avant de déposer une demande.",
   },
