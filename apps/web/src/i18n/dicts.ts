@@ -3,6 +3,7 @@ import { pt } from "./pt";
 import { fr } from "./fr";
 import { ja } from "./ja";
 import { bn } from "./bn";
+import { ml } from "./ml";
 import { gu } from "./gu";
 import { te } from "./te";
 import { ta } from "./ta";
@@ -16,4 +17,4 @@ import { ar } from "./ar";
 import { he } from "./he";
 
 /** Every interface dictionary. Server code reads them through getDict(); tests import this directly. */
-export const DICTS: Record<Lang, Dict> = { en, hi, es, de, ar, he, mr, kn, ta, te, gu, bn, ja, fr, pt };
+export const DICTS: Record<Lang, Dict> = { en, hi, es, de, ar, he, mr, kn, ta, te, gu, bn, ml, ja, fr, pt };

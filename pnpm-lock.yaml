@@ -117,6 +117,9 @@ importers:
       '@fontsource-variable/anek-latin':
         specifier: 5.3.0
         version: 5.3.0
+      '@fontsource-variable/anek-malayalam':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@fontsource-variable/anek-tamil':
         specifier: ^5.3.0
         version: 5.3.0
@@ -577,6 +580,9 @@ packages:
 
   '@fontsource-variable/anek-latin@5.3.0':
     resolution: {integrity: sha512-NqJVtTUYWkPMPXsEy4Ve/xRnXrKLw/gfUYzLidSsdJAMEgNsRNYpJZkorD/xDyBS2mxhfu/y6KsWTetowCQjrQ==}
+
+  '@fontsource-variable/anek-malayalam@5.3.0':
+    resolution: {integrity: sha512-FJ9fo4s7OQ53mR0h5ndtRa9MkQLKo2fkChH8u87Tl40sQPBby5vzSqDA8PVm8HdS2zUhomRNAt2AFfWVd9SHXg==}
 
   '@fontsource-variable/anek-tamil@5.3.0':
     resolution: {integrity: sha512-gIYFuSE22Piov6heULEv29zjPR/vSiMoGxwiJh+NuZa7kWDtm+K2x8VjCY1ph+ACN/ACS9cGPSTwDfc+mLvW4A==}
@@ -3487,6 +3493,8 @@ snapshots:
   '@fontsource-variable/anek-kannada@5.3.0': {}
 
   '@fontsource-variable/anek-latin@5.3.0': {}
+
+  '@fontsource-variable/anek-malayalam@5.3.0': {}
 
   '@fontsource-variable/anek-tamil@5.3.0': {}
 

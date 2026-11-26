@@ -636,7 +636,7 @@ export const pt: Dict = {
       { t: "Nunca lidamos com dinheiro", d: "Nunca pedimos pagamentos, dados bancários ou senhas de uso único, e ninguém pode nos pagar para ter um programa aprovado." },
       { t: "Fontes oficiais primeiro", d: "Cada programa leva à página oficial de inscrição e mostra quando o verificamos pela última vez. O que ainda não foi verificado diz isso." },
       { t: "Seus dados são seus", d: "A verificação não guarda nada do que você digita. Faturamento, financiamento e participação societária nunca aparecem em público, e você pode baixar ou apagar seus dados quando quiser." },
-      { t: "Seu idioma", d: "A Foundura funciona em 15 idiomas. As traduções, exceto o híndi, trazem um aviso até que um falante nativo as revise." },
+      { t: "Seu idioma", d: "A Foundura funciona em 16 idiomas. As traduções, exceto o híndi, trazem um aviso até que um falante nativo as revise." },
     ],
     notTitle: "O que a Foundura não é",
     not: "A Foundura não é um site do governo, nem um escritório de advocacia ou contabilidade, nem um investidor. Não faz inscrições por você e não pode prometer um programa ou financiamento. Para decisões jurídicas, fiscais ou de investimento, fale com um profissional qualificado.",

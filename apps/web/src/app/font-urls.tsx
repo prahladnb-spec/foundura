@@ -29,6 +29,7 @@ const FIRST_FONTS: Record<Lang, URL[]> = {
   te: [new URL("../../node_modules/@fontsource-variable/anek-telugu/files/anek-telugu-telugu-wght-normal.woff2", import.meta.url)],
   gu: [new URL("../../node_modules/@fontsource-variable/anek-gujarati/files/anek-gujarati-gujarati-wght-normal.woff2", import.meta.url)],
   bn: [new URL("../../node_modules/@fontsource-variable/anek-bangla/files/anek-bangla-bengali-wght-normal.woff2", import.meta.url)],
+  ml: [new URL("../../node_modules/@fontsource-variable/anek-malayalam/files/anek-malayalam-malayalam-wght-normal.woff2", import.meta.url)],
   ar: [new URL("../../node_modules/@fontsource-variable/noto-sans-arabic/files/noto-sans-arabic-arabic-wght-normal.woff2", import.meta.url)],
   he: [new URL("../../node_modules/@fontsource-variable/noto-sans-hebrew/files/noto-sans-hebrew-hebrew-wdth-normal.woff2", import.meta.url)],
   ja: [],

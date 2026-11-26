@@ -107,6 +107,14 @@ h3 {
 :lang(bn) .display {
   line-height: 1.2;
 }
+:root:lang(ml) {
+  --font-display: "Anek Latin Variable", "Anek Malayalam Variable", system-ui, sans-serif;
+  --font-body: "Mukta", "Anek Malayalam Variable", system-ui, sans-serif;
+}
+/* Tall vowel signs above and below the line need more room than the poster-tight Latin line. */
+:lang(ml) .display {
+  line-height: 1.2;
+}
 :root:lang(ja) {
   /* Japanese uses the reader's system fonts: a web font for thousands of kanji would blow the page weight budget. */
   --font-display: "Anek Latin Variable", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans JP", "Noto Sans CJK JP", system-ui, sans-serif;

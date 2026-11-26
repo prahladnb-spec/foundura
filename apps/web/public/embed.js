@@ -29,6 +29,7 @@
     te: "Foundura పథకాల తనిఖీ",
     gu: "Foundura યોજના તપાસ",
     bn: "Foundura প্রকল্প যাচাই",
+    ml: "Foundura പദ്ധതി പരിശോധന",
     ja: "Foundura 制度チェック",
     fr: "Vérification des dispositifs Foundura",
     pt: "Verificação de programas Foundura",

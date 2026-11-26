@@ -636,7 +636,7 @@ export const fr: Dict = {
       { t: "Nous ne gérons jamais d'argent", d: "Nous ne demandons jamais de paiement, de coordonnées bancaires ni de code à usage unique, et personne ne peut nous payer pour faire accepter une aide." },
       { t: "Les sources officielles d'abord", d: "Chaque aide renvoie à la page officielle où l'on postule et indique quand nous l'avons vérifiée pour la dernière fois. Ce qui n'est pas encore vérifié est signalé." },
       { t: "Vos données restent les vôtres", d: "La vérification n'enregistre rien de ce que vous saisissez. Chiffre d'affaires, financement et répartition du capital ne sont jamais publics, et vous pouvez télécharger ou supprimer vos données à tout moment." },
-      { t: "Votre langue", d: "Foundura existe en 15 langues. Les traductions, sauf le hindi, portent une mention jusqu'à ce qu'une personne de langue maternelle les ait relues." },
+      { t: "Votre langue", d: "Foundura existe en 16 langues. Les traductions, sauf le hindi, portent une mention jusqu'à ce qu'une personne de langue maternelle les ait relues." },
     ],
     notTitle: "Ce que Foundura n'est pas",
     not: "Foundura n'est ni un site du gouvernement, ni un cabinet d'avocats ou d'expertise comptable, ni un investisseur. Il ne dépose pas de demande à votre place et ne peut pas vous promettre une aide ou un financement. Pour vos décisions juridiques, fiscales ou d'investissement, consultez un professionnel qualifié.",
