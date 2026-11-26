@@ -1,7 +1,7 @@
 import { AdminGuard } from "../admin/admin.guard";
 import { DigestService } from "../digest/digest.service";
 import { NewsletterService } from "../digest/newsletter.service";
-import { Body, Controller, Delete, Get, HttpCode, Inject, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, Inject, Param, Patch, Post, Put, Query, UseGuards } from "@nestjs/common";
 import {
   introRequestSchema,
   introResponseSchema,
@@ -9,7 +9,10 @@ import {
   setConsentSchema,
   patchSchema,
   startupProfileSchema,
- setLocaleSchema } from "@foundura/shared";
+ setLocaleSchema,
+  journeySchema,
+  shareLinkSchema,
+} from "@foundura/shared";
 import { IntrosService } from "../investors/intros.service";
 import { InvestorsService } from "../investors/investors.service";
 import { eq } from "drizzle-orm";
@@ -21,6 +24,7 @@ import type { Db } from "../db/client";
 import { DB } from "../db/db.module";
 import { users } from "../db/schema";
 import { ScanService } from "../scan/scan.service";
+import { SharesService } from "../startups/shares.service";
 import { StartupsService, toScanInput } from "../startups/startups.service";
 
 /** Everything about the signed-in person: profile, startups, consents and DPDP/GDPR rights. */
@@ -37,6 +41,7 @@ export class MeController {
     @Inject(AdminGuard) private readonly adminGuard: AdminGuard,
     @Inject(DigestService) private readonly digest: DigestService,
     @Inject(NewsletterService) private readonly newsletter: NewsletterService,
+    @Inject(SharesService) private readonly shares: SharesService,
   ) {}
 
   @Get()
@@ -140,6 +145,32 @@ export class MeController {
     await this.startups.remove(user.id, id);
   }
 
+  /** Progress tracker: the founder's stage and the steps they've ticked off. */
+  @Put("startups/:id/journey")
+  async setJourney(@CurrentUser() user: SessionUser, @Param("id") id: string, @Body() body: unknown) {
+    const { stage, done } = parseBody(journeySchema, body);
+    const s = await this.startups.setJourney(user.id, id, stage, [...new Set(done)]);
+    return { stage: s.journeyStage, done: s.journeyDone };
+  }
+
+  // ----- private profile link -----
+
+  @Get("startups/:id/share")
+  getShare(@CurrentUser() user: SessionUser, @Param("id") id: string) {
+    return this.shares.current(user.id, id);
+  }
+
+  @Post("startups/:id/share")
+  createShare(@CurrentUser() user: SessionUser, @Param("id") id: string, @Body() body: unknown) {
+    return this.shares.create(user.id, id, parseBody(shareLinkSchema, body));
+  }
+
+  @Delete("startups/:id/share")
+  @HttpCode(204)
+  async deleteShare(@CurrentUser() user: SessionUser, @Param("id") id: string) {
+    await this.shares.remove(user.id, id);
+  }
+
   /** Scheme Scan run from the saved profile. */
   @Get("startups/:id/scan")
   async scanStartup(@CurrentUser() user: SessionUser, @Param("id") id: string, @Query("lang") lang?: string) {
@@ -167,10 +198,12 @@ export class MeController {
   async export(@CurrentUser() user: SessionUser) {
     const [row] = await this.db.select().from(users).where(eq(users.id, user.id));
     const investor = await this.investors.getMine(user.id);
+    const mine = await this.startups.listMine(user.id);
     return {
       exportedAt: new Date().toISOString(),
       account: row,
-      startups: await this.startups.listMine(user.id),
+      startups: mine,
+      privateProfileLinks: await this.shares.exportFor(mine.map((s) => s.id)),
       investorProfile: investor,
       introRequests: await this.intros.exportFor(user.id, investor),
       consentHistory: await this.consents.history(user.id),
@@ -180,7 +213,7 @@ export class MeController {
   }
 
   /**
-   * Right to erasure: deletes the account; startups, investor profile, intros, consent rows and digest history
+   * Right to erasure: deletes the account; startups (with their private links), investor profile, intros, consent rows and digest history
    * cascade. A weekly-email subscription for the same address (made without signing in) goes too.
    */
   @Delete()

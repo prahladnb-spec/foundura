@@ -35,6 +35,8 @@ import { InvestorsService } from "./investors/investors.service";
 import { MeController } from "./me/me.controller";
 import { ScanController } from "./scan/scan.controller";
 import { ScanService } from "./scan/scan.service";
+import { SharesController } from "./startups/shares.controller";
+import { SharesService } from "./startups/shares.service";
 import { StartupsService } from "./startups/startups.service";
 
 export function buildAppModule(config: AppConfig) {
@@ -45,7 +47,7 @@ export function buildAppModule(config: AppConfig) {
       JwtModule.register({ global: true, secret: config.JWT_SECRET, signOptions: { expiresIn: "30d" } }),
       ThrottlerModule.forRoot([{ ttl: 60_000, limit: 120 }]),
     ],
-    controllers: [AuthController, MeController, ScanController, ContentController, InvestorsController, AdminController, AdminConsoleController, DigestController, NewsletterController, AdminDigestController, HealthController, EventsController, AdminEventsController, OpsController, MetricsController],
+    controllers: [AuthController, MeController, ScanController, ContentController, InvestorsController, AdminController, AdminConsoleController, DigestController, NewsletterController, AdminDigestController, HealthController, EventsController, AdminEventsController, OpsController, MetricsController, SharesController],
     providers: [
       AuthService,
       AdminGuard,
@@ -66,6 +68,7 @@ export function buildAppModule(config: AppConfig) {
       ConsentService,
       ScanService,
       StartupsService,
+      SharesService,
       { provide: APP_GUARD, useClass: ThrottlerGuard },
     ],
   })

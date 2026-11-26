@@ -11,6 +11,7 @@ import type { ArticleSummary, EventItem, InvestorPublic, Scheme, StartupPublic }
 import { fmtRange } from "@/lib/format";
 import { FUNDING, fundingId, isState } from "@/funding/directory";
 import { CHAPTERS } from "@/basics/chapters";
+import { PERKS } from "@/perks/directory";
 
 /** What a result shows: a link, a title and a line or two, plus whether the text is in English. */
 export interface ResultView {
@@ -161,6 +162,16 @@ export async function catalogue(lang: Lang): Promise<SearchIndex<ResultView>> {
         meta: [{ text: isState(e.geo) ? String(lab(getDict(lang).labels.state, e.geo)) : getDict(lang).funding.regions[e.geo], en: false }],
         en: foreign,
       },
+    });
+  }
+
+  // Startup perks: entries are English; group names in every language.
+  for (const p of PERKS) {
+    add("perk", `perk-${p.id}`, {
+      title: [p.name],
+      tags: [p.by, ...LANGS.map((l) => getDict(l).perks.groups[p.group])],
+      body: [p.offer, p.who],
+      data: { href: `/perks#perk-${p.id}`, title: p.name, summary: p.offer, meta: [{ text: getDict(lang).perks.groups[p.group], en: false }], en: foreign },
     });
   }
 

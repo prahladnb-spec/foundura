@@ -14,6 +14,7 @@ export type ArtName =
   | "policy"
   | "glossary"
   | "letter"
+  | "perks"
   | "empty";
 
 export function Art({ name, className = "", eager = false }: { name: ArtName; className?: string; eager?: boolean }) {

@@ -12,7 +12,7 @@ import "@fontsource-variable/anek-tamil/wght.css";
 import "@fontsource-variable/anek-kannada/wght.css";
 import "../globals.css";
 import { FontPreloads } from "../font-urls";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { getDict } from "@/i18n";
 import { isLang, LANG_INFO, LANGS } from "@/i18n/config";
@@ -32,8 +32,13 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     title: { default: t.meta.defaultTitle, template: "%s | Foundura" },
     description: t.meta.description,
     openGraph: { siteName: "Foundura", locale: t.meta.ogLocale, type: "website" },
+    // Installable on phones and computers: a manifest per language, so the app opens in the founder's language.
+    manifest: `/api/manifest/${isLang(lang) ? lang : "en"}`,
+    appleWebApp: { capable: true, title: "Foundura", statusBarStyle: "default" },
   };
 }
+
+export const viewport: Viewport = { themeColor: "#f7f8fc" };
 
 export default async function RootLayout({ children, params }: { children: React.ReactNode; params: Promise<{ lang: string }> }) {
   const { lang } = await params;

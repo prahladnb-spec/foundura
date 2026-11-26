@@ -64,6 +64,9 @@ const nextConfig: NextConfig = {
         source: `/:lang(${PREFIXED})/embed/:path*`,
         headers: [...common, { key: "Content-Security-Policy", value: csp("*") }],
       },
+      // Private profile links carry their key in the path: never send it on as a referrer, never index it.
+      { source: "/shared/:token", headers: [{ key: "Referrer-Policy", value: "no-referrer" }, { key: "X-Robots-Tag", value: "noindex, nofollow" }] },
+      { source: `/:lang(${PREFIXED})/shared/:token`, headers: [{ key: "Referrer-Policy", value: "no-referrer" }, { key: "X-Robots-Tag", value: "noindex, nofollow" }] },
       { source: "/embed.js", headers: [{ key: "Cache-Control", value: "public, max-age=3600" }] },
     ];
   },

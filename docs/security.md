@@ -32,6 +32,8 @@ Email addresses, startup and investor profiles (including private figures such a
 | Unsubscribe | 20 a minute |
 | Usage beacon | 60 a minute |
 | Web error reports | 30 a minute |
+| Open a private profile link | 30 a minute |
+| Weekly email sign-up | 5 a minute |
 | Intro requests | up to 10 waiting for a reply at a time, per startup |
 | Public reads (content, events, investors, health) | not limited; they're cached and read-only |
 
@@ -43,6 +45,7 @@ Set in `apps/web/next.config.ts` and checked by `e2e/tests/security.spec.ts`:
 
 - `Content-Security-Policy`: everything from our own origin only (`default-src 'self'`), no plugins, no outside forms, and framing refused (`frame-ancestors 'none'`). Inline scripts are allowed because Next.js adds small ones to statically built pages; nonces would make every page render per request. The scan widget under `/embed` (and `/<lang>/embed` for every language in `LANGS`, built into the rule in `next.config.ts`) may be framed by any site; it sets no cookies and stores nothing. `e2e/tests/security.spec.ts` checks every language.
 - `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Cross-Origin-Opener-Policy: same-origin`, and a `Permissions-Policy` that turns off camera, microphone, location, payment, USB and ad topics.
+- Private profile links (`/shared/<key>` in every language) also send `Referrer-Policy: no-referrer` and `X-Robots-Tag: noindex, nofollow`, so the key in the address never leaves in a referrer or reaches a search index; the usage counter skips these pages. The key is 32 random bytes; the database keeps only its SHA-256 hash, one link per startup, and expired links are deleted when links are made or opened.
 - HSTS comes from Caddy.
 
 If a page needs something from another site (a video, a font, a map), add that host to the policy deliberately; the browser test fails on anything the policy blocks.

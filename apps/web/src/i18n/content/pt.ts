@@ -122,6 +122,20 @@ export const pt: LangContent = {
       excerpt: "Uma página para cada estado e território da Índia: programas para startups, financiamento, incubadoras e startups na Foundura, e o resultado no ranking estadual do DPIIT.",
       keywords: ["apoio a startups por estado", "política de startups Índia", "programas por estado", "ranking estadual de startups", "ranking do DPIIT", "incubadoras na Índia", "incubadoras por estado", "missões de startups", "startups de Karnataka", "startups de Gujarat", "Kerala Startup Mission", "T-Hub", "hubs de startups Índia", "Startup India", "Foundura"],
     },
+    perks: {
+      focus: "vantagens para startups",
+      title: "Vantagens para startups: créditos e ajuda DPIIT | Foundura",
+      description: "Vantagens para startups na Índia: créditos grátis de nuvem e IA, descontos em software e os benefícios fiscais do reconhecimento do DPIIT, com links oficiais.",
+      excerpt: "Créditos gratuitos, descontos em software e benefícios do governo para startups na Índia, de AWS, Google e Microsoft até descontos em taxas de patente e isenção de imposto com o reconhecimento do DPIIT. Só links oficiais, sem acordos nem rastreamento.",
+      keywords: ["vantagens para startups", "créditos para startups", "créditos de nuvem grátis", "AWS Activate", "Google for Startups Cloud Program", "Microsoft for Startups", "NVIDIA Inception", "benefícios do reconhecimento DPIIT", "isenção de imposto 80-IAC", "desconto em taxas de patente", "descontos para startups", "Zoho for Startups", "software para startups", "Startup India", "Foundura"],
+    },
+    investorUpdate: {
+      focus: "atualização para investidores",
+      title: "Atualização para investidores: crie a sua grátis | Foundura",
+      description: "Escreva sua atualização para investidores mensal em minutos: novidades e números, runway calculado e um e-mail pronto para copiar. Grátis e privado.",
+      excerpt: "Um formulário gratuito que transforma os destaques do mês, desafios, receita, gastos, caixa e pedidos num e-mail curto para investidores, com o runway calculado. Funciona no seu navegador: nada é salvo nem enviado.",
+      keywords: ["atualização para investidores", "atualização mensal para investidores", "modelo de atualização para investidores", "e-mail para investidores", "relatório para investidores", "novidades da startup", "calculadora de runway", "taxa de queima", "métricas de startups", "relação com investidores", "informar investidores", "relatórios de startups", "investidores-anjo", "capital de risco", "Foundura"],
+    },
   },
   docs: {
     "lean-canvas": { t: "Lean canvas", s: "Toda a sua ideia de negócio em uma página: cliente, problema, solução, canais, receitas e custos." },

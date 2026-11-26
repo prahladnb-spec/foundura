@@ -28,7 +28,13 @@ export function PrivacyEn({ legal, version }: { legal: LegalDetails; version: st
         </li>
         <li>
           <strong>Your startup profile</strong> (only what you fill in): to run scans for you, to score readiness, and, if you choose,
-          to show a public profile and to appear in investor matches.
+          to show a public profile and to appear in investor matches. It includes your stage and the steps you tick off in the
+          progress tracker.
+        </li>
+        <li>
+          <strong>Private profile links:</strong> if you make one, which parts it shows, when it was made and when it stops working.
+          We keep only a scrambled copy of the link itself, and anyone you send it to sees only what you chose, never your figures.
+          The link is deleted when it expires, when you switch it off or when you delete your profile.
         </li>
         <li>
           <strong>Investor profile and intro requests:</strong> if you list yourself as an investor or send or receive an intro, the

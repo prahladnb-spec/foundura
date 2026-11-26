@@ -31,4 +31,4 @@ async function forward(req: Request, ctx: { params: Promise<{ path: string[] }> 
   return out;
 }
 
-export { forward as GET, forward as POST, forward as PATCH, forward as DELETE };
+export { forward as GET, forward as POST, forward as PUT, forward as PATCH, forward as DELETE };

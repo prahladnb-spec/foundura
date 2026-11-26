@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import { LANGS } from "@/i18n/config";
 
 type Beacon = { metric: "page_view" | "template_download" | "calendar_add" | "calendar_subscribe" | "search"; key?: string };
 
@@ -16,8 +17,8 @@ function send(b: Beacon) {
   }
 }
 
-/** Private pages aren't counted by path. */
-const SKIP = /^\/(hi\/)?(admin|dashboard|unsubscribe|signin|embed)(\/|$)/;
+/** Private pages aren't counted by path, in any language. A private profile link's path holds its key, so it never leaves the browser here. */
+const SKIP = new RegExp(`^/((${LANGS.join("|")})/)?(admin|dashboard|unsubscribe|signin|embed|shared|newsletter)(/|$)`);
 
 /** What a link click counts as, if anything. */
 function fromLink(href: string): Beacon | null {

@@ -128,6 +128,16 @@ export interface Startup {
   indianPromoterSharePct: number | null;
   deckUrl: string | null;
   raisingInrLakh: number | null;
+  journeyStage: string | null;
+  journeyDone: string[];
+}
+
+/** What a private profile link shows: settings and dates, never the token. */
+export interface ShareState {
+  showReadiness: boolean;
+  showProgress: boolean;
+  createdAt: string;
+  expiresAt: string;
 }
 
 /** A startup on the public showcase. Never carries financial figures. */

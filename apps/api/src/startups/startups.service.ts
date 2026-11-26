@@ -98,6 +98,16 @@ export class StartupsService {
     return s;
   }
 
+  async setJourney(ownerId: string, id: string, stage: string | null, done: string[]): Promise<Startup> {
+    await this.getMine(ownerId, id);
+    const [s] = await this.db
+      .update(startups)
+      .set({ journeyStage: stage, journeyDone: done })
+      .where(and(eq(startups.id, id), eq(startups.ownerId, ownerId)))
+      .returning();
+    return s;
+  }
+
   async remove(ownerId: string, id: string) {
     await this.getMine(ownerId, id);
     await this.db.delete(startups).where(and(eq(startups.id, id), eq(startups.ownerId, ownerId)));

@@ -34,7 +34,9 @@ export type PageKey =
   | "partners"
   | "about"
   | "contact"
-  | "states";
+  | "states"
+  | "perks"
+  | "investorUpdate";
 
 const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
   home: {
@@ -845,6 +847,42 @@ const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
       description: "भारत में राज्यवार स्टार्टअप सहायता: हर राज्य की स्टार्टअप योजनाएँ, फ़ंडिंग, इनक्यूबेटर और स्टार्टअप, और DPIIT की ताज़ा रैंकिंग में उसका स्थान।",
       excerpt: "भारत के हर राज्य और केंद्र शासित प्रदेश का पेज: उसकी स्टार्टअप योजनाएँ, फ़ंडिंग कार्यक्रम, इनक्यूबेटर और Foundura पर उसके स्टार्टअप, और DPIIT की राज्य स्टार्टअप रैंकिंग में उसका नतीजा।",
       keywords: ["राज्यवार स्टार्टअप सहायता", "राज्य स्टार्टअप नीति", "राज्यवार स्टार्टअप योजनाएँ", "राज्य स्टार्टअप रैंकिंग", "DPIIT राज्य स्टार्टअप रैंकिंग", "भारत में इनक्यूबेटर", "राज्यवार स्टार्टअप इनक्यूबेटर", "राज्य स्टार्टअप मिशन", "कर्नाटक के स्टार्टअप", "गुजरात के स्टार्टअप", "केरल स्टार्टअप मिशन", "T-Hub", "स्टार्टअप हब", "Startup India", "Foundura"],
+    },
+  },
+  perks: {
+    en: {
+      slug: "/perks",
+      focus: "startup perks",
+      title: "Startup perks: free credits and DPIIT benefits | Foundura",
+      description: "Startup perks for Indian founders: free cloud and AI credits, software discounts and the tax and fee benefits DPIIT recognition unlocks, with official links.",
+      excerpt: "Free credits, software discounts and government benefits that startups in India can claim, from AWS, Google and Microsoft to the patent fee rebates and tax holiday that come with DPIIT recognition. Official links only; no deals and no tracking.",
+      keywords: ["startup perks", "startup credits India", "free cloud credits for startups", "AWS Activate", "Google for Startups Cloud Program", "Microsoft for Startups", "NVIDIA Inception", "DPIIT recognition benefits", "Section 80-IAC tax holiday", "patent fee rebate for startups", "startup discounts", "Zoho for Startups", "software for startups", "Startup India benefits", "Foundura"],
+    },
+    hi: {
+      slug: "/perks",
+      focus: "स्टार्टअप के लिए फ़ायदे",
+      title: "स्टार्टअप के लिए फ़ायदे: मुफ़्त क्रेडिट और छूट | Foundura",
+      description: "स्टार्टअप के लिए फ़ायदे: मुफ़्त क्लाउड और AI क्रेडिट, सॉफ़्टवेयर पर छूट, और DPIIT मान्यता से मिलने वाले कर और फ़ीस लाभ, आधिकारिक लिंक के साथ।",
+      excerpt: "मुफ़्त क्रेडिट, सॉफ़्टवेयर पर छूट और सरकारी लाभ जो भारत के स्टार्टअप ले सकते हैं: AWS, Google और Microsoft से लेकर DPIIT मान्यता के साथ मिलने वाली पेटेंट फ़ीस छूट और कर छूट तक। सिर्फ़ आधिकारिक लिंक; कोई सौदा नहीं, कोई ट्रैकिंग नहीं।",
+      keywords: ["स्टार्टअप के लिए फ़ायदे", "स्टार्टअप क्रेडिट", "मुफ़्त क्लाउड क्रेडिट", "AWS Activate", "Google for Startups Cloud Program", "Microsoft for Startups", "NVIDIA Inception", "DPIIT मान्यता के लाभ", "धारा 80-IAC कर छूट", "पेटेंट फ़ीस में छूट", "स्टार्टअप छूट", "Zoho for Startups", "स्टार्टअप के लिए सॉफ़्टवेयर", "Startup India लाभ", "Foundura"],
+    },
+  },
+  investorUpdate: {
+    en: {
+      slug: "/investor-update",
+      focus: "investor update",
+      title: "Investor update builder for startup founders | Foundura",
+      description: "Write your monthly investor update in minutes: add your news and numbers, get runway worked out, and copy a clean email. Free, private, nothing is stored.",
+      excerpt: "A free form that turns this month's highlights, challenges, revenue, spending, cash and asks into a short investor update email, with runway worked out for you. It runs in your browser: nothing is saved or sent.",
+      keywords: ["investor update", "monthly investor update", "investor update template", "investor update email", "startup investor update", "founder update", "runway calculator", "burn rate", "startup metrics", "investor relations for startups", "update to investors", "startup reporting", "angel investors", "venture capital", "Foundura"],
+    },
+    hi: {
+      slug: "/investor-update",
+      focus: "निवेशक अपडेट",
+      title: "निवेशक अपडेट बनाएँ: संस्थापकों के लिए मुफ़्त टूल | Foundura",
+      description: "कुछ ही मिनटों में हर महीने का निवेशक अपडेट लिखें: ख़बरें और आँकड़े भरें, रनवे का हिसाब पाएँ और साफ़ ईमेल कॉपी करें। मुफ़्त, निजी, कुछ भी सेव नहीं होता।",
+      excerpt: "एक मुफ़्त फ़ॉर्म जो इस महीने की ख़ास बातें, चुनौतियाँ, आय, ख़र्च, नकदी और माँगें एक छोटे निवेशक अपडेट ईमेल में बदल देता है, रनवे के हिसाब के साथ। यह आपके ब्राउज़र में चलता है: कुछ भी सेव या भेजा नहीं जाता।",
+      keywords: ["निवेशक अपडेट", "मासिक निवेशक अपडेट", "निवेशक अपडेट टेम्पलेट", "निवेशक अपडेट ईमेल", "स्टार्टअप निवेशक अपडेट", "संस्थापक अपडेट", "रनवे कैलकुलेटर", "बर्न रेट", "स्टार्टअप मेट्रिक्स", "निवेशक संबंध", "निवेशकों को अपडेट", "स्टार्टअप रिपोर्टिंग", "एंजेल निवेशक", "वेंचर कैपिटल", "Foundura"],
     },
   },
 };

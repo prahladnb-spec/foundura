@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 280" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <!-- two vouchers with tear-off stubs, and a gift tag on red tape -->
+  <g transform="rotate(-9 170 140)">
+    <path d="M56 70 h190 v104 H56z" fill="#cfd5ee" transform="translate(7 7)"/>
+    <path d="M56 70 h190 v104 H56z" fill="#e4e7f6" stroke="#141b47" stroke-width="3"/>
+    <path d="M196 70 v104" stroke="#141b47" stroke-width="3" stroke-dasharray="6 6"/>
+    <circle cx="218" cy="122" r="12" stroke="#141b47" stroke-width="3"/>
+    <path d="M80 100 h80 M80 122 h60 M80 144 h70" stroke="#141b47" stroke-width="3" opacity=".45"/>
+  </g>
+  <g transform="rotate(6 200 170)">
+    <path d="M96 122 h200 v108 H96z" fill="#d9c07c" transform="translate(7 7)"/>
+    <path d="M96 122 h200 v108 H96z" fill="#e8cf8f" stroke="#141b47" stroke-width="3"/>
+    <path d="M246 122 v108" stroke="#141b47" stroke-width="3" stroke-dasharray="6 6"/>
+    <!-- a big percent sign, drawn as shapes -->
+    <circle cx="140" cy="156" r="11" fill="#fff" stroke="#141b47" stroke-width="3"/>
+    <circle cx="190" cy="198" r="11" fill="#fff" stroke="#141b47" stroke-width="3"/>
+    <path d="M196 148 l-62 58" stroke="#141b47" stroke-width="5"/>
+    <path d="M262 150 l14 14 l-14 14 l-14 -14z" fill="#f2a900" stroke="#141b47" stroke-width="2.5"/>
+    <path d="M262 186 l10 10 l-10 10 l-10 -10z" fill="#f2a900" stroke="#141b47" stroke-width="2.5" opacity=".8"/>
+  </g>
+  <!-- the tag -->
+  <path d="M300 40 c -10 30 -30 52 -54 64" stroke="#c94a36" stroke-width="5"/>
+  <g transform="rotate(18 300 70)">
+    <path d="M286 52 h38 v48 l-19 16 l-19 -16z" fill="#1e7a4e" opacity=".9" transform="translate(4 4)"/>
+    <path d="M286 52 h38 v48 l-19 16 l-19 -16z" fill="#2f9a66" stroke="#141b47" stroke-width="3"/>
+    <circle cx="305" cy="66" r="5" fill="#fff" stroke="#141b47" stroke-width="2.5"/>
+    <path d="M296 88 l7 7 l12 -14" stroke="#fff" stroke-width="3.5"/>
+  </g>
+</svg>

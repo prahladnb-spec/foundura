@@ -122,6 +122,20 @@ export const fr: LangContent = {
       excerpt: "Une page par État et territoire indien : ses aides aux startups, programmes de financement, incubateurs et startups sur Foundura, et son résultat au classement des États du DPIIT.",
       keywords: ["aide aux startups par État", "politique startup Inde", "aides aux startups par État", "classement des États", "classement DPIIT", "incubateurs en Inde", "incubateurs par État", "missions startup", "startups du Karnataka", "startups du Gujarat", "Kerala Startup Mission", "T-Hub", "hubs de startups Inde", "Startup India", "Foundura"],
     },
+    perks: {
+      focus: "avantages pour startups",
+      title: "Avantages pour startups : crédits et atouts DPIIT | Foundura",
+      description: "Avantages pour startups en Inde : crédits cloud et IA gratuits, réductions sur les logiciels et avantages fiscaux de la reconnaissance DPIIT. Liens officiels.",
+      excerpt: "Crédits gratuits, réductions sur les logiciels et avantages publics pour les startups en Inde, d’AWS, Google et Microsoft aux réductions de frais de brevet et à l’exonération fiscale liées à la reconnaissance DPIIT. Liens officiels uniquement, sans accord ni suivi.",
+      keywords: ["avantages pour startups", "crédits pour startups", "crédits cloud gratuits", "AWS Activate", "Google for Startups Cloud Program", "Microsoft for Startups", "NVIDIA Inception", "avantages de la reconnaissance DPIIT", "exonération fiscale 80-IAC", "réduction des frais de brevet", "réductions pour startups", "Zoho for Startups", "logiciels pour startups", "Startup India", "Foundura"],
+    },
+    investorUpdate: {
+      focus: "point investisseurs",
+      title: "Point investisseurs : rédigez-le gratuitement | Foundura",
+      description: "Rédigez votre point investisseurs mensuel en quelques minutes : nouvelles et chiffres, durée de trésorerie calculée, e-mail prêt à copier. Gratuit et privé.",
+      excerpt: "Un formulaire gratuit qui transforme les temps forts du mois, les difficultés, le chiffre d’affaires, les dépenses, la trésorerie et vos demandes en un court e-mail aux investisseurs, avec la durée de trésorerie calculée. Tout reste dans votre navigateur.",
+      keywords: ["point investisseurs", "point mensuel aux investisseurs", "modèle de point investisseurs", "e-mail aux investisseurs", "reporting investisseurs", "nouvelles de la startup", "calcul de durée de trésorerie", "burn rate", "indicateurs de startup", "relations investisseurs", "informer ses investisseurs", "reporting de startup", "business angels", "capital-risque", "Foundura"],
+    },
   },
   docs: {
     "lean-canvas": { t: "Lean canvas", s: "Toute votre idée d'entreprise sur une page : client, problème, solution, canaux, revenus et coûts." },

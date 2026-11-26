@@ -147,3 +147,26 @@ export type ConsentPurpose = (typeof CONSENT_PURPOSES)[number]["value"];
 
 /** Version of the privacy notice the consent texts above belong to. Bump when they change. */
 export const PRIVACY_NOTICE_VERSION = "2026-11-26";
+
+/**
+ * The 8 stages of the startup life cycle (the /learn journey and the first basics chapter), with the
+ * steps the progress tracker on "My startup" offers in each. Step ids are "stage.step". Labels live
+ * in the web dictionaries (`progress.steps`); links in apps/web/src/progress.ts.
+ */
+export const JOURNEY = {
+  idea: ["problem", "customer", "canvas"],
+  validation: ["interviews", "competitors", "loi"],
+  setup: ["incorporate", "founders", "dpiit"],
+  mvp: ["build", "ip", "trademark"],
+  launch: ["customers", "invoice", "privacy"],
+  pmf: ["retention", "model", "deck"],
+  growth: ["raise", "esop", "updates"],
+  mature: ["board", "records", "exit"],
+} as const;
+export type JourneyStage = keyof typeof JOURNEY;
+export const JOURNEY_STAGES = Object.keys(JOURNEY) as JourneyStage[];
+export type JourneyStep = { [S in JourneyStage]: `${S}.${(typeof JOURNEY)[S][number]}` }[JourneyStage];
+export const JOURNEY_STEPS = JOURNEY_STAGES.flatMap((s) => JOURNEY[s].map((x) => `${s}.${x}`)) as JourneyStep[];
+
+/** How long a private profile link may work, in days. */
+export const SHARE_DAYS = [7, 30, 90] as const;

@@ -117,6 +117,9 @@ export const startups = pgTable(
     deckUrl: text("deck_url"),
     /** Amount being raised now (₹ lakh). Private: matching and intro requests only. */
     raisingInrLakh: doublePrecision("raising_inr_lakh"),
+    /** Progress tracker: the founder's stage of the 8 (JOURNEY) and the steps they've ticked off. Private. */
+    journeyStage: text("journey_stage"),
+    journeyDone: text("journey_done").array().notNull().default([]),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
@@ -373,6 +376,26 @@ export const newsletterSubscribers = pgTable("newsletter_subscribers", {
   noticeVersion: text("notice_version"),
   /** Monday of the last week the email went out (India time), so each week sends at most once. */
   lastSentWeek: date("last_sent_week"),
+});
+
+// ---------- Private profile links ----------
+
+/**
+ * A private link a founder makes to show their profile to one incubator or investor. Only a SHA-256
+ * hash of the token is stored, so the link can't be rebuilt from the database. One link per startup:
+ * making a new one replaces the old. Expired rows are deleted when links are made or opened.
+ */
+export const profileShares = pgTable("profile_shares", {
+  id: id(),
+  startupId: text("startup_id")
+    .notNull()
+    .unique()
+    .references(() => startups.id, { onDelete: "cascade" }),
+  tokenHash: text("token_hash").notNull().unique(),
+  showReadiness: boolean("show_readiness").notNull().default(false),
+  showProgress: boolean("show_progress").notNull().default(false),
+  createdAt: createdAt(),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
 });
 
 // ---------- Admin audit log ----------

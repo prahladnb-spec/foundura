@@ -9,6 +9,7 @@ import { getToken } from "@/lib/session";
 import { isLang, lp } from "@/i18n/config";
 import { getDict } from "@/i18n";
 import type { ConsentState, Startup } from "@/lib/types";
+import { STEP_LINKS } from "@/progress";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
@@ -29,9 +30,13 @@ export default async function DashboardPage({ params }: { params: Promise<{ lang
     throw e;
   }
   const docTitles = Object.fromEntries(INVESTOR_DOCS.map((slug) => [slug, (docBySlug(slug) ? docText(docBySlug(slug)!, lang).title : slug)]));
+  const stepDocTitles = Object.fromEntries(
+    Object.values(STEP_LINKS)
+      .flatMap((l) => ("doc" in l && docBySlug(l.doc) ? [[l.doc, docText(docBySlug(l.doc)!, lang).title]] : [])),
+  );
   return (
     <div className="mx-auto max-w-5xl px-5 pt-10">
-      <Dashboard email={me.user.email} locale={me.locale} isAdmin={me.isAdmin} startup={me.startups[0] ?? null} consents={me.consents} docTitles={docTitles} />
+      <Dashboard email={me.user.email} locale={me.locale} isAdmin={me.isAdmin} startup={me.startups[0] ?? null} consents={me.consents} docTitles={docTitles} stepDocTitles={stepDocTitles} />
     </div>
   );
 }

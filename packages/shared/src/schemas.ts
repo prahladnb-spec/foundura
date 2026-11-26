@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CONSENT_PURPOSES, ENTITY_TYPES, INDIAN_STATES, INVESTOR_DOCS, INVESTOR_TYPES, LOOKING_FOR, SECTORS, STAGES } from "./constants";
+import { CONSENT_PURPOSES, ENTITY_TYPES, INDIAN_STATES, INVESTOR_DOCS, INVESTOR_TYPES, JOURNEY_STAGES, JOURNEY_STEPS, LOOKING_FOR, SECTORS, SHARE_DAYS, STAGES } from "./constants";
 
 const values = <T extends readonly { value: string }[]>(list: T) =>
   list.map((x) => x.value) as unknown as [T[number]["value"], ...T[number]["value"][]];
@@ -151,3 +151,21 @@ export const unsubscribeSchema = z.object({
   u: z.string().min(1).max(64),
   t: z.string().min(20).max(100),
 });
+
+/** The progress tracker on "My startup": the founder's stage and the steps they've ticked off. */
+export const journeySchema = z.object({
+  stage: z.enum(JOURNEY_STAGES as [string, ...string[]]).nullable(),
+  done: z.array(z.enum(JOURNEY_STEPS as [string, ...string[]])).max(JOURNEY_STEPS.length),
+});
+export type JourneyInput = z.infer<typeof journeySchema>;
+
+/** A private link to a startup profile: what it includes and how long it works. */
+export const shareLinkSchema = z.object({
+  showReadiness: z.boolean(),
+  showProgress: z.boolean(),
+  days: z.union(SHARE_DAYS.map((d) => z.literal(d)) as [z.ZodLiteral<7>, z.ZodLiteral<30>, z.ZodLiteral<90>]),
+});
+export type ShareLinkInput = z.infer<typeof shareLinkSchema>;
+
+/** Token in a private profile link: 32 random bytes, base64url. */
+export const shareTokenSchema = z.string().regex(/^[A-Za-z0-9_-]{43}$/);
