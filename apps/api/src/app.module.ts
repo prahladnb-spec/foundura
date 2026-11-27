@@ -38,6 +38,8 @@ import { ScanService } from "./scan/scan.service";
 import { SharesController } from "./startups/shares.controller";
 import { SharesService } from "./startups/shares.service";
 import { StartupsService } from "./startups/startups.service";
+import { AdminStoriesController, StoriesController } from "./stories/stories.controller";
+import { StoriesService } from "./stories/stories.service";
 
 export function buildAppModule(config: AppConfig) {
   @Module({
@@ -47,7 +49,7 @@ export function buildAppModule(config: AppConfig) {
       JwtModule.register({ global: true, secret: config.JWT_SECRET, signOptions: { expiresIn: "30d" } }),
       ThrottlerModule.forRoot([{ ttl: 60_000, limit: 120 }]),
     ],
-    controllers: [AuthController, MeController, ScanController, ContentController, InvestorsController, AdminController, AdminConsoleController, DigestController, NewsletterController, AdminDigestController, HealthController, EventsController, AdminEventsController, OpsController, MetricsController, SharesController],
+    controllers: [AuthController, MeController, ScanController, ContentController, InvestorsController, AdminController, AdminConsoleController, DigestController, NewsletterController, AdminDigestController, HealthController, EventsController, AdminEventsController, OpsController, MetricsController, SharesController, StoriesController, AdminStoriesController],
     providers: [
       AuthService,
       AdminGuard,
@@ -69,6 +71,7 @@ export function buildAppModule(config: AppConfig) {
       ScanService,
       StartupsService,
       SharesService,
+      StoriesService,
       { provide: APP_GUARD, useClass: ThrottlerGuard },
     ],
   })

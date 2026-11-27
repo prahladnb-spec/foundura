@@ -63,7 +63,8 @@ export type PageKey =
   | "insurance"
   | "rounds"
   | "msme"
-  | "agritech";
+  | "agritech"
+  | "stories";
 
 const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
   home: {
@@ -1378,6 +1379,24 @@ const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
       description: "एग्रीटेक स्टार्टअप गाइड: RKVY एग्री-स्टार्टअप अनुदान, एग्रीश्योर फ़ंड, AIF ऋण, FPO के साथ काम, 2026 से FSSAI लाइसेंस सीमाएँ, ड्रोन और खाद्य निर्यात।",
       excerpt: "भारत में एग्रीटेक और फ़ूड स्टार्टअप के लिए मुफ़्त गाइड: इनक्यूबेटरों से एग्री-स्टार्टअप अनुदान, एग्रीश्योर फ़ंड, कृषि अवसंरचना कोष के ऋण, किसान उत्पादक संगठन, FSSAI लाइसेंस, इनपुट और ड्रोन के नियम, खाद्य प्रसंस्करण सब्सिडी और निर्यात।",
       keywords: ["एग्रीटेक स्टार्टअप गाइड", "एग्री-स्टार्टअप अनुदान", "RKVY स्टार्टअप", "एग्रीश्योर फ़ंड", "कृषि अवसंरचना कोष", "FPO योजना", "किसान उत्पादक संगठन", "FSSAI लाइसेंस", "फ़ॉस्कॉस", "PMFME सब्सिडी", "कृषि ड्रोन नियम", "APEDA पंजीकरण", "फ़ूड स्टार्टअप", "एग्रीबिज़नेस इनक्यूबेटर", "Foundura"],
+    },
+  },
+  stories: {
+    en: {
+      slug: "/stories",
+      focus: "Indian founder stories",
+      title: "Indian founder stories: how startups were built | Foundura",
+      description: "Indian founder stories in their own words: how startups were started, funded and grown, published only with each founder's consent and free to read.",
+      excerpt: "Founders tell, in their own words, how they built their startups: first customers, mistakes, funding and lessons. Each story is published only with the founder's consent, checked by an editor first, and can be withdrawn by the founder at any time.",
+      keywords: ["Indian founder stories", "startup stories India", "founder journey", "how startups started", "startup lessons", "entrepreneur stories", "founder interviews", "startup success stories", "startup failures", "bootstrapped founders", "women founders India", "first customers", "building a startup", "founder advice", "Foundura"],
+    },
+    hi: {
+      slug: "/stories",
+      focus: "भारतीय संस्थापकों की कहानियाँ",
+      title: "भारतीय संस्थापकों की कहानियाँ: स्टार्टअप कैसे बने | Foundura",
+      description: "भारतीय संस्थापकों की कहानियाँ उनके अपने शब्दों में: स्टार्टअप कैसे शुरू हुए, पैसा कैसे जुटा और कैसे बढ़े, हर संस्थापक की सहमति से प्रकाशित।",
+      excerpt: "संस्थापक अपने शब्दों में बताते हैं कि उन्होंने स्टार्टअप कैसे बनाया: पहले ग्राहक, गलतियाँ, फ़ंडिंग और सबक। हर कहानी संस्थापक की सहमति से, संपादक के पढ़ने के बाद ही छपती है, और संस्थापक उसे कभी भी वापस ले सकते हैं।",
+      keywords: ["भारतीय संस्थापकों की कहानियाँ", "स्टार्टअप की कहानियाँ", "संस्थापक का सफ़र", "स्टार्टअप कैसे शुरू हुए", "स्टार्टअप के सबक", "उद्यमियों की कहानियाँ", "संस्थापकों के अनुभव", "सफल स्टार्टअप", "स्टार्टअप की असफलता", "बूटस्ट्रैप्ड संस्थापक", "महिला संस्थापक", "पहले ग्राहक", "स्टार्टअप बनाना", "संस्थापकों की सलाह", "Foundura"],
     },
   },
 };

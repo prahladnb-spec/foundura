@@ -1386,4 +1386,34 @@ export const SEO_INTL: Record<PageKey, Record<"es" | "de" | "ar" | "he", Entry>>
       keywords: ["מדריך אגרוטק בהודו", "מענקים לסטארט־אפים חקלאיים", "RKVY", "קרן AgriSURE", "קרן תשתיות חקלאיות", "תוכנית FPO", "ארגון מגדלים", "רישיון FSSAI", "FoSCoS", "סובסידיית PMFME", "רחפנים חקלאיים", "רישום APEDA", "סטארט־אפ מזון", "חממה חקלאית", "Foundura"],
     },
   },
+  stories: {
+    es: {
+      focus: "historias de fundadores indios",
+      title: "Historias de fundadores indios: cómo nacieron | Foundura",
+      description: "Historias de fundadores indios contadas por ellos mismos: cómo empezaron, se financiaron y crecieron sus startups, publicadas solo con su consentimiento.",
+      excerpt: "Fundadores cuentan con sus palabras cómo construyeron su startup: primeros clientes, errores, financiación y lecciones. Cada historia se publica solo con el consentimiento del fundador, tras la lectura de un editor, y puede retirarse en cualquier momento.",
+      keywords: ["historias de fundadores indios", "historias de startups", "trayectoria de fundadores", "cómo empezó una startup", "lecciones de startups", "historias de emprendedores", "entrevistas a fundadores", "startups de éxito", "fracasos de startups", "fundadores sin inversión", "mujeres fundadoras", "primeros clientes", "construir una startup", "consejos de fundadores", "Foundura"],
+    },
+    de: {
+      focus: "Geschichten indischer Gründer",
+      title: "Geschichten indischer Gründer: ihr Weg | Foundura",
+      description: "Geschichten indischer Gründer in eigenen Worten: wie ihre Startups begannen, finanziert wurden und wuchsen, nur mit Einwilligung der Gründer veröffentlicht.",
+      excerpt: "Gründer erzählen mit eigenen Worten, wie sie ihr Startup aufgebaut haben: erste Kunden, Fehler, Finanzierung und Lehren. Jede Geschichte erscheint nur mit Einwilligung, nachdem die Redaktion sie gelesen hat, und kann jederzeit zurückgezogen werden.",
+      keywords: ["Geschichten indischer Gründer", "Startup-Geschichten", "Gründerweg", "wie Startups beginnen", "Lehren für Startups", "Unternehmergeschichten", "Gründerinterviews", "erfolgreiche Startups", "gescheiterte Startups", "Bootstrapping-Gründer", "Gründerinnen in Indien", "erste Kunden", "ein Startup aufbauen", "Rat von Gründern", "Foundura"],
+    },
+    ar: {
+      focus: "قصص المؤسسين الهنود",
+      title: "قصص المؤسسين الهنود: كيف بُنيت الشركات الناشئة | Foundura",
+      description: "قصص المؤسسين الهنود بكلماتهم: كيف بدأت شركاتهم الناشئة وكيف موّلوها ونمت، منشورة فقط بموافقة كل مؤسس ومتاحة للقراءة مجانًا لكل الزوار.",
+      excerpt: "يروي المؤسسون بكلماتهم كيف بنوا شركاتهم الناشئة: أول العملاء والأخطاء والتمويل والدروس. تُنشر كل قصة بموافقة المؤسس فقط بعد أن يقرأها محرر، ويمكن سحبها في أي وقت.",
+      keywords: ["قصص المؤسسين الهنود", "قصص الشركات الناشئة", "رحلة المؤسس", "بدايات الشركات الناشئة", "دروس الشركات الناشئة", "قصص رواد الأعمال", "مقابلات مع مؤسسين", "شركات ناشئة ناجحة", "إخفاقات الشركات الناشئة", "مؤسسون بتمويل ذاتي", "مؤسسات في الهند", "أول العملاء", "بناء شركة ناشئة", "نصائح المؤسسين", "Foundura"],
+    },
+    he: {
+      focus: "סיפורי מייסדים הודים",
+      title: "סיפורי מייסדים הודים: איך נבנו הסטארט־אפים | Foundura",
+      description: "סיפורי מייסדים הודים במילים שלהם: איך הסטארט־אפים התחילו, גייסו וצמחו, מתפרסמים רק בהסכמת כל מייסד וזמינים לקריאה בחינם לכל מי שמתעניין.",
+      excerpt: "מייסדים מספרים במילים שלהם איך בנו את הסטארט־אפ: לקוחות ראשונים, טעויות, גיוס ולקחים. כל סיפור מתפרסם רק בהסכמת המייסד ואחרי שעורך קרא אותו, ואפשר לבטל אותו בכל עת.",
+      keywords: ["סיפורי מייסדים הודים", "סיפורי סטארט־אפים", "המסע של המייסד", "איך סטארט־אפ מתחיל", "לקחים מסטארט־אפים", "סיפורי יזמים", "ראיונות עם מייסדים", "סטארט־אפים מצליחים", "כישלונות סטארט־אפים", "מייסדים במימון עצמי", "מייסדות בהודו", "לקוחות ראשונים", "בניית סטארט־אפ", "עצות ממייסדים", "Foundura"],
+    },
+  },
 };

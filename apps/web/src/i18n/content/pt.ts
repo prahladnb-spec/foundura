@@ -325,6 +325,13 @@ export const pt: LangContent = {
       excerpt: "Um guia gratuito para startups agritech e de alimentos na Índia: apoios por meio de incubadoras, o fundo AgriSURE, empréstimos do fundo de infraestrutura agrícola, organizações de produtores, licenças FSSAI, regras de insumos e drones, subsídios e exportação.",
       keywords: ["guia agritech na Índia", "apoio a startups agrícolas", "RKVY", "fundo AgriSURE", "fundo de infraestrutura agrícola", "programa FPO", "organização de produtores", "licença FSSAI", "FoSCoS", "subsídio PMFME", "drones agrícolas", "registro APEDA", "startup de alimentos", "incubadora agrícola", "Foundura"],
     },
+    stories: {
+      focus: "histórias de fundadores indianos",
+      title: "Histórias de fundadores indianos: como começaram | Foundura",
+      description: "Histórias de fundadores indianos contadas por eles: como suas startups começaram, captaram e cresceram, publicadas só com o consentimento de cada um.",
+      excerpt: "Fundadores contam com suas palavras como construíram suas startups: primeiros clientes, erros, captação e lições. Cada história é publicada só com o consentimento do fundador, depois da leitura de um editor, e pode ser retirada a qualquer momento.",
+      keywords: ["histórias de fundadores indianos", "histórias de startups", "trajetória de fundadores", "como uma startup começou", "lições de startups", "histórias de empreendedores", "entrevistas com fundadores", "startups de sucesso", "fracassos de startups", "fundadores sem investimento", "mulheres fundadoras", "primeiros clientes", "construir uma startup", "conselhos de fundadores", "Foundura"],
+    },
   },
   docs: {
     "lean-canvas": { t: "Lean canvas", s: "Toda a sua ideia de negócio em uma página: cliente, problema, solução, canais, receitas e custos." },

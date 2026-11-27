@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CITIES, CONSENT_PURPOSES, ENTITY_TYPES, INDIAN_STATES, INVESTOR_DOCS, INVESTOR_TYPES, JOURNEY_STAGES, JOURNEY_STEPS, LOOKING_FOR, SECTORS, SHARE_DAYS, STAGES } from "./constants";
+import { CITIES, CONSENT_PURPOSES, ENTITY_TYPES, INDIAN_STATES, INVESTOR_DOCS, INVESTOR_TYPES, JOURNEY_STAGES, JOURNEY_STEPS, LOOKING_FOR, SECTORS, SHARE_DAYS, STAGES, STORY_CONFIRMATIONS } from "./constants";
 
 const values = <T extends readonly { value: string }[]>(list: T) =>
   list.map((x) => x.value) as unknown as [T[number]["value"], ...T[number]["value"][]];
@@ -172,3 +172,20 @@ export type ShareLinkInput = z.infer<typeof shareLinkSchema>;
 
 /** Token in a private profile link: 32 random bytes, base64url. */
 export const shareTokenSchema = z.string().regex(/^[A-Za-z0-9_-]{43}$/);
+
+/** A founder story as the founder writes it. Plain text: paragraphs separated by blank lines. */
+export const storySchema = z.object({
+  title: z.string().trim().min(10).max(120),
+  body: z.string().trim().min(300).max(8000),
+  founderName: z.string().trim().min(2).max(80),
+  founderRole: z.string().trim().max(80).nullable().default(null),
+  lang: z.enum(["en", "hi"]).default("en"),
+});
+export type StoryInput = z.infer<typeof storySchema>;
+
+/** Submitting for review: every confirmation must be ticked. */
+export const storySubmitSchema = z.object({
+  confirmations: z
+    .array(z.enum(STORY_CONFIRMATIONS))
+    .refine((c) => STORY_CONFIRMATIONS.every((x) => c.includes(x)), { message: "Tick every confirmation to send the story for review" }),
+});

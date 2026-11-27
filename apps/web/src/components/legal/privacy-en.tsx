@@ -37,6 +37,12 @@ export function PrivacyEn({ legal, version }: { legal: LegalDetails; version: st
           The link is deleted when it expires, when you switch it off or when you delete your profile.
         </li>
         <li>
+          <strong>Founder stories:</strong> if you write one, its text, the name and role you chose, and a record of each time you
+          confirmed it for publishing or withdrew it (what you confirmed, when, and a fingerprint of the text). An editor reads it
+          before it is published. Withdrawing takes it off the site at once; deleting it or your profile deletes the story and its
+          record.
+        </li>
+        <li>
           <strong>Investor profile and intro requests:</strong> if you list yourself as an investor or send or receive an intro, the
           profile and the messages, so the other side can decide. Email addresses are shared only when an intro is accepted.
         </li>

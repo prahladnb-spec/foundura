@@ -408,6 +408,66 @@ export const profileShares = pgTable("profile_shares", {
   expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
 });
 
+// ---------- Founder stories ----------
+
+/**
+ * A founder's own story, written on "My startup". One per startup. It is published only after the
+ * founder has ticked every confirmation (STORY_CONFIRMATIONS) for the exact text and an editor has
+ * read it; editors can publish or send it back, never rewrite it. Plain text, no images, and never
+ * the startup's figures. Withdrawing takes it off the site at once. Goes with the startup on erasure.
+ */
+export const stories = pgTable(
+  "stories",
+  {
+    id: id(),
+    startupId: text("startup_id")
+      .notNull()
+      .unique()
+      .references(() => startups.id, { onDelete: "cascade" }),
+    slug: text("slug").notNull().unique(),
+    title: text("title").notNull(),
+    body: text("body").notNull(),
+    /** How the founder wants to be named, and their role. */
+    founderName: text("founder_name").notNull(),
+    founderRole: text("founder_role"),
+    lang: text("lang").$type<"en" | "hi">().notNull().default("en"),
+    status: text("status").$type<"draft" | "submitted" | "returned" | "published" | "withdrawn">().notNull().default("draft"),
+    /** Why an editor sent it back (shown to the founder), or took it down. */
+    editorNote: text("editor_note"),
+    submittedAt: timestamp("submitted_at", { withTimezone: true }),
+    publishedAt: timestamp("published_at", { withTimezone: true }),
+    withdrawnAt: timestamp("withdrawn_at", { withTimezone: true }),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [index("stories_status_idx").on(t.status)],
+);
+
+/**
+ * Story consent ledger: one row per decision, never edited. "given" records the confirmations the
+ * founder ticked and a SHA-256 fingerprint of the title and text they agreed to; "withdrawn" records
+ * the founder taking consent back. A story is published only while its latest row is "given" for the
+ * current text.
+ */
+export const storyConsents = pgTable(
+  "story_consents",
+  {
+    id: id(),
+    storyId: text("story_id")
+      .notNull()
+      .references(() => stories.id, { onDelete: "cascade" }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    action: text("action").$type<"given" | "withdrawn">().notNull(),
+    confirmations: jsonb("confirmations").$type<string[]>().notNull().default([]),
+    textHash: text("text_hash").notNull(),
+    statementVersion: text("statement_version").notNull(),
+    createdAt: createdAt(),
+  },
+  (t) => [index("story_consents_story_idx").on(t.storyId, t.createdAt)],
+);
+
 // ---------- Admin audit log ----------
 
 /** Every admin change, for accountability. Actor is nulled (not deleted) if the admin account is erased. */

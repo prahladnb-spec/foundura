@@ -12,6 +12,7 @@ import { CITY_INFO } from "@/cities/directory";
 import { FounderInvestors } from "./founder-investors";
 import { JourneyTracker } from "./journey-tracker";
 import { ShareLink } from "./share-link";
+import { StoryEditor } from "./story-editor";
 import { ScanResults } from "./scan-results";
 
 const field = "block w-full rounded-md border border-rule bg-white px-3 py-2.5 text-[1rem]";
@@ -438,6 +439,7 @@ export function Dashboard({
       {current && <FounderInvestors startupId={current.id} version={version} />}
       {current && <JourneyTracker startupId={current.id} stage={current.journeyStage} done={current.journeyDone} docTitles={stepDocTitles} />}
       {current && <ShareLink startupId={current.id} />}
+      {current && <StoryEditor startupId={current.id} />}
 
       <section aria-labelledby="privacy-h" className="mt-16 border-t-2 border-neel-900 pt-8">
         <h2 id="privacy-h" className="display text-4xl">{d.data}</h2>

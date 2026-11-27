@@ -250,3 +250,33 @@ export interface ConsentState {
   granted: boolean;
   updatedAt: string | null;
 }
+
+/** A founder's own story, as they see it on "My startup". */
+export interface StoryMine {
+  id: string;
+  slug: string;
+  title: string;
+  body: string;
+  founderName: string;
+  founderRole: string | null;
+  lang: "en" | "hi";
+  status: "draft" | "submitted" | "returned" | "published" | "withdrawn";
+  editorNote: string | null;
+  submittedAt: string | null;
+  publishedAt: string | null;
+  withdrawnAt: string | null;
+  updatedAt: string;
+}
+
+/** A published founder story. The list has an excerpt in place of the body. */
+export interface StoryPublic {
+  slug: string;
+  title: string;
+  body?: string;
+  excerpt?: string;
+  founderName: string;
+  founderRole: string | null;
+  lang: "en" | "hi";
+  publishedAt: string;
+  startup: { name: string; slug: string | null };
+}

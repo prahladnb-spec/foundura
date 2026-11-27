@@ -104,6 +104,7 @@ test.describe("Hindi", () => {
     "/hi/contact",
     "/hi/perks",
     "/hi/rounds",
+    "/hi/stories",
     "/hi/data",
     "/hi/numbers",
     "/hi/mentors",

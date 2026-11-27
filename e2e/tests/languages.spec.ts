@@ -112,6 +112,8 @@ test.describe("languages", () => {
         "Europe|Guides|Guide|Prototype / MVP|Slide {n}",
         // Funding directory regions spelled the same in Spanish, German and Portuguese.
         "Israel|Global",
+        // The language name, spelled the same in Spanish, German and French.
+        "Hindi",
         // Words spelled the same in French, Portuguese or German.
         "Contact|Validation|Product-market fit|Startups in {state}|Startups in {city}|Leader|Team",
         "Pitch deck|Lean canvas|Business angel|Deep tech|Startup India Seed Fund|Seed Fund|MedTech|EdTech|HealthTech|AgriTech|CleanTech|SaaS|Cap table|Term sheet|Due diligence|Vesting|Cliff|Runway|Churn|Bootstrapping|Equity|Exit|Traction|Data room",
@@ -137,7 +139,7 @@ test.describe("languages", () => {
       ...LANGS.filter((l) => l.length === 2),
     ]);
     const isAcronym = (w: string) => /^[A-Z0-9&-]+$/.test(w) || /^[A-Z][A-Z0-9]*[a-z][A-Z0-9]+$/.test(w);
-    const PAGES = ["/", "/scan", "/schemes", "/documents", "/documents/pitch-deck", "/glossary", "/search?q=pitch", "/events?view=list", "/investors", "/funding", "/rounds", "/basics", "/basics/valuation", "/about", "/contact", "/perks", "/investor-update", "/sectors/software", "/sectors/msme", "/sectors/agritech", "/learn", "/data", "/numbers", "/mentors", "/women", "/selling", "/global", "/labs", "/patents", "/founder-guides", "/closing", "/cities", "/cities/chennai", "/states", "/states/ka", "/partners", "/signin", "/no-such-page"];
+    const PAGES = ["/", "/scan", "/schemes", "/documents", "/documents/pitch-deck", "/glossary", "/search?q=pitch", "/events?view=list", "/investors", "/funding", "/rounds", "/stories", "/basics", "/basics/valuation", "/about", "/contact", "/perks", "/investor-update", "/sectors/software", "/sectors/msme", "/sectors/agritech", "/learn", "/data", "/numbers", "/mentors", "/women", "/selling", "/global", "/labs", "/patents", "/founder-guides", "/closing", "/cities", "/cities/chennai", "/states", "/states/ka", "/partners", "/signin", "/no-such-page"];
     const report: Record<string, string[]> = {};
     const scripted = OTHERS.filter((l) => LANG_INFO[l].script) as Lang[];
     for (const code of scripted) {

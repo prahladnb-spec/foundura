@@ -118,6 +118,7 @@ export function SiteFooter({ lang }: { lang: Lang }) {
           <li><Link href="/investors" className="hover:text-paper">{ft.investors}</Link></li>
           <li><Link href="/funding" className="hover:text-paper">{ft.funding}</Link></li>
           <li><Link href="/rounds" className="hover:text-paper">{ft.rounds}</Link></li>
+          <li><Link href="/stories" className="hover:text-paper">{ft.stories}</Link></li>
           <li><Link href="/states" className="hover:text-paper">{ft.states}</Link></li>
           <li><Link href="/cities" className="hover:text-paper">{ft.cities}</Link></li>
           <li><Link href="/basics" className="hover:text-paper">{ft.basics}</Link></li>

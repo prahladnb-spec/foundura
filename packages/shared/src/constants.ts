@@ -146,7 +146,7 @@ export const CONSENT_PURPOSES = [
 export type ConsentPurpose = (typeof CONSENT_PURPOSES)[number]["value"];
 
 /** Version of the privacy notice the consent texts above belong to. Bump when they change. */
-export const PRIVACY_NOTICE_VERSION = "2026-11-26";
+export const PRIVACY_NOTICE_VERSION = "2026-11-27";
 
 /**
  * The 8 stages of the startup life cycle (the /learn journey and the first basics chapter), with the
@@ -167,6 +167,19 @@ export type JourneyStage = keyof typeof JOURNEY;
 export const JOURNEY_STAGES = Object.keys(JOURNEY) as JourneyStage[];
 export type JourneyStep = { [S in JourneyStage]: `${S}.${(typeof JOURNEY)[S][number]}` }[JourneyStage];
 export const JOURNEY_STEPS = JOURNEY_STAGES.flatMap((s) => JOURNEY[s].map((x) => `${s}.${x}`)) as JourneyStep[];
+
+/**
+ * Founder stories: what the founder confirms before a story can be published. Every confirmation must
+ * be ticked to submit; each submission and each withdrawal is a new row in the story consent ledger,
+ * tied to a fingerprint of the exact text. Labels live in the web dictionaries (`stories.confirm`).
+ * Bump STORY_CONSENT_VERSION when the meaning of any confirmation changes.
+ */
+export const STORY_CONFIRMATIONS = ["self", "company", "cofounders", "others", "figures", "own"] as const;
+export type StoryConfirmation = (typeof STORY_CONFIRMATIONS)[number];
+export const STORY_CONSENT_VERSION = "2026-11-27";
+/** draft and returned can be edited; submitted waits for an editor; published is live; withdrawn is off the site. */
+export const STORY_STATUSES = ["draft", "submitted", "returned", "published", "withdrawn"] as const;
+export type StoryStatus = (typeof STORY_STATUSES)[number];
 
 /** How long a private profile link may work, in days. */
 export const SHARE_DAYS = [7, 30, 90] as const;

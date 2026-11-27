@@ -120,6 +120,13 @@
       "when": 1795685271627,
       "tag": "0016_startup_city",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1795756481122,
+      "tag": "0017_founder_stories",
+      "breakpoints": true
     }
   ]
 }

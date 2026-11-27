@@ -6,7 +6,7 @@ import { LANGS } from "@/i18n/config";
 import { languagesFor, urlFor } from "@/seo";
 import { DOCS } from "@/documents";
 import { apiOr, STARTUPS_TAG } from "@/lib/api";
-import type { ArticleSummary, InvestorPublic, Scheme, StartupPublic } from "@/lib/types";
+import type { ArticleSummary, InvestorPublic, Scheme, StartupPublic, StoryPublic } from "@/lib/types";
 import { FOUNDER_GUIDES, GUIDE_PATH } from "@/founders/guides";
 
 
@@ -15,12 +15,13 @@ export const dynamic = "force-dynamic";
 
 /** Public pages only. Dashboards, admin, sign-in and the embed widget are left out on purpose. */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [schemes, articles, investors, startups] = await Promise.all([
+  const [schemes, articles, investors, startups, stories] = await Promise.all([
     apiOr<Scheme[]>("/schemes", [], 3600),
     apiOr<ArticleSummary[]>("/articles", [], 3600),
     apiOr<InvestorPublic[]>("/investors", [], 3600),
     // Cleared whenever a founder changes their profile or an editor hides a listing.
     apiOr<StartupPublic[]>("/startups", [], 600, [STARTUPS_TAG]),
+    apiOr<StoryPublic[]>("/stories", [], 600, [STARTUPS_TAG]),
   ]);
   // Every page exists in every language (English at the plain URL); each entry lists them all as alternates.
   const page = (path: string, changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"], priority: number, lastModified?: string | null) =>
@@ -70,5 +71,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...articles.map((a) => page(`/learn/${a.slug}`, "yearly", 0.6, a.publishedAt)),
     ...investors.map((i) => page(`/investors/${i.slug}`, "monthly", 0.4)),
     ...startups.map((s) => page(`/startups/${s.slug}`, "weekly", 0.5, s.updatedAt)),
+    page("/stories", "weekly", 0.6),
+    ...stories.map((s) => page(`/stories/${s.slug}`, "yearly", 0.5, s.publishedAt)),
   ].flat();
 }

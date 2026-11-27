@@ -12,6 +12,8 @@ import {
  setLocaleSchema,
   journeySchema,
   shareLinkSchema,
+  storySchema,
+  storySubmitSchema,
 } from "@foundura/shared";
 import { IntrosService } from "../investors/intros.service";
 import { InvestorsService } from "../investors/investors.service";
@@ -25,6 +27,7 @@ import { DB } from "../db/db.module";
 import { users } from "../db/schema";
 import { ScanService } from "../scan/scan.service";
 import { SharesService } from "../startups/shares.service";
+import { StoriesService } from "../stories/stories.service";
 import { StartupsService, toScanInput } from "../startups/startups.service";
 
 /** Everything about the signed-in person: profile, startups, consents and DPDP/GDPR rights. */
@@ -42,6 +45,7 @@ export class MeController {
     @Inject(DigestService) private readonly digest: DigestService,
     @Inject(NewsletterService) private readonly newsletter: NewsletterService,
     @Inject(SharesService) private readonly shares: SharesService,
+    @Inject(StoriesService) private readonly stories: StoriesService,
   ) {}
 
   @Get()
@@ -171,6 +175,36 @@ export class MeController {
     await this.shares.remove(user.id, id);
   }
 
+  // ----- founder story -----
+
+  @Get("startups/:id/story")
+  getStory(@CurrentUser() user: SessionUser, @Param("id") id: string) {
+    return this.stories.get(user.id, id);
+  }
+
+  @Put("startups/:id/story")
+  saveStory(@CurrentUser() user: SessionUser, @Param("id") id: string, @Body() body: unknown) {
+    return this.stories.save(user.id, id, parseBody(storySchema, body));
+  }
+
+  @Post("startups/:id/story/submit")
+  @HttpCode(200)
+  submitStory(@CurrentUser() user: SessionUser, @Param("id") id: string, @Body() body: unknown) {
+    return this.stories.submit(user.id, id, parseBody(storySubmitSchema, body).confirmations);
+  }
+
+  @Post("startups/:id/story/withdraw")
+  @HttpCode(200)
+  withdrawStory(@CurrentUser() user: SessionUser, @Param("id") id: string) {
+    return this.stories.withdraw(user.id, id);
+  }
+
+  @Delete("startups/:id/story")
+  @HttpCode(204)
+  async deleteStory(@CurrentUser() user: SessionUser, @Param("id") id: string) {
+    await this.stories.remove(user.id, id);
+  }
+
   /** Scheme Scan run from the saved profile. */
   @Get("startups/:id/scan")
   async scanStartup(@CurrentUser() user: SessionUser, @Param("id") id: string, @Query("lang") lang?: string) {
@@ -204,6 +238,7 @@ export class MeController {
       account: row,
       startups: mine,
       privateProfileLinks: await this.shares.exportFor(mine.map((s) => s.id)),
+      founderStories: await this.stories.exportFor(mine.map((s) => s.id)),
       investorProfile: investor,
       introRequests: await this.intros.exportFor(user.id, investor),
       consentHistory: await this.consents.history(user.id),
@@ -213,7 +248,7 @@ export class MeController {
   }
 
   /**
-   * Right to erasure: deletes the account; startups (with their private links), investor profile, intros, consent rows and digest history
+   * Right to erasure: deletes the account; startups (with their private links and founder stories with their consent history), investor profile, intros, consent rows and digest history
    * cascade. A weekly-email subscription for the same address (made without signing in) goes too.
    */
   @Delete()

@@ -19,6 +19,7 @@ const PAGES = [
   "/contact",
   "/perks",
   "/rounds",
+  "/stories",
   "/data",
   "/numbers",
   "/mentors",
