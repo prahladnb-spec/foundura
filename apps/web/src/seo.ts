@@ -48,7 +48,8 @@ export type PageKey =
   | "selling"
   | "global"
   | "closing"
-  | "labs";
+  | "labs"
+  | "patents";
 
 const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
   home: {
@@ -1093,6 +1094,24 @@ const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
       description: "स्टार्टअप टेस्टिंग लैब की गाइड: प्रोटोटाइप कहाँ बनाएँ, कौन-से प्रमाणपत्र चाहिए (BIS, MTCTE, CDSCO), NABL मान्यता प्राप्त लैब और STQC व CSIR केंद्र।",
       excerpt: "भारतीय स्टार्टअप प्रोटोटाइप कहाँ बनाएँ, उत्पाद की जाँच कहाँ कराएँ और प्रमाणपत्र कैसे पाएँ: साझा प्रोटोटाइपिंग केंद्र और फ़ैब लैब, BIS, MTCTE, CDSCO और ड्रोन प्रमाणन, NABL मान्यता प्राप्त लैब, STQC और CSIR लैब, शुरुआती जाँच, डिज़ाइन की सुरक्षा और जाँच का ख़र्च उठाने वाली योजनाएँ।",
       keywords: ["स्टार्टअप टेस्टिंग लैब", "प्रोटोटाइपिंग केंद्र", "फ़ैब लैब", "NABL मान्यता प्राप्त लैब", "STQC जाँच", "BIS प्रमाणन", "MTCTE प्रमाणन", "चिकित्सा उपकरण जाँच", "ड्रोन प्रमाणन", "CSIR लैब", "उत्पाद प्रमाणन", "शुरुआती जाँच", "हार्डवेयर स्टार्टअप", "T-Works हैदराबाद", "Foundura"],
+    },
+  },
+  patents: {
+    en: {
+      slug: "/patents",
+      focus: "patent filing for startups",
+      title: "Patent filing for startups: India and abroad | Foundura",
+      description: "Patent filing for startups: file in India step by step, use the 12-month priority year, the PCT route and the national phase, and know the main patent offices.",
+      excerpt: "How startups can protect an invention: keeping it secret until filing, what India lets you patent, provisional and complete applications, examination and renewal, the foreign filing permit, the 12-month priority year, the PCT route, the national phase, and the main patent offices abroad.",
+      keywords: ["patent filing for startups", "patent filing India", "provisional patent application", "PCT application", "national phase", "foreign filing permit", "priority date", "request for examination", "expedited examination startups", "startup patent fees", "software patent India", "unitary patent", "USPTO small entity", "patent agent", "Foundura"],
+    },
+    hi: {
+      slug: "/patents",
+      focus: "स्टार्टअप के लिए पेटेंट",
+      title: "स्टार्टअप के लिए पेटेंट: भारत और विदेश में आवेदन | Foundura",
+      description: "स्टार्टअप के लिए पेटेंट: भारत में आवेदन कदम-दर-कदम, 12 महीने की प्राथमिकता अवधि, PCT का रास्ता, राष्ट्रीय चरण और दुनिया के मुख्य पेटेंट कार्यालय।",
+      excerpt: "स्टार्टअप अपना आविष्कार कैसे सुरक्षित करें: आवेदन तक गोपनीयता, भारत में क्या पेटेंट हो सकता है, अस्थायी और पूरा आवेदन, जाँच और नवीनीकरण, विदेशी आवेदन की अनुमति, 12 महीने की प्राथमिकता अवधि, PCT, राष्ट्रीय चरण और विदेश के मुख्य पेटेंट कार्यालय।",
+      keywords: ["स्टार्टअप के लिए पेटेंट", "भारत में पेटेंट आवेदन", "अस्थायी पेटेंट आवेदन", "PCT आवेदन", "राष्ट्रीय चरण", "विदेशी आवेदन अनुमति", "प्राथमिकता तिथि", "जाँच का अनुरोध", "स्टार्टअप के लिए जल्दी जाँच", "पेटेंट फ़ीस में छूट", "सॉफ़्टवेयर पेटेंट", "यूनिटरी पेटेंट", "अमेरिका में पेटेंट", "पेटेंट एजेंट", "Foundura"],
     },
   },
 };

@@ -220,6 +220,13 @@ export const pt: LangContent = {
       excerpt: "Onde startups indianas podem prototipar, testar produtos e obter certificação: centros de prototipagem e fab labs, certificação BIS, MTCTE, CDSCO e de drones, laboratórios acreditados pelo NABL, STQC e CSIR, testes prévios, proteção do design e programas que pagam os testes.",
       keywords: ["laboratórios de testes para startups", "centro de prototipagem", "fab lab", "laboratório acreditado NABL", "testes STQC", "certificação BIS", "certificação MTCTE", "teste de dispositivos médicos", "certificação de drones", "laboratórios CSIR", "certificação de produtos na Índia", "testes de pré-conformidade", "startup de hardware", "T-Works Hyderabad", "Foundura"],
     },
+    patents: {
+      focus: "patentes para startups",
+      title: "Patentes para startups: na Índia e no exterior | Foundura",
+      description: "Patentes para startups: como depositar na Índia passo a passo, o ano de prioridade de 12 meses, a via PCT, a fase nacional e os principais escritórios.",
+      excerpt: "Como uma startup protege uma invenção: manter sigilo até o depósito, o que é patenteável na Índia, pedido provisório e completo, exame e renovação, autorização para depositar no exterior, ano de prioridade, via PCT, fase nacional e principais escritórios de patentes no exterior.",
+      keywords: ["patentes para startups", "patente na Índia", "pedido provisório", "pedido PCT", "fase nacional", "autorização de depósito no exterior", "data de prioridade", "pedido de exame", "exame acelerado", "taxas de patente", "patente de software", "patente unitária", "patente nos Estados Unidos", "agente de patentes", "Foundura"],
+    },
   },
   docs: {
     "lean-canvas": { t: "Lean canvas", s: "Toda a sua ideia de negócio em uma página: cliente, problema, solução, canais, receitas e custos." },

@@ -936,4 +936,34 @@ export const SEO_INTL: Record<PageKey, Record<"es" | "de" | "ar" | "he", Entry>>
       keywords: ["מעבדות בדיקה לסטארט־אפים", "מרכז אב־טיפוס", "מעבדת ייצור", "מעבדה מוסמכת NABL", "בדיקות STQC", "אישור BIS", "אישור MTCTE", "בדיקת מכשור רפואי", "אישור דגם לרחפנים", "מעבדות CSIR", "אישור מוצרים בהודו", "בדיקה מקדימה", "סטארט־אפ חומרה", "T-Works חיידראבאד", "Foundura"],
     },
   },
+  patents: {
+    es: {
+      focus: "patentes para startups",
+      title: "Patentes para startups: la India y el extranjero | Foundura",
+      description: "Patentes para startups: cómo presentar en la India paso a paso, el año de prioridad de 12 meses, la vía PCT, la fase nacional y las principales oficinas.",
+      excerpt: "Cómo puede una startup proteger un invento: mantenerlo en secreto hasta presentar, qué se puede patentar en la India, solicitud provisional y completa, examen y renovación, permiso para presentar fuera, año de prioridad, vía PCT, fase nacional y oficinas de patentes extranjeras.",
+      keywords: ["patentes para startups", "patente en la India", "solicitud provisional", "solicitud PCT", "fase nacional", "permiso de presentación en el extranjero", "fecha de prioridad", "solicitud de examen", "examen acelerado", "tasas de patente", "patente de software", "patente unitaria", "patente en Estados Unidos", "agente de patentes", "Foundura"],
+    },
+    de: {
+      focus: "Patente für Startups",
+      title: "Patente für Startups: in Indien und im Ausland | Foundura",
+      description: "Patente für Startups: Anmeldung in Indien Schritt für Schritt, das Prioritätsjahr von 12 Monaten, der PCT-Weg, die nationale Phase und die wichtigsten Ämter.",
+      excerpt: "Wie Startups eine Erfindung schützen: Geheimhaltung bis zur Anmeldung, was in Indien patentierbar ist, vorläufige und vollständige Anmeldung, Prüfung und Verlängerung, Genehmigung für Auslandsanmeldungen, Prioritätsjahr, PCT-Weg, nationale Phase und die wichtigsten Patentämter im Ausland.",
+      keywords: ["Patente für Startups", "Patentanmeldung Indien", "vorläufige Anmeldung", "PCT-Anmeldung", "nationale Phase", "Genehmigung für Auslandsanmeldung", "Prioritätsdatum", "Prüfungsantrag", "beschleunigte Prüfung", "Patentgebühren", "Softwarepatent", "Einheitspatent", "US-Patent", "Patentanwalt", "Foundura"],
+    },
+    ar: {
+      focus: "براءات الاختراع للشركات الناشئة",
+      title: "براءات الاختراع للشركات الناشئة: الهند والخارج | Foundura",
+      description: "براءات الاختراع للشركات الناشئة: الإيداع في الهند خطوة بخطوة، وسنة الأولوية البالغة 12 شهرًا، وطريق PCT، والمرحلة الوطنية، وأهم مكاتب البراءات.",
+      excerpt: "كيف تحمي الشركة الناشئة اختراعها: السرية حتى الإيداع، وما يقبل البراءة في الهند، والطلب المؤقت والكامل، والفحص والتجديد، وإذن الإيداع في الخارج، وسنة الأولوية، وطريق PCT، والمرحلة الوطنية، وأهم مكاتب البراءات في الخارج.",
+      keywords: ["براءات الاختراع للشركات الناشئة", "براءة اختراع في الهند", "طلب مؤقت", "طلب PCT", "المرحلة الوطنية", "إذن الإيداع في الخارج", "تاريخ الأولوية", "طلب الفحص", "الفحص المعجل", "رسوم البراءات", "براءة البرمجيات", "البراءة الأوروبية الموحدة", "براءة أمريكية", "وكيل براءات", "Foundura"],
+    },
+    he: {
+      focus: "פטנטים לסטארט־אפים",
+      title: "פטנטים לסטארט־אפים: בהודו ובחו״ל | Foundura",
+      description: "פטנטים לסטארט־אפים: הגשה בהודו צעד אחר צעד, שנת הבכורה של 12 חודשים, מסלול PCT, השלב הלאומי ומשרדי הפטנטים העיקריים בעולם, בלי להחמיץ מועדים.",
+      excerpt: "איך סטארט־אפ מגן על המצאה: סודיות עד ההגשה, מה ניתן לרשום כפטנט בהודו, בקשה זמנית ומלאה, בחינה וחידוש, היתר להגשה בחו״ל, שנת הבכורה, מסלול PCT, השלב הלאומי ומשרדי הפטנטים העיקריים בחו״ל.",
+      keywords: ["פטנטים לסטארט־אפים", "פטנט בהודו", "בקשה זמנית", "בקשת PCT", "השלב הלאומי", "היתר הגשה בחו״ל", "תאריך בכורה", "בקשת בחינה", "בחינה מזורזת", "אגרות פטנט", "פטנט תוכנה", "פטנט אחדותי", "פטנט אמריקאי", "עורך פטנטים", "Foundura"],
+    },
+  },
 };

@@ -69,6 +69,7 @@ export const en = {
       selling: "Selling to government",
       global: "Going global",
       labs: "Labs and testing",
+      patents: "Patents",
       closing: "Closing a startup",
     },
     footerNote: "Scheme details are summaries. Always confirm on the official source linked on each scheme before you apply.",

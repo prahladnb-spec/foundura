@@ -49,7 +49,7 @@ export const PERKS: Perk[] = [
     name: "Patent and trademark fee rebates",
     by: "Office of the Controller General of Patents, Designs and Trade Marks",
     group: "government",
-    offer: "80% off patent filing fees and 50% off trademark filing fees, faster patent examination, and free help from facilitators listed by the government.",
+    offer: "80% off patent filing fees and 50% off trademark filing fees, and faster patent examination. The scheme that paid agents' fees for startups ended on 31 March 2026.",
     who: "DPIIT-recognised startups",
     url: "https://ipindia.gov.in",
     scheme: "startup-ipr-fee-benefits",

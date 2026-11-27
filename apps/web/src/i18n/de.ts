@@ -66,6 +66,7 @@ export const de: Dict = {
       selling: "An den Staat verkaufen",
       global: "Ins Ausland wachsen",
       labs: "Labore und Prüfungen",
+      patents: "Patente",
       closing: "Ein Startup schließen",
     },
     footerNote: "Programmdetails sind Zusammenfassungen. Prüfen Sie vor dem Antrag immer die verlinkte offizielle Quelle.",

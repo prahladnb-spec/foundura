@@ -3,14 +3,14 @@ import { SUPPORT, type SupportEntry } from "../support/directory";
 /**
  * Founder guides built around the support directory: finding a mentor (/mentors), a desk
  * (/coworking), help for student founders (/students) and women founders (/women), selling to
- * government and large companies (/selling), going abroad (/global), labs and testing (/labs)
- * and closing a startup (/closing). Written from official sources on CHECKED_ON;
+ * government and large companies (/selling), going abroad (/global), labs and testing (/labs),
+ * patents in India and abroad (/patents, with extras in `patents.ts`) and closing a startup (/closing). Written from official sources on CHECKED_ON;
  * English and Hindi only, other languages show the English. When a rule changes, update both
  * languages and CHECKED_ON. General information, never advice.
  */
 export const CHECKED_ON = "2026-11-26";
 
-export const FOUNDER_GUIDES = ["mentors", "coworking", "students", "women", "selling", "global", "labs", "closing"] as const;
+export const FOUNDER_GUIDES = ["mentors", "coworking", "students", "women", "selling", "global", "labs", "patents", "closing"] as const;
 export type FounderGuide = (typeof FOUNDER_GUIDES)[number];
 
 export const GUIDE_PATH: Record<FounderGuide, string> = {
@@ -21,6 +21,7 @@ export const GUIDE_PATH: Record<FounderGuide, string> = {
   selling: "/selling",
   global: "/global",
   labs: "/labs",
+  patents: "/patents",
   closing: "/closing",
 };
 
@@ -33,6 +34,7 @@ export const GUIDE_ENTRIES: Record<FounderGuide, (e: SupportEntry) => boolean> =
   selling: (e) => e.kind === "corporate",
   global: (e) => !!e.for?.includes("global"),
   labs: (e) => e.kind === "lab",
+  patents: () => false,
   closing: () => false,
 };
 
@@ -47,6 +49,7 @@ export const GUIDE_LINKS: Record<FounderGuide, { schemes: string[]; docs: string
   selling: { schemes: ["public-procurement-relaxations", "dpiit-startup-recognition"], docs: ["letter-of-intent", "nda", "customer-agreement", "quotation-and-invoice", "case-study", "one-pager"], guides: ["first-customers-startup-sales", "gst-registration-for-startups", "startup-pricing-first-product"] },
   global: { schemes: ["startup-ipr-fee-benefits"], docs: ["customer-agreement", "data-processing-agreement", "privacy-policy", "nda", "trademark-checklist"], guides: ["gst-registration-for-startups", "dpdp-act-for-startups", "startup-intellectual-property-india"] },
   labs: { schemes: ["stpi-ngis", "birac-bipp", "drdo-tdf"], docs: ["nda", "vendor-agreement", "ip-assignment"], guides: ["startup-intellectual-property-india"] },
+  patents: { schemes: ["startup-ipr-fee-benefits", "dpiit-startup-recognition"], docs: ["nda", "ip-assignment", "trademark-checklist"], guides: ["startup-intellectual-property-india"] },
   closing: { schemes: [], docs: ["resolutions-pack", "financial-records-checklist", "relieving-letter", "investor-update"], guides: ["company-compliance-calendar-india", "investor-update-email-guide"] },
 };
 
@@ -91,6 +94,14 @@ export const GUIDE_SOURCES: Record<FounderGuide, { name: string; url: string }[]
     { name: "Telecommunication Engineering Centre: MTCTE", url: "https://www.tec.gov.in" },
     { name: "CDSCO: medical devices", url: "https://cdsco.gov.in" },
     { name: "MeitY Startup Hub", url: "https://msh.meity.gov.in" },
+  ],
+  patents: [
+    { name: "Intellectual Property India: patents", url: "https://ipindia.gov.in" },
+    { name: "The Patents Act, 1970 and Patents Rules (as amended in 2024)", url: "https://ipindia.gov.in/acts/patent-act-1970" },
+    { name: "Startup India: intellectual property rights", url: "https://www.startupindia.gov.in/content/sih/en/intellectual-property-rights.html" },
+    { name: "WIPO: Patent Cooperation Treaty", url: "https://www.wipo.int/pct/en/" },
+    { name: "European Patent Office: Unitary Patent", url: "https://www.epo.org/en/applying/european/unitary/unitary-patent" },
+    { name: "USPTO: small and micro entity fees", url: "https://www.uspto.gov/patents/apply/save-on-fees" },
   ],
   closing: [
     { name: "Ministry of Corporate Affairs: strike-off (Form STK-2)", url: "https://www.mca.gov.in" },
@@ -274,6 +285,25 @@ const en: Record<FounderGuide, GuideText> = {
     listNational: "Across India",
     listStates: "By state",
   },
+  patents: {
+    title: "Patents for startups, in India and abroad",
+    lead: "When a patent is worth it, how to file one in India, and how to protect the same invention in other countries without missing the deadlines that can't be undone.",
+    stepsTitle: "Filing in India",
+    steps: [
+      { title: "Keep it secret until you file", body: "A pitch deck, demo video, paper or crowdfunding page that shows how the invention works can stop it being new. India's grace period covers only a few kinds of disclosure, and Europe has almost none. Share details only under an NDA until you've filed." },
+      { title: "Check it can be patented", body: "It must be new, involve an inventive step and be usable in industry. Some things can't be patented in India, including computer programs as such, business methods, algorithms, and methods of treating people. Software that produces a technical effect, or works with new hardware, may still qualify." },
+      { title: "Search what already exists", body: "Search published patents before you spend on drafting: IP India's search tool, WIPO's PATENTSCOPE, Espacenet and Google Patents are free. A good search also shows you how to word your claims around what's already known." },
+      { title: "File a provisional application to fix your date", body: "A provisional application (Form 1 with a provisional specification) secures your date while you finish the work. You then have 12 months to file the complete specification, or the application lapses. Recognised startups pay the lower fee scale; attach proof of DPIIT recognition." },
+      { title: "File the complete specification with claims", body: "The claims decide what you can stop others doing, so have a registered patent agent draft them. The scheme that paid agents' fees for startups ended on 31 March 2026, so budget for one. Make sure the company owns the invention: founders, employees and freelancers should sign an IP assignment." },
+      { title: "Request examination, early if you can", body: "Your application is examined only after you request it (Form 18), within 31 months of the priority date. Recognised startups can ask for expedited examination (Form 18A). Applications are published at 18 months, or sooner if you ask (Form 9)." },
+      { title: "Answer the examination report", body: "The first examination report usually raises objections. You have six months to reply, extendable by three, and may be called to a hearing. After publication, anyone can oppose the grant, so expect competitors in crowded fields to look." },
+      { title: "Keep the patent alive", body: "A patent lasts 20 years from filing if you pay renewal fees each year from the third year. File the statement of working (Form 27) once every three financial years. Anyone can oppose a granted patent within a year of its grant being published." },
+    ],
+    listTitle: "",
+    listLead: "",
+    listNational: "",
+    listStates: "",
+  },
   closing: {
     title: "Closing a startup properly",
     lead: "If the startup isn't working, closing it cleanly protects you, your team and your investors, and leaves you free to start again.",
@@ -431,6 +461,25 @@ const hi: Record<FounderGuide, GuideText> = {
     listLead: "सरकारी लैब, जाँच और प्रमाणन संस्थाएँ और प्रोटोटाइपिंग केंद्र। कई इनक्यूबेटरों के पास भी लैब हैं: राज्यों वाले पेज देखें।",
     listNational: "पूरे भारत में",
     listStates: "राज्य के हिसाब से",
+  },
+  patents: {
+    title: "स्टार्टअप के लिए पेटेंट, भारत और विदेश में",
+    lead: "पेटेंट कब फ़ायदेमंद है, भारत में आवेदन कैसे करें, और उसी आविष्कार को दूसरे देशों में कैसे सुरक्षित करें, बिना उन समय-सीमाओं को चूके जिन्हें बाद में ठीक नहीं किया जा सकता।",
+    stepsTitle: "भारत में आवेदन",
+    steps: [
+      { title: "आवेदन तक इसे गुप्त रखें", body: "पिच डेक, डेमो वीडियो, शोध पत्र या क्राउडफ़ंडिंग पेज जो दिखाए कि आविष्कार कैसे काम करता है, उसकी नवीनता ख़त्म कर सकता है। भारत की छूट अवधि सिर्फ़ कुछ तरह के खुलासों पर लागू होती है, और यूरोप में लगभग नहीं है। आवेदन से पहले जानकारी सिर्फ़ NDA के तहत साझा करें।" },
+      { title: "देखें कि यह पेटेंट हो सकता है या नहीं", body: "यह नया हो, इसमें आविष्कारी कदम हो और उद्योग में इस्तेमाल हो सके। भारत में कुछ चीज़ें पेटेंट नहीं हो सकतीं, जैसे कंप्यूटर प्रोग्राम अपने आप में, व्यावसायिक तरीक़े, एल्गोरिद्म और लोगों के इलाज के तरीक़े। जो सॉफ़्टवेयर कोई तकनीकी प्रभाव पैदा करे या नए हार्डवेयर के साथ काम करे, वह फिर भी योग्य हो सकता है।" },
+      { title: "खोजें कि पहले से क्या मौजूद है", body: "मसौदे पर ख़र्च करने से पहले प्रकाशित पेटेंट खोजें: IP इंडिया का खोज टूल, WIPO का PATENTSCOPE, एस्पेसनेट और गूगल पेटेंट्स मुफ़्त हैं। अच्छी खोज यह भी बताती है कि पहले से ज्ञात चीज़ों से बचते हुए दावे कैसे लिखें।" },
+      { title: "तारीख़ पक्की करने के लिए अस्थायी आवेदन करें", body: "अस्थायी आवेदन (अस्थायी विनिर्देश के साथ फ़ॉर्म 1) काम पूरा होने तक आपकी तारीख़ सुरक्षित रखता है। इसके बाद पूरा विनिर्देश जमा करने के लिए 12 महीने मिलते हैं, नहीं तो आवेदन ख़त्म हो जाता है। मान्यता प्राप्त स्टार्टअप कम फ़ीस देते हैं; DPIIT मान्यता का प्रमाण लगाएँ।" },
+      { title: "दावों के साथ पूरा विनिर्देश जमा करें", body: "दावे ही तय करते हैं कि आप दूसरों को क्या करने से रोक सकते हैं, इसलिए इन्हें पंजीकृत पेटेंट एजेंट से लिखवाएँ। स्टार्टअप के एजेंट की फ़ीस चुकाने वाली योजना 31 मार्च 2026 को ख़त्म हो गई, इसलिए इसका बजट रखें। पक्का करें कि आविष्कार कंपनी का हो: संस्थापक, कर्मचारी और फ़्रीलांसर IP हस्तांतरण पर हस्ताक्षर करें।" },
+      { title: "जाँच का अनुरोध करें, हो सके तो जल्दी", body: "आवेदन की जाँच तभी होती है जब आप प्राथमिकता तिथि के 31 महीने के अंदर इसका अनुरोध (फ़ॉर्म 18) करें। मान्यता प्राप्त स्टार्टअप जल्दी जाँच (फ़ॉर्म 18A) माँग सकते हैं। आवेदन 18 महीने पर प्रकाशित होते हैं, या आपके कहने पर पहले (फ़ॉर्म 9)।" },
+      { title: "जाँच रिपोर्ट का जवाब दें", body: "पहली जाँच रिपोर्ट में आम तौर पर आपत्तियाँ होती हैं। जवाब के लिए छह महीने मिलते हैं, जो तीन महीने बढ़ाए जा सकते हैं, और सुनवाई के लिए बुलाया जा सकता है। प्रकाशन के बाद कोई भी मंज़ूरी का विरोध कर सकता है, इसलिए भीड़ वाले क्षेत्रों में प्रतिस्पर्धियों की नज़र की उम्मीद रखें।" },
+      { title: "पेटेंट को जीवित रखें", body: "तीसरे साल से हर साल नवीनीकरण फ़ीस भरने पर पेटेंट आवेदन से 20 साल तक चलता है। हर तीन वित्त वर्ष में एक बार उपयोग का विवरण (फ़ॉर्म 27) जमा करें। मंज़ूरी प्रकाशित होने के एक साल के अंदर कोई भी मंज़ूर पेटेंट का विरोध कर सकता है।" },
+    ],
+    listTitle: "",
+    listLead: "",
+    listNational: "",
+    listStates: "",
   },
   closing: {
     title: "स्टार्टअप को सही तरीक़े से बंद करना",

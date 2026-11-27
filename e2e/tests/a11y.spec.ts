@@ -26,6 +26,8 @@ const PAGES = [
   "/women",
   "/selling",
   "/global",
+  "/labs",
+  "/patents",
   "/closing",
   "/cities",
   "/cities/bengaluru",

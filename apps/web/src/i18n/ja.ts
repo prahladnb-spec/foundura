@@ -66,6 +66,7 @@ export const ja: Dict = {
       selling: "政府への販売",
       global: "海外展開",
       labs: "ラボと試験",
+      patents: "特許",
       closing: "スタートアップをたたむ",
     },
     footerNote: "制度の内容は要約です。申請前に、各制度に記載された公式情報源で必ず確認してください。",

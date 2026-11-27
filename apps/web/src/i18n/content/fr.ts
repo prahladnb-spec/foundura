@@ -220,6 +220,13 @@ export const fr: LangContent = {
       excerpt: "Où les startups indiennes peuvent prototyper, tester leurs produits et les faire certifier : centres de prototypage et fab labs, certification BIS, MTCTE, CDSCO et drones, laboratoires accrédités NABL, STQC et CSIR, essais préalables, protection du design et programmes qui financent les essais.",
       keywords: ["laboratoires d’essais pour startups", "centre de prototypage", "fab lab", "laboratoire accrédité NABL", "essais STQC", "certification BIS", "certification MTCTE", "essais de dispositifs médicaux", "certification de drones", "laboratoires CSIR", "certification de produits en Inde", "essais de pré-conformité", "startup matérielle", "T-Works Hyderabad", "Foundura"],
     },
+    patents: {
+      focus: "brevets pour startups",
+      title: "Brevets pour startups : en Inde et à l’étranger | Foundura",
+      description: "Brevets pour startups : déposer en Inde étape par étape, l’année de priorité de 12 mois, la voie PCT, la phase nationale et les principaux offices de brevets.",
+      excerpt: "Comment une startup protège une invention : garder le secret jusqu’au dépôt, ce qui est brevetable en Inde, demande provisoire et complète, examen et renouvellement, autorisation de dépôt à l’étranger, année de priorité, voie PCT, phase nationale et principaux offices étrangers.",
+      keywords: ["brevets pour startups", "brevet en Inde", "demande provisoire", "demande PCT", "phase nationale", "autorisation de dépôt à l’étranger", "date de priorité", "requête en examen", "examen accéléré", "taxes de brevet", "brevet logiciel", "brevet unitaire", "brevet américain", "conseil en brevets", "Foundura"],
+    },
   },
   docs: {
     "lean-canvas": { t: "Lean canvas", s: "Toute votre idée d'entreprise sur une page : client, problème, solution, canaux, revenus et coûts." },

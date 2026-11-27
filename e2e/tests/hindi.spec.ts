@@ -111,6 +111,8 @@ test.describe("Hindi", () => {
     "/hi/women",
     "/hi/selling",
     "/hi/global",
+    "/hi/labs",
+    "/hi/patents",
     "/hi/closing",
     "/hi/cities",
     "/hi/cities/mumbai",

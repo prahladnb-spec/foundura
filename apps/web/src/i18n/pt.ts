@@ -66,6 +66,7 @@ export const pt: Dict = {
       selling: "Vender ao governo",
       global: "Expandir para o exterior",
       labs: "Laboratórios e testes",
+      patents: "Patentes",
       closing: "Encerrar uma startup",
     },
     footerNote: "Os detalhes dos programas são resumos. Antes de se inscrever, confirme sempre na fonte oficial indicada em cada programa.",

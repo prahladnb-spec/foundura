@@ -10,6 +10,7 @@ import { docText } from "@/documents/text";
 import type { ArticleSummary, Scheme } from "@/lib/types";
 import { CHECKED_ON as SUPPORT_CHECKED, GATHERED_ON as SUPPORT_GATHERED } from "@/support/directory";
 import { SupportList } from "@/app/[lang]/(site)/states/support-list";
+import { PATENT_OFFICES, patentText } from "@/founders/patents";
 import {
   CHECKED_ON,
   FOUNDER_GUIDES,
@@ -68,6 +69,7 @@ export async function FounderGuidePage({ guide, lang }: { guide: FounderGuide; l
 
         <Steps id="steps-h" title={t.stepsTitle} steps={t.steps} />
         {corp && <Steps id="corp-steps-h" title={corp.title} steps={corp.steps} />}
+        {guide === "patents" && <PatentExtras cl={cl} mark={mark} />}
 
         {entries.length > 0 && (
         <section aria-labelledby="list-h" className="mt-14">
@@ -184,5 +186,44 @@ function Steps({ id, title, steps }: { id: string; title: string; steps: { title
         ))}
       </ol>
     </section>
+  );
+}
+
+/** The /patents guide's extra parts: filing abroad, the deadline timeline and the main patent offices. */
+function PatentExtras({ cl, mark }: { cl: "en" | "hi"; mark: (l: string) => string | undefined }) {
+  const p = patentText[cl];
+  return (
+    <>
+      <Steps id="abroad-h" title={p.abroadTitle} steps={p.abroadSteps} />
+
+      <section aria-labelledby="timeline-h" className="mt-14">
+        <h2 id="timeline-h" className="display text-4xl">{p.timelineTitle}</h2>
+        <p className="mt-2 max-w-[62ch] text-neel-700">{p.timelineLead}</p>
+        <ol className="mt-6 border-s-2 border-neel-900">
+          {p.timeline.map((x) => (
+            <li key={x.when} className="relative grid gap-1 py-3 ps-6 sm:grid-cols-[8rem_1fr] sm:gap-6">
+              <span aria-hidden="true" className="absolute -start-[7px] top-[1.15rem] h-3 w-3 rounded-full border-2 border-neel-900 bg-marigold" />
+              <span className="font-semibold text-marigold-ink">{x.when}</span>
+              <span className="text-neel-700">{x.what}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section aria-labelledby="offices-h" className="mt-14">
+        <h2 id="offices-h" className="display text-4xl">{p.officesTitle}</h2>
+        <p className="mt-2 max-w-[62ch] text-neel-700">{p.officesLead}</p>
+        <ul className="mt-6 grid gap-x-10 md:grid-cols-2">
+          {PATENT_OFFICES.map((o, i) => (
+            <li key={o.url} className="border-t border-rule py-4">
+              <p lang={mark("en")} className="text-[0.88rem] text-slate">{o.where}</p>
+              <a href={o.url} target="_blank" rel="noopener noreferrer" lang={mark("en")} className="font-semibold">{o.name}</a>
+              <p className="mt-1 text-[0.95rem] text-neel-700">{p.officeNotes[i]}</p>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-6 max-w-[70ch] rounded-md bg-marigold-50 px-4 py-3 text-neel-900">{p.agent}</p>
+      </section>
+    </>
   );
 }

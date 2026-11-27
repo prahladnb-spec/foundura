@@ -66,6 +66,7 @@ export const fr: Dict = {
       selling: "Vendre à l’État",
       global: "Se développer à l’étranger",
       labs: "Laboratoires et essais",
+      patents: "Brevets",
       closing: "Fermer une startup",
     },
     footerNote: "Les fiches des dispositifs sont des résumés. Vérifiez toujours la source officielle indiquée sur chaque fiche avant de déposer une demande.",

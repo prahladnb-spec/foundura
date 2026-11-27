@@ -56,6 +56,23 @@ test.describe("founder guides", () => {
     await expect(page.getByText("Lab or testing centre").first()).toBeVisible();
   });
 
+  test("patents: filing in India, abroad, the deadline timeline and patent offices", async ({ page }) => {
+    await page.goto("/patents");
+    await expect(page.locator("h1")).toHaveText("Patents for startups, in India and abroad");
+    await expect(page.getByRole("heading", { name: "File a provisional application to fix your date" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Get permission before filing abroad" })).toBeVisible();
+    const timeline = page.locator("section[aria-labelledby=timeline-h] ol li");
+    await expect(timeline).toHaveCount(8);
+    await expect(timeline.nth(2)).toContainText("Month 12");
+    await expect(page.getByRole("link", { name: "European Patent Office (EPO)" })).toHaveAttribute("href", "https://www.epo.org");
+    await expect(page.getByText("hasn't been reviewed by a patent agent")).toBeVisible();
+    await expect(page.locator("footer").getByRole("link", { name: "Patents" })).toHaveAttribute("href", "/patents");
+
+    await page.goto("/hi/patents");
+    await expect(page.locator("h1")).toHaveText("स्टार्टअप के लिए पेटेंट, भारत और विदेश में");
+    await expect(page.getByRole("heading", { name: "विदेश में आवेदन से पहले अनुमति लें" })).toBeVisible();
+  });
+
   test("site search finds the guides and the support directory", async ({ page }) => {
     await page.goto("/search?q=co-working");
     await expect(page.getByRole("link", { name: guideText.en.coworking.title })).toBeVisible();
