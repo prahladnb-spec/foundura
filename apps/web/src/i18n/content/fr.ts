@@ -304,6 +304,27 @@ export const fr: LangContent = {
       excerpt: "Les assurances dont les startups ont le plus besoin et quand investisseurs et clients les demandent : santé collective, responsabilité des dirigeants, RC professionnelle, cyber, responsabilité produits et civile, matériel, marchandises et personnes clés, et achat auprès d’assureurs réglementés.",
       keywords: ["assurances pour startups", "santé collective", "assurance D&O", "responsabilité des dirigeants", "RC professionnelle", "erreurs et omissions", "cyberassurance", "RC produits", "responsabilité civile", "assurance homme clé", "IRDAI", "assurance SaaS", "assurance essais cliniques", "assurances en Inde", "Foundura"],
     },
+    rounds: {
+      focus: "levées de fonds en Inde",
+      title: "Levées de fonds en Inde : qui lève, combien | Foundura",
+      description: "Levées de fonds en Inde : les dernières levées des startups indiennes avec montant, stade, secteur et investisseurs, avec lien vers l’article. Données ouvertes.",
+      excerpt: "Une liste gratuite des levées de fonds des startups indiennes telles que publiées : société, secteur, lieu, tour, montant et investisseurs, les plus récentes d’abord, filtrables par secteur et tour, avec un lien vers chaque article et des données téléchargeables.",
+      keywords: ["levées de fonds en Inde", "financement des startups indiennes", "actualité des levées", "série A Inde", "amorçage", "qui a levé", "investisseurs en Inde", "capital-risque Inde", "suivi des levées", "opérations startups", "pré-amorçage", "dette venture", "données de financement", "données ouvertes", "Foundura"],
+    },
+    msme: {
+      focus: "guide des PME en Inde",
+      title: "Guide des PME en Inde : Udyam, paiements, prêts | Foundura",
+      description: "Guide des PME en Inde : enregistrement Udyam gratuit, seuils de 2025, règle de paiement à 45 jours, TReDS, appels d’offres GeM et prêts sans garantie.",
+      excerpt: "Un guide gratuit pour les petites entreprises et MSME en Inde : enregistrement Udyam, seuils des micro, petites et moyennes entreprises, paiement sous 45 jours, recouvrement des retards, financement de factures sur TReDS, vente sur GeM, prêts et subventions.",
+      keywords: ["guide des PME en Inde", "enregistrement Udyam", "classification MSME 2025", "règle des 45 jours", "retards de paiement", "portail MSME ODR", "TReDS", "vendre sur GeM", "achats publics", "prêt CGTMSE", "subvention PMEGP", "prêt MUDRA", "petite entreprise", "microentreprise", "Foundura"],
+    },
+    agritech: {
+      focus: "guide agritech en Inde",
+      title: "Guide agritech en Inde : aides, FPO et FSSAI | Foundura",
+      description: "Guide agritech en Inde : aides RKVY aux startups agricoles, fonds AgriSURE, prêts AIF, travail avec les FPO, seuils de licence FSSAI dès 2026, drones et export.",
+      excerpt: "Un guide gratuit pour les startups agritech et alimentaires en Inde : aides via les incubateurs, fonds AgriSURE, prêts du fonds d’infrastructure agricole, organisations de producteurs, licences FSSAI, règles sur les intrants et les drones, subventions et export.",
+      keywords: ["guide agritech en Inde", "aides aux startups agricoles", "RKVY", "fonds AgriSURE", "fonds d’infrastructure agricole", "programme FPO", "organisation de producteurs", "licence FSSAI", "FoSCoS", "subvention PMFME", "drones agricoles", "enregistrement APEDA", "startup alimentaire", "incubateur agricole", "Foundura"],
+    },
   },
   docs: {
     "lean-canvas": { t: "Lean canvas", s: "Toute votre idée d'entreprise sur une page : client, problème, solution, canaux, revenus et coûts." },

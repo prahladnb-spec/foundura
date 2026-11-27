@@ -12,6 +12,7 @@ import { fmtRange } from "@/lib/format";
 import { FUNDING, fundingId, isState } from "@/funding/directory";
 import { CHAPTERS } from "@/basics/chapters";
 import { PERKS } from "@/perks/directory";
+import { ROUNDS, roundId } from "@/rounds/rounds";
 import { SUPPORT } from "@/support/directory";
 import { FOUNDER_GUIDES, GUIDE_PATH, guideText } from "@/founders/guides";
 
@@ -174,6 +175,16 @@ export async function catalogue(lang: Lang): Promise<SearchIndex<ResultView>> {
       tags: [p.by, ...LANGS.map((l) => getDict(l).perks.groups[p.group])],
       body: [p.offer, p.who],
       data: { href: `/perks#perk-${p.id}`, title: p.name, summary: p.offer, meta: [{ text: getDict(lang).perks.groups[p.group], en: false }], en: foreign },
+    });
+  }
+
+  // Funding rounds: entries are English; listed with the funding results.
+  for (const r of ROUNDS) {
+    add("funding", `round-${roundId(r)}`, {
+      title: [r.company],
+      tags: [...r.investors, ...LANGS.map((l) => getDict(l).rounds.types[r.round]), ...LANGS.map((l) => getDict(l).rounds.title)],
+      body: [r.what],
+      data: { href: `/rounds#${roundId(r)}`, title: r.company, summary: `${r.what}: ${r.amount}`, meta: [{ text: getDict(lang).rounds.types[r.round], en: false }], en: foreign },
     });
   }
 

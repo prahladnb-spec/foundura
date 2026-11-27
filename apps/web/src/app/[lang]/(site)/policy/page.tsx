@@ -1,3 +1,4 @@
+import { FeedLink } from "@/components/feed-link";
 import { pageMetadata } from "@/seo";
 import { PageIntro } from "@/components/art";
 import type { Metadata } from "next";
@@ -25,6 +26,7 @@ export default async function PolicyPage({ params }: { params: Params }) {
   const items = await apiOr<PolicyItem[]>("/policy", []);
   return (
     <div className="mx-auto max-w-4xl px-5 pt-10">
+      <FeedLink id="policy" />
       <PageIntro art="policy">
         <h1 className="display text-6xl md:text-7xl">{t.policy.title}</h1>
         <p className="mt-3 max-w-[60ch] text-lg text-neel-700">{t.policy.lead}</p>
@@ -32,7 +34,7 @@ export default async function PolicyPage({ params }: { params: Params }) {
       </PageIntro>
       <ol className="mt-8 border-t-2 border-neel-900">
         {items.map((p) => (
-          <li key={p.slug} className="border-b border-rule py-6">
+          <li key={p.slug} id={`policy-${p.slug}`} className="scroll-mt-24 border-b border-rule py-6">
             <p className="text-[0.92rem] text-slate">
               {fmtDate(p.date, true, lang)}, <span lang={cond}>{p.country}, {p.instrument.toLowerCase()}, {p.stage.toLowerCase()}</span>
               {p.impact === "High" && (

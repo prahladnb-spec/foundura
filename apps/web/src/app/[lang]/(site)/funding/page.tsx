@@ -224,6 +224,9 @@ export default async function FundingPage({ params }: { params: Params }) {
             <Link href="/investors" className="text-neel-500 underline">{d.profilesLink}</Link>
             {proB}
           </p>
+          <p className="mt-2">
+            <Link href="/rounds" className="text-neel-500 underline">{t.rounds.title}</Link>: {t.rounds.lead}
+          </p>
         </section>
       </div>
       <FundingFilter showing={d.showing} showingAll={d.showingAll} />

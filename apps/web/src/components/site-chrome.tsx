@@ -117,11 +117,14 @@ export function SiteFooter({ lang }: { lang: Lang }) {
           <li><Link href="/startups" className="hover:text-paper">{ft.startups}</Link></li>
           <li><Link href="/investors" className="hover:text-paper">{ft.investors}</Link></li>
           <li><Link href="/funding" className="hover:text-paper">{ft.funding}</Link></li>
+          <li><Link href="/rounds" className="hover:text-paper">{ft.rounds}</Link></li>
           <li><Link href="/states" className="hover:text-paper">{ft.states}</Link></li>
           <li><Link href="/cities" className="hover:text-paper">{ft.cities}</Link></li>
           <li><Link href="/basics" className="hover:text-paper">{ft.basics}</Link></li>
           <li><Link href="/sectors/medtech" className="hover:text-paper">{ft.medtech}</Link></li>
           <li><Link href="/sectors/software" className="hover:text-paper">{ft.software}</Link></li>
+          <li><Link href="/sectors/msme" className="hover:text-paper">{ft.msme}</Link></li>
+          <li><Link href="/sectors/agritech" className="hover:text-paper">{ft.agritech}</Link></li>
           <li><Link href="/partners" className="hover:text-paper">{ft.partners}</Link></li>
           <li><Link href="/privacy" className="hover:text-paper">{ft.privacy}</Link></li>
           <li><Link href="/terms" className="hover:text-paper">{ft.terms}</Link></li>

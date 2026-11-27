@@ -304,6 +304,27 @@ export const pt: LangContent = {
       excerpt: "Os seguros de que as startups mais precisam e quando investidores e clientes pedem: saúde em grupo, D&O, responsabilidade profissional, cibernético, responsabilidade de produto e civil, equipamentos, mercadorias e pessoas-chave, e compra com seguradoras reguladas.",
       keywords: ["seguros para startups", "seguro saúde em grupo", "seguro D&O", "diretores e administradores", "responsabilidade profissional", "erros e omissões", "seguro cibernético", "responsabilidade de produto", "responsabilidade civil", "seguro de pessoa-chave", "IRDAI", "seguro para SaaS", "seguro de ensaios clínicos", "seguros na Índia", "Foundura"],
     },
+    rounds: {
+      focus: "rodadas de investimento na Índia",
+      title: "Rodadas de investimento na Índia: quem captou | Foundura",
+      description: "Rodadas de investimento na Índia: rodadas recentes de startups indianas com valor, estágio, setor e investidores, com link para a notícia. Dados abertos.",
+      excerpt: "Uma lista gratuita das rodadas captadas por startups indianas, conforme divulgado: empresa, setor, local, rodada, valor e investidores, as mais recentes primeiro, com filtros por setor e rodada, links para cada notícia e dados para baixar.",
+      keywords: ["rodadas de investimento na Índia", "investimento em startups indianas", "notícias de captação", "Série A Índia", "rodada seed", "quem captou", "investidores na Índia", "venture capital Índia", "rastreador de rodadas", "negócios de startups", "pré-seed", "dívida venture", "dados de investimento", "dados abertos", "Foundura"],
+    },
+    msme: {
+      focus: "guia de pequenas empresas na Índia",
+      title: "Guia de pequenas empresas na Índia: Udyam e GeM | Foundura",
+      description: "Guia de pequenas empresas na Índia: registro Udyam gratuito, limites de 2025, regra de pagamento em 45 dias, TReDS, licitações no GeM e crédito sem garantia.",
+      excerpt: "Um guia gratuito para pequenas empresas e MSME na Índia: registro Udyam, limites de micro, pequena e média empresa, receber em 45 dias, cobrar pagamentos atrasados, antecipação de faturas no TReDS, vender no GeM e empréstimos e subsídios.",
+      keywords: ["guia de pequenas empresas na Índia", "registro Udyam", "classificação MSME 2025", "regra dos 45 dias", "pagamentos atrasados", "portal MSME ODR", "TReDS", "vender no GeM", "compras públicas", "empréstimo CGTMSE", "subsídio PMEGP", "empréstimo MUDRA", "pequena empresa", "microempresa", "Foundura"],
+    },
+    agritech: {
+      focus: "guia agritech na Índia",
+      title: "Guia agritech na Índia: apoios, FPO e FSSAI | Foundura",
+      description: "Guia agritech na Índia: apoios RKVY a startups agrícolas, fundo AgriSURE, empréstimos AIF, FPO, licenças FSSAI desde 2026, drones e exportação.",
+      excerpt: "Um guia gratuito para startups agritech e de alimentos na Índia: apoios por meio de incubadoras, o fundo AgriSURE, empréstimos do fundo de infraestrutura agrícola, organizações de produtores, licenças FSSAI, regras de insumos e drones, subsídios e exportação.",
+      keywords: ["guia agritech na Índia", "apoio a startups agrícolas", "RKVY", "fundo AgriSURE", "fundo de infraestrutura agrícola", "programa FPO", "organização de produtores", "licença FSSAI", "FoSCoS", "subsídio PMFME", "drones agrícolas", "registro APEDA", "startup de alimentos", "incubadora agrícola", "Foundura"],
+    },
   },
   docs: {
     "lean-canvas": { t: "Lean canvas", s: "Toda a sua ideia de negócio em uma página: cliente, problema, solução, canais, receitas e custos." },

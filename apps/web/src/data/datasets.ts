@@ -4,14 +4,16 @@ import type { EventItem, Scheme, StartupPublic } from "@/lib/types";
 import { FUNDING, fundingId, GATHERED_ON as FUNDING_GATHERED, CHECKED_ON as FUNDING_CHECKED } from "@/funding/directory";
 import { SUPPORT, GATHERED_ON as SUPPORT_GATHERED, CHECKED_ON as SUPPORT_CHECKED } from "@/support/directory";
 import { PERKS, GATHERED_ON as PERKS_GATHERED, CHECKED_ON as PERKS_CHECKED } from "@/perks/directory";
+import { ROUNDS, GATHERED_ON as ROUNDS_GATHERED, CHECKED_ON as ROUNDS_CHECKED, roundId } from "@/rounds/rounds";
 
 /**
  * Open data at /data: Foundura's public lists as CSV and JSON under CC BY 4.0. Only public
- * information: schemes, the funding, support and perks directories, published events, and the
+ * information: schemes, the funding, support and perks directories, publicly reported funding rounds,
+ * published events, and the
  * startups whose founders chose a public profile: only factual fields (name, place, sector, stage, year,
  * DPIIT), never figures and never text the founders wrote, which isn't ours to license.
  */
-export const DATASET_IDS = ["schemes", "funding", "support", "perks", "events", "startups"] as const;
+export const DATASET_IDS = ["schemes", "funding", "support", "perks", "rounds", "events", "startups"] as const;
 export type DatasetId = (typeof DATASET_IDS)[number];
 export const LICENCE = { name: "CC BY 4.0", url: "https://creativecommons.org/licenses/by/4.0/" };
 
@@ -50,6 +52,12 @@ export async function loadDataset(id: DatasetId): Promise<{ rows: Row[]; asOf: s
         rows: PERKS.map((p) => ({ id: p.id, name: p.name, provider: p.by, group: p.group, offer: p.offer, who_can_apply: p.who, url: p.url ?? null, foundura_scheme: p.scheme ?? null })),
         asOf: PERKS_CHECKED ?? PERKS_GATHERED,
         checked: !!PERKS_CHECKED,
+      };
+    case "rounds":
+      return {
+        rows: ROUNDS.map((r) => ({ id: roundId(r), date: r.date, company: r.company, what: r.what, sector: r.sector, city: r.city ?? null, state: r.state ?? null, round: r.round, amount_as_reported: r.amount, investors: r.investors.join("; "), source_name: r.source.name, source_url: r.source.url })),
+        asOf: ROUNDS_CHECKED ?? ROUNDS_GATHERED,
+        checked: !!ROUNDS_CHECKED,
       };
     case "events": {
       const list = await apiOr<EventItem[]>("/events", [], 3600);

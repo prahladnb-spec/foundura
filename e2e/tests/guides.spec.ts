@@ -1,5 +1,7 @@
 import { expect, test } from "./fixtures";
 import { GUIDES_2026_11 } from "../../apps/api/db/seed-data/guides-2026-11";
+import { AGRITECH } from "../../apps/web/src/sectors/agritech";
+import { MSME } from "../../apps/web/src/sectors/msme";
 
 test.describe("founder guides", () => {
   test("the guides page has a start here list, topics and a way to write for us", async ({ page }) => {
@@ -40,4 +42,22 @@ test.describe("founder guides", () => {
     await page.goto("/ta/sectors/software");
     await expect(page.locator("main [lang=en] h1")).toHaveText("Building a software or SaaS company in India");
   });
+
+  for (const g of [MSME, AGRITECH]) {
+    test(`the ${g.key} guide shows its steps, facts, schemes and sources in English and Hindi`, async ({ page }) => {
+      await page.goto(`/sectors/${g.key}`);
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText(g.text.en.title);
+      await expect(page.locator("#steps-h ~ ol > li")).toHaveCount(g.text.en.steps.length);
+      await expect(page.locator("#facts-h ~ dl > div")).toHaveCount(g.text.en.facts.length);
+      const main = page.getByRole("main");
+      await expect(main.locator('a[href^="/schemes/"]').first()).toBeVisible();
+      await expect(main.locator('a[href^="/documents/"]').first()).toBeVisible();
+      await expect(main.locator(`a[href="${g.sources[0].url}"]`)).toBeVisible();
+      await expect(page.locator("footer").getByRole("link", { name: g.key === "msme" ? "Small business and MSME guide" : "Agritech and food guide" })).toHaveAttribute("href", `/sectors/${g.key}`);
+      await page.goto(`/hi/sectors/${g.key}`);
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText(g.text.hi.title);
+      await page.goto(`/ta/sectors/${g.key}`);
+      await expect(page.locator("main [lang=en] h1")).toHaveText(g.text.en.title);
+    });
+  }
 });

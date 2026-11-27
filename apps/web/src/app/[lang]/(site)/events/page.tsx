@@ -1,3 +1,4 @@
+import { FeedLink } from "@/components/feed-link";
 import { pageMetadata } from "@/seo";
 import { PageIntro } from "@/components/art";
 import type { Metadata } from "next";
@@ -81,6 +82,7 @@ export default async function EventsPage({ params, searchParams }: { params: Par
 
   return (
     <div className="mx-auto max-w-6xl px-5 pt-10">
+      <FeedLink id="events" />
       {/* Only confirmed events with dates go to search engines; "to verify" ones stay on the page only. */}
       <JsonLd
         data={events

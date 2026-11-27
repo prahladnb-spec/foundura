@@ -60,7 +60,10 @@ export type PageKey =
   | "licences"
   | "cyber"
   | "onlineSelling"
-  | "insurance";
+  | "insurance"
+  | "rounds"
+  | "msme"
+  | "agritech";
 
 const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
   home: {
@@ -1323,6 +1326,60 @@ const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
       keywords: ["स्टार्टअप के लिए बीमा", "स्टार्टअप बीमा", "समूह स्वास्थ्य बीमा", "D&O बीमा", "निदेशक और अधिकारी बीमा", "पेशेवर क्षतिपूर्ति", "ग़लती और चूक बीमा", "साइबर बीमा", "उत्पाद देयता", "सार्वजनिक देयता", "अहम व्यक्ति बीमा", "IRDAI", "सॉफ़्टवेयर कंपनी बीमा", "क्लिनिकल ट्रायल बीमा", "Foundura"],
     },
   },
+  rounds: {
+    en: {
+      slug: "/rounds",
+      focus: "startup funding rounds India",
+      title: "Startup funding rounds India: who raised what | Foundura",
+      description: "Startup funding rounds India: recent rounds by Indian startups with amount, stage, sector and investors, each linked to its report. Free and open data.",
+      excerpt: "A free list of funding rounds raised by Indian startups, as publicly reported: company, sector, place, round, amount and investing organisations, newest first, filterable by sector and round, with a link to each report and the data free to download.",
+      keywords: ["startup funding rounds India", "Indian startup funding", "funding news India", "Series A India", "seed funding India", "who raised money", "startup investors India", "venture capital deals India", "funding tracker", "startup deals", "pre-seed rounds", "venture debt India", "funding data", "open data startups", "Foundura"],
+    },
+    hi: {
+      slug: "/rounds",
+      focus: "स्टार्टअप फ़ंडिंग राउंड",
+      title: "स्टार्टअप फ़ंडिंग राउंड: किसने कितना जुटाया | Foundura",
+      description: "भारत के स्टार्टअप फ़ंडिंग राउंड: हाल के राउंड, रक़म, चरण, सेक्टर और निवेशकों के साथ, हर एक की रिपोर्ट के लिंक सहित। मुफ़्त और खुला डेटा।",
+      excerpt: "भारतीय स्टार्टअप के सार्वजनिक रूप से बताए गए फ़ंडिंग राउंड की मुफ़्त सूची: कंपनी, सेक्टर, जगह, राउंड, रक़म और निवेशक संस्थाएँ, सबसे नए पहले, सेक्टर और राउंड के फ़िल्टर, हर रिपोर्ट के लिंक और मुफ़्त डाउनलोड वाले डेटा के साथ।",
+      keywords: ["स्टार्टअप फ़ंडिंग राउंड", "भारतीय स्टार्टअप फ़ंडिंग", "फ़ंडिंग समाचार", "सीरीज़ A", "सीड फ़ंडिंग", "किसने पैसा जुटाया", "स्टार्टअप निवेशक", "वेंचर कैपिटल सौदे", "फ़ंडिंग ट्रैकर", "स्टार्टअप सौदे", "प्री-सीड राउंड", "वेंचर ऋण", "फ़ंडिंग डेटा", "खुला डेटा", "Foundura"],
+    },
+  },
+  msme: {
+    en: {
+      slug: "/sectors/msme",
+      focus: "MSME guide India",
+      title: "MSME guide India: Udyam, payments, loans and GeM | Foundura",
+      description: "MSME guide India: free Udyam registration, the 2025 size limits, the 45-day payment rule, TReDS, GeM tenders and collateral-free loans, step by step.",
+      excerpt: "A free guide for small businesses and MSMEs in India: Udyam registration, the micro, small and medium limits, getting paid within 45 days, recovering late payments, TReDS invoice finance, selling on GeM and the loans and subsidies meant for small units.",
+      keywords: ["MSME guide India", "Udyam registration", "MSME classification 2025", "45 day payment rule", "MSME delayed payment", "MSME ODR portal", "TReDS", "GeM for MSMEs", "public procurement MSE", "CGTMSE loan", "PMEGP subsidy", "MUDRA loan", "small business India", "micro enterprise", "Foundura"],
+    },
+    hi: {
+      slug: "/sectors/msme",
+      focus: "MSME गाइड",
+      title: "MSME गाइड: उद्यम, भुगतान, ऋण और GeM | Foundura",
+      description: "MSME गाइड: मुफ़्त उद्यम रजिस्ट्रेशन, 2025 की आकार सीमाएँ, 45 दिन में भुगतान का नियम, ट्रेड्स, GeM टेंडर और बिना गिरवी ऋण, क़दम-दर-क़दम समझें।",
+      excerpt: "भारत में छोटे कारोबार और MSME के लिए मुफ़्त गाइड: उद्यम रजिस्ट्रेशन, सूक्ष्म, लघु और मध्यम की सीमाएँ, 45 दिन में भुगतान, देर से आए भुगतान की वसूली, ट्रेड्स, GeM पर बिक्री और छोटी इकाइयों के ऋण व सब्सिडी।",
+      keywords: ["MSME गाइड", "उद्यम रजिस्ट्रेशन", "MSME श्रेणी 2025", "45 दिन भुगतान नियम", "देर से भुगतान", "MSME ODR पोर्टल", "ट्रेड्स", "GeM पर बिक्री", "सरकारी ख़रीद", "CGTMSE ऋण", "PMEGP सब्सिडी", "मुद्रा ऋण", "छोटा कारोबार", "सूक्ष्म उद्यम", "Foundura"],
+    },
+  },
+  agritech: {
+    en: {
+      slug: "/sectors/agritech",
+      focus: "agritech startup guide India",
+      title: "Agritech startup guide India: grants, FPOs, FSSAI | Foundura",
+      description: "Agritech startup guide India: RKVY agri-startup grants, AgriSURE, AIF loans, working with FPOs, FSSAI licence limits from 2026, drones and food exports.",
+      excerpt: "A free guide for agritech and food startups in India: agri-startup grants through incubators, the AgriSURE fund, Agriculture Infrastructure Fund loans, working with farmer producer organisations, FSSAI licences, input and drone rules, food processing subsidies and exports.",
+      keywords: ["agritech startup guide India", "agri startup grants", "RKVY agri startup", "AgriSURE fund", "Agriculture Infrastructure Fund", "FPO scheme", "farmer producer organisation", "FSSAI licence limits", "FoSCoS", "PMFME subsidy", "agri drones rules", "APEDA registration", "food startup India", "agribusiness incubator", "Foundura"],
+    },
+    hi: {
+      slug: "/sectors/agritech",
+      focus: "एग्रीटेक स्टार्टअप गाइड",
+      title: "एग्रीटेक स्टार्टअप गाइड: अनुदान, FPO, FSSAI | Foundura",
+      description: "एग्रीटेक स्टार्टअप गाइड: RKVY एग्री-स्टार्टअप अनुदान, एग्रीश्योर फ़ंड, AIF ऋण, FPO के साथ काम, 2026 से FSSAI लाइसेंस सीमाएँ, ड्रोन और खाद्य निर्यात।",
+      excerpt: "भारत में एग्रीटेक और फ़ूड स्टार्टअप के लिए मुफ़्त गाइड: इनक्यूबेटरों से एग्री-स्टार्टअप अनुदान, एग्रीश्योर फ़ंड, कृषि अवसंरचना कोष के ऋण, किसान उत्पादक संगठन, FSSAI लाइसेंस, इनपुट और ड्रोन के नियम, खाद्य प्रसंस्करण सब्सिडी और निर्यात।",
+      keywords: ["एग्रीटेक स्टार्टअप गाइड", "एग्री-स्टार्टअप अनुदान", "RKVY स्टार्टअप", "एग्रीश्योर फ़ंड", "कृषि अवसंरचना कोष", "FPO योजना", "किसान उत्पादक संगठन", "FSSAI लाइसेंस", "फ़ॉस्कॉस", "PMFME सब्सिडी", "कृषि ड्रोन नियम", "APEDA पंजीकरण", "फ़ूड स्टार्टअप", "एग्रीबिज़नेस इनक्यूबेटर", "Foundura"],
+    },
+  },
 };
 
 /** Every main page in every language; the other languages share the English slug. */
@@ -1335,7 +1392,7 @@ export const SEO: Record<PageKey, Record<Lang, PageSeo>> = Object.fromEntries(
   }),
 ) as Record<PageKey, Record<Lang, PageSeo>>;
 
-const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
+export const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
 
 /** The page's address in a language: English at the plain path, the others under /<code>. */
 export function urlFor(path: string, lang: Lang): string {

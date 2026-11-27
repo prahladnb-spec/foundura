@@ -1,3 +1,4 @@
+import { FeedLink } from "@/components/feed-link";
 import { pageMetadata } from "@/seo";
 import { StartupJourney } from "@/components/infographics/startup-journey";
 import { PageIntro } from "@/components/art";
@@ -50,6 +51,7 @@ export default async function LearnPage({ params }: { params: Params }) {
 
   return (
     <div className="mx-auto max-w-6xl px-5 pt-10">
+      <FeedLink id="guides" />
       <PageIntro art="learn">
         <h1 className="display text-6xl md:text-7xl">{l.title}</h1>
         <p className="mt-3 max-w-[60ch] text-lg text-neel-700">{l.lead}</p>

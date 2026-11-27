@@ -1,3 +1,4 @@
+import { feedPath, type FeedId } from "@/lib/feeds";
 import type { Metadata } from "next";
 import { PageIntro } from "@/components/art";
 import { getDict } from "@/i18n";
@@ -17,11 +18,13 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function DataPage({ params }: { params: Params }) {
   const { lang: raw } = await params;
   const lang: Lang = isLang(raw) ? raw : "en";
-  const d = getDict(lang).data;
+  const t = getDict(lang);
+  const d = t.data;
   const sets = await Promise.all(DATASET_IDS.map(async (id) => ({ id, ...(await loadDataset(id)) })));
   const [licA, licB] = d.licence.split("{link}");
   const n = new Intl.NumberFormat(lang === "en" ? "en-IN" : undefined);
 
+  const feeds: [FeedId, string][] = [["policy", t.policy.title], ["guides", t.learn.title], ["events", t.events.title], ["rounds", t.rounds.title]];
   return (
     <div className="mx-auto max-w-5xl px-5 pt-10">
       <PageIntro art="documents">
@@ -55,6 +58,19 @@ export default async function DataPage({ params }: { params: Params }) {
           </li>
         ))}
       </ul>
+
+      <section aria-labelledby="feeds-h" className="mt-12">
+        <h2 id="feeds-h" className="display text-3xl">{d.feedsTitle}</h2>
+        <p className="mt-2 max-w-[62ch] text-neel-700">{d.feedsLead}</p>
+        <ul className="mt-4 grid gap-x-8 gap-y-2 sm:grid-cols-2">
+          {feeds.map(([id, name]) => (
+            <li key={id}>
+              <a href={feedPath(id)} type="application/atom+xml" className="text-neel-500 underline">{name}</a>
+              <span className="text-[0.9rem] text-slate">, {d.feedAtom}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <div className="mt-12 grid gap-10 md:grid-cols-2">
         <section aria-labelledby="private-h">
