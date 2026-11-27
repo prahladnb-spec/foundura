@@ -7,6 +7,7 @@ import { languagesFor, urlFor } from "@/seo";
 import { DOCS } from "@/documents";
 import { apiOr, STARTUPS_TAG } from "@/lib/api";
 import type { ArticleSummary, InvestorPublic, Scheme, StartupPublic } from "@/lib/types";
+import { FOUNDER_GUIDES, GUIDE_PATH } from "@/founders/guides";
 
 
 // Built on request (data cached for an hour), so a build without the API never ships an empty sitemap.
@@ -55,7 +56,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...CITY_INFO.map((c) => page(`/cities/${c.id}`, "weekly", 0.6)),
     page("/data", "weekly", 0.5),
     page("/numbers", "weekly", 0.5),
-    ...["/mentors", "/coworking", "/students", "/women", "/selling", "/global", "/labs", "/patents", "/closing"].map((p) => page(p, "monthly", 0.7)),
+    page("/founder-guides", "monthly", 0.7),
+    ...FOUNDER_GUIDES.map((g) => page(GUIDE_PATH[g], "monthly", 0.7)),
     ...Object.keys(TILES).map((c) => page(`/states/${c.toLowerCase()}`, "monthly", 0.6)),
     page("/about", "yearly", 0.5),
     page("/contact", "yearly", 0.4),

@@ -55,9 +55,9 @@ test.describe("site search", () => {
     await expect(page.locator("#results-h")).toHaveText("Nothing matches “zzqxv”.");
     await expect(page.getByRole("link", { name: "Check which schemes fit your startup" })).toHaveAttribute("href", "/scan");
     await expect.poll(() => count("none")).toBe(none + 1);
-    await page.goto("/search?q=esop");
+    await page.goto("/search?q=vesting");
     await expect.poll(() => count("found")).toBe(found + 1);
     // The words searched for are never stored.
-    expect(await dbValue<number>("select count(*)::int as v from daily_counts where key like '%zzqxv%' or key like '%esop%'", [])).toBe(0);
+    expect(await dbValue<number>("select count(*)::int as v from daily_counts where key like '%zzqxv%' or key like '%vesting%'", [])).toBe(0);
   });
 });

@@ -13,10 +13,10 @@ import { SupportList } from "@/app/[lang]/(site)/states/support-list";
 import { PATENT_OFFICES, patentText } from "@/founders/patents";
 import {
   CHECKED_ON,
-  FOUNDER_GUIDES,
   GUIDE_LINKS,
   GUIDE_PATH,
   GUIDE_SOURCES,
+  guideGroup,
   corporateSteps,
   guideEntries,
   guideText,
@@ -25,7 +25,7 @@ import {
 } from "@/founders/guides";
 
 /**
- * One founder guide page (/mentors, /coworking, /students, /women, /selling): the steps, the matching
+ * One founder guide page (any of FOUNDER_GUIDES): the steps, the matching
  * support directory entries (India-wide, then by state), schemes, templates, guides and sources.
  * English and Hindi; other languages read the English, marked as such.
  */
@@ -147,12 +147,13 @@ export async function FounderGuidePage({ guide, lang }: { guide: FounderGuide; l
           <section aria-labelledby="related-h">
             <h2 id="related-h" className="display text-3xl">{s.related}</h2>
             <ul className="mt-4 divide-y divide-rule border-y border-rule" lang={mark(lang)}>
-              {FOUNDER_GUIDES.filter((g) => g !== guide).map((g) => (
+              {guideGroup(guide).guides.filter((g) => g !== guide).map((g) => (
                 <li key={g} className="py-3">
                   <Link href={GUIDE_PATH[g]} className="font-semibold">{ft[g]}</Link>
                 </li>
               ))}
             </ul>
+            <p className="mt-3" lang={mark(lang)}><Link href="/founder-guides" className="text-neel-500 underline">{d.founderGuides.all}</Link></p>
           </section>
         </div>
 

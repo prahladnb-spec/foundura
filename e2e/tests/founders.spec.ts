@@ -1,4 +1,4 @@
-import { FOUNDER_GUIDES, GUIDE_PATH, guideEntries, guideText } from "../../apps/web/src/founders/guides";
+import { FOUNDER_GUIDES, GUIDE_GROUPS, GUIDE_PATH, guideEntries, guideGroup, guideText } from "../../apps/web/src/founders/guides";
 import { SUPPORT } from "../../apps/web/src/support/directory";
 import { expect, test } from "./fixtures";
 
@@ -11,9 +11,9 @@ test.describe("founder guides", () => {
       const list = page.locator("section[aria-labelledby=list-h]");
       if (!guideEntries(g).length) await expect(list).toHaveCount(0);
       for (const e of guideEntries(g)) await expect(list.getByText(e.name, { exact: true })).toBeVisible();
-      // Links to the other four guides, and every guide is in the footer.
-      await expect(page.locator("section[aria-labelledby=related-h] li")).toHaveCount(FOUNDER_GUIDES.length - 1);
-      await expect(page.locator(`footer a[href="${GUIDE_PATH[g]}"]`)).toHaveCount(1);
+      // Links to the other guides in its group and to the list of all guides, which the footer links to as the founder handbook.
+      await expect(page.locator("section[aria-labelledby=related-h] li")).toHaveCount(guideGroup(g).guides.length - 1);
+      await expect(page.locator("section[aria-labelledby=related-h]").getByRole("link", { name: "The whole founder handbook" })).toHaveAttribute("href", "/founder-guides");
     });
   }
 
@@ -48,6 +48,34 @@ test.describe("founder guides", () => {
     await expect(page.getByText(/fast-track process, which aims to finish in 90 days/)).toBeVisible();
   });
 
+  test("the founder handbook lists every guide in its group, linked from the footer", async ({ page }) => {
+    await page.goto("/");
+    await page.locator("footer").getByRole("link", { name: "Founder handbook" }).click();
+    await expect(page).toHaveURL(/\/founder-guides$/);
+    await expect(page.locator("h1")).toHaveText("Founder handbook");
+    for (const group of GUIDE_GROUPS) {
+      const section = page.locator(`section[aria-labelledby=group-${group.id}]`);
+      await expect(section.locator("li")).toHaveCount(group.guides.length);
+      for (const g of group.guides) await expect(section.locator(`a[href="${GUIDE_PATH[g]}"]`)).toHaveCount(1);
+    }
+    expect(GUIDE_GROUPS.flatMap((x) => x.guides).sort()).toEqual([...FOUNDER_GUIDES].sort());
+
+    await page.goto("/hi/founder-guides");
+    await expect(page.locator("h1")).toHaveText("संस्थापक पुस्तिका");
+    await expect(page.getByRole("link", { name: "कर्मचारी रखना" })).toHaveAttribute("href", "/hi/employees");
+  });
+
+  test("rules and paperwork guides carry the deadlines founders miss", async ({ page }) => {
+    await page.goto("/foreign-investment");
+    await expect(page.getByRole("heading", { name: "Allot within 60 days, report within 30" })).toBeVisible();
+    await page.goto("/employees");
+    await expect(page.getByText("21 November 2025")).toBeVisible();
+    await page.goto("/cyber-security");
+    await expect(page.getByRole("heading", { name: "Report to CERT-In within six hours" })).toBeVisible();
+    await page.goto("/hi/tax-deductions");
+    await expect(page.locator("h1")).toHaveText("हर स्टार्टअप की कर कटौती और भुगतान");
+  });
+
   test("labs lists testing and certification centres, with lab kinds on state pages", async ({ page }) => {
     await page.goto("/labs");
     await expect(page.getByRole("heading", { name: "Find out which certificates you need" })).toBeVisible();
@@ -66,7 +94,6 @@ test.describe("founder guides", () => {
     await expect(timeline.nth(2)).toContainText("Month 12");
     await expect(page.getByRole("link", { name: "European Patent Office (EPO)" })).toHaveAttribute("href", "https://www.epo.org");
     await expect(page.getByText("hasn't been reviewed by a patent agent")).toBeVisible();
-    await expect(page.locator("footer").getByRole("link", { name: "Patents" })).toHaveAttribute("href", "/patents");
 
     await page.goto("/hi/patents");
     await expect(page.locator("h1")).toHaveText("स्टार्टअप के लिए पेटेंट, भारत और विदेश में");

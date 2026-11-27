@@ -49,7 +49,18 @@ export type PageKey =
   | "global"
   | "closing"
   | "labs"
-  | "patents";
+  | "patents"
+  | "founderGuides"
+  | "setup"
+  | "employees"
+  | "esops"
+  | "taxes"
+  | "foreignInvestment"
+  | "trademarks"
+  | "licences"
+  | "cyber"
+  | "onlineSelling"
+  | "insurance";
 
 const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
   home: {
@@ -1112,6 +1123,204 @@ const SEO_EN_HI: Record<PageKey, Record<"en" | "hi", PageSeo>> = {
       description: "स्टार्टअप के लिए पेटेंट: भारत में आवेदन कदम-दर-कदम, 12 महीने की प्राथमिकता अवधि, PCT का रास्ता, राष्ट्रीय चरण और दुनिया के मुख्य पेटेंट कार्यालय।",
       excerpt: "स्टार्टअप अपना आविष्कार कैसे सुरक्षित करें: आवेदन तक गोपनीयता, भारत में क्या पेटेंट हो सकता है, अस्थायी और पूरा आवेदन, जाँच और नवीनीकरण, विदेशी आवेदन की अनुमति, 12 महीने की प्राथमिकता अवधि, PCT, राष्ट्रीय चरण और विदेश के मुख्य पेटेंट कार्यालय।",
       keywords: ["स्टार्टअप के लिए पेटेंट", "भारत में पेटेंट आवेदन", "अस्थायी पेटेंट आवेदन", "PCT आवेदन", "राष्ट्रीय चरण", "विदेशी आवेदन अनुमति", "प्राथमिकता तिथि", "जाँच का अनुरोध", "स्टार्टअप के लिए जल्दी जाँच", "पेटेंट फ़ीस में छूट", "सॉफ़्टवेयर पेटेंट", "यूनिटरी पेटेंट", "अमेरिका में पेटेंट", "पेटेंट एजेंट", "Foundura"],
+    },
+  },
+  founderGuides: {
+    en: {
+      slug: "/founder-guides",
+      focus: "founder handbook",
+      title: "Founder handbook: people, rules and paperwork | Foundura",
+      description: "Founder handbook for startups: mentors, desks and labs, company setup, hiring, ESOPs, tax, foreign investment, trademarks, patents, licences and more.",
+      excerpt: "Short, practical guides for founders: finding mentors, desks and labs; setting up the company, hiring, ESOPs, tax deductions, foreign investment, trademarks, patents, licences, cyber security, online selling and insurance; and selling to government, going abroad and closing.",
+      keywords: ["founder handbook", "startup guides India", "company setup", "hiring staff", "ESOPs", "TDS for startups", "FEMA for startups", "trademarks", "patents", "business licences", "cyber security", "selling online", "startup insurance", "startup compliance", "Foundura"],
+    },
+    hi: {
+      slug: "/founder-guides",
+      focus: "संस्थापक पुस्तिका",
+      title: "संस्थापक पुस्तिका: लोग, नियम और काग़ज़ी काम | Foundura",
+      description: "स्टार्टअप के लिए संस्थापक पुस्तिका: मेंटर, जगह और लैब, कंपनी बनाना, भर्ती, ESOP, कर, विदेशी निवेश, ट्रेडमार्क, पेटेंट, लाइसेंस और बहुत कुछ।",
+      excerpt: "संस्थापकों के लिए छोटी, व्यावहारिक गाइड: मेंटर, काम की जगह और लैब खोजना; कंपनी बनाना, भर्ती, ESOP, कर कटौती, विदेशी निवेश, ट्रेडमार्क, पेटेंट, लाइसेंस, साइबर सुरक्षा, ऑनलाइन बिक्री और बीमा; और सरकार को बेचना, विदेश जाना और बंद करना।",
+      keywords: ["संस्थापक पुस्तिका", "स्टार्टअप गाइड", "कंपनी बनाना", "कर्मचारी रखना", "ESOP", "स्टार्टअप के लिए TDS", "FEMA", "ट्रेडमार्क", "पेटेंट", "व्यवसाय लाइसेंस", "साइबर सुरक्षा", "ऑनलाइन बिक्री", "स्टार्टअप बीमा", "स्टार्टअप अनुपालन", "Foundura"],
+    },
+  },
+  setup: {
+    en: {
+      slug: "/company-setup",
+      focus: "company registration for startups",
+      title: "Company registration for startups in India | Foundura",
+      description: "Company registration for startups: choose a private limited company or LLP, incorporate with SPICe+, and meet the 30, 60 and 180-day filings.",
+      excerpt: "How to set up your startup: choosing between a private limited company, LLP or one person company, digital signatures and name checks, incorporating with SPICe+, the first auditor and board meeting, share certificates, the commencement filing, demat shares and other registrations.",
+      keywords: ["company registration for startups", "private limited company", "LLP registration", "SPICe+", "one person company", "INC-20A", "commencement of business", "first auditor", "ADT-1", "share certificates", "demat shares private company", "DPIIT recognition", "Udyam registration", "incorporation India", "Foundura"],
+    },
+    hi: {
+      slug: "/company-setup",
+      focus: "स्टार्टअप के लिए कंपनी पंजीकरण",
+      title: "स्टार्टअप के लिए कंपनी पंजीकरण | Foundura",
+      description: "स्टार्टअप के लिए कंपनी पंजीकरण: प्राइवेट लिमिटेड या LLP चुनें, स्पाइस+ से निगमन करें, और 30, 60 और 180 दिनों की फ़ाइलिंग समय पर करें।",
+      excerpt: "अपना स्टार्टअप कैसे बनाएँ: प्राइवेट लिमिटेड कंपनी, LLP या एक व्यक्ति कंपनी में से चुनना, डिजिटल हस्ताक्षर और नाम की जाँच, स्पाइस+ से निगमन, पहला ऑडिटर और बोर्ड बैठक, शेयर प्रमाणपत्र, कारोबार शुरू करने की घोषणा, डीमैट शेयर और दूसरे पंजीकरण।",
+      keywords: ["स्टार्टअप के लिए कंपनी पंजीकरण", "प्राइवेट लिमिटेड कंपनी", "LLP पंजीकरण", "स्पाइस+", "एक व्यक्ति कंपनी", "INC-20A", "कारोबार शुरू करने की घोषणा", "पहला ऑडिटर", "ADT-1", "शेयर प्रमाणपत्र", "डीमैट शेयर", "DPIIT मान्यता", "उद्यम पंजीकरण", "कंपनी निगमन", "Foundura"],
+    },
+  },
+  employees: {
+    en: {
+      slug: "/employees",
+      focus: "labour law for startups",
+      title: "Labour law for startups: hiring staff in India | Foundura",
+      description: "Labour law for startups under the new labour codes: appointment letters, wages, provident fund at 20, ESI at 10, POSH committee, gratuity and leave.",
+      excerpt: "The rules that switch on as a startup's team grows under India's four labour codes: appointment letters, the new wage definition, provident fund, ESI, the POSH internal committee, gratuity, maternity leave and creches, and keeping registers and returns up to date.",
+      keywords: ["labour law for startups", "labour codes 2025", "hiring employees India", "appointment letter", "provident fund registration", "EPFO", "ESI registration", "POSH committee", "internal committee", "gratuity", "maternity leave", "shops and establishments", "payroll compliance", "employee or contractor", "Foundura"],
+    },
+    hi: {
+      slug: "/employees",
+      focus: "स्टार्टअप के लिए श्रम क़ानून",
+      title: "स्टार्टअप के लिए श्रम क़ानून: कर्मचारी रखना | Foundura",
+      description: "नई श्रम संहिताओं के तहत स्टार्टअप के लिए श्रम क़ानून: नियुक्ति पत्र, वेतन, 20 पर भविष्य निधि, 10 पर ESI, POSH समिति, ग्रेच्युटी और छुट्टी।",
+      excerpt: "भारत की चार श्रम संहिताओं के तहत टीम बढ़ने के साथ लागू होने वाले नियम: नियुक्ति पत्र, वेतन की नई परिभाषा, भविष्य निधि, ESI, POSH आंतरिक समिति, ग्रेच्युटी, मातृत्व अवकाश और शिशु-गृह, और रजिस्टर व रिटर्न अद्यतन रखना।",
+      keywords: ["स्टार्टअप के लिए श्रम क़ानून", "श्रम संहिता 2025", "कर्मचारी भर्ती", "नियुक्ति पत्र", "भविष्य निधि पंजीकरण", "EPFO", "ESI पंजीकरण", "POSH समिति", "आंतरिक समिति", "ग्रेच्युटी", "मातृत्व अवकाश", "दुकान और प्रतिष्ठान", "पेरोल अनुपालन", "कर्मचारी या ठेकेदार", "Foundura"],
+    },
+  },
+  esops: {
+    en: {
+      slug: "/esops",
+      focus: "ESOPs for startups",
+      title: "ESOPs for startups: pools, vesting and tax | Foundura",
+      description: "ESOPs for startups in India: create the pool, who can get options, one-year minimum vesting, tax at exercise and sale, and the startup tax deferral.",
+      excerpt: "How Indian startups set up and run an employee stock option plan: creating the pool, who can receive options, vesting and cliffs, tax at exercise and on sale, the deferral for eligible startups, leavers and buybacks, and recording and reporting grants.",
+      keywords: ["ESOPs for startups", "employee stock options India", "ESOP pool", "ESOP vesting", "vesting cliff", "ESOP tax", "perquisite tax", "ESOP tax deferral", "80-IAC", "ESOP buyback", "fair market value", "cap table", "ESOP scheme", "stock options for promoters", "Foundura"],
+    },
+    hi: {
+      slug: "/esops",
+      focus: "स्टार्टअप के लिए ESOP",
+      title: "स्टार्टअप के लिए ESOP: पूल, वेस्टिंग और कर | Foundura",
+      description: "भारत में स्टार्टअप के लिए ESOP: पूल बनाना, विकल्प किसे मिलें, कम से कम एक साल की वेस्टिंग, इस्तेमाल और बिक्री पर कर, और कर टालने की सुविधा।",
+      excerpt: "भारतीय स्टार्टअप कर्मचारी स्टॉक विकल्प योजना कैसे बनाएँ और चलाएँ: पूल बनाना, विकल्प किसे मिल सकते हैं, वेस्टिंग और क्लिफ़, इस्तेमाल और बिक्री पर कर, योग्य स्टार्टअप के लिए कर टालना, छोड़ने वाले और बायबैक, और विकल्पों को दर्ज करना व रिपोर्ट करना।",
+      keywords: ["स्टार्टअप के लिए ESOP", "कर्मचारी स्टॉक विकल्प", "ESOP पूल", "ESOP वेस्टिंग", "वेस्टिंग क्लिफ़", "ESOP पर कर", "अनुलाभ कर", "ESOP कर टालना", "स्टार्टअप कर छूट", "ESOP बायबैक", "उचित बाज़ार मूल्य", "कैप टेबल", "ESOP योजना", "प्रमोटरों को विकल्प", "Foundura"],
+    },
+  },
+  taxes: {
+    en: {
+      slug: "/tax-deductions",
+      focus: "TDS for startups",
+      title: "TDS for startups: deductions and advance tax | Foundura",
+      description: "TDS for startups under the Income-tax Act, 2025: TAN, when to deduct, deposit by the 7th, quarterly returns, advance tax dates and the tax holiday.",
+      excerpt: "The tax a startup deducts and pays: getting a TAN, TDS on salaries, contractors, professionals and rent under the Income-tax Act, 2025, monthly deposits, quarterly returns and certificates, advance tax instalments, where angel tax stands, and applying for the startup tax holiday.",
+      keywords: ["TDS for startups", "Income-tax Act 2025", "TAN registration", "TDS on salary", "TDS on contractors", "TDS deposit date", "TDS return due dates", "section 393", "advance tax dates", "angel tax", "startup tax holiday", "80-IAC", "tax compliance startup", "TDS certificate", "Foundura"],
+    },
+    hi: {
+      slug: "/tax-deductions",
+      focus: "स्टार्टअप के लिए TDS",
+      title: "स्टार्टअप के लिए TDS: कटौती और अग्रिम कर | Foundura",
+      description: "आयकर अधिनियम, 2025 के तहत स्टार्टअप के लिए TDS: TAN, कब काटें, 7 तारीख़ तक जमा, तिमाही रिटर्न, अग्रिम कर की तारीख़ें और कर छूट।",
+      excerpt: "स्टार्टअप जो कर काटते और भरते हैं: TAN लेना, आयकर अधिनियम, 2025 के तहत वेतन, ठेकेदारों, पेशेवरों और किराए पर TDS, मासिक जमा, तिमाही रिटर्न और प्रमाणपत्र, अग्रिम कर की किस्तें, एंजेल टैक्स की स्थिति, और स्टार्टअप कर छूट के लिए आवेदन।",
+      keywords: ["स्टार्टअप के लिए TDS", "आयकर अधिनियम 2025", "TAN पंजीकरण", "वेतन पर TDS", "ठेकेदारों पर TDS", "TDS जमा करने की तारीख़", "TDS रिटर्न", "धारा 393", "अग्रिम कर", "एंजेल टैक्स", "स्टार्टअप कर छूट", "80-IAC", "कर अनुपालन", "TDS प्रमाणपत्र", "Foundura"],
+    },
+  },
+  foreignInvestment: {
+    en: {
+      slug: "/foreign-investment",
+      focus: "FEMA compliance for startups",
+      title: "FEMA compliance for startups: foreign investment | Foundura",
+      description: "FEMA compliance for startups taking foreign money: routes and approvals, fair value, allotment in 60 days, FC-GPR in 30, FC-TRS, the FLA return.",
+      excerpt: "What startups must do when money comes from abroad: the automatic route and land-border approvals, pricing at fair value, allotting within 60 days, filing FC-GPR on the FIRMS portal, convertible notes, share transfers, the annual FLA return, flips and reverse flips, and fixing missed filings.",
+      keywords: ["FEMA compliance for startups", "foreign investment India", "FDI in startups", "FC-GPR", "FIRMS portal", "FC-TRS", "FLA return", "convertible note foreign investor", "Press Note 3", "fair value shares", "overseas direct investment", "reverse flip", "late submission fee", "RBI reporting", "Foundura"],
+    },
+    hi: {
+      slug: "/foreign-investment",
+      focus: "स्टार्टअप के लिए FEMA अनुपालन",
+      title: "स्टार्टअप के लिए FEMA अनुपालन: विदेशी निवेश | Foundura",
+      description: "विदेशी पैसा लेने वाले स्टार्टअप के लिए FEMA अनुपालन: रास्ता और मंज़ूरी, उचित मूल्य, 60 दिनों में आवंटन, 30 में FC-GPR, FC-TRS और FLA रिटर्न।",
+      excerpt: "विदेश से पैसा आने पर स्टार्टअप को क्या करना होता है: स्वचालित रास्ता और ज़मीनी सीमा वाले देशों की मंज़ूरी, उचित मूल्य, 60 दिनों में आवंटन, FIRMS पोर्टल पर FC-GPR, परिवर्तनीय नोट, शेयर हस्तांतरण, सालाना FLA रिटर्न, फ़्लिप और रिवर्स फ़्लिप, और छूटी फ़ाइलिंग सुधारना।",
+      keywords: ["स्टार्टअप के लिए FEMA अनुपालन", "विदेशी निवेश", "स्टार्टअप में FDI", "FC-GPR", "FIRMS पोर्टल", "FC-TRS", "FLA रिटर्न", "परिवर्तनीय नोट", "प्रेस नोट 3", "उचित मूल्य पर शेयर", "विदेश में निवेश", "रिवर्स फ़्लिप", "देरी का शुल्क", "RBI रिपोर्टिंग", "Foundura"],
+    },
+  },
+  trademarks: {
+    en: {
+      slug: "/trademarks",
+      focus: "trademark registration for startups",
+      title: "Trademark registration for startups in India | Foundura",
+      description: "Trademark registration for startups: clear the name, pick classes, file TM-A at half fee, answer objections, survive opposition and use the Madrid system.",
+      excerpt: "How startups protect their name and logo: searching before you spend, choosing classes, filing in India with the startup fee, examination reports and hearings, the four-month opposition window, ten-year registration, the six-month priority, the Madrid system and owning the mark.",
+      keywords: ["trademark registration for startups", "trademark India", "TM-A", "trademark search", "trademark classes", "Nice classification", "trademark objection", "trademark opposition", "Trade Marks Journal", "Madrid Protocol", "international trademark", "trademark fee startups", "brand name protection", "logo trademark", "Foundura"],
+    },
+    hi: {
+      slug: "/trademarks",
+      focus: "स्टार्टअप के लिए ट्रेडमार्क पंजीकरण",
+      title: "स्टार्टअप के लिए ट्रेडमार्क पंजीकरण | Foundura",
+      description: "स्टार्टअप के लिए ट्रेडमार्क पंजीकरण: नाम जाँचें, वर्ग चुनें, आधी फ़ीस पर TM-A भरें, आपत्तियों का जवाब दें, विरोध से निपटें और मैड्रिड प्रणाली अपनाएँ।",
+      excerpt: "स्टार्टअप अपना नाम और लोगो कैसे सुरक्षित करें: ख़र्च से पहले खोज, वर्ग चुनना, स्टार्टअप फ़ीस पर भारत में आवेदन, जाँच रिपोर्ट और सुनवाई, चार महीने की विरोध अवधि, दस साल का पंजीकरण, छह महीने की प्राथमिकता, मैड्रिड प्रणाली और चिह्न का मालिकाना हक़।",
+      keywords: ["स्टार्टअप के लिए ट्रेडमार्क पंजीकरण", "भारत में ट्रेडमार्क", "TM-A", "ट्रेडमार्क खोज", "ट्रेडमार्क वर्ग", "नीस वर्गीकरण", "ट्रेडमार्क आपत्ति", "ट्रेडमार्क विरोध", "ट्रेडमार्क जर्नल", "मैड्रिड प्रोटोकॉल", "अंतरराष्ट्रीय ट्रेडमार्क", "स्टार्टअप ट्रेडमार्क फ़ीस", "ब्रांड नाम सुरक्षा", "लोगो ट्रेडमार्क", "Foundura"],
+    },
+  },
+  licences: {
+    en: {
+      slug: "/licences",
+      focus: "business licences in India",
+      title: "Business licences in India: which ones you need | Foundura",
+      description: "Business licences in India by sector: FSSAI for food, CDSCO for health, RBI, SEBI and IRDAI for money, drones, telecom, IEC, Legal Metrology and premises.",
+      excerpt: "Which licences and registrations a startup may need before selling: FSSAI for food, CDSCO and drug licences for health, RBI, SEBI and IRDAI for financial services, drone and telecom permissions, IEC for trade, Legal Metrology and BIS for products, and premises licences.",
+      keywords: ["business licences in India", "FSSAI registration", "FSSAI licence", "CDSCO licence", "payment aggregator licence", "digital lending rules", "SEBI registration", "IRDAI licence", "drone permission", "Digital Sky", "IEC code", "Legal Metrology", "trade licence", "regulatory sandbox", "Foundura"],
+    },
+    hi: {
+      slug: "/licences",
+      focus: "भारत में व्यवसाय लाइसेंस",
+      title: "भारत में व्यवसाय लाइसेंस: कौन-से चाहिए | Foundura",
+      description: "क्षेत्र के हिसाब से भारत में व्यवसाय लाइसेंस: खाद्य के लिए FSSAI, स्वास्थ्य के लिए CDSCO, पैसे के लिए RBI, SEBI और IRDAI, ड्रोन, दूरसंचार और IEC।",
+      excerpt: "बेचने से पहले स्टार्टअप को कौन-से लाइसेंस और पंजीकरण चाहिए हो सकते हैं: खाद्य के लिए FSSAI, स्वास्थ्य के लिए CDSCO और दवा लाइसेंस, वित्तीय सेवाओं के लिए RBI, SEBI और IRDAI, ड्रोन और दूरसंचार की अनुमति, IEC, BIS और परिसर के लाइसेंस।",
+      keywords: ["भारत में व्यवसाय लाइसेंस", "FSSAI पंजीकरण", "FSSAI लाइसेंस", "CDSCO लाइसेंस", "पेमेंट एग्रीगेटर", "डिजिटल ऋण नियम", "SEBI पंजीकरण", "IRDAI लाइसेंस", "ड्रोन अनुमति", "डिजिटल स्काई", "IEC कोड", "विधिक माप विज्ञान", "व्यापार लाइसेंस", "नियामक सैंडबॉक्स", "Foundura"],
+    },
+  },
+  cyber: {
+    en: {
+      slug: "/cyber-security",
+      focus: "cyber security for startups",
+      title: "Cyber security for startups: CERT-In and breaches | Foundura",
+      description: "Cyber security for startups: basic protections, keeping logs in India, reporting to CERT-In within six hours, DPDP breach notices and the GDPR.",
+      excerpt: "What startups should do before and after a cyber incident: basic protections, logs kept in India for 180 days, reporting to CERT-In within six hours, telling the Data Protection Board and users about personal data breaches, rules abroad such as the GDPR, and an incident plan.",
+      keywords: ["cyber security for startups", "CERT-In", "CERT-In 6 hours", "incident reporting India", "data breach", "DPDP breach notification", "Data Protection Board", "log retention 180 days", "GDPR breach", "two-factor authentication", "incident response plan", "ransomware", "cyber insurance", "DPDP Rules 2025", "Foundura"],
+    },
+    hi: {
+      slug: "/cyber-security",
+      focus: "स्टार्टअप के लिए साइबर सुरक्षा",
+      title: "स्टार्टअप के लिए साइबर सुरक्षा और उल्लंघन | Foundura",
+      description: "स्टार्टअप के लिए साइबर सुरक्षा: बुनियादी बचाव, भारत में लॉग रखना, छह घंटे में सर्ट-इन को रिपोर्ट, DPDP उल्लंघन सूचना और यूरोप का GDPR।",
+      excerpt: "साइबर घटना से पहले और बाद में स्टार्टअप को क्या करना चाहिए: बुनियादी बचाव, 180 दिनों तक भारत में लॉग, छह घंटे में सर्ट-इन को रिपोर्ट, व्यक्तिगत डेटा उल्लंघन पर डेटा संरक्षण बोर्ड और उपयोगकर्ताओं को सूचना, विदेश के नियम जैसे GDPR, और घटना योजना।",
+      keywords: ["स्टार्टअप के लिए साइबर सुरक्षा", "सर्ट-इन", "छह घंटे में रिपोर्ट", "साइबर घटना रिपोर्ट", "डेटा उल्लंघन", "DPDP उल्लंघन सूचना", "डेटा संरक्षण बोर्ड", "180 दिन लॉग", "GDPR", "दो-चरणीय लॉगिन", "घटना योजना", "रैनसमवेयर", "साइबर बीमा", "DPDP नियम 2025", "Foundura"],
+    },
+  },
+  onlineSelling: {
+    en: {
+      slug: "/online-selling",
+      focus: "e-commerce rules in India",
+      title: "E-commerce rules in India for online sellers | Foundura",
+      description: "E-commerce rules in India: seller details, grievance officer, complaints in 48 hours, price, origin and returns, dark patterns, reviews and GST.",
+      excerpt: "The consumer rules for online stores and marketplaces in India: showing who you are, the grievance officer and complaint deadlines, price, origin and return terms, the ban on dark patterns, genuine reviews and endorsements, GST and TCS for sellers, and selling abroad.",
+      keywords: ["e-commerce rules in India", "Consumer Protection E-Commerce Rules", "grievance officer", "online seller rules", "dark patterns", "dark patterns guidelines", "country of origin", "return policy", "Legal Metrology e-commerce", "fake reviews", "influencer disclosure", "GST for online sellers", "TCS e-commerce", "D2C brand", "Foundura"],
+    },
+    hi: {
+      slug: "/online-selling",
+      focus: "भारत में ई-कॉमर्स नियम",
+      title: "भारत में ई-कॉमर्स नियम: ऑनलाइन विक्रेताओं के लिए | Foundura",
+      description: "भारत में ई-कॉमर्स नियम: विक्रेता का विवरण, शिकायत अधिकारी, 48 घंटे में पावती, क़ीमत, मूल देश और वापसी, डार्क पैटर्न, समीक्षाएँ और GST।",
+      excerpt: "भारत में ऑनलाइन स्टोर और मार्केटप्लेस के उपभोक्ता नियम: अपनी पहचान दिखाना, शिकायत अधिकारी और समय-सीमा, क़ीमत, मूल देश और वापसी की शर्तें, डार्क पैटर्न पर रोक, असली समीक्षाएँ और प्रचार, विक्रेताओं के लिए GST और TCS, और विदेश में बिक्री।",
+      keywords: ["भारत में ई-कॉमर्स नियम", "उपभोक्ता संरक्षण ई-कॉमर्स नियम", "शिकायत अधिकारी", "ऑनलाइन विक्रेता नियम", "डार्क पैटर्न", "डार्क पैटर्न दिशानिर्देश", "मूल देश", "वापसी नीति", "विधिक माप विज्ञान", "नक़ली समीक्षाएँ", "इन्फ़्लुएंसर खुलासा", "ऑनलाइन विक्रेता GST", "ई-कॉमर्स TCS", "डी2सी ब्रांड", "Foundura"],
+    },
+  },
+  insurance: {
+    en: {
+      slug: "/insurance",
+      focus: "insurance for startups",
+      title: "Insurance for startups: the covers that matter | Foundura",
+      description: "Insurance for startups: group health, directors and officers, professional indemnity, cyber, product and public liability, and buying from IRDAI insurers.",
+      excerpt: "The insurance covers startups most often need and when investors and customers ask for them: group health, directors and officers, professional indemnity, cyber, product and public liability, equipment, goods and key people, and buying from regulated insurers.",
+      keywords: ["insurance for startups", "startup insurance India", "group health insurance", "D&O insurance", "directors and officers", "professional indemnity", "errors and omissions", "cyber insurance", "product liability", "public liability", "key person insurance", "IRDAI", "insurance for SaaS", "clinical trial insurance", "Foundura"],
+    },
+    hi: {
+      slug: "/insurance",
+      focus: "स्टार्टअप के लिए बीमा",
+      title: "स्टार्टअप के लिए बीमा: ज़रूरी कवर | Foundura",
+      description: "स्टार्टअप के लिए बीमा: समूह स्वास्थ्य, निदेशक और अधिकारी, पेशेवर क्षतिपूर्ति, साइबर, उत्पाद और सार्वजनिक देयता, और IRDAI बीमाकर्ताओं से ख़रीद।",
+      excerpt: "स्टार्टअप को सबसे ज़्यादा जिन बीमों की ज़रूरत होती है और निवेशक व ग्राहक कब माँगते हैं: समूह स्वास्थ्य, निदेशक और अधिकारी, पेशेवर क्षतिपूर्ति, साइबर, उत्पाद और सार्वजनिक देयता, उपकरण, सामान और अहम लोग, और विनियमित बीमा कंपनियों से ख़रीद।",
+      keywords: ["स्टार्टअप के लिए बीमा", "स्टार्टअप बीमा", "समूह स्वास्थ्य बीमा", "D&O बीमा", "निदेशक और अधिकारी बीमा", "पेशेवर क्षतिपूर्ति", "ग़लती और चूक बीमा", "साइबर बीमा", "उत्पाद देयता", "सार्वजनिक देयता", "अहम व्यक्ति बीमा", "IRDAI", "सॉफ़्टवेयर कंपनी बीमा", "क्लिनिकल ट्रायल बीमा", "Foundura"],
     },
   },
 };

@@ -104,15 +104,7 @@ export function SiteFooter({ lang }: { lang: Lang }) {
           <li><Link href="/policy" className="hover:text-paper">{ft.policy}</Link></li>
           <li><Link href="/perks" className="hover:text-paper">{ft.perks}</Link></li>
           <li><Link href="/investor-update" className="hover:text-paper">{ft.investorUpdate}</Link></li>
-          <li className="pt-3"><Link href="/mentors" className="hover:text-paper">{ft.mentors}</Link></li>
-          <li><Link href="/coworking" className="hover:text-paper">{ft.coworking}</Link></li>
-          <li><Link href="/students" className="hover:text-paper">{ft.students}</Link></li>
-          <li><Link href="/women" className="hover:text-paper">{ft.women}</Link></li>
-          <li><Link href="/selling" className="hover:text-paper">{ft.selling}</Link></li>
-          <li><Link href="/global" className="hover:text-paper">{ft.global}</Link></li>
-          <li><Link href="/labs" className="hover:text-paper">{ft.labs}</Link></li>
-          <li><Link href="/patents" className="hover:text-paper">{ft.patents}</Link></li>
-          <li><Link href="/closing" className="hover:text-paper">{ft.closing}</Link></li>
+          <li className="pt-3"><Link href="/founder-guides" className="hover:text-paper">{ft.founderGuides}</Link></li>
           <li className="pt-3"><Link href="/about" className="hover:text-paper">{ft.about}</Link></li>
           <li><Link href="/contact" className="hover:text-paper">{ft.contact}</Link></li>
           <li className="pt-3"><Link href="/numbers" className="hover:text-paper">{ft.numbers}</Link></li>
